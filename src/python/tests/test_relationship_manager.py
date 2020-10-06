@@ -1,4 +1,5 @@
 import unittest
+import pprint
 from src.relationship_manager import RelationshipManager
 
 RM = None
@@ -882,7 +883,38 @@ class TestCase02_OneToMany(unittest.TestCase):
             assertallclear()
 
         assertallclear()
-       
+
+
+@unittest.skip('persistence not implemented')
+class TestCase03_Persistence(unittest.TestCase):
+
+    def test_naive_persistence(self):
+
+        class RelationshipManagerPersistent(RelationshipManager):
+            def __init__(self):
+                RelationshipManager.__init__(self)
+
+            def __repr__(self):
+                return pprint.pformat(self.rm.Relationships)
+
+            def LoadFromStr(self, str):
+                self.rm.Relationships = eval(str)
+
+            def LoadFromList(self, L):
+                self.rm.Relationships = L
+                # what about restoring InverseOfRelations ?
+
+        rm = RelationshipManagerPersistent()
+        rm.ER("xtoy", "onetoone", "directional")
+        x = object()
+        y = object()
+        rm.R(x, y, "xtoy")
+        self.assertEqual(rm.P(x, "xtoy"), y)
+
+        # now try to persist and restore
+        # print(repr(rm))
+        s = repr(rm)
+        rm.LoadFromStr(s)  # yeah this isn't going to work, need to properly persist as JSON or something
         
 
 
