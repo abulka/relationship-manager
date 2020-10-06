@@ -1,8 +1,13 @@
 """
+ An example from an old project of using relationship manager in a real project. This file wil compile
+ but not run due to missing dependencies. It does show how to do persistence of objects and relationships.
+ It is probably of limited value.
+
  Oob, MetoOobMappings, Oobtree
 """
+# from src.relationship_manager import RelationshipManager
+from src.core import EfficientRelationshipManager1 as RelationshipManager
 
-from relationshipmanager import RelationshipManager
 import copy
 #from loglevels import Log
 import sys, os
@@ -25,7 +30,7 @@ stdoutlogging = 0
 if stdoutlogging:
     _Log=Log
     def Log(s,f):
-        print f()
+        print(f())
         _Log(s,f)
 
 class gettabs(str):
@@ -68,7 +73,7 @@ class CallWrapper(object):
         else:
             flag = ' '
 
-        Log('OOBCALL', lambda: '%s%s%s\t\t\t%s'%(gettabs(flag), self.name, `args`[:80], fileinfo))
+        Log('OOBCALL', lambda: '%s%s%s\t\t\t%s'%(gettabs(flag), self.name, repr(args)[:80], fileinfo))
         return self.f(*args, **kw)
 
 def X_getattribute__(self, name):
@@ -126,184 +131,184 @@ class OobBase(object):
         __setattr__ = X_setattr__
 
     # Theoretically should have entire oob API defined here.
-    def LoadFromModule(self, module): raise 'Not implemented in decendent class?'
-    def LoadFromDict(self, dict): raise 'Not implemented in decendent class?'
-    def GetParent(self, oobid): raise 'Not implemented in decendent class?'
-    def FindChildren(self, oobid): raise 'Not implemented in decendent class?'
-    def FindAllRoles(self): raise 'Not implemented in decendent class?'
-    def FindAllHqs(self): raise 'Not implemented in decendent class?'
-    def FindHqsUnderCommandOfRole(self, roleoobid): raise 'Not implemented in decendent class?'
-    def FindAncestors(self, oobid): raise 'Not implemented in decendent class?'
-    def GetAllMePiecesUnderCommandOfRole(self, role): raise 'Not implemented in decendent class?'
-    def GetStartingCoord(self, oobid): raise 'Not implemented in decendent class?'
-    def CumulativeDelay(self, fromoobid, tooobid): raise 'Not implemented in decendent class?'
+    def LoadFromModule(self, module): raise RuntimeError('Not implemented in decendent class?')
+    def LoadFromDict(self, dict): raise RuntimeError('Not implemented in decendent class?')
+    def GetParent(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def FindChildren(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def FindAllRoles(self): raise RuntimeError('Not implemented in decendent class?')
+    def FindAllHqs(self): raise RuntimeError('Not implemented in decendent class?')
+    def FindHqsUnderCommandOfRole(self, roleoobid): raise RuntimeError('Not implemented in decendent class?')
+    def FindAncestors(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetAllMePiecesUnderCommandOfRole(self, role): raise RuntimeError('Not implemented in decendent class?')
+    def GetStartingCoord(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def CumulativeDelay(self, fromoobid, tooobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def DetermineWhichTreeFromSide(self, side): raise 'Not implemented in decendent class?'
-    def DetermineWhichTreeFromOobNodeId(self, oobid): raise 'Not implemented in decendent class?'
-    def GetSideOfPiece(self, meid): raise 'Not implemented in decendent class?'
-    def GetNationPrefixOfPiece(self, meid): raise 'Not implemented in decendent class?'
-    def GetNationality(self, oobid): raise 'Not implemented in decendent class?'
-    def GetNationalityPrefix(self, oobid): raise 'Not implemented in decendent class?'
-    def DetermineSideFromOobNodeId(self, oobid): raise 'Not implemented in decendent class?'
+    def DetermineWhichTreeFromSide(self, side): raise RuntimeError('Not implemented in decendent class?')
+    def DetermineWhichTreeFromOobNodeId(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetSideOfPiece(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNationPrefixOfPiece(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNationality(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNationalityPrefix(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def DetermineSideFromOobNodeId(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def RankingHqAboveMe(self, meid): raise 'Not implemented in decendent class?'
-    def RankingHqInMe(self, meid): raise 'Not implemented in decendent class?'
-    def IsRole(self, oobid): raise 'Not implemented in decendent class?'
-    def IsHq(self, oobid): raise 'Not implemented in decendent class?'
-    def IsMe(self, oobid): raise 'Not implemented in decendent class?'
-    def IsMounted(self, meid): raise 'Not implemented in decendent class?'
-    def GetDelay(self, oobid): raise 'Not implemented in decendent class?'
-    def SetDelay(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOobName(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerName(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerRankAndName(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerRank(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerAggressiveness(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerEfficiency(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOfficerLeadership(self, oobid): raise 'Not implemented in decendent class?'
-    def GetRootNodeId(self, side): raise 'Not implemented in decendent class?'
-    def SetTroopType(self, oobid, trooptype='Infantry'): raise 'Not implemented in decendent class?'
-    def GetTroopType(self, oobid): raise 'Not implemented in decendent class?'
-    def SetTransportType(self, oobid, transporttype='Foot'): raise 'Not implemented in decendent class?'
-    def GetTransportType(self, oobid): raise 'Not implemented in decendent class?'
-    def SetPoints(self, oobid, points): raise 'Not implemented in decendent class?'
-    def GetPoints(self, oobid): raise 'Not implemented in decendent class?'
-    def SetExperience(self, oobid, experience=0): raise 'Not implemented in decendent class?'
-    def GetExperience(self, oobid): raise 'Not implemented in decendent class?'
-    def GetOffRoadAbility(self, oobid): raise 'Not implemented in decendent class?'
-    def GetNumberOfMen(self, oobid): raise 'Not implemented in decendent class?'
-##    def GetCanHoldNumberOfMen(self, oobid): raise 'Not implemented in decendent class?'
-    def GetCarryingCapacity(self, oobid): raise 'Not implemented in decendent class?' # depreciated
-##    def GetSquadSize(self, oobid): raise 'Not implemented in decendent class?'
-##    def GetSquadCapacity(self, oobid): raise 'Not implemented in decendent class?'
-##    def GetHowMuchCanTow(self, oobid): raise 'Not implemented in decendent class?'
-##    def GetHowHardToTow(self, oobid): raise 'Not implemented in decendent class?'
-    def GetFitness(self, oobid): raise 'Not implemented in decendent class?'
-    def GetFitnessTime(self, oobid): raise 'Not implemented in decendent class?'
-    def SetFitness(self, oobid, fitness=0): raise 'Not implemented in decendent class?'
-    def GetSupplyAmmo(self, oobid): raise 'Not implemented in decendent class?'
-    def GetInitialDirection(self, oobid): raise 'Not implemented in decendent class?'
-    def GetSupplyBasics(self, oobid): raise 'Not implemented in decendent class?'
-    def GetSupplyFuel(self, oobid): raise 'Not implemented in decendent class?'
-    def GetMeAppearsAfterTurn(self, oobid): raise 'Not implemented in decendent class?'
-    def ClearMeAppearsAfterTurn(self, oobid): raise 'Not implemented in decendent class?'
-    def GetInitialMeReadiness(self, oobid): raise 'Not implemented in decendent class?'
-    def SetInitialMeReadiness(self, oobid, value): raise 'Not implemented in decendent class?'
-    def GetInitialMeName(self, oobid): raise 'Not implemented in decendent class?'
-    def GetSignals(self, oobid): raise 'Not implemented in decendent class?'
-    def SetSignals(self, oobid, signalsdict): raise 'Not implemented in decendent class?'
-    def __str__(self, oobid): raise 'Not implemented in decendent class?'
-    def __repr__(self, oobid): raise 'Not implemented in decendent class?'
-    def CreateTemporaryOobidUnderRole(self, parentroleoobid, trooptype, transporttype):  raise 'Not implemented in decendent class?'
-    def DestroyTemporaryOobid(self, signaloobid):  raise 'Not implemented in decendent class?'
-    def Exists(self, oobid): raise 'Not implemented in decendent class?'
+    def RankingHqAboveMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def RankingHqInMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def IsRole(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def IsHq(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def IsMe(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def IsMounted(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetDelay(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetDelay(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOobName(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerName(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerRankAndName(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerRank(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerAggressiveness(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerEfficiency(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOfficerLeadership(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetRootNodeId(self, side): raise RuntimeError('Not implemented in decendent class?')
+    def SetTroopType(self, oobid, trooptype='Infantry'): raise RuntimeError('Not implemented in decendent class?')
+    def GetTroopType(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetTransportType(self, oobid, transporttype='Foot'): raise RuntimeError('Not implemented in decendent class?')
+    def GetTransportType(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetPoints(self, oobid, points): raise RuntimeError('Not implemented in decendent class?')
+    def GetPoints(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetExperience(self, oobid, experience=0): raise RuntimeError('Not implemented in decendent class?')
+    def GetExperience(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetOffRoadAbility(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNumberOfMen(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+##    def GetCanHoldNumberOfMen(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetCarryingCapacity(self, oobid): raise RuntimeError('Not implemented in decendent class?') # depreciated
+##    def GetSquadSize(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+##    def GetSquadCapacity(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+##    def GetHowMuchCanTow(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+##    def GetHowHardToTow(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetFitness(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetFitnessTime(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetFitness(self, oobid, fitness=0): raise RuntimeError('Not implemented in decendent class?')
+    def GetSupplyAmmo(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetInitialDirection(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetSupplyBasics(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetSupplyFuel(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeAppearsAfterTurn(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def ClearMeAppearsAfterTurn(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetInitialMeReadiness(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetInitialMeReadiness(self, oobid, value): raise RuntimeError('Not implemented in decendent class?')
+    def GetInitialMeName(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetSignals(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetSignals(self, oobid, signalsdict): raise RuntimeError('Not implemented in decendent class?')
+    def __str__(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def __repr__(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def CreateTemporaryOobidUnderRole(self, parentroleoobid, trooptype, transporttype):  raise RuntimeError('Not implemented in decendent class?')
+    def DestroyTemporaryOobid(self, signaloobid):  raise RuntimeError('Not implemented in decendent class?')
+    def Exists(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def SetDamagePointsLastBattle(self, oobid, points): raise 'Not implemented in decendent class?'
-    def GetDamagePointsLastBattle(self, oobid): raise 'Not implemented in decendent class?'
+    def SetDamagePointsLastBattle(self, oobid, points): raise RuntimeError('Not implemented in decendent class?')
+    def GetDamagePointsLastBattle(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def SetStrength(self, oobid, mtgvlist): raise 'Not implemented in decendent class?'
-    def GetStrength(self, oobid): raise 'Not implemented in decendent class?'
-    def GetStrengthTime(self, oobid): raise 'Not implemented in decendent class?'
-    def SetCasualtiesIncurredTotal(self, oobid, mtgvlist): raise 'Not implemented in decendent class?'
-    def GetCasualtiesIncurredTotal(self, oobid): raise 'Not implemented in decendent class?'
-    def SetCasualtiesIncurredLastBattle(self, oobid, mtgvlist): raise 'Not implemented in decendent class?'
-    def GetCasualtiesIncurredLastBattle(self, oobid): raise 'Not implemented in decendent class?'
-    def SetCasualtiesCausedTotal(self, oobid, mtgvlist): raise 'Not implemented in decendent class?'
-    def GetCasualtiesCausedTotal(self, oobid): raise 'Not implemented in decendent class?'
-    def SetCasualtiesCausedLastBattle(self, oobid, mtgvlist): raise 'Not implemented in decendent class?'
-    def GetCasualtiesCausedLastBattle(self, oobid): raise 'Not implemented in decendent class?'
-    def PostProcessOOBTree(self, oobid): raise 'Not implemented in decendent class?'
-    def InitStrengthsAndCasualties(self, oobid): raise 'Not implemented in decendent class?'
-    def AllocateNewOobNode(self, meid): raise 'Not implemented in decendent class?'
-    def AllocateNewOobNodeId(self, meid): raise 'Not implemented in decendent class?'
-    def LoadFromReprStr(self, meid): raise 'Not implemented in decendent class?'
-    def myrepr(self, meid): raise 'Not implemented in decendent class?'
+    def SetStrength(self, oobid, mtgvlist): raise RuntimeError('Not implemented in decendent class?')
+    def GetStrength(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetStrengthTime(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetCasualtiesIncurredTotal(self, oobid, mtgvlist): raise RuntimeError('Not implemented in decendent class?')
+    def GetCasualtiesIncurredTotal(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetCasualtiesIncurredLastBattle(self, oobid, mtgvlist): raise RuntimeError('Not implemented in decendent class?')
+    def GetCasualtiesIncurredLastBattle(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetCasualtiesCausedTotal(self, oobid, mtgvlist): raise RuntimeError('Not implemented in decendent class?')
+    def GetCasualtiesCausedTotal(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetCasualtiesCausedLastBattle(self, oobid, mtgvlist): raise RuntimeError('Not implemented in decendent class?')
+    def GetCasualtiesCausedLastBattle(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def PostProcessOOBTree(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def InitStrengthsAndCasualties(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def AllocateNewOobNode(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def AllocateNewOobNodeId(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def LoadFromReprStr(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def myrepr(self, meid): raise RuntimeError('Not implemented in decendent class?')
 
-    def IsDead(self, oobid): raise 'Not implemented in decendent class?'
-    def SetOOBGameState(self, oobgamestate): raise 'Not implemented in decendent class?'
+    def IsDead(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetOOBGameState(self, oobgamestate): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetRankingDepth(self, oobid): raise 'Not implemented in decendent class?'
-    def GetTOEDepth(self, oobid): raise 'Not implemented in decendent class?'
+    def GetRankingDepth(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetTOEDepth(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetOrderSkill(self, oobid): raise 'Not implemented in decendent class?'
-    def GetCombatSkill(self, oobid): raise 'Not implemented in decendent class?'
-    def GetRallySkill(self, oobid): raise 'Not implemented in decendent class?'
-    def GetStealthSkill(self, oobid): raise 'Not implemented in decendent class?'
+    def GetOrderSkill(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetCombatSkill(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetRallySkill(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetStealthSkill(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def SetOrderSkill(self, oobid, level): raise 'Not implemented in decendent class?'
-    def SetCombatSkill(self, oobid, level): raise 'Not implemented in decendent class?'
-    def SetRallySkill(self, oobid, level): raise 'Not implemented in decendent class?'
-    def SetStealthSkill(self, oobid, level): raise 'Not implemented in decendent class?'
+    def SetOrderSkill(self, oobid, level): raise RuntimeError('Not implemented in decendent class?')
+    def SetCombatSkill(self, oobid, level): raise RuntimeError('Not implemented in decendent class?')
+    def SetRallySkill(self, oobid, level): raise RuntimeError('Not implemented in decendent class?')
+    def SetStealthSkill(self, oobid, level): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetImmobilized(self, oobid): raise 'Not implemented in decendent class?'
-    def SetImmobilized(self, oobid, immobilized): raise 'Not implemented in decendent class?'
+    def GetImmobilized(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetImmobilized(self, oobid, immobilized): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetBogged(self, oobid): raise 'Not implemented in decendent class?'
-    def SetBogged(self, oobid, bogged): raise 'Not implemented in decendent class?'
+    def GetBogged(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetBogged(self, oobid, bogged): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetGunDestroyed(self, oobid): raise 'Not implemented in decendent class?'
-    def SetGunDestroyed(self, oobid, gundestroyed): raise 'Not implemented in decendent class?'
+    def GetGunDestroyed(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetGunDestroyed(self, oobid, gundestroyed): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetDugIn(self, oobid): raise 'Not implemented in decendent class?'
-    def SetDugIn(self, oobid, dugin): raise 'Not implemented in decendent class?'
+    def GetDugIn(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def SetDugIn(self, oobid, dugin): raise RuntimeError('Not implemented in decendent class?')
 
 class MeToOobMappingsBase(object):
     if metoobmappingattributelogging: # do you want attribute logging?
         __getattribute__ = X_getattribute__
         __setattr__ = X_setattr__
-    def LoadFromStr(self): raise 'Not implemented in decendent class?'
-    def GetAllMeIds(self): raise 'Not implemented in decendent class?'
-    def MeIdToOobIds(self, meid): raise 'MeIdToOobIds not implemented in subclass yet!'
-    def MeIdToListOfOobIds(self, meid): raise 'MeIdToListOfOobIds not implemented in subclass yet!'
-    def Build(self): raise 'Not implemented in decendent class?'
-    def BuildMeForHqMeOobNode(self, oobid): raise 'BuildMeForHqMeOobNode not implemented yet in derived class.'
-    def BuildTemporaryMeForOob(self, oobid): raise 'Not implemented in decendent class?'
-    def DestroyTemporaryMeid(self, meid):  raise 'Not implemented in decendent class?'
+    def LoadFromStr(self): raise RuntimeError('Not implemented in decendent class?')
+    def GetAllMeIds(self): raise RuntimeError('Not implemented in decendent class?')
+    def MeIdToOobIds(self, meid): raise RuntimeError('MeIdToOobIds not implemented in subclass yet!')
+    def MeIdToListOfOobIds(self, meid): raise RuntimeError('MeIdToListOfOobIds not implemented in subclass yet!')
+    def Build(self): raise RuntimeError('Not implemented in decendent class?')
+    def BuildMeForHqMeOobNode(self, oobid): raise RuntimeError('BuildMeForHqMeOobNode not implemented yet in derived class.')
+    def BuildTemporaryMeForOob(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def DestroyTemporaryMeid(self, meid):  raise RuntimeError('Not implemented in decendent class?')
 ##    def MeIdToTroopTypes(self, meid, fastmove=1): raise 'MeIdToTroopType not implemented yet in derived class.'
-##    def MeIdToPredominantTroopType(self, meid, fastmove=1):  raise 'Not implemented yet in derived class.'
+##    def MeIdToPredominantTroopType(self, meid, fastmove=1):  raise RuntimeError('Not implemented in decendent class?')
 ##    def MeIdToTroopTypesAndOffroadAbilities(self, meid, fastmove=1): raise 'MeIdToTroopTypesAndOffroadAbilities not implemented yet in derived class.'
 ##    def MeIdToTroopTypesAndHQness(self, meid, fastmove=0): raise 'MeIdToTroopTypesAndHQness not implemented yet in derived class.'
-    def GetMeCommanderName(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCommanderRank(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCommanderLeadership(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCommanderEfficiency(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCommanderAggressiveness(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeNameForMe(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeIdForName(self, mename): raise 'Not implemented in decendent class?'
-    def GetMeInitialReadiness(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeInitialAmmo(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeInitialDirection(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeInitialBasics(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeInitialFuel(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeSignals(self, meid): raise 'Not implemented in decendent class?'
-    def _GetMeCompositePointsValue(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeSize(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeExperience(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeFitness(self, meid): raise 'Not implemented in decendent class?'
-    def Exists(self, meid): raise 'Not implemented in decendent class?'
-    def ExistsMappingToOobid(self, oobid): raise 'Not implemented in decendent class?'
-    def GetSideOfMe(self, meid): raise 'Not implemented in decendent class?'
-    def OobIdToMeId(self, role): raise 'Not implemented in decendent class?'
-    def OobIdToMeIdAnywhere(self, oobid): raise 'Not implemented in decendent class?'
+    def GetMeCommanderName(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCommanderRank(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCommanderLeadership(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCommanderEfficiency(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCommanderAggressiveness(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeNameForMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeIdForName(self, mename): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeInitialReadiness(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeInitialAmmo(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeInitialDirection(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeInitialBasics(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeInitialFuel(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeSignals(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def _GetMeCompositePointsValue(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeSize(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeExperience(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeFitness(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def Exists(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def ExistsMappingToOobid(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetSideOfMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def OobIdToMeId(self, role): raise RuntimeError('Not implemented in decendent class?')
+    def OobIdToMeIdAnywhere(self, oobid): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetRecursiveListOfOobidsExcludingMes(self, oobid): raise 'Not implemented in decendent class?'
-    def GetMeRecursiveListOfOobidsExcludingMesAndDead(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeRecursiveListOfOobidsExcludingMes(self, meid): raise 'Not implemented in decendent class?'
-    def GetRecursiveListOfOobidsIncludingMes(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeRecursiveListOfOobidsIncludingMesAndAlive(self, meid): raise 'Not implemented in decendent class?'
+    def GetRecursiveListOfOobidsExcludingMes(self, oobid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeRecursiveListOfOobidsExcludingMesAndDead(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeRecursiveListOfOobidsExcludingMes(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetRecursiveListOfOobidsIncludingMes(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeRecursiveListOfOobidsIncludingMesAndAlive(self, meid): raise RuntimeError('Not implemented in decendent class?')
 
-    def GetMeCompositeNumberofmen(self, meid): raise 'Not implemented in decendent class?'
-    def GetNumberOfMenInMe(self, meid): raise 'Not implemented in decendent class?'
-    def GetNumberOfAliveMenInMeIncludingMe(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeNumberofVEHICLES(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeNumberofARMOR(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeCompositeNumberofGUNS(self, meid): raise 'Not implemented in decendent class?'
-    def GetMeMetatypeSizes(self, oobidlist): raise 'Not implemented in decendent class?'
-    def RolesRelevantToPiece(self, meid): raise 'Not implemented in decendent class?'
-    def LoadFromLists(self, meid): raise 'Not implemented in decendent class?'
-    def GetInfoForMgmClientDisplay(self, meid): raise 'Not implemented in decendent class?'
+    def GetMeCompositeNumberofmen(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNumberOfMenInMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetNumberOfAliveMenInMeIncludingMe(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeNumberofVEHICLES(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeNumberofARMOR(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeCompositeNumberofGUNS(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetMeMetatypeSizes(self, oobidlist): raise RuntimeError('Not implemented in decendent class?')
+    def RolesRelevantToPiece(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def LoadFromLists(self, meid): raise RuntimeError('Not implemented in decendent class?')
+    def GetInfoForMgmClientDisplay(self, meid): raise RuntimeError('Not implemented in decendent class?')
 
-    def IsDead(self, meid): raise 'Not implemented in decendent class?'
+    def IsDead(self, meid): raise RuntimeError('Not implemented in decendent class?')
 
 
 
@@ -335,23 +340,23 @@ class MeToOobMappingsCommon_ImplementationUsingTwoTreesAndDicts(MeToOobMappingsB
     def Exists(self, meid):
         return meid in self.GetAllMeIds()
     def ExistsMappingToOobid(self, oobid):
-        raise 'Not implemented in decendent class?'
+        raise RuntimeError('Not implemented in decendent class?')
 
     def Build(self):
         del self.melist[0:]
         self._PreBuildInit()
 
         for oobtree in (self.oob.oobtreeAxis, self.oob.oobtreeAllies):
-            for oobid in oobtree.nodes.keys():
-                if oobtree.nodes[oobid].has_key('ME') and oobtree.nodes[oobid]['ME']:
+            for oobid in list(oobtree.nodes.keys()):
+                if 'ME' in oobtree.nodes[oobid] and oobtree.nodes[oobid]['ME']:
                     self.melist.append(self.BuildMeForHqMeOobNode(oobid))
     def BuildMeForHqMeOobNode(self, oobid):
-        raise 'BuildMeForHqMeOobNode not implemented yet in derived class.'
+        raise RuntimeError('BuildMeForHqMeOobNode not implemented yet in derived class.')
 
     def BuildTemporaryMeForOob(self, oobid):
-        raise 'Not implemented in decendent class?'
+        raise RuntimeError('Not implemented in decendent class?')
     def DestroyTemporaryMeid(self, meid):
-        raise 'Not implemented in decendent class?'
+        raise RuntimeError('Not implemented in decendent class?')
 
 
     def GetSideOfMe(self, meid):
@@ -377,7 +382,7 @@ class MeToOobMappingsCommon_ImplementationUsingTwoTreesAndDicts(MeToOobMappingsB
     def _GetSingleOobNodeAttribute(self, oobid, key, default):
         oobtree = self.oob.DetermineWhichTreeFromOobNodeId(oobid)
         nodedict = oobtree.nodes[oobid]
-        if not nodedict.has_key(key):
+        if key not in nodedict:
             return default
         return nodedict[key]
 
@@ -390,7 +395,7 @@ class MeToOobMappingsCommon_ImplementationUsingTwoTreesAndDicts(MeToOobMappingsB
 
     def GetMeCommanderLeadership(self, meid):
         rankingoobid = self.oob.RankingHqInMe(meid)
-        print "BattleGen: rankingoobid for leadership = ", rankingoobid
+        print("BattleGen: rankingoobid for leadership = ", rankingoobid)
         return self.oob.GetOfficerLeadership(rankingoobid)
     def GetMeCommanderEfficiency(self, meid):
         rankingoobid = self.oob.RankingHqInMe(meid)
@@ -465,7 +470,7 @@ class MeToOobMappingsCommon_ImplementationUsingTwoTreesAndDicts(MeToOobMappingsB
             elif not self.oob.IsMe(oobid):
                 result.append(oobid)
             else:
-                raise RuntimeError, 'Do not know how to recurse into me %s at oobid %s' % (meid, oobid)
+                raise RuntimeError('Do not know how to recurse into me %s at oobid %s' % (meid, oobid))
 
             children = self.oob.FindChildren(oobid)
             if children:
@@ -501,7 +506,7 @@ class MeToOobMappingsCommon_ImplementationUsingTwoTreesAndDicts(MeToOobMappingsB
             elif not self.oob.IsMe(oobid):
                 result.append(oobid)
             else:
-                raise RuntimeError, 'Do not know how to recurse into me %s at oobid %s' % (meid, oobid)
+                raise RuntimeError('Do not know how to recurse into me %s at oobid %s' % (meid, oobid))
 
             children = self.oob.FindChildren(oobid)
             if children:
@@ -916,7 +921,7 @@ class MeToOobMappings_NEWSTYLE(MeToOobMappingsCommon_ImplementationUsingTwoTrees
 
     def _AllocateMeId(self):
         self.nextid += 1
-        return 'me_' + `self.nextid`
+        return 'me_' + repr(self.nextid)
     def BuildMeForHqMeOobNode(self, oobid):   # overriden
         meid = self._AllocateMeId()
         firstlevelchildrenoobids = self.oob.FindChildren(oobid)
@@ -944,26 +949,26 @@ class MeToOobMappings_NEWSTYLE(MeToOobMappingsCommon_ImplementationUsingTwoTrees
         return meid
 
     def _DumpMeRelations(self):
-        print '------- _DumpMeRelations ---------'
+        print('------- _DumpMeRelations ---------')
         for r in self.relations.Relationships:
             oobname = self.oob.GetOobName(r[1])
-            print r, oobname
-        print '----------------------------------'
-        print 'ALL MEIDs', self.GetAllMeIds()
+            print(r, oobname)
+        print('----------------------------------')
+        print('ALL MEIDs', self.GetAllMeIds())
         for meid in self.GetAllMeIds():
-            print '%s %s' % (meid, self.GetMeNameForMe(meid)), '    MeIdToListOfOobIds'
+            print('%s %s' % (meid, self.GetMeNameForMe(meid)), '    MeIdToListOfOobIds')
             oobids = self.MeIdToListOfOobIds(meid)
             for oobid in oobids:
-                print '   oobid %s %s HQ=%d ME=%d' % (oobid, self.oob.GetOobName(oobid), self.oob.IsHq(oobid), self.oob.IsMe(oobid))
-        print '++++++++++++++++++++++++++++++++++'
+                print('   oobid %s %s HQ=%d ME=%d' % (oobid, self.oob.GetOobName(oobid), self.oob.IsHq(oobid), self.oob.IsMe(oobid)))
+        print('++++++++++++++++++++++++++++++++++')
 
-        print 'ALL MEIDs again, as MeIdToOobIds'
+        print('ALL MEIDs again, as MeIdToOobIds')
         for meid in self.GetAllMeIds():
-            print '%s %s' % (meid, self.GetMeNameForMe(meid))
+            print('%s %s' % (meid, self.GetMeNameForMe(meid)))
             oobids = self.MeIdToOobIds(meid)
             for oobid in oobids:
-                print '   oobid %s %s HQ=%d ME=%d' % (oobid, self.oob.GetOobName(oobid), self.oob.IsHq(oobid), self.oob.IsMe(oobid))
-        print '=================================='
+                print('   oobid %s %s HQ=%d ME=%d' % (oobid, self.oob.GetOobName(oobid), self.oob.IsHq(oobid), self.oob.IsMe(oobid)))
+        print('==================================')
 
     def ExistsMappingToOobid(self, oobid):
         objs = self.relations.FindObjects(From=None, To=oobid, RelId='S')
@@ -1028,7 +1033,7 @@ class MeToOobMappings_NEWSTYLE(MeToOobMappingsCommon_ImplementationUsingTwoTrees
 
 
     def MeIdToTroopTypes(self, meid, fastmove=1):      # overridden     # FASTMOVE not used?
-        print 'WARNING MeIdToTroopTypes (newstyle oob) being called'
+        print('WARNING MeIdToTroopTypes (newstyle oob) being called')
 ##        oobidlist = self.MeIdToOobIds(meid)  # this returns only the HQ for a G relation - and we want more...
 ##        oobidlist = self.MeIdToListOfOobIds(meid)  # this is non recursive
         oobidlist = self.GetMeRecursiveListOfOobidsExcludingMesAndDead(meid)
@@ -1075,8 +1080,8 @@ class MeToOobMappings_OLDSTYLE(MeToOobMappingsCommon_ImplementationUsingTwoTrees
         }
 
     def _DumpMeRelations(self):
-        print '------- _DumpMeRelations ---------'
-        print "we do not dump me relations in old style oob's"
+        print('------- _DumpMeRelations ---------')
+        print("we do not dump me relations in old style oob's")
 
 ##    def _OldStyleMeidtotrooptypefunction(self, meid):
 ##        oldtype = meid[0:2]
@@ -1130,7 +1135,7 @@ class MeToOobMappings_OLDSTYLE(MeToOobMappingsCommon_ImplementationUsingTwoTrees
         return trooplist[0]
 
     def MeIdToTroopTypes(self, meid, fastmove=1):      # overridden
-        print 'WARNING MeIdToTroopTypes (oldstyle oob) being called'
+        print('WARNING MeIdToTroopTypes (oldstyle oob) being called')
         if self.oob.IsMounted(meid) and fastmove:
             trooptype = 'Truck_Basic'
         else:
@@ -1213,11 +1218,11 @@ class OobConversions:
         elif size == 4:
             return 'Regiment'
         else:
-            raise 'No ME should have size greater than 4'
+            raise RuntimeError('No ME should have size greater than 4')
 
     def ConvertExperienceToString(self, experience):
         if experience < 0:
-            raise RuntimeError, 'No such experience %d' % (experience,)
+            raise RuntimeError('No such experience %d' % (experience,))
         elif experience <= 20:
             return 'Conscript'
         elif experience <= 40:
@@ -1231,7 +1236,7 @@ class OobConversions:
         elif experience <= 100:
             return 'Elite'
         else:
-            raise RuntimeError, 'No such experience %d' % (experience,)
+            raise RuntimeError('No such experience %d' % (experience,))
 
     def ConvertExperienceStringToExperience(self, experiencestring):
         if experiencestring == 'Conscript':
@@ -1247,12 +1252,12 @@ class OobConversions:
         elif experiencestring == 'Elite':
             return 100
         else:
-            raise RuntimeError, 'No such experience %s' % (experiencestring,)
+            raise RuntimeError('No such experience %s' % (experiencestring,))
 
 
     def ConvertFitnessToString(self, fitness):
         if fitness < 0:
-            raise RuntimeError, 'No such fitness %d' % (fitness,)
+            raise RuntimeError('No such fitness %d' % (fitness,))
         elif fitness <= 30:
             return 'Unfit'
         elif fitness <= 70:
@@ -1260,7 +1265,7 @@ class OobConversions:
         elif fitness <= 100:
             return 'Fit'
         else:
-            raise RuntimeError, 'No such fitness %d' % (fitness,)
+            raise RuntimeError('No such fitness %d' % (fitness,))
     def ConvertFitnessStringToFitness(self, fitnessstring):
         if fitnessstring == 'Unfit':
             return 30
@@ -1269,11 +1274,11 @@ class OobConversions:
         elif fitnessstring == 'Fit':
             return 100
         else:
-            raise RuntimeError, 'No such fitness %s' % (fitnessstring,)
+            raise RuntimeError('No such fitness %s' % (fitnessstring,))
 
     def ConvertReadinessToString(self, readiness):
         if readiness < 0:
-            raise RuntimeError, 'No such readiness %d' % (readiness,)
+            raise RuntimeError('No such readiness %d' % (readiness,))
         elif readiness <= 20:
             return 'Rabble'
         elif readiness <= 40:
@@ -1287,7 +1292,7 @@ class OobConversions:
         elif readiness <= 100:
             return 'Rested'
         else:
-            raise RuntimeError, 'No such fitness %d' % (readiness,)
+            raise RuntimeError('No such fitness %d' % (readiness,))
     def ConvertReadinessStringToReadiness(self, readinessstring):
         if readinessstring == 'Rabble':
             return 20
@@ -1302,7 +1307,7 @@ class OobConversions:
         elif readinessstring == 'Rested':
             return 100
         else:
-            raise RuntimeError, 'No such readiness %s' % (readinessstring,)
+            raise RuntimeError('No such readiness %s' % (readinessstring,))
 
 
     def ConvertOffRoadAbilityToString(self, ability):
@@ -1313,7 +1318,7 @@ class OobConversions:
         elif ability == 2:
             return 'Good'
         else:
-            raise RuntimeError, 'No such OffRoadAbility %d' % (ability,)
+            raise RuntimeError('No such OffRoadAbility %d' % (ability,))
     def ConvertOffRoadAbilityStringToOffRoadAbility(self, abilitystring):
         if abilitystring == 'Poor':
             return 0
@@ -1322,7 +1327,7 @@ class OobConversions:
         elif abilitystring == 'Good':
             return 2
         else:
-            raise RuntimeError, 'No such OffRoadAbility %s' % (abilitystring,)
+            raise RuntimeError('No such OffRoadAbility %s' % (abilitystring,))
 
 
 ################################ OOB #######################################################
@@ -1349,14 +1354,14 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
         elif side == 'Soviet':
             return 'R'
         else:
-            raise RuntimeError, 'Unkown nationality ' + nationality
+            raise RuntimeError('Unkown nationality ' + nationality)
 
     def GetNationality(self, oobid):
         """
         Nationality should be stored as an attribute of the oob node, or even as a part of the trooptype string
         For the moment we can tell the side and we assume german or russian from that.
         """
-        if oobid.find('allied') <> -1:
+        if oobid.find('allied') != -1:
             return 'Soviet'
         else:
             return 'German'
@@ -1375,7 +1380,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
         assert side == 'axis'or side == 'allied'
         id = self.AllocateNewOobNodeId(side)
         tree = self.DetermineWhichTreeFromSide(side)
-        assert not tree.nodes.has_key(id), 'Key clash - non unique id'
+        assert id not in tree.nodes, 'Key clash - non unique id'
         tree.nodes[id] = {'ME':0,'HQ':0}
         return id, tree.nodes[id]
 
@@ -1508,7 +1513,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
                 elif metatrooptype in ('INFANTRY', 'HQ'):
                     pass
                 else:
-                    raise RuntimeError, 'Unknown metatrooptype '+metatrooptype
+                    raise RuntimeError('Unknown metatrooptype '+metatrooptype)
 
                 self.SetStrength(oobid, strength_mtvg_list)
 ##                print self.GetOobName(oobid), self.GetStrength(oobid)
@@ -1527,7 +1532,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
             return None
         tree = self.DetermineWhichTreeFromOobNodeId(oobid)
         if not tree:
-            raise 'Scenario GetParent cannot identify side of oob node '+oobid
+            raise RuntimeError('Scenario GetParent cannot identify side of oob node '+oobid)
         if oobid == tree.Root():
             return 'default'
         result = tree.FindParent(oobid)
@@ -1539,7 +1544,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
     def FindChildren(self, oobid):
         tree = self.DetermineWhichTreeFromOobNodeId(oobid)
         if not tree:
-            raise 'Scenario GetParent cannot identify side of oob node '+oobid
+            raise RuntimeError('Scenario GetParent cannot identify side of oob node '+oobid)
         return tree.FindChildren(oobid)
 
     def FindAllRoles(self):
@@ -1579,11 +1584,11 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
 
     def FindAncestors(self, oobid):
         if oobid == 'default':
-            raise 'No Ancestors for default role'
+            raise RuntimeError('No Ancestors for default role')
 
         tree = self.DetermineWhichTreeFromOobNodeId(oobid)
         if not tree:
-            raise 'Scenario FindAncestors cannot identify side of oob node '+oobid
+            raise RuntimeError('Scenario FindAncestors cannot identify side of oob node '+oobid)
 
         return tree.FindAncestors(oobid)
 
@@ -1700,7 +1705,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
         side = self.DetermineSideFromOobNodeId(oobid)
         tree = self.DetermineWhichTreeFromSide(side)
         if not tree:
-            raise 'Cannot identify subtree tree of oob node '+oobid
+            raise RuntimeError('Cannot identify subtree tree of oob node '+oobid)
         return tree
 
     def CreateTemporaryOobidUnderRole(self, parentroleoobid, trooptype='Infantry', transporttype='Foot'):
@@ -1891,7 +1896,7 @@ class OobCommon_ImplementationUsingTwoTreesAndDicts(OobBase):
         depth = 0
         parentNode = self.GetParent(oobid)
         if parentNode == 'default':
-            print 'parentNode == default'
+            print('parentNode == default')
             # hit root node
             return depth
         else:
@@ -2260,7 +2265,7 @@ class Oob_NEWSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
 
     def SetOOBGameState(self, oobgamestate):
 ##        show(oobgamestate)
-        print "Setting oobgamestate for OOBOverlay"
+        print("Setting oobgamestate for OOBOverlay")
         if oobgamestate is None:
             self._ooboverlay = None
             return
@@ -2268,11 +2273,11 @@ class Oob_NEWSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
         self._ooboverlay = {}
 ##        show(EventobjList().AddChunk(oobgamestate).FindMatching2(cmd='OOB'))
         for e in EventobjList().AddChunk(oobgamestate):#.FindMatching2(cmd='OOB'):
-            print e.oobdict
+            print(e.oobdict)
             self._ooboverlay.update(e.oobdict)
 #            show(e, self._ooboverlay)
 
-        print self._ooboverlay
+        print(self._ooboverlay)
 
     def _SetNeedOOBEvent(self, oobid, tree, needoobevent):
         tree.nodes[oobid]['needoobevent'] = needoobevent
@@ -2322,12 +2327,12 @@ class Oob_NEWSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
             if self.IsHq(oobid):
                 hqlist.append(oobid)
         if not hqlist:
-            raise RuntimeError, 'Must always have an Hq in an ME ' + meid
+            raise RuntimeError('Must always have an Hq in an ME ' + meid)
         if len(hqlist) == 1:
             return hqlist[0]
         rankinghq = self._GetRankingHqOrAnySiblingHq(hqlist)
         if not rankinghq:
-            raise RuntimeError, 'Cannot find a sibling hq nor a ranking hq in ME ' + meid
+            raise RuntimeError('Cannot find a sibling hq nor a ranking hq in ME ' + meid)
         return rankinghq
 
     def DetermineSideFromOobNodeId(self, oobid):
@@ -2497,7 +2502,7 @@ class Oob_NEWSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
     def _StoreInitialExperienceStrengthEtc(self):
 ##        print "storing InitialExperienceStrengthEtc"
         for tree in (self.oobtreeAllies, self.oobtreeAxis):
-            for attrs in tree.nodes.itervalues():
+            for attrs in tree.nodes.values():
                 attrs['initial_experience'] = attrs['experience']
                 attrs['initial_fitness'] = attrs['fitness']
                 if 'BattleDict' in attrs:
@@ -2597,7 +2602,7 @@ class Oob_OLDSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
 ##                trooptype = self.__PieceTypeToTroopType(piecetype)
 ##            return [trooptype]
 
-        raise "Cannot get troop type of old style scenario"
+        raise RuntimeError("Cannot get troop type of old style scenario")
 
     def _SetTroopType(self, oobid, tree, trooptype): pass
 
@@ -2666,7 +2671,7 @@ class Oob_OLDSTYLE(OobCommon_ImplementationUsingTwoTreesAndDicts):
 
         tree = self.DetermineWhichTreeFromOobNodeId(oobid)
         if not tree:
-            raise 'Scenario IsMounted cannot identify side of oob node '+oobid
+            raise RuntimeError('Scenario IsMounted cannot identify side of oob node '+oobid)
         if 'motorized'in tree.nodes[oobid]:
             fullymounted = tree.nodes[oobid]['motorized']
             if fullymounted:
@@ -2773,10 +2778,10 @@ class OOBTree:
         return self.nodes[oobid]['delay']
 
     def _calcRoot(self):
-        if not self.nodes.keys():
+        if not list(self.nodes.keys()):
             self.root = ''
             return
-        randompiece = self.nodes.keys()[0]
+        randompiece = list(self.nodes.keys())[0]
         ancestors = self.FindAncestors(randompiece)
         if not ancestors:
             self.root = randompiece
@@ -2800,7 +2805,7 @@ class OOBTree:
         return ancestors
 
     def FindDescendants(self, oobid):
-        truelambda = lambda(oobid): 1
+        truelambda = lambda oobid: 1
         allnodes = self.FindFilteredDescendants(oobid, truelambda)
         return allnodes[1:]
 

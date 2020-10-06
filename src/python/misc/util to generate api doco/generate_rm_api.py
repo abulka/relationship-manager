@@ -145,8 +145,8 @@ class API:
         self._PureLine()
         
         if self.cardinality == 'onetoone':
-            assert lhs <> 'pluralapi'
-            assert lhs <> 'pluralapi'
+            assert lhs != 'pluralapi'
+            assert lhs != 'pluralapi'
 
             self._XmethodsMessage()
             
@@ -166,7 +166,7 @@ class API:
             assert lhs == 'pluralapi' or lhs == ''
             assert rhs == 'singularapi' or rhs == ''
             
-            if rhs == 'singularapi' and lhs <> 'pluralapi':
+            if rhs == 'singularapi' and lhs != 'pluralapi':
                 return self._NeedPluralApi()
 
             self._XmethodsMessage()
@@ -188,7 +188,7 @@ class API:
             assert lhs == 'singularapi' or lhs == ''
             assert rhs == 'pluralapi' or rhs == ''
 
-            if lhs == 'singularapi' and rhs <> 'pluralapi':
+            if lhs == 'singularapi' and rhs != 'pluralapi':
                 return self._NeedPluralApi()
             
             self._XmethodsMessage()
@@ -230,16 +230,16 @@ class API:
 
         return self.result
 
-print '\n'*50
+print('\n'*50)
 
 """
 One-to-one there are three possibilites.
  Singluar API on one, other or both.
 """
 api = API('X', 'Y', 'onetoone')
-print api.gen(lhs='singularapi', rhs='')
-print api.gen(lhs='',            rhs='singularapi')
-print api.gen(lhs='singularapi', rhs='singularapi')
+print(api.gen(lhs='singularapi', rhs=''))
+print(api.gen(lhs='',            rhs='singularapi'))
+print(api.gen(lhs='singularapi', rhs='singularapi'))
 
 """
 One-to-many there are two possibilites.
@@ -247,9 +247,9 @@ One-to-many there are two possibilites.
  Plural API on one, with or without a singular API on the other.
 """
 api = API('X', 'Y', 'onetomany')
-print api.gen(lhs='pluralapi', rhs='')
+print(api.gen(lhs='pluralapi', rhs=''))
 #print api.gen(lhs='',          rhs='singularapi')  # N/A - onetomany requires a plural api on the 'one' class X.
-print api.gen(lhs='pluralapi', rhs='singularapi')
+print(api.gen(lhs='pluralapi', rhs='singularapi'))
 
 """
 Many-to-one there are two possibilites.
@@ -258,8 +258,8 @@ Many-to-one there are two possibilites.
 """
 api = API('X', 'Y', 'manytoone')
 #print api.gen(lhs='singularapi', rhs='')   # N/A - manytoone requires a plural api on the 'one' class Y.
-print api.gen(lhs='',            rhs='pluralapi')
-print api.gen(lhs='singularapi', rhs='pluralapi')
+print(api.gen(lhs='',            rhs='pluralapi'))
+print(api.gen(lhs='singularapi', rhs='pluralapi'))
 
 """
 Many-to-many there are four possibilites.
@@ -267,10 +267,10 @@ Many-to-many there are four possibilites.
  Then singular API on none, the one, the other or both.
 """
 api = API('X', 'Y', 'manytomany')
-print api.gen(lhs='pluralapi',             rhs='pluralapi')
-print api.gen(lhs='pluralapi',             rhs='pluralapi,singularapi')
-print api.gen(lhs='pluralapi,singularapi', rhs='pluralapi')
-print api.gen(lhs='pluralapi,singularapi', rhs='pluralapi,singularapi')
+print(api.gen(lhs='pluralapi',             rhs='pluralapi'))
+print(api.gen(lhs='pluralapi',             rhs='pluralapi,singularapi'))
+print(api.gen(lhs='pluralapi,singularapi', rhs='pluralapi'))
+print(api.gen(lhs='pluralapi,singularapi', rhs='pluralapi,singularapi'))
 
 
 

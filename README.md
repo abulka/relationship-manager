@@ -62,6 +62,24 @@ test_Set01 (test_core.TestCase05) ... ok
 ----------------------------------------------------------------------
 Ran 23 tests in 0.012s
 ```
+### Python API
+
+For testing import like this
+
+```python
+from src.relationship_manager import RelationshipManager
+```
+
+For more general uses import like this
+```python
+from src.core import EfficientRelationshipManager1 as RelationshipManager
+```
+
+The `src.core` relationship managers have the full api whereas the 
+`src.relationship_manager` relationship manager has reduced and 
+abbreviated API names useful for unit testing.
+
+Unfortunately the testing version has some extra constraints and cleanup functionality which ideally would be in the core relationship managers. There is more work here to do.
 
 ## C#
 

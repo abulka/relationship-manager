@@ -1,3 +1,5 @@
+# Original Relationship Manager v1.0
+
 class RelationshipManager:
   def __init__(self):		# Constructor
       self.Relationships = []
@@ -57,16 +59,7 @@ def suite():
     return alltests
     
 def main():
-    """ Run all the suites.  To run via a gui, then
-            python unittestgui.py NestedDictionaryTest.suite
-        Note that I run with VERBOSITY on HIGH  :-) just like in the old days
-        with pyUnit for python 2.0
-        Simply call
-          runner = unittest.TextTestRunner(descriptions=0, verbosity=2)
-        The default arguments are descriptions=1, verbosity=1
-    """
     runner = unittest.TextTestRunner(descriptions=0, verbosity=2) # default is descriptions=1, verbosity=1
-    #runner = unittest.TextTestRunner(descriptions=0, verbosity=1) # default is descriptions=1, verbosity=1
     runner.run( suite() )
 
 if __name__ == '__main__':
