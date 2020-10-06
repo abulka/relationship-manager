@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0087)http://www.fawcette.com/javapro/2002_10/online/jdbc_sragunathan_10_22_02/default_pf.asp -->
+<HTML><HEAD><TITLE>Fawcette.com - JDBC Object Persistence: A Better Way</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><!-- Start META Tags -->
+<META content=Java name=Category>
+<META content=JDBC name=Subcategory>
+<META 
+content="Java, databases, JDBC, object persistence, mapping, object, relational" 
+name=Keywords>
+<META 
+content="Achieve better object-relational database mapping with these easy techniques." 
+name=DESCRIPTION>
+<META content="Sam Ragunathan" name=Author>
+<META content="October 22, 2002" name=Issue><!-- End META Tags --><LINK 
+href="Fawcette_com - JDBC Object Persistence A Better Way_files/global.css" 
+type=text/css rel=stylesheet><!-- Start Page Number Function --><!-----------------------------------------------------------------
+      This function builds the numbering scheme for multipage features.
+      It takes 2 parameters:
+      
+      currentPage  the page you are currently on (will not have a link)
+      totalPages   the total number of pages in this feature
+
+      
+      Usage Example:
+      
+      <script language="javascript">
+        buildPageNumbers(7, 10)
+      </script>
+    ------------------------------------------------------------------>
+<STYLE type=text/css>A.buildpagenumbersunderline {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+.buildpagenumbersbold {
+	FONT: bold 10pt arial; COLOR: #000000; TEXT-DECORATION: none
+}
+</STYLE>
+
+<SCRIPT language=javascript>
+      function buildPageNumbers(currentPage, totalPages)
+      {
+        <!-- If there is a previous page, display it -->
+        if(currentPage!=1)
+        { 
+          if (currentPage!=2)
+          {
+            document.write("<a href='page" + (currentPage-1) + ".asp' class='buildpagenumbersunderline'>Previous</a> ")
+          }
+          else
+          {
+            document.write("<a href='default.asp' class='buildpagenumbersunderline'>Previous</a> ")
+          }
+        }
+
+        <!-- Loop through the pages and build links -->
+        for(i=1; i<=totalPages; i++)
+        {
+          if (i==currentPage)
+          {
+            document.write("<span class='buildpagenumbersbold'>" + i + "</span> ")
+          }
+          else if (i!=1)
+          {
+            document.write("<a href='page" + i + ".asp' class='buildpagenumbersunderline'>" + i + "</a> ")
+          }
+          else
+          {
+            document.write("<a href='default.asp' class='buildpagenumbersunderline'>" + i + "</a> ")
+          }
+        } 
+
+        <!-- If there is a next page, display it -->
+        if(currentPage!=totalPages)
+        { 
+          document.write("<a href='page" + (currentPage+1) + ".asp' class='buildpagenumbersunderline'>Next</a>")
+        }
+      }      
+    </SCRIPT>
+<!-- End Page Number Function -->
+<SCRIPT language=JavaScript>
+    <!-- hide JavaScript
+    function openWindowRes(){
+      popupWin = window.open('popup1.asp', 'popup1', 'scrollbars,resizable,width=512,height=410')
+    }
+function openWindow1() {  popupWin = window.open('figure1.asp', 'Figure1', 'scrollbars,resizable,width=640,height=480')
+}
+function openWindow2() {  popupWin = window.open('figure2.asp', 'Figure2', 'scrollbars,resizable,width=640,height=480')
+}
+function openWindow3() {  popupWin = window.open('figure3.asp', 'Figure3', 'scrollbars,resizable,width=640,height=480')
+}
+function openWindow4() {  popupWin = window.open('figure4.asp', 'Figure4', 'scrollbars,resizable,width=640,height=480')
+}
+function openWindow5() {  popupWin = window.open('listing1.asp', 'Listing1', 'scrollbars,resizable,width=640,height=480')
+}
+function openWindow6() {  popupWin = window.open('listing2.asp', 'Listing2', 'scrollbars,resizable,width=640,height=480')
+}
+
+
+
+    // done hiding -->
+
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=0 marginheight="0" marginwidth="0"><A name=top></A><!-- Start Outer Table -->
+<TABLE cellSpacing=0 cellPadding=0 width=610 border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><!-- Start Header Table -->
+      <TABLE class=header cellSpacing=0 cellPadding=0 width=610 border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=2><!-- Start Banner Ads -->
+            <TABLE cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=center width=468 height=60><!-- Start Banner 1 -->
+                  <TABLE cellSpacing=0 cellPadding=0 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD height=60>
+                        <SCRIPT language=JavaScript1.1 
+                        src="Fawcette_com - JDBC Object Persistence A Better Way_files/;abr=!webtv;sz=468x60;ord=2003611330231C43.png">
+</SCRIPT>
+
+                        <SCRIPT> 
+
+if ((!document.images && navigator.userAgent.indexOf('Mozilla/2.') >= 0)  || navigator.userAgent.indexOf("WebTV")>= 0) {
+document.write('<A HREF="http://ad.doubleclick.net/jump/javapro.dart/;sz=468x60;ord=ord=2003611330231C43?">');
+document.write('<IMG SRC="http://ad.doubleclick.net/ad/javapro.dart/;sz=468x60;ord=ord=2003611330231C43?" border="0" height="60" width="468"></A>') 
+} 
+
+</SCRIPT>
+                        <NOSCRIPT>
+                        <TABLE cellSpacing=0 cellPadding=0 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD height=60><A 
+                              href="http://ad.doubleclick.net/jump/javapro.dart/;sz=468x60;ord=ord=2003611330231C43?"><IMG 
+                              height=60 
+                              src="Fawcette_com - JDBC Object Persistence A Better Way_files/;sz=468x60;ord=ord=2003611330231C43.png" 
+                              width=468 
+                        border=0></A></TD></TR></TBODY></TABLE></NOSCRIPT></TD></TR></TBODY></TABLE><!-- End Banner 1 --></TD></TR></TBODY></TABLE><!-- End Banner Ads --></TD></TR>
+        <TR vAlign=center>
+          <TD width=205><A href="http://www.fawcette.com/javapro/"><IMG 
+            height=54 
+            src="Fawcette_com - JDBC Object Persistence A Better Way_files/logo_jpro.gif" 
+            width=244 border=0></A> </TD>
+          <TD class=header>&nbsp; </TD></TR></TBODY></TABLE><!-- End Title Table --><!-- End Header Table --></TD></TR><!-- Start Big Table Containing Leftnav, Main Content -->
+  <TR><!-- Start left margin -->
+    <TD width=5>&nbsp;</TD><!-- End left margin --><!--  Start Main Content Area -->
+    <TD vAlign=top width=440><!-- Start Main Content Table -->
+      <TABLE cellSpacing=0 cellPadding=0 width=605 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><IMG height=1 
+            src="Fawcette_com - JDBC Object Persistence A Better Way_files/spacer.gif" 
+            width=435 border=0> <!-- Start Feature Article --><!-- Close Window -->
+            <TABLE cellSpacing=0 cellPadding=0 width=178 align=right border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD height=39>
+                        <SCRIPT language=JavaScript1.1 
+                        src="Fawcette_com - JDBC Object Persistence A Better Way_files/archive;abr=!webtv;sz=174x39;ord=200361133023155E.png">
+</SCRIPT>
+
+                        <SCRIPT> 
+
+if ((!document.images && navigator.userAgent.indexOf('Mozilla/2.') >= 0)  || navigator.userAgent.indexOf("WebTV")>= 0) {
+document.write('<A HREF="http://ad.doubleclick.net/jump/javapro.dart/archive;sz=174x39;ord=ord=200361133023155E?">');
+document.write('<IMG SRC="http://ad.doubleclick.net/ad/javapro.dart/archive;sz=174x39;ord=ord=200361133023155E?" border="0" height="39" width="174"></A>') 
+} 
+
+</SCRIPT>
+                        <NOSCRIPT>
+                        <TABLE cellSpacing=0 cellPadding=0 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD height=39><A 
+                              href="http://ad.doubleclick.net/jump/javapro.dart/archive;sz=174x39;ord=ord=200361133023155E?"><IMG 
+                              height=39 
+                              src="Fawcette_com - JDBC Object Persistence A Better Way_files/archive;sz=174x39;ord=ord=200361133023155E.png" 
+                              width=174 
+                        border=0></A></TD></TR></TBODY></TABLE></NOSCRIPT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><BR>
+                  <SCRIPT language=JavaScript>
+				if(navigator.platform=="Win32"){
+	document.write("<table width='100' align='right' cellpadding='0' cellspacing='0'><tr><td>");
+	document.write("<a href='#' onClick='javascript:window.print();'><img src='/javapro/images/icon_printer.gif' height='18' width='18' border='0'></a></td>");
+document.write("<td class='black8pt'><a href='#' onClick='javascript:window.print();'>Print Article</a></td></tr></table>");
+	}</SCRIPT>
+                </TD></TR></TBODY></TABLE><!-- ADD Content Here -->
+            <P class=FeatureHead>JDBC Object Persistence: A Better Way <BR><SPAN 
+            class=FeatureDek>Avoid many of the problems of object-relational 
+            database mapping with these techniques. </SPAN><BR><SPAN 
+            class=AboutAuthor><EM>by Sam Ragunathan</EM></SPAN></P>
+            <P>
+            <P><EM>Posted October 22, 2002</EM></P>
+            <P><SPAN class=DropCap>M</SPAN>apping objects to relational 
+            databases has been done for a long time, but nobody has come up with 
+            a perfect solution. The core of the issue is that the object domain 
+            and relational domain are almost orthogonal, and storage, 
+            performance, and navigation vary greatly from application to 
+            application. So you often must choose one approach over another on a 
+            program-by-program basis. </P>
+            <P>Many a standard has taken a step closer to providing transparency 
+            between relational and object domains. ODBC and JDBC have provided a 
+            procedural interface, while JDO and CMP-EJB have taken an 
+            object-centric approach to object-relational mapping. Each approach 
+            has its strengths and inefficiencies, and object-based data access 
+            often still involves JDBC behind the scenes. This article discusses 
+            a simple pattern to access and navigate relational data as 
+            objects.</P>
+            <TABLE cellSpacing=0 cellPadding=5 width=215 align=right border=0>
+              <TBODY>
+              <TR>
+                <TD><A href="javascript:openWindow1();"><IMG height=225 alt="" 
+                  src="Fawcette_com - JDBC Object Persistence A Better Way_files/Figure1_t.gif" 
+                  width=215 border=0></A></TD>
+                <TD width=12 bgColor=#ffffff>&nbsp;</TD></TR>
+              <TR>
+                <TD class=black8pt><SPAN class=FigureCap>Figure 1.</SPAN> <A 
+                  href="javascript:openWindow1();">The Object Model 
+                  </A></FONT><BR><BR></TD></TR></TBODY></TABLE>
+            <P>In a typical tiered architecture (except the ones that use CMP 
+            entity beans), you'd almost always have a Data Access layer that 
+            separates the persistence mechanisms from the business logic. 
+            Usually, you read the data using a <I>java.sql.ResultSet</I>, 
+            passing around the tiers through value objects. </P>
+            <P>Then, people often take one of two approaches. Sometimes, they 
+            use ResultSets directly accessed in the presentation layer (JSP, 
+            Swing). And sometimes, they create an object graph mirroring the 
+            business objects and send it across layers as value objects.</P>
+            <P>These two approaches often create other problems, such as 
+            these:</P>
+            <UL>
+              <LI>Accessing ResultSets outside their scope breaks the 
+              encapsulation and creates a coupling between tiers. 
+              <LI>There might be a need for data massaging between relational 
+              data and object data, and only the object would know how to 
+              construct itself from relational data. 
+              <LI>In a one-to-many relationship, you could also have 
+              many-to-many side objects, increasing the overhead of value object 
+              creation and transportation. 
+              <LI>The client of the object might need only a subset of the 
+              related objects, and some of the value objects might be thrown 
+              away. 
+              <LI>Accessing ResultSets directly prevents performance 
+              improvements, such as lazy loading and caching. </LI></UL>
+            <P>Many tools in the market—such as Toplink and CocoBase—address 
+            these issues and provide a rich set of features. This article takes 
+            a simpler approach and examines a pattern for mapping an object to a 
+            relational database and navigating the object relationships by 
+            extending the Iterator design pattern. I'll examine this approach 
+            with a simple example that has the usual object relationships, as 
+            shown in the object model (see <A 
+            href="javascript:openWindow1();">Figure 1</A>).</P>
+            <TABLE cellSpacing=0 cellPadding=5 width=215 align=right border=0>
+              <TBODY>
+              <TR>
+                <TD><A href="javascript:openWindow2();"><IMG height=144 alt="" 
+                  src="Fawcette_com - JDBC Object Persistence A Better Way_files/Figure2_t.gif" 
+                  width=215 border=0></A></TD>
+                <TD width=12 bgColor=#ffffff>&nbsp;</TD></TR>
+              <TR>
+                <TD class=black8pt><SPAN class=FigureCap>Figure 2.</SPAN> <A 
+                  href="javascript:openWindow2();">Why Call When You Don't Have 
+                  To?</A></FONT> <BR><BR></TD></TR></TBODY></TABLE>
+            <P>Here's the sample scenario: A Department has employees who work 
+            on one or more projects within the department. An Employee resides 
+            in an Address and is managed by a Manager, who is also an Employee. 
+            An Employee has exactly one Address (one-to-one). A Department has 
+            one or more Employees and Projects (one-to-many). A Project has many 
+            Employees, and an Employee works on many Projects within the 
+            Department (many-to-many).</P>
+            <P>Each business object has a corresponding data-access object. 
+            One-to-one and one-to-many relations can be contained within the 
+            data access object and hence the relational tables. Many-to-many 
+            relationships, however, require an additional data access object 
+            (relational table). Such relationships are typically broken into 
+            one-to-many and many-to-one relations, with the relation information 
+            stored in a join table. If the relationship has more than just 
+            identity (primary key), you're better off using a separate business 
+            object representing the relationship.</P>
+            <TABLE cellSpacing=0 cellPadding=5 width=215 align=right border=0>
+              <TBODY>
+              <TR>
+                <TD><A href="javascript:openWindow3();"><IMG height=194 alt="" 
+                  src="Fawcette_com - JDBC Object Persistence A Better Way_files/Figure3_t.gif" 
+                  width=215 border=0></A></TD>
+                <TD width=12 bgColor=#ffffff>&nbsp;</TD></TR>
+              <TR>
+                <TD class=black8pt><SPAN class=FigureCap>Figure 3.</SPAN> <A 
+                  href="javascript:openWindow3();">Persistence and Navigation 
+                  With Data Access Objects</A></FONT> 
+            <BR><BR></TD></TR></TBODY></TABLE>
+            <P>Each business object also has a corresponding data-access object 
+            that is a subtype of DAO object. DAO is the base class for all DAO 
+            classes and implements the CRUD (create, read, update, delete) 
+            functionality in a Template Method pattern. It acquires the database 
+            connection through the <I>ServiceProvider</I> interface, which the 
+            program must set through a static interface. You can also specify 
+            the connection while constructing the DAO object if the application 
+            is using multiple connections, and the unit of work needs to be 
+            committed or rolled back. The subtype DAO objects define all the 
+            necessary SQL statements as <I>PreparedStatements</I> and are stored 
+            by the DAO object in a HashMap. Each SQL statement is identified by 
+            an integer.</P>
+            <P>As you can see, save() and select() are the only public methods 
+            (see <A href="javascript:openWindow5();">Listing 1</A>). save() 
+            calls insert() or update() depending on whether the record exists in 
+            the database. All four CRUD methods are implemented as a Template 
+            Method pattern; they look up the SQL statement, prepare it, request 
+            the subtype DAO object to set the parameters, and execute it. The 
+            DAO object uses an instance of the SQLStatement object as a wrapper 
+            over <I>PreparedStatement</I> to collect the values set by the 
+            subtype DAO objects and construct and log the actual SQL statement. 
+            DAO also requires that the subtype DAO objects implement a read() 
+            method that is capable of reading the data off a <I>ResultSet</I>. 
+            (This is used by the DAOIterator.) <A 
+            href="javascript:openWindow2();">Figure 2</A> shows the sequence of 
+            events for typical object persistence.</P>
+            <P>DAOIterator, Creatable, and AnObjectFactory classes implement the 
+            navigation part of the pattern (see <A 
+            href="javascript:openWindow3();">Figure 3</A>). The business object 
+            uses the DAOIterator to access the objects it's related to. In the 
+            example, taken from a code snippet from Project.java (see <A 
+            href="javascript:openWindow6();">Listing 2</A>), ProjectFactory is 
+            an inner class that implements the Creatable interface and uses the 
+            Project constructor to create an instance of Project. The 
+            <CODE>get</CODE> methods employ DAOIterator to access related 
+            objects such as Employee.</P>
+            <TABLE cellSpacing=0 cellPadding=5 width=215 align=right border=0>
+              <TBODY>
+              <TR>
+                <TD><A href="javascript:openWindow4();"><IMG height=143 alt="" 
+                  src="Fawcette_com - JDBC Object Persistence A Better Way_files/Figure4_t.gif" 
+                  width=215 border=0></A></TD>
+                <TD width=12 bgColor=#ffffff>&nbsp;</TD></TR>
+              <TR>
+                <TD class=black8pt><SPAN class=FigureCap>Figure 4.</SPAN> <A 
+                  href="javascript:openWindow4();">DAO Classes for Navigation 
+                  and Persistence</A></FONT> <BR><BR></TD></TR></TBODY></TABLE>
+            <P>DAOIterator is an implementation of the Iterator pattern. As the 
+            name implies, it iterates over ResultSet objects from 
+            <CODE>select</CODE> queries. You can construct DAOIterator with an 
+            instance of the Creatable interface and the DAO object. (You need to 
+            prepare the DAO object for a <CODE>select</CODE> SQL operation, so 
+            you need to make sure you've already called 
+            <CODE>setCurrentSelectSQL</CODE> on the DAO object.) </P>
+            <P>The DAOIterator invokes the select() method of DAO class. For 
+            every ResultSet entry found, it invokes the create() method on the 
+            Creatable() interface to construct the correct business object. The 
+            caller can then safely cast it to the appropriate business object. 
+            DAOIterator hides the navigation details and relational data access 
+            mechanisms from the users of the business object. Also, it provides 
+            a cleaner mechanism for converting the ResultSet data into the 
+            business object. Of course, the business object is expected to 
+            provide a constructor to create itself from its corresponding DAO 
+            object. By making the factory a private inner class and making the 
+            DAO-constructor private, you make the business object well 
+            encapsulated. Check out the sequence of events for a typical 
+            <CODE>select</CODE> method (see <A 
+            href="javascript:openWindow4();">Figure 4</A>).</P>
+            <P>This approach prevents many of the problems you usually encounter 
+            in O-R mapping, and the classes discussed in this article provide a 
+            basic framework for object persistence and navigation. You also need 
+            to write the DAO subtypes and factories so that they plug into the 
+            framework. Because most of the logic is hidden within DAO classes, 
+            the DAO subtypes should be lean and mean, and are good candidates 
+            for automatic generation. But that's a topic for another 
+article.</P>
+            <P><SPAN class=AboutAuthor>About the Author</SPAN><BR>Sam Ragunathan 
+            has been working with object-oriented technologies for the last 10 
+            years, and on J2EE for the last three years as a Sun Certified 
+            Enterprise Architect. He works with Capital One as a Java architect. 
+            Reach Sam at <A 
+            href="mailto:ragur@capitalone.com">ragur@capitalone.com</A>.</P><!-- End Content Here --><!-- Close Window Table --><BR><BR><!-- End Feature Article --></TD></TR></TBODY></TABLE><!-- End Main Content Table --></TD></TR></TBODY></TABLE><!-- Start Footer Table -->
+<TABLE cellSpacing=0 cellPadding=0 width=610 border=0>
+  <TBODY>
+  <TR>
+    <TD class=footer colSpan=3>© Copyright 2001-2003 <A class=footerbold 
+      href="http://www.fawcette.com/">Fawcette Technical Publications</A> | <A 
+      class=footerbold href="http://www.fawcette.com/privacy/default.asp" 
+      target=_blank>Privacy Policy</A> | <A class=footerbold 
+      href="http://www.fawcette.com/customerservice.asp" target=_blank>Contact 
+      Us</A> </TD></TR></TBODY></TABLE><!-- End Footer Table --></BODY></HTML>

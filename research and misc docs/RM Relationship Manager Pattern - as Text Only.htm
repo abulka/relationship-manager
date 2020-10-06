@@ -1,0 +1,865 @@
+<html>
+
+<head>
+<title>RM Relationship Manager</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+
+
+<meta name="Microsoft Theme" content="expeditn 011, default">
+<meta name="Microsoft Border" content="t, default">
+</head>
+
+<body background="_themes/expeditn/exptextb.jpg" bgcolor="#FFFFFF" text="#000000" link="#993300" vlink="#666600" alink="#CC3300"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<h1 align="center"><!--mstheme--><font color="#660033">RM Relationship Manager<br>
+<script language="JavaScript"><!--
+MSFPhover = 
+  (((navigator.appName == "Netscape") && 
+  (parseInt(navigator.appVersion) >= 3 )) || 
+  ((navigator.appName == "Microsoft Internet Explorer") && 
+  (parseInt(navigator.appVersion) >= 4 ))); 
+function MSFPpreload(img) 
+{
+  var a=new Image(); a.src=img; return a; 
+}
+// --></script><script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav1n=MSFPpreload("_derived/home_cmp_expeditn010_hbtn.gif"); MSFPnav1h=MSFPpreload("_derived/home_cmp_expeditn010_hbtn_a.gif"); }
+// --></script><a href="./" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1h.src" onmouseout="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1n.src"><img src="_derived/home_cmp_expeditn010_hbtn.gif" width="140" height="50" border="0" alt="Home" align="middle" name="MSFPnav1"></a> <script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav2n=MSFPpreload("_derived/rm1.htm_cmp_expeditn010_hbtn.gif"); MSFPnav2h=MSFPpreload("_derived/rm1.htm_cmp_expeditn010_hbtn_a.gif"); }
+// --></script><a href="rm1.htm" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2h.src" onmouseout="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2n.src"><img src="_derived/rm1.htm_cmp_expeditn010_hbtn.gif" width="140" height="50" border="0" alt="RM Discussion" align="middle" name="MSFPnav2"></a><!--mstheme--></font></h1>
+<!--mstheme--></font></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><!--msnavigation--><td valign="top"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+<font SIZE="5">
+
+<h1><!--mstheme--><font color="#660033">Relationship Manager Pattern<br>
+</font><font SIZE="2">-Andy Bulka,<i> </i>August 2001<br>
+<a HREF="mailto:abulka@netspace.net.au">abulka@netspace.net.au</a></font><font FACE="Arial" SIZE="5"><b><!--mstheme--></font></h1>
+</b></font>
+
+<p>Go to <a href="rm1.htm">Discussion of Relationship Manager Pattern</a> </p>
+
+<p>This page may not print that well (blame FrontPage? - any suggestions
+appreciated) or download the <a href="AndyBulkaRelationshipManagerPattern.pdf">printable
+pdf version</a>. </p>
+
+<p><strong><big><big><font face="Arial">Abstract</font></big></big></strong></p>
+
+<p>A central mediating class which records all the one-to-one, one-to-many and
+many-to-many relationships between a group of selected classes. </p>
+
+<p>Classes that use a Relationship Manager to implement their relationship properties and
+methods have a consistent metaphor and trivial implementation code (one line calls).
+Traditional techniques of implementing relationships are varied and flexible but often
+require a reasonable amount of non-trivial code which can be tricky to get working
+correctly and are almost always a pain to maintain due to the detailed coding and coupling
+between classes involved.</p>
+<font FACE="Arial" SIZE="5"><b>
+
+<p>Context</b></font></p>
+
+<p>You have designed your application&#146;s business/domain classes (e.g. <code>Customer,
+Order, Supplier</code>) and are faced with the job of implementing all the required
+relationships. e.g. one-to-one, one-to-many, many-to-many, back-pointers etc. (but not
+inheritance relationships). You have a large number of classes to implement. The project
+will evolve over a long period of time and be maintained by many programmers. </p>
+
+<p>Typical implementations of relationship properties and methods (e.g<code>.
+Customer.AddOrder(o), Order.GetCustomer()</code> etc. ) involve adding code and private
+data structures (e.g. pointers, lists/vectors) into each class involved in the
+relationship. When a relationship changes, all relevant objects that have a record of that
+relationship must be notified and modified so that their private collections/vector/lists
+are correctly updated. All this extra code chips away at the cohesiveness of your classes,
+and couples your classes together in spaghetti fashion.</p>
+
+<p>Some relationships can be tricky to implement. For example a two-way relationship is
+best implemented by choosing one object to be the <i>leader</i> and another as <i>follower.
+</i>The follower object&#146;s implementation should only be coded using calls to leader
+object methods. (<b>Mutual Friends</b> pattern, also described as a refactoring in <i>(&quot;Change
+Unidirectional Association to Bidirectional&quot; Fowler, Refactoring p.197).</i></p>
+
+<p>Other relationships may involve a lot of complexity. A relationship between multiple
+objects with rules and constraints on the relationship may call for a reification and
+encapsulation of the relationship into a <b>Relationship Object</b> <i>(&quot;Basic
+Relationship Patterns&quot; J. Noble, PLoPD 4).</i><font FACE="Arial" SIZE="5"><b></p>
+
+<p>Problem</b></font></p>
+
+<!--mstheme--></font><table border="0">
+  <tr>
+    <td width="50%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">How do you robustly implement the required relationships between your
+    classes with as little code as possible - minimising the number of wiring idioms you need
+    to learn? <p>How do you avoid tightly coupled classes full of code dedicated to
+    maintaining relationships - tedious code which reduces the cohesiveness of your classes? </p>
+    <p>How do you ensure that your relationship related code is exceptionally easy to read,
+    modify and maintain by existing and especially new programmers joining the project?<!--mstheme--></font></td>
+    <td width="50%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><p align="center"><img src="images/RM_ratsnest.gif" alt="RM ratsnest.gif (1855 bytes)" WIDTH="144" HEIGHT="129"> </p>
+    <p align="center">Figure 1. How to implement a rat's nest of relationships?<!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+<b><font FACE="Arial" SIZE="5">
+
+<!--msthemeseparator--><p align="center"><img src="_themes/expeditn/exphorsa.gif" width="600" height="10"></p>
+
+<p>Forces</font><font FACE="Arial" SIZE="2"></p>
+
+<p>Key forces<br>
+</p>
+</font></b>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Necessity:</b> Relationships e.g. aggregation and composition are primal object
+    oriented concepts that require implementation in all software development projects.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Hard Work:</b> Coding relationship logic into each business object class is often
+    tedious and error-prone work. Mastering a variety of wiring idioms and patterns may be
+    necessary to achieve a robust implementation.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Coupling and Maintainability: </b>Traditional relationship code involves the
+    implementation being spread out amongst many business classes (esp. back&#150;pointers,
+    and deletion notifications etc), which is more difficult to track, maintain and keep in
+    synch than mediated approaches.<!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Other forces<br>
+</p>
+</b></font>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Readabilty:</b> Detailed relationship related code and coding idioms are harder to
+    read than say, single line function calls.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Robustness: </b>Creating and changing traditional relationship code involves detailed
+    changes to multiple classes, which is error-prone work - robustness is compromised unless
+    strict testing regimes/suites are adopted.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Persistence:</b> It is difficult to persist relationships between classes when
+    relationships are implemented as low level pointers and collections etc. Persisting
+    relationships between business classes is usually needed. Relational database solutions
+    require persistence layers. Object oriented database (OODMS) solutions are complete
+    solutions, but can be expensive to purchase.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Scale:</b> A large number of classes in which to implement relationship code requires
+    more programming hours. Using a central Relationship Manager significantly reduces
+    programming hours. If the number of classes is small, then staying with non-mediated
+    traditional approaches avoids having to learn the Relationship Manager paradigm.
+    Traditional approaches are usually more cpu efficient than a mediated Relationship Manager
+    approach.<!--mstheme--></font><!--msthemelist--></td></tr>
+  <!--msthemelist--><tr><td valign="baseline" width="42"><img src="_themes/expeditn/expbul1a.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Tradition:</b> Coding the relationship related pointers and collections directly into
+    business classes are standard programming practices. Unusual solutions (e.g. like using a
+    mediator like Relationship Manager object to manage relationships) may encounter
+    resistance from experienced programmers. Programmers will need education as to the
+    benefits and consequences of any alternative approach.<!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+<!--msthemeseparator--><p align="center"><img src="_themes/expeditn/exphorsa.gif" width="600" height="10"></p>
+<font FACE="Arial" SIZE="5"><b>
+
+<p>Solution</b></font></p>
+
+<p>Use a <b>Mediator</b> object - a central relationship manager to record all the
+one-to-one, one-to-many and many-to-many relationships between a group of selected
+classes. Provide a query method on this mediating Relationship Manager. Implement all
+relationship code functionality by calling methods on the central Relationship Manager.</p>
+<font FACE="Arial" SIZE="2">
+
+<!--mstheme--></font><table border="1" width="100%" bgcolor="#C0C0C0" cellpadding="3" bordercolordark="#660000" bordercolorlight="#CC9966">
+  <tr>
+    <td width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">Relationship Manager is an implementation choice <p></font>The decision
+    to use a Relationship Manager to implement your business object relationships does not
+    affect the design of the interfaces of your business classes. Your classes look and work
+    the same e.g. <code>c = Customer(); o = Order(); c.AddOrder(o)</code>; <font FACE="Arial" SIZE="2"></p>
+    <p></font>It&#146;s only when <i>implementing</i> a property or method that entails
+    getting, manipulating or creating a relationship that you <i>implement </i>this
+    functionality by calling methods on the central Relationship Manager, rather than
+    attempting to define the attributes and code required for maintaining these relationships
+    within business classes themselves. <font FACE="Arial" SIZE="2"></p>
+    <p></font>The client code doesn&#146;t care how methods on the business classes are
+    implemented!<!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<p>Here is a simple diagram which shows what the Relationship Manager does:</p>
+<strong>
+
+<h1 ALIGN="CENTER"><!--mstheme--><font color="#660033"><img SRC="images/RMratsnest.gif" WIDTH="513" HEIGHT="187"></strong><dfn><!--mstheme--></font></h1>
+
+<p align="center"><small>Figure 2. Implementing a rat&#146;s nest of relationships versus
+a simpler approach.</small></dfn></p>
+
+<p>The implementation of the Relationship Manager Class need not be complex &#150; a
+working implementation taking only 32 lines of code is show below (<i>see implementation</i>).
+Alternatively you can use a third party OODBMS (object oriented database) as a
+Relationship Manager.</p>
+
+<blockquote>
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <p align="center"><img SRC="images/RMbasicClassDiagram.gif" WIDTH="389" HEIGHT="193"></p>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+<dfn>
+
+<p ALIGN="CENTER">Figure 3. Relationship Manager Pattern</dfn></p>
+
+<p>The Relationship Manager provides a generic set of methods to add, remove and query the
+relationships it manages. Each relationship between objects should be represented by an <i><b>Association
+Object </b></i>or equivalent data structure<i>.</i> Queries to the Relationship Manager
+(by the classes involved in the relationships) return lists of objects.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Steps to build: </b></font></p>
+
+<p>In a nutshell (bold indicates the participants): </p>
+
+<ol>
+  <ol>
+    <li>Define an <b>Association Object</b> class or other equivalent data-structure, with the
+      attributes <code>from</code>, <code>to</code> and <code>relationshipId</code>. </li>
+    <li>Define a <b>Relationship Manager</b> class with the methods <code>AddRelationship</code>,
+      <code>RemoveRelationship</code>, <code>FindObjects</code>. Each call to <code>AddRelationship</code>
+      results in an association object being created and added to the Relationship
+      Managers&#146;s list.</li>
+    <i>
+    <li>[optional] </i>Define a constructor in your <b>BaseBusinessObject</b> class that sets up
+      a pointer to the Relationship Manager. This way each business object is set up knowing
+      where its Relationship Manager lives.</li>
+    <li>Implement all your <b>Business Object</b> relationship logic using calls to the
+      relationship manager. </li>
+  </ol>
+</ol>
+
+<p>The use of a Relationship Manager is a private implementation issue for the classes
+involved. The Relationship Manager is only accessed by the classes involved in the
+relationships. The interfaces on your business classes remains the same as your UML
+design. You end up with the following architecture:</p>
+
+<p ALIGN="CENTER"><img SRC="images/RMfullClassDiagram.gif" WIDTH="474" HEIGHT="416"></p>
+<dfn>
+
+<p ALIGN="CENTER">Figure 4. An architecture using the Solution.<br>
+Business Classes (on the right) are using a Relationship Manager (on the left).</dfn><font FACE="Arial" SIZE="2"><b></p>
+</b></font>
+
+<!--mstheme--></font><table border="0" width="100%" bgcolor="#C0C0C0" cellpadding="3">
+  <tr>
+    <td width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><font FACE="Arial" SIZE="2"><b>The big benefit of this solution</b></font><p>Your
+    classes should now implement relationships with simple one line calls e.g.</p>
+    <blockquote>
+      <font FACE="Courier New" SIZE="3"><!--mstheme--></font><pre><strong>class Customer</strong>:
+    <strong>def AddOrder</strong>(self, order):
+        RelMgr.AddRelationship( From=self, To=order,
+                                       RelId=CUSTORD )</pre><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+      </font>
+    </blockquote>
+    <!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+<b><font FACE="Arial" SIZE="5">
+
+<p>Consequences and Limitations</font><font FACE="Arial" SIZE="2"></p>
+
+<p>Resolution of Forces</font></b></p>
+
+<p>Implementing each business class property or method dealing with relationships is now
+easily done using single-line code calls to the methods of the Relationship Manager. Such
+code is easy to construct, maintain and read <i>(see definition of classes </i><code>Customer</code><i>
+and </i><code>Order</code><i>, below.)</i>.</p>
+
+<p>There is a greatly reduced need to track and synchronise intricate code changes across
+multiple classes because classes are no longer as tightly coupled. Classes no longer
+contain the direct references and detailed code dedicated to maintaining relationships
+inside themselves. Maintenance is therefore easier. It is also easier and quicker to build
+a robust implementation. </p>
+
+<p>Tricky mappings like back-pointers in two way relationships can now simply be derived
+by the Relationship Manager (since it knows every detail about who points to who) rather
+than needing to be coded explicitly using idioms like Mutual Friend.</p>
+
+<p>A Relationship Manager can easily be enhanced to persist the associations objects that
+it manages, thus resolving the force of persistence; this force may not be resolved
+adequately unless the objects involved in the relationship are also persisted, along with
+their relationships. (<i>See &#145;Persistence&#146; in the Discussion section for more
+discussion on this</i>).</p>
+
+<p>Coupling is greatly reduced, but replaced with a coupling to a central mediator.
+Business classes are not tightly coupled to each other any more, but are coupled to their
+Relationship Manager. The overall coupling effect may seem to be the same (giving up one
+coupling for another) but it is in fact reduced, since multiple pointers/couplings are
+traded in for just one coupling to the Relationship Manager. Also, a coupling to the one,
+same thing is easier to maintain than coupling to a diversity of other classes. Business
+Classes are more cohesive since they don&#146;t have the detailed, messy relationship
+implementation code in them any more.</p>
+
+<p>The Relationship Manager paradigm is consistent with the insights of relational
+database technology and OODBMS (object database) technology viz. that we are modelling
+relationships and the majority of relationships can simply be expressed as simple mappings
+plus an appropriate query language/method(s). It could be argued that traditional coding
+approaches not only are re-inventing the wheel, but are ignoring it.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Limitations</b></font></p>
+
+<p>The paradigm shift to using a mediated solution may be an obstacle to adoption -
+programmers will need education as to the benefits and consequences of such a approach.
+Traditional coding approaches are also usually more cpu efficient than a mediated
+Relationship Manager approach, which may or may not be an issue depending on the context
+and the size of the project. (<i>See performance section in the implementation section for
+more discussion on this</i>).</p>
+
+<p>For implementing complex, constrained relationships involving more than a couple of
+classes, a Relationship Object pattern is still a good choice, since Relationship Manager
+has a general interface and does not constrain the relationships it manages. (<i>There is
+more discussion on the difference between Relationship Manager and Relationship Object in
+the related patterns section.</i>)</p>
+<b><font FACE="Arial" SIZE="5">
+
+<p>Implementation</font><font FACE="Arial" SIZE="2"></p>
+
+<p>Working Example Implementation of Business Classes</font></b></p>
+
+<p>The following <a href="rmexample.py"> code</a> is an example of how to write your business classes in terms of a
+Relationship Manager. Notice that the implementation of each Class relationship method is
+a simple <i>one-line call </i>to the Relationship Manager. The code is written in the
+pseudo-code-like, syntactically minimalist but straightforward language Python: (See <i>Appendix</i>
+for easy tips on reading Python)</p>
+<font FACE="Courier New" SIZE="3">
+
+<!--mstheme--></font><pre>RM = RelationshipManager() # Create the RelationshipManager instance
+
+class BaseBusinessObject:
+    def __init__(self):  # Constructor ensures each BO knows it's RM
+        self.RelMgr = RM </font>        </pre><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<p>In the code above, each business object knows which Relationship Manager to use though
+a pointer in the base class, which is initialised in the base business class constructor.
+To simplify this implementation, you could instead hard-code a static reference to a
+global variable (or Singleton) referring to the Relationship Manager where needed. This is
+a valid solution since you are unlikely to want to dynamically switch relationship
+managers at run-time.</p>
+
+<p>In the code below, which shows the implementation of example business classes that use
+a Relationship Manger, the relationship id <code>101</code> is an arbitrary value which,
+in a real project, should be replaced with a named constant e.g. <code>CUSTORDER = 101.</code>
+<br>
+</p>
+<font FACE="Courier New" SIZE="3">
+
+<!--mstheme--></font><pre><strong>class Customer</strong>(BaseBusinessObject):
+    def AddOrder(self, order):
+        self.RelMgr.AddRelationship(From=self, To=order, RelId=101)
+    def RemoveOrder(self, order):
+        self.RelMgr.RemoveRelationships(From=self, To=order,
+                                                         RelId=101)
+    def Orders(self):
+        return self.RelMgr.FindObjects(From=self, RelId=101)
+
+
+<strong>class Order</strong>(BaseBusinessObject):
+    def GetCustomer(self):
+        return self.RelMgr.FindObject(To=self, RelId=101) </font>        </pre><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<p>In the above code, a client call to the customer <code>Orders() </code>method will
+query the Relationship Manager for a list of objects it points to by calling <code>RelMgr.FindObjects(&#133;)</code>.
+The <code>RelId </code>restricts the search to just those objects involved in the
+&#145;101&#146; relationship as opposed to say, the &#145;102&#146; relationship etc. </p>
+<b><font FACE="Arial" SIZE="2">
+
+<p>Working Implementation of a RelationshipManager Class</font><font FACE="Courier New" SIZE="3"></p>
+
+<!--mstheme--></font><pre></font></b><font FACE="Courier New" SIZE="3"><strong>class RelationshipManager</strong>:
+  <strong>def __init__</strong>(self):		# Constructor
+      self.Relationships = []
+  <strong>def AddRelationship</strong>(self, From, To, RelId=1):
+      if not self.FindObjects(From, To, RelId):
+        self.Relationships.append( (From, To, RelId) ) # assoc obj
+  <strong>def RemoveRelationships</strong>(self, From, To, RelId=1):
+      if not From or not To:
+          return
+      lzt = self.FindObjects(From, To, RelId)
+      if lzt:
+          for association in lzt:
+              self.Relationships.remove(association)
+  <strong>def FindObjects</strong>(self, From=None, To=None, RelId=1):
+      resultlist = []
+      match = lambda obj,list,index : obj==list[index] or obj==None
+      for association in self.Relationships:
+        if match(From,association,0) and match(To,association,1) \
+                                         and RelId==association[2]:
+              if From==None:
+                  resultlist.append(association[0])
+              elif To==None:
+                  resultlist.append(association[1]) 
+              else:
+                  resultlist.append(association)
+	return resultlist
+  <strong>def FindObject</strong>(self, From=None, To=None, RelId=1):
+      lzt = self.FindObjects(From, To, RelId)
+      if lzt:
+        return lzt[0]
+      else:
+        return None<b> </b></font>        </pre><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<p>In the above code, the Relationship Manager uses a list of tuples in the attribute <code>self.Relationships</code>
+to store each relationship. A tuple is just a cheap object &#150; we could have used a
+proper object with &#145;from&#146; and &#145;to&#146; attributes etc. as in the class
+diagram <i>fig 3 or 4</i>. However, since such an association object does not have
+behaviour, it might as well be implemented cheaply as a minor data structure (e.g. a C++ <i>struct
+</i>or Delphi <i>record</i>), in this case a tuple. A tuple is just a list of values e.g. <code>(23315,
+45422, 101)</code> that can be treated as an object instance, in Python. Each <code>association</code>
+object is a tuple, the &#145;from&#146; part of the tuple is accessed with the expression <code>association[0]</code>
+and the &#145;to&#146; part is accessed with <code>association[1] etc.</code> </p>
+<font FACE="Arial" SIZE="2">
+
+<!--mstheme--></font><table border="0" width="91%" bgcolor="#C0C0C0" cellpadding="3">
+  <tr>
+    <td width="100%"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">This test code creates a customer and an order and establishes a
+    relationship between them <blockquote>
+      <!--mstheme--></font><pre></font>c = Customer()
+o = Order()
+c.AddOrder(o)
+
+assert(o.GetCustomer() == c)
+assert( o in c.Orders() )
+assert( len(c.Orders()) == 1)</pre><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+    </blockquote>
+  <!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<h3><!--mstheme--><font color="#660033"><br>
+Implementation Discussion<!--mstheme--></font></h3>
+
+<p><strong>Queries to Relationship Manager</strong></p>
+
+<p>This particular implementation of a Relationship Manager has a query method <code>FindObjects()</code>,
+which relies on callers leaving one of the &#145;from&#146; or &#145;to&#146; parameters
+empty ( <code>None/Nil/NULL)</code>. The empty parameter indicates <i>what is being
+searched for</i>. The result is the list of objects found.</p>
+
+<p>For example <code>FindObjects(objA, None) </code>will return a list of objects pointed
+to by objA whilst <code>FindObjects(None, objA) </code>will return a list of objects
+pointing at objA. </p>
+
+<p>Alternative implementations of Relationship Manager may choose to have more explicit
+interrogatatory methods e.g. <code>FindObjectsPointedToBy(obj)</code> and <code>FindObjectsPointingAt(obj),
+</code>or might even use a pure text SQL-like syntax.</p>
+<font FACE="Arial" SIZE="2">
+
+<p></font><strong>Relationship Id</strong></p>
+
+<p>A relationship ID represents the &#145;name&#146; of the relationship. A relationship
+ID is an attribute of each association object, used to differentiate between the multiple
+association objects that would exist between the same two objects when there are multiple
+relationship pointers between the same two objects. A <code>RelId</code> of 101 might
+stand for the &#145;owns&#146; relationship and the <code>RelId</code> of 102 might stand
+for the &#145;parent&#146; relationship between the same two objects. If there is only
+going to be one type of relationship between two objects then the relationship ID can be
+omitted. <i>The Relationship Id is a parameter in all methods of Relationship Manager.</i><font FACE="Arial" SIZE="2"></p>
+
+<p></font><strong>Relationship Direction</strong></p>
+
+<p>If you tell Relationship Manager that A points to B, then Relationship Manager
+automatically knows that B is pointed to by A &#150; this is a derived mapping. If you
+want to simulate the precision of the directionality of the relationships in your UML
+design (some are one way only, some two way) then you could pass another parameter, being
+the direction of the relationship. Then if you ask for a backpointer relationship that
+hasn&#146;t been explicitly registered as a two-way relationship, then Relationship
+Manager will not derive/deduce it, but return <code>null</code>. <i>If required,
+Relationship Direction would be a parameter in all methods of Relationship Manager.</i><font FACE="Arial" SIZE="2"></p>
+
+<p></font><strong>Relationship Visibility</strong></p>
+
+<p>There may be a requirement for some relationships not to be visible to everyone using
+the Relationship Manager. Domain objects would use the Relationship Manager to map and
+represent both their private and public, and possibly other relationships. Further levels
+of security (e.g. which objects are allowed to query for what relationship information)
+could also be implemented and supported by a Relationship Manager.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Association Objects</b></font></p>
+
+<p>The programmer is free to implement a Relationship Manager&#146;s Association Objects
+in a variety of ways &#150; it is a private implementation detail. Business Objects (or
+whatever classes are using the Relationship Manager) do not know about Association Objects
+&#150; Business Objects only talk to and know about the services of the Relationship
+Manager. </p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Type loss using root class references</b></font></p>
+
+<p>Having association objects&#146; <code>from/to</code> pointers and parameters in the
+Relationship Manager API restricted to descendants of a base business object class may be
+too limiting for your needs. Consider implementing the from/to pointers in terms of
+interfaces, or perhaps as pointers to the root of your implementation language class
+hierarchy e.g. Java&#146;s <code>Object</code> or Delphi&#146;s <code>TObject</code>.
+These techniques will allow a wider range of classes to be registered with the
+Relationship Manager.</p>
+
+<p>Type loss using root class or base class references is not a problem peculiar to
+Relationship Manager. The collection objects (vector/list utility classes) in most
+languages store references to objects as pointers to the root class (unless you use
+something like C++ templates). Most languages offer a facility to safely determine and
+cast back an object&#146;s type. In Python, types are associated with objects not
+variables, which makes things even easier and such castings are not necessary.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Performance</b></font></p>
+
+<p>One of the frequently asked questions a programmer will ask about a Relationship
+Manager solution is &#150; isn&#146;t the central Relationship Manager a performance
+bottleneck? Yes, the extra function calls and level of indirection involved in the use of
+a Relationship Manager might reduce application performance in some larger or specialised
+applications. Here are some ideas for optimising Relationship Manager performance in these
+cases:</p>
+
+<p>T<a NAME="asd"></a>he most important decision will be where to store the association
+objects and how to scan through them quickly. The simple linear list look-up illustrated
+in the Python example, above, should be enhanced with a more elaborate scheme when
+performance becomes an issue. Passing say, a relevant class name as an extra parameter to
+all calls to Relationship Manager might allow Relationship Manager to hash into a list of
+lists, thereby reducing the search space. <i>If required, a Performance Parameter would be
+a parameter in all methods of Relationship Manager.</i></p>
+
+<p>You might consider implementing Relationship Manager as an object-oriented database
+(OODBMS), which has been designed with the relevant technology to optimise queries.</p>
+
+<p>Relationship Managers for multi threaded systems would have synchronisation issues to
+contend with. Use the multi-threading and synchronisation techniques found in more complex
+mediator solutions like Reactor and Broker. OODBMS&#146;s (object databases) in addition,
+usually have commit/rollback facilities. <i>(see Related Patterns section, below)</i>. </p>
+
+<p>You can add caching to the implementation of business objects to avoid having to query
+the Relationship Manager each and every time a relationship reference is needed. Caching
+must be carefully done, since you might be relying on a possible out of date situation.
+But when appropriate notification protocols are designed (e.g. each business object is
+designed to accept a notification from the Relationship Manager to clear it&#146;s
+caches), such a caching scheme will give performance equal to traditional spaghetti
+implementations. The downside to caching is that you are introducing complexity again into
+the business object, however a simple caching scheme, strategically used, will pay off
+bigtime. The extra memory involved in caching is not that significant, since you would
+only be storing references to objects, not duplicating the objects themselves. </p>
+
+<p>The Relationship Manager is usually a Singleton, but one could easily have multiple
+relationship managers as required, which would increase performance. If you had separate
+sets of domain objects that had no need to refer to each other, then multiple Relationship
+Managers would be OK, since there would be no requirement (or ability, without resorting
+to direct pointer references) to refer to objects outside the confines of a particular
+Relationship Manager.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Deletion Notification Issues</b></font></p>
+
+<p>In general, the Relationship Manager should be notified whenever an object is deleted,
+since it needs to remove all relationships (association objects) involving that object
+from its mapping database/list. Each business class destructor should notify the
+Relationship Manager of the deletion, or at least remove any mappings it is involved with.
+You could add a special method to Relationship Manager e.g <code>RM.Deleting(anObject) </code>to
+handle any such notifications.</p>
+
+<p>An alternative approach to deletion notification in classes that form a composite
+structure, might involve creating multiple Relationship Managers, each servicing a small
+number of classes, and being owned by the root class of the composite tree. When the root
+class is deleted, not only are the owned objects deleted, but the Relationship Manager is
+also cleanly deleted, without any notifications required. This approach assumes that none
+of the deleted classes are themselves referred to by other objects or by other
+Relationship Managers. Also, at this level of granularity, the Relationship Manager is
+more like a Relationship Object (<i>see related patterns section</i>).</p>
+<b><font FACE="Arial" SIZE="5">
+
+<p>Discussion</font><font FACE="Arial" SIZE="2"></p>
+
+<p>Paradigms</font></b></p>
+
+<p>The Relationship Manager paradigm is consistent with the insights of Relational
+Database technology and Object Database technology whose focus is on modelling
+relationships &#150; the majority, if not all of which can be expressed as simple mappings
+plus an appropriate query language/method(s). It could be argued that traditional coding
+techniques and idioms (pointers, leader/follower backpointers, collection objects etc.)
+are not only re-inventing the wheel, but ignoring it.</p>
+
+<p>Of course it may not be appropriate to implement all relationships between classes in
+the mediated way - the forces in a particular context may still encourage traditional
+solutions. However the rise in popularity of object oriented databases (which have
+similarities to the relationship manager paradigm &#150; <i>see related patterns section</i>)
+is evidence that mediated, relational database-like solutions are becoming increasingly
+important.</p>
+
+<p>Many programmers design object oriented models which then map, via a persistence layer
+to traditional relational database tables. This approach usually does not leverage the
+power of the relational database technology &#150; using databases as a mere storage
+medium, and still coding the relationships between classes in memory the traditional way
+(using pointers and lists of references etc.). Some other approaches <i>do </i>leverage
+relational database technology to perform queries, however the resulting recordsets
+require transformation into lists of objects that the application running in memory can
+actually use. In contrast, queries to a Relationship Manager always return an object or a
+list of objects - which is ideal.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p><a name="persistence1"></a>Persistence</b></font></p>
+
+<p>A Relationship Manager can easily be enhanced to persist the association objects it
+manages. Relationship Manager&#146;s association data is flat (just a list of association
+objects) no matter what the semantics of the relationship between business objects
+involved are, which makes implementing the persistence of the association objects
+straightforward and non recursive.</p>
+
+<p>By also owning the <i>objects </i>involved in the relationships it manages, the
+Relationship Manager becomes a self-contained system, where all objects and their
+relationships are known and accounted for. This eases the task of persistence, since
+persisting relationships separately from objects may create reference resolution
+difficulties. Further, if the Relationship Manager is implemented as a Component or
+&#145;Bean&#146; capable of composition and recursive streaming (e.g. a JavaBean or Delphi
+TComponent) then your whole business object model and its relationships can be persisted
+easily with a Serialization style method call e.g. <code>RMgr.saveToFilestream(&#145;c:\mymodel.out&#146;)</code>.
+For this to work, the Relationship Manager, the Business Objects and the Association
+Objects must all be components (e.g. descendants of <code>TComponent</code>) and owned by
+the Relationship Manager component, the way a GUI form owns the component widgets living
+on it. OODBMS (object database) style relationship managers provide both relationship
+management and object persistence, though usually not of a serialized nature as just
+described.</p>
+<font FACE="Arial" SIZE="2"><b>
+
+<p>Advanced Discussion</b></font></p>
+
+<p>If the use of mediators is appealing to you then consider that in order to represent
+both the basic relationships <i>between </i>Business Objects (inward/yin?) and the
+observer relationships between<i> </i>Business Objects and <i>other application objects
+e.g. GUI widgets</i>, (outward/yang?) you need both a Relationship Manager and a Change
+Manager. Together, this pair might be said to comprise two &#145;centres&#146; of an
+application architecture.</p>
+
+<p>Interestingly, when you implement them in detail, <i>relationships</i> and <i>observer
+relationships</i> are similar in quite a few ways. They are both mappings between objects.
+Also, basic relationships often require an aspect of &#145;notification&#146; in them e.g.
+a deletion notification message is sent to a business object when something it points to
+has been deleted &#150; this corresponds exactly to the way an observer object gets
+notified of an event occurring in the subject. Finally, the many observers of a single
+subject is of course a many-to-one relationship. One might therefore speculate that
+aspects of Relationship Manager and Change Manager are echoed and contained in the other
+&#150; as the Chinese say, there is a little yin in yang and vice versa. </p>
+<font FACE="Arial" SIZE="5"><b>
+
+<p>Related Patterns</b></font></p>
+
+<p>Relationship Manager is an instance of the <b>Mediator pattern - </b>it promotes loose
+coupling by keeping objects from referring to each other explicitly. A mediator
+encapsulates all interconnections, acting as the hub of communication. Relationship
+Manager is a closely related but distinct pattern because it specifically deals with those
+forces relating to programmers implementing relationship methods in business objects. </p>
+<b>
+
+<p>Change Manager</b> <i>(GOF, p. 299)</i> is also an instance of the Mediator pattern<b>.</b>
+It deals specifically with the implementation of Observer or Publisher/Subscriber
+relationships, whilst the Relationship Manager deals with the encapsulation of general
+relationships (one-to-one, one-to-many etc.).</p>
+
+<p>Other more complex mediator patterns like <b>Broker</b> <i>(POSA p. 121)</i> and <a NAME="aa"></a><b>Reactor</b> <i>(PLOPD1 p.544)</i> encapsulate more complex behaviour and
+relationships and include sophisticated event notifications systems.</p>
+
+<p>A <b>Relational Database</b> is also a mediator of relationships, however suffers from
+an impedance mismatch with objects living in memory (recordsets returned by queries need
+to be transformed into lists of objects) and thus relational databases are not readily
+suited to implementing the day to day relationships between business objects &#150; though
+they could certainly be used if the appropriate &#145;impedance translation code&#146; was
+written (either by hand or automatically e.g. by an object to relational mapper tool).
+Note also that Relationship Manager performance issues (<i>see implementation performance
+section</i>) are similar to those relational database designers face when optimising their
+query engines. </p>
+
+<p>An <b>Object-oriented database management system</b> (ODBMS) treats objects as first
+class citizens, storing objects not tables. ODBMS queries return lists of objects - not
+table recordsets. Relationship Manager is like an ODBMS, in that they both store
+relationships between objects. However Relationship Manager doesn&#146;t require that you
+store the objects themselves, like an ODBMS does. ODBMS systems also offer a range of
+transaction control and robustness functionality that pure Relationship Manager does not.
+You could certainly implement Relationship Manager using an OODBMS, and Relationship
+Manager could certainly benefit from the speed and robustness features of an OODBMS.</p>
+
+<p>The <b>Relationship Object</b> and the <b>Collection Object</b> <i>(Noble PLOPD4,
+&quot;Basic Relationship Patterns&quot;, p 80)</i> use an instance of each type for <i>each</i>
+relationship or for each one-to-many relationship respectively. The solution of
+Relationship Manager goes further and models <i>all</i> (or many) relationships in one
+central Relationship Manager. Whilst both patterns intend to help ease implementation of
+relationships between classes there are several differences in intent, forces and
+implementation:</p>
+
+<!--mstheme--></font><table BORDER="1" CELLSPACING="1" CELLPADDING="7" bordercolordark="#660000" bordercolorlight="#CC9966">
+  <tr>
+    <td WIDTH="52%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b><p ALIGN="CENTER">Relationship Manager</b><!--mstheme--></font></td>
+    <td WIDTH="48%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b><p ALIGN="CENTER">Relationship Object</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Intent:</b> Intent is to provide a global dictionary of
+    relationship mappings between all or many classes<!--mstheme--></font></td>
+    <td WIDTH="48%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">Intent is to represent a single, possibly complex and
+    constrained relationship involving two or more classes<!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Interface: </b>Interface to a Relationship Manager is
+    generic &#150; simply a pair of add/remove relationship methods and a single query method
+    which returns a list of objects e.g.<code><p>FindObjects(from, to, relId) : TList</code><!--mstheme--></font></td>
+    <td WIDTH="48%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">Interface for a Relationship Object is flexible, and depends
+    on the situation and the classes involved. Method names might be customised to suit the
+    context. <p>Note that Collection Objects (which are Relationship Objects) typically <i>will
+    </i>have similar interfaces e.g. Java <code>vector</code>, Delphi <code>TList</code> all
+    have similar methods relating to add/remove/find/indexing/pack/sort etc.<!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Scope of implementation: </b>No complexity encapsulated by
+    a Relationship Manager. No &#145;relationship constraints&#146; are maintained or
+    enforced. It just stores mapping pairs and responds to generic queries<!--mstheme--></font></td>
+    <td WIDTH="48%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">Encapsulates complexity &#150; one of the intents of
+    Relationship Object is to encapsulate the rules and constraints of a possibly complex
+    relationship amongst two or more classes<!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times"><b>Cardinality: </b>One Relationship Manager for all
+    relationships. Usually a global singleton offering generic mapping services.<p>Note:
+    Multiple RMs can be used to service different varieties of classes, if there are
+    efficiency or conceptual separation concerns.<!--mstheme--></font></td>
+    <td WIDTH="48%" VALIGN="TOP"><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">One Relationship Object per relationship: A Relationship
+    Object needs to be created for each relationship (that you want to represent in this way).
+    Each Relationship Object is usually owned by the class it is serving. Alternatively the
+    interface of the Relationship Object may be merged with an existing business class
+    interface.<!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Book Antiqua, Times New Roman, Times">
+
+<p>Note: Relationship Object and Relationship Manager can complement each other, working
+together when complex relationship constraints need to be implemented. The Relationship
+Manager can be used for storing all the relationships, and the Relationship Object used to
+encapsulate any particularly complex and constrained relationships. The Relationship
+Object would use the &#145;low level&#146; services of the Relationship Manager, typically
+calling Relationship Manager as many times as it needs to in order to work out and manage
+constraints on the relationship it is managing.</p>
+
+<p>It is also worth noting that the implementation of Relationship Object can often be
+similar to Relationship Manager, except there is no need for a <i>relationship id</i> to
+distinguish between relationships, since each Relationship Object is dedicated to looking
+after a just one relationship.</p>
+<font FACE="Arial" SIZE="5"><b>
+
+<p>Known Uses </b></font></p>
+
+<p>&#145;Web Nuggets&#146; is an application that uses both a Relationship Manager and a
+Change Manager to model complex web searches and display results in a GUI.</p>
+
+<p>A Relationship Manager is used in the modelling of Australia&#146;s national
+electricity grid. The grid is composed of elements like regions, stations, generators,
+transformers and lines which are all related in various ways to each other.</p>
+
+<p>Global dictionaries are often used to store relationships between objects.</p>
+
+<p>Any Relational Database is a kind of Relationship Manager &#150; it is a central
+mediator / API for storing and retreiving information about relationships. An OODBMS
+(object oriented databases) is both a relationship manager and an object manager, with
+persistence and transactional safety features (rollback/commit etc).</p>
+
+<p><a href="http://skunkweb.sourceforge.net/PyDO/"><strong>PyDO</strong></a> which seems
+to me to be another implementation of RM pattern, since it implements relationships
+between objects as simple one line calls to a central RM.&nbsp; In the case of PyDO,
+&nbsp; the RM happens to be a real relational database, so you get automatic persistence,
+too.&nbsp; More discussion on this <a href="rm1.htm#PyDO">here</a>.</p>
+
+<p>Zope 3 Object Hub is considering using a variation of this pattern. See wiki
+discussion at <a href="http://dev.zope.org/Wikis/DevSite/Projects/ComponentArchitecture/RelationManager">http://dev.zope.org/Wikis/DevSite/Projects/ComponentArchitecture/RelationManager</a></p>
+
+<p>Also referred to by <a href="http://www.pythonware.com/daily/">http://www.pythonware.com/daily/</a>&nbsp;</p>
+
+<p>Go to <a href="rm1.htm">Discussion of Relationship Manager Pattern</a> </p>
+<font FACE="Arial" SIZE="5"><b>
+
+<p>Bibliography </b></font></p>
+
+<p>Gamma, Helm, Johnson, Vlissides (GOF), Design Patterns &#150; &quot;Singleton&quot;, p.
+127</p>
+
+<p>Gamma, Helm, Johnson, Vlissides (GOF), Design Patterns &#150; &quot;Change
+Manager&quot;, p. 299</p>
+
+<p>James Noble, &quot;Basic Relationship Patterns&quot;, Pattern Languages of Program
+Design #4<br>
+(PLOPD4), p 73.</p>
+
+<p>Buschmann et. al. &quot;Broker&quot; Pattern Oriented Software Architecture (POSA) p.
+121<a NAME="bb"></a></p>
+
+<p>Schmidt 1995, &quot;Reactor&quot;, Pattern Languages of Program Design (PLOPD1) p.544</p>
+
+<p>Fowler &quot;Change Unidirectional Association to Bidirectional&quot; Refactoring p.197</p>
+
+<p>Go to <a href="rm1.htm">Discussion of Relationship Manager Pattern</a> </p>
+<b><font FACE="Arial" SIZE="5">
+
+<p>APPENDIX</font><font FACE="Arial" SIZE="2"></p>
+
+<p>Easy Tips on Reading Python Code</font></b></p>
+
+<p>Python is a simple, straightforward and elegant language. It uses standard conventions
+of accessing methods and properties and is fully OO. Types are associated with objects not
+variables, so you don&#146;t need to declare variables. Functions are called like <code>afunction(param1,
+param2)</code> and objects are created from classes the same way e.g. <code>o = MyClass()</code>.
+Python is case sensitive.</p>
+
+<p>There are no <code>begin end</code> reserved words or <code>{ } </code>symbols in
+Python to indicate code blocks &#150; this is done through indentation. The colon in <code>if
+lzt:</code> simply means &#145;then&#146;. The idiom of testing objects (rather than
+expressions) in an if statement makes sense as python treats empty lists, None and 0 as
+false. </p>
+
+<p>Python understands named parameters e.g. In a method call, <code>afunction(From=None)</code>
+means you are passing None <i>(null / nil) </i>as the &#145;From&#146; parameter, whilst
+in a method definition <code>From=None </code>means that if the caller does not supply
+this parameter, then it will default to None.</p>
+
+<p>The first argument of all methods defined inside classes must be &#145;self&#146;. This
+argument fills the role of the reserved word <i>this </i>in C++ or Java or <i>self</i> in
+Delphi. Most languages supply this parameter (a reference to the current instance)
+implicitly whereas Python makes this concept explicit. At runtime this parameter is
+supplied by the system, not the caller of the method, thus the <code>def AddOrder(self,
+order) </code>method in reality takes <i>one </i>parameter when calling it: <code>AddOrder(
+order ).</code></p>
+
+<p>The statement <code>pass </code>means <i>do nothing</i><code>. </code></p>
+
+<p>You can return multiple items at once <i>e.g.</i> <code>return (2, 50) </code>and also
+assign multiple items at once <i>e.g.</i> <code>x = y = z = 0</code> or even expressions
+like <code>result, status, errmsg = myfunction(1, 90)</code>.</p>
+
+<p>Other class files/modules are imported using <code>import somefile. __init__</code><font FACE="Courier New" SIZE="3"> </font>methods are simply constructors. Finally, a <i>lambda </i>is
+just a one line function that reads <code>functionname = lambda paramlist :
+returnedexpression</code><font FACE="Courier New" SIZE="3">. </p>
+
+<p></font>&nbsp;</p>
+
+<p>Both <b>Python</b> and JPython (Java Python, now called <b>Jython</b>) are open source,
+free and available from <a HREF="http://www.python.org/">www.python.org</a></p>
+
+<p>&nbsp;</p>
+
+<p><font FACE="Arial" SIZE="2">&nbsp;</p>
+
+<p>-Andy Bulka<br>
+<a HREF="mailto:abulka@netspace.net.au">abulka@netspace.net.au</a><br>
+6/32 Loller street,<br>
+Brighton VIC 3186, Australia<br>
+Ph: +613-9593-1389</p>
+
+<p>Copyright (c) 2001, Andy Bulka, All Rights Reserved.<br>
+Permission granted to reproduce this work verbatim in its entirety<br>
+for non-commercial use provided this copyright notice appears.</font></p>
+
+<!--msthemeseparator--><p align="center"><img src="_themes/expeditn/exphorsa.gif" width="600" height="10"></p>
+
+<p>Go to <a href="rm1.htm">Discussion of Relationship Manager Pattern</a> 
+
+<p>This page may not print that well (blame FrontPage? - any suggestions
+appreciated) or download the <a href="AndyBulkaRelationshipManagerPattern.pdf">printable
+pdf version</a>. </p>
+
+<p>Viewed about <b><font size="5"> 600 </font></b>times since August 2001. 
+
+<p>Viewed about <!--webbot bot="HitCounter"
+u-custom i-digits="0" i-image="0"
+PREVIEW="&lt;strong&gt;[Hit Counter]&lt;/strong&gt;" i-resetvalue="50" startspan --><img src="_vti_bin/fpcount.exe/andypatterns/?Page=RM.htm|Image=0" alt="Hit Counter"><!--webbot bot="HitCounter" endspan i-checksum="45027" -->
+&nbsp; times since 22nd October 2002 (since being referred to by <a href="http://www.pythonware.com/daily/">http://www.pythonware.com/daily/</a>&nbsp;) 
+
+<p>&nbsp;<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table></body>
+</html>

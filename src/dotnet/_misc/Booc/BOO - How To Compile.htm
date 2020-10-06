@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <link rel="stylesheet" href="http://www.codehaus.org/codehaus-style.css" type="text/css">
+    
+    <title>BOO - How To Compile</title>
+  </head>
+
+  <body style="margin: 1em">
+    <div id="page_title">BOO - How To Compile</div>
+    <div>
+  <div id="Content">
+    <p>There are basically three ways to compile your boo code:</p>
+    <ul>
+      <li>through the <b>booc</b> utility;</li>
+      <li>through the <b>booc</b> task (one of the <a href="/Nant+Tasks" title="Nant Tasks">nant tasks</a>);</li>
+      <li>through the Boo.Lang.Compiler API;</li>
+    </ul>
+    <h2><a name="HowToCompile-boocutility"></a>booc utility</h2>
+    <p class="paragraph">
+      <div class="preformatted">
+        <div class="preformattedContent"><pre>booc -r:System.Windows.Forms -out:build/HelloForms.exe examples/helloforms.boo
+
+booc -t:library -out:build/MyLibrary.dll alibrary.boo
+</pre></div>
+      </div>
+    </p>
+    <h2><a name="HowToCompile-Commandlinearguments"></a>Command line arguments</h2>
+    <ul>
+      <li><em>-v</em>, <em>-vv</em> and <em>-vvv</em> - Compiles using verbose mode</li>
+      <li>-r:&lt;reference_name&gt; - adds a reference, where &lt;reference_name&gt; is the library's name. For example:</li>
+    </ul>
+    <p class="paragraph">
+      <div class="preformatted">
+        <div class="preformattedContent"><pre>booc -r:Utilities.dll MyProgram.boo
+</pre></div>
+      </div>
+    </p>
+    <ul>
+      <li>-o:&lt;file_name_to_generate&gt;: Forces the generated file to be the specified by &lt;file_name_to_generate&gt;. So,</li>
+    </ul>
+    <p class="paragraph">
+      <div class="preformatted">
+        <div class="preformattedContent"><pre>booc -o:SpongeBob.exe MyProgram.boo
+</pre></div>
+      </div>
+    </p>
+    <p>will create an .exe file named <em>SpongeBob.exe</em> instead of <em>MyProgram.exe</em></p>
+    <ul>
+      <li>-t:&lt;type_name_to_generate&gt; - Forces the generation of &lt;type_name_to_generate&gt;. Options may be <em>library</em> - to create a .dll file -, <em>exe</em> and <em>winexe</em> to create executables.</li>
+    </ul>
+    <ul>
+      <li>-p:&lt;pipeline&gt; - adds the step &lt;pipeline&gt; to the compile process</li>
+      <li>-c:&lt;culture&gt; - <em>CultureInfo</em> to use</li>
+      <li>-srcdir:&lt;source_files&gt; - specify where to find the source files.</li>
+      <li>-resource:&lt;file.resources&gt; - specify a resource file</li>
+    </ul>
+    <h2><a name="HowToCompile-booctask"></a>booc task</h2>
+    <p class="paragraph">
+      <div class="code">
+        <div class="codeContent"><pre class="code-xml"><span class="code-tag">&lt;booc target=<span class="code-quote">&quot;winexe&quot;</span> output=<span class="code-quote">&quot;build/HelloForms.dll&quot;</span>&gt;</span>
+   <span class="code-tag">&lt;sources basedir=<span class="code-quote">&quot;examples&quot;</span>&gt;</span>
+      <span class="code-tag">&lt;include name=<span class="code-quote">&quot;HelloForms.boo&quot;</span> /&gt;</span>
+   <span class="code-tag">&lt;/sources&gt;</span>
+
+   <span class="code-tag">&lt;references&gt;</span>
+      <span class="code-tag">&lt;include name=<span class="code-quote">&quot;System.Window.Forms.dll&quot;</span> /&gt;</span>
+   <span class="code-tag">&lt;/references&gt;</span>
+<span class="code-tag">&lt;/booc&gt;</span></pre></div>
+      </div>
+    </p>
+    <p>Look <a href="/Nant+Tasks" title="Nant Tasks">here</a> for details.</p>
+    <h2><a name="HowToCompile-Boo.Lang.CompilerAPI"></a>Boo.Lang.Compiler API</h2>
+    <p class="paragraph">
+      <div class="code">
+        <div class="codeContent"><pre class="code-java"><span class="code-keyword">import</span> Boo.Lang.<span class="code-object">Compiler</span>
+<span class="code-keyword">import</span> Boo.Lang.<span class="code-object">Compiler</span>.IO
+<span class="code-keyword">import</span> Boo.Lang.<span class="code-object">Compiler</span>.Pipelines
+
+<span class="code-comment">// create a compiler object
+</span>compiler = BooCompiler()
+
+<span class="code-comment">// set the inputs
+</span>compiler.Parameters.Input.Add(StringInput(<span class="code-quote">&quot;&lt;script&gt;&quot;</span>, <span class="code-quote">&quot;print('Hello!')&quot;</span>))
+
+<span class="code-comment">// set the output
+</span>compiler.Parameters.OutputAssembly = <span class="code-quote">&quot;test.exe&quot;</span>
+
+<span class="code-comment">// configure the pipeline
+</span>compiler.Parameters.Pipeline = CompileToFile()
+
+<span class="code-comment">// run
+</span>result = compiler.Run()
+
+<span class="code-comment">// check <span class="code-keyword">for</span> errors
+</span>print(join(result.Errors)) <span class="code-keyword">if</span> len(result.Errors)</pre></div>
+      </div>
+    </p>
+    <h2><a name="HowToCompile-Running%26CompilingbooprogramsthatuseMonoorGTK%23onWindows"></a>Running &amp; Compiling boo programs that use Mono or GTK# on Windows</h2>
+    <p>Here are instructions for running and compiling boo scripts that use Mono-only assemblies (such as Mono.GetOptions.dll or gtk-sharp.dll) on a Windows machine. I'm assuming you are already familiar with using the Windows command prompt (the <span class="nobr"><a href="http://www.microsoft.com/windowsxp/downloads/powertoys/xppowertoys.mspx" rel="nofollow">open command here XP powertoy</a></span> is helpful).</p>
+    <ul>
+      <li><span class="nobr"><a href="http://www.mono-project.com/downloads/" rel="nofollow">Download</a></span> the Windows installer for Mono that includes GTK# and XSP and run it.</li>
+    </ul>
+    <ul>
+      <li>You might want to add mono to your Path environment variable. Right click My Computer, go to properties, advanced, environment variables. Edit Path by appending a semicolon (; ) followed by &quot;C:\Program Files\Mono-1.0.4\bin&quot; (no quotes).</li>
+    </ul>
+    <ul>
+      <li>You can test two scripts in the examples directory to see if it is working: <div class="code">
+          <div class="codeContent"><pre class="code-java">mono bin\booc.exe -r:gtk-sharp -out:bin\gtk.exe examples\gtk.boo
+
+mono bin\booc.exe -r:Mono.GetOptions -out:bin\GetOptions.exe examples\GetOptions.boo</pre></div>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li>Then run the applications to test them. They should run cross-platform. <div class="code">
+          <div class="codeContent"><pre class="code-java">mono bin\GetOptions.exe</pre></div>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li>If you want the gtk-sharp or mono.getoptions dlls for redistributing your app (although see the previous update note: now you can't run a mono app in .NET), you will find the dlls you need in C:\Program Files\Mono-1.0.2\lib\mono and C:\Program Files\Mono-1.0.2\lib\mono\1.0.</li>
+    </ul>
+    <ul>
+      <li>You can now develop completely cross-platform applications even if you don't have access to a Linux machine.</li>
+    </ul>
+    <h2><a name="HowToCompile-DistributingYourBooApporLibrary%2CMergingBoo.Lang.dll"></a>Distributing Your Boo App or Library, Merging Boo.Lang.dll</h2>
+    <p>Pretty much any application or dll library you compile in boo will depend on the Boo.Lang.dll. You need to include that dll with your application or library when distributing it.</p>
+    <p>You can use a tool called ILMerge to combine the Boo.Lang.dll into your exe or dll. See <a href="/Merge+Boo.Lang.dll+into+your+exe+or+dll" title="Merge Boo.Lang.dll into your exe or dll">Merge Boo.Lang.dll into your exe or dll</a>.</p>
+  </div>
+</div>
+
+  </body>
+
+</html>
+

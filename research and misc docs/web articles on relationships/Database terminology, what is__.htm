@@ -1,0 +1,342 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3 -->
+<HTML lang=en><HEAD><TITLE>Database terminology, what is...</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="database-design, definitions, explenation, terms, database design, table design" 
+name=KEYWORDS>
+<META 
+content="What is a key, foreign key, comound key, etc. An explanation and many other database terms..." 
+name=DESCRIPTION>
+<META content=index,follow name=robots><LINK 
+href="Database terminology, what is___files/sumit.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<TABLE cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD class=navbarlogo><A href="http://www.sum-it.nl/enindex.php3"><IMG 
+      height=37 alt="SUMit homepage" 
+      src="Database terminology, what is___files/sumit.gif" width=140 
+      border=0></IMG></A></TD>
+    <TD class=navbarhor><A 
+      href="http://www.sum-it.nl/enindex.php3">http://www.sum-it.nl/enindex.php3</A> 
+      &gt; <A href="http://www.sum-it.nl/enmanpow.php3">Manpower</A> &gt; <A 
+      href="http://www.sum-it.nl/cursus/enindex.php3">Courses</A><BR>&gt; <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/index.php3">DB Design 
+      course</A> &gt; <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro010.php3">Introduction</A> 
+      &gt; Terminology</TD>
+    <TD class=navbarcel><A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro020.htm">Previous</A> 
+      <A href="http://www.sum-it.nl/cursus/dbdesign/english/intro020.htm"><IMG 
+      height=17 alt=Terug 
+      src="Database terminology, what is___files/backward.gif" width=17></A> <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro040.php3"><IMG 
+      height=17 alt=Volgende 
+      src="Database terminology, what is___files/forward.gif" width=17></A> <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro040.php3">Next</A><BR><A 
+      href="http://www.sum-it.nl/cursus/dbdesign/hollands/intro030.php3">Nederlands</A> 
+      · <A title="Search www.sum-it.nl" 
+      href="http://www.sum-it.nl/ensearch.php3">Search...</A></TD></TR></TBODY></TABLE>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>
+      <H1>Database Terminology</H1>
+    <TD class=navbarver rowSpan=19>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD noWrap><A title=Introduction 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/intro010.php3"><IMG 
+            height=134 alt=Database 
+            src="Database terminology, what is___files/database.gif" width=103 
+            border=0></A> 
+            <P>Introduction <BR><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/intro010.php3"><IMG 
+            height=17 alt=Problems 
+            src="Database terminology, what is___files/backward.gif" width=17 
+            align=top border=0></A> <A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/intro010.php3">Problems...</A> 
+            <BR><IMG height=17 alt=Terminology 
+            src="Database terminology, what is___files/current.gif" width=17 
+            align=top border=0> Terminology <BR><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/intro040.php3"><IMG 
+            height=17 alt=Method 
+            src="Database terminology, what is___files/forward.gif" width=17 
+            align=top border=0></A> <A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/intro040.php3">Method</A> 
+
+            <P><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/scope010.htm">Scope</A> 
+
+            <P><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/logis010.php3">Logical 
+            Design...</A> 
+            <P><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/techn010.htm">Technical 
+            Optimisation...</A> 
+            <P><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/imple010.htm">Implementation...</A> 
+
+            <P><A 
+            href="http://www.sum-it.nl/cursus/dbdesign/english/slot010.htm">End</A> 
+            </P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=colour2>
+      <H2><A name=column>Column</A></H2><IMG height=33 alt=Column 
+      src="Database terminology, what is___files/column.gif" width=37 
+      align=right> One <EM>column</EM> (data element) contains data of one and 
+      the same kind, for example the column postcode. 
+    <TD rowSpan=2>
+      <H2><A name=compound>Compound Key</A></H2>A <EM>compound key</EM> 
+      (composite key) is a <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#key">key</A> 
+      that consists of multiple columns, because one <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#column">column</A> 
+      is not sufficiently unique. 
+      <P>Example of a compound key: a Dutch postcode &amp; house number jointly 
+      identify an address in the Netherlands. </P>
+  <TR>
+    <TD class=colour1 rowSpan=2>
+      <H2><A name=database>Database</A></H2><IMG height=134 alt=Database 
+      src="Database terminology, what is___files/database.gif" width=103 
+      align=right> A <EM>database</EM> is a collection of <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">tables</A>, 
+      with related data. 
+  <TR>
+    <TD class=colour2 rowSpan=2>
+      <H2><A name=fkey>Foreign Key</A></H2><IMG height=77 alt="Foreign Key" 
+      src="Database terminology, what is___files/frgnkey.gif" width=83 
+      align=right> A <EM>foreign key</EM> is the linking pin between two tables. 
+
+      <P>Given a value from a row in one <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">table</A> 
+      you can access another table to find the right <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">row</A> 
+      with related data. 
+      <P>So, one table gives the key for the other, 'foreign' table. </P>
+  <TR>
+    <TD rowSpan=2>
+      <H2><A name=highfreq>High Frequency Function</A></H2>A high frequency 
+      function is a function that is used very often, hundreds or even thousands 
+      times per day. 
+  <TR>
+    <TD class=colour1 rowSpan=2>
+      <H2><A name=index>Index</A></H2><IMG height=88 alt=Index 
+      src="Database terminology, what is___files/index.gif" width=117 
+      align=right> An <EM>index</EM> in a <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#database">database</A> 
+      resembles an index at the back of a book. 
+      <P>Using a keyword you can find the right page number of <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">rows</A>, 
+      within a <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">table</A>. 
+      </P>
+  <TR>
+    <TD class=colour2 rowSpan=2>
+      <H2><A name=join>Join</A></H2>With a <EM>join</EM> you combine <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#column">columns</A> 
+      from different <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">tables</A> 
+      to one big temporary result table. 
+      <P>For instance, make an overview of readers, with the name of the 
+      newspapers that they are subscribed to. </P>
+  <TR>
+    <TD rowSpan=2>
+      <H2><A name=key>Key</A></H2><IMG height=33 alt=Key 
+      src="Database terminology, what is___files/key.gif" width=37 align=right> 
+      A <EM>key</EM> consists of one or more <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#column">columns</A>. 
+
+      <P>If you know the right key value you can find the right <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">row</A> 
+      with the desired information. The key is like a real world key, that gives 
+      you access to the right row. 
+      <P>A key is unique. A key value can not occur twice in one <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">table</A>. 
+      With a key you can find at most one row. </P>
+  <TR>
+    <TD class=colour1 rowSpan=2>
+      <H2><A name=many2many>Many to Many Relationship</A></H2><EM>Many to 
+      many</EM> relations are everywhere. <IMG height=43 
+      alt="Unclear Many to Many" 
+      src="Database terminology, what is___files/man2man1.gif" width=103 
+      align=right> One newspaper has many readers for example, and one reader 
+      reads many newspapers. 
+      <P><IMG height=56 alt="Be aware" 
+      src="Database terminology, what is___files/awas.gif" width=68 align=left 
+      border=0> A many-to-many relation is unclear. Many-to-many relations often 
+      are a sign that further analysis is required. 
+      <P>Most of the time the relation can be made a lot clearer, by adding a 
+      link table, at the 'top' or the 'bottom'. 
+      <P><IMG height=89 alt="Many to Many with link at the top" 
+      src="Database terminology, what is___files/man2man2.gif" width=76 
+      align=left> For a free house-to-house magazine the link to the reader will 
+      be the area, at the top. <IMG height=128 
+      alt="Many to Many with link at teh bottom" 
+      src="Database terminology, what is___files/man2man3.gif" width=76 
+      align=right> 
+      <P>For a paid newspaper, the link is the subsription, at the bottom. </P>
+  <TR>
+    <TD class=colour2 rowSpan=2>
+      <H2><A name=many2one>Many to One Relationship</A></H2><IMG height=77 
+      alt="Many to One" src="Database terminology, what is___files/one2many.gif" 
+      width=83 align=right> A <EM>Many to One</EM> relation is the same as <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#one2many">one-to-many</A>, 
+      but from a different viewpoint. 
+      <UL class=detail>
+        <LI><STRONG>Many</STRONG> readers live in <STRONG>one</STRONG> area. 
+        <LI><STRONG>Many</STRONG> subscriptions can be of <STRONG>one</STRONG> 
+        and the same reader. 
+        <LI><STRONG>Many</STRONG> subscriptions are for <STRONG>one</STRONG> and 
+        the same newspaper. </LI></UL>
+  <TR>
+    <TD rowSpan=2>
+      <H2><A name=one2many>One to Many Relationship</A></H2><IMG height=77 
+      alt="One to Many" src="Database terminology, what is___files/one2many.gif" 
+      width=83 align=right> Most relations between <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">tables</A> 
+      are <EM>one-to-many</EM>. 
+      <P>Example: 
+      <UL class=detail>
+        <LI><STRONG>One</STRONG> area can be the habitat of 
+        <STRONG>many</STRONG> readers. 
+        <LI><STRONG>One</STRONG> reader can have <STRONG>many</STRONG> 
+        subscriptions. 
+        <LI><STRONG>One</STRONG> newspaper can have <STRONG>many</STRONG> 
+        subscriptions. </LI></UL>
+  <TR>
+    <TD class=colour1 rowSpan=2>
+      <H2><A name=one2one>One to One Relationship</A></H2><IMG height=33 
+      alt="One to One" src="Database terminology, what is___files/one2one.gif" 
+      width=103 align=right> A <EM>one-to-one</EM> relation is exception in <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#database">databases</A>. 
+
+      <P>It can occur, but it's often a sign that the database design has 
+      opportunities for improvement. </P>
+  <TR>
+    <TD class=colour2 rowSpan=2>
+      <H2><A name=rdbms>RDBMS</A></H2>A <EM>Relationshipal DataBase Management 
+      System</EM> is software that 
+      <UL class=detail>
+        <LI>enables you to <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/imple010.htm">implement</A> 
+        a <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#database">database</A> 
+        with <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">tables</A>, 
+        <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#column">columns</A>, 
+        and <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#index">indexes</A>. 
+
+        <LI>Guarantees the <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#refint">Referential 
+        Integrity</A> between <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">rows</A> 
+        of various <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#table">tables</A>. 
+
+        <LI>Updates the <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#index">indexes</A> 
+        automatically. 
+        <LI>Interprets an SQL query and combines information from various 
+        tables. 
+        <UL></UL></LI></UL>
+  <TR>
+    <TD rowSpan=2>
+      <H2><A name=redun>Redundancy</A></H2>Storing data twice, redundantly to 
+      make the system faster. 
+      <P>Which data to store twice is a subject in <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/techn040.htm">the 
+      chapter Denormalise</A>. </P>
+  <TR>
+    <TD class=colour1 rowSpan=2>
+      <H2><A name=refint>Referential Integrity</A></H2><EM>Referential 
+      Integrity</EM> makes sure that a <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#fkey">foreign 
+      key</A> value always points to an existing <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">row</A>. 
+      <IMG height=77 alt="A broken foreign key" 
+      src="Database terminology, what is___files/refinteg.gif" width=83 
+      align=right> 
+      <P>A "dead" link as shown in the picture can not happen anymore. 
+      <P>A number of rules can enforce referential integrity. 
+      <UL class=detail>
+        <LI>When creating or updating a row the system checks whether the 
+        foreign keys have valid values. </LI></UL>In addition <STRONG>the database 
+      designer chooses</STRONG> an action for delete: 
+      <UL class=detail>
+        <LI>It's <EM>only possible</EM> to delete a row in the one-table when 
+        there a no more related many-rows. 
+        <LI>When deleting a row the <A 
+        href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#rdbms">RDBMS</A> 
+        <EM>automatically</EM> deletes the related data in the many table. This 
+        is called a <EM>cascaded delete</EM>. 
+        <LI>When deleting the last 'many' the RDBMS <EM>automatically</EM> 
+        deletes the related 'one' row. </LI></UL>
+  <TR>
+    <TD class=colour2 rowSpan=2>
+      <H2><A name=row>Row</A></H2><IMG height=33 alt=Row 
+      src="Database terminology, what is___files/row.gif" width=37 align=right> 
+      A <EM>row</EM> <SPAN class=detail>(= tuple, entry)</SPAN> is a group of 
+      related data, for example the data of one subscription. 
+      <P>One row can not contain lists. 
+      <TABLE class=credit align=center>
+        <TBODY>
+        <TR>
+          <TD>(advertisement) 
+            <H3>SUMit</H3><A title="Quickly generate an excellent roster" 
+            href="http://www.sum-it.nl/enroster.html"><IMG height=113 
+            alt="Roster software that generates a roster for you" 
+            src="Database terminology, what is___files/rgenerator.gif" width=115 
+            border=0></A> <BR><A class=slogan 
+            href="http://www.sum-it.nl/enroster.html">Rule Based<BR>Roster 
+            Software</A> </TD></TR></TBODY></TABLE></P></TD>
+  <TR>
+    <TD rowSpan=2>
+      <H2><A name=table>Table</A></H2>
+      <TABLE border=8>
+        <TBODY>
+        <TR>
+          <TH>Web site</TH>
+          <TH>Company</TH></TR>
+        <TR class=colour1>
+          <TD><A class=extern 
+            href="http://www.sum-it.nl/enindex.php3">http://www.sum-it.nl/enindex.php3</A></TD>
+          <TD>SUMit</TD></TR>
+        <TR class=colour2>
+          <TD><A class=extern 
+            href="http://www.comwave.nl/">http://www.comwave.nl/</A></TD>
+          <TD>Comwave</TD></TR>
+        <TR class=colour1>
+          <TD><A class=extern 
+            href="http://www.lankelma.nl/">http://www.lankelma.nl/</A></TD>
+          <TD>Lankelma</TD></TR></TBODY></TABLE>A <EM>table</EM> is a matrix with 
+      data. A table in a database looks like a simple spreadsheet. 
+      <P>The example above has 3 <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#row">rows</A> 
+      and 2 <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro030.php3#column">columns</A>. 
+      </P></TD>
+  <TR>
+    <TD class=credit>
+      <H2>Looking for other database terms?</H2>Have a look at the following web 
+      sites: 
+      <UL>
+        <LI><A class=extern 
+        href="http://info.astrian.net/jargon/">info.astrian.net/jargon/</A> 
+        <LI><A class=extern 
+        href="http://www.webopedia.com/">http://www.webopedia.com/</A> 
+        <LI><A class=extern 
+        href="http://dxsting.cern.ch/sting/glossary.html">dxsting.cern.ch/...</A> 
+
+        <LI><A class=extern 
+        href="http://www.google.com/">http://www.google.com/</A> </LI></UL></TD>
+  <TR>
+    <TD class=navbarcel colSpan=2>Next: <A 
+      href="http://www.sum-it.nl/cursus/dbdesign/english/intro040.php3">Method</A> 
+    </TD></TR></TBODY></TABLE></BODY></HTML>

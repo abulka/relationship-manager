@@ -1,0 +1,348 @@
+BLOCKQUOTE {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+INPUT {
+	FONT: 8pt arial; VERTICAL-ALIGN: middle
+}
+SELECT {
+	FONT: 8pt arial; VERTICAL-ALIGN: middle
+}
+A:link {
+	COLOR: #003399; TEXT-DECORATION: underline
+}
+.header {
+	FONT: 8pt arial; COLOR: #ffffff; BACKGROUND-COLOR: #333366
+}
+.headeryellow {
+	FONT: 8pt arial; COLOR: #ffcc00; BACKGROUND-COLOR: #333366
+}
+.tab {
+	BACKGROUND-IMAGE: url(/vsm/images/tab_background.gif); VERTICAL-ALIGN: baseline
+}
+.tabon {
+	BACKGROUND-IMAGE: url(/vsm/images/tab_on_background.gif); FONT: bold 9pt arial; VERTICAL-ALIGN: baseline; COLOR: #000000
+}
+A.tabtext {
+	FONT: bold 9pt arial; COLOR: #000000; TEXT-DECORATION: none
+}
+.navheader {
+	PADDING-LEFT: 2px; MARGIN-BOTTOM: 0pt; FONT: bold 8pt arial; COLOR: #000000; BACKGROUND-COLOR: #cccccc
+}
+.navheaderline {
+	BACKGROUND-COLOR: #003399
+}
+.navsteptext {
+	FONT: 8pt arial; COLOR: #000000
+}
+.navstepred {
+	FONT: bold 8pt arial; COLOR: #ff3333
+}
+.navsignup {
+	PADDING-LEFT: 5px; FONT: 8pt arial; COLOR: #000000; BACKGROUND-COLOR: #ffffcc
+}
+.navcover {
+	FONT: 8pt arial; COLOR: #003399; TEXT-ALIGN: center
+}
+.navlinkbold {
+	MARGIN-BOTTOM: 0pt; FONT: 8pt arial
+}
+A.navlinkbold {
+	FONT: bold 8pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.navlinkbold:hover {
+	TEXT-DECORATION: underline
+}
+A.navlink {
+	PADDING-LEFT: 3px; FONT: 8pt arial; COLOR: #000000; TEXT-DECORATION: none
+}
+A.navlink:hover {
+	TEXT-DECORATION: underline
+}
+A.navstepred {
+	FONT: bold 8pt arial; COLOR: #ff3333
+}
+A.toc {
+	FONT: 8pt arial; COLOR: #000000; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+.subscribe1 {
+	TEXT-ALIGN: right
+}
+A.subscribe1 {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.subscribe1:hover {
+	TEXT-DECORATION: underline
+}
+.updated {
+	FONT: bold 8pt arial; COLOR: #003399
+}
+.updatedtime {
+	FONT: 8pt arial; COLOR: #000000
+}
+.sectiontitle {
+	FONT: bold 13.5pt times; VERTICAL-ALIGN: bottom; COLOR: #003399
+}
+.sectiontitleline {
+	BACKGROUND-IMAGE: url(/vsm/images/blue_line.gif)
+}
+.maincontentcategory {
+	FONT: bold 10pt arial; COLOR: #666666
+}
+.maincontentcategoryred {
+	FONT: bold 10pt arial; COLOR: #cc0000
+}
+.maincontent {
+	FONT: 10pt arial; COLOR: #000000
+}
+.subcontent {
+	FONT: 10pt arial; COLOR: #000000
+}
+.sponsorheader {
+	FONT: bold 9pt arial; COLOR: #333366
+}
+.sponsor {
+	FONT: bold 10pt arial; COLOR: #000000
+}
+.sponsortext {
+	FONT: 10pt arial; COLOR: #000000
+}
+.sponsortextlink {
+	FONT: 8pt arial; COLOR: #003399
+}
+.subscribe {
+	TEXT-ALIGN: center
+}
+A.maincontenttopheader {
+	FONT: bold 20pt times; COLOR: #000000; TEXT-DECORATION: none
+}
+A.maincontenttopheader:hover {
+	TEXT-DECORATION: underline
+}
+A.maincontenttopbullets {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.maincontenttopbullets:hover {
+	TEXT-DECORATION: underline
+}
+A.maincontentheader {
+	FONT: bold 14pt times; COLOR: #000000; TEXT-DECORATION: none
+}
+A.maincontentheader:hover {
+	TEXT-DECORATION: underline
+}
+A.subcontentheader {
+	FONT: bold 14pt times; COLOR: #000000; TEXT-DECORATION: none
+}
+A.subcontentheader:hover {
+	TEXT-DECORATION: underline
+}
+A.readmore {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.readmore:hover {
+	TEXT-DECORATION: underline
+}
+A.codelink {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+.codelink {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.codelink:hover {
+	TEXT-DECORATION: underline
+}
+A.sponsorheader {
+	FONT: bold 9pt arial; COLOR: #333366; TEXT-DECORATION: none
+}
+A.sponsorheader:hover {
+	TEXT-DECORATION: underline
+}
+A.sponsortextlinkbold {
+	FONT: bold 8pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.sponsortextlinkbold:hover {
+	TEXT-DECORATION: underline
+}
+A.subscribe {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.subscribe:hover {
+	TEXT-DECORATION: underline
+}
+A.subscribetop {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.subscribetop:hover {
+	TEXT-DECORATION: underline
+}
+.featureheader {
+	FONT: bold 14pt times; COLOR: #003399
+}
+.featureitalic {
+	FONT: bold italic 12pt times; COLOR: #cccccc
+}
+A.underline {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.underline:hover {
+	TEXT-DECORATION: underline
+}
+.resourcetableborder {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; BORDER-LEFT: #666666 1px solid; BORDER-BOTTOM: #666666 1px solid
+}
+.resourcetable {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; BACKGROUND: #cccccc; MARGIN-BOTTOM: 5pt; MARGIN-LEFT: 5pt; BORDER-LEFT: #666666 1px solid; BORDER-BOTTOM: #666666 1px solid
+}
+.resourcetablerow {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; BORDER-LEFT: #666666 1px solid; BORDER-BOTTOM: #666666 1px solid
+}
+.resourcetabletext {
+	FONT: bold 8pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+.resourcetableheader {
+	FONT: bold 10pt arial; COLOR: #333366; TEXT-DECORATION: none
+}
+A.resourcetablelink {
+	FONT: bold 8pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.resourcetablelink:hover {
+	TEXT-DECORATION: underline
+}
+.popupHeader {
+	FONT: bold 12pt arial; COLOR: #003399
+}
+.popupTitle {
+	FONT: bold 10pt arial; COLOR: #003399
+}
+.popupText {
+	FONT: 10pt arial; COLOR: #000000
+}
+.popupTextBlue {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: none
+}
+A.popupClose {
+	FONT: bold 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.popupLink {
+	FONT: 10pt arial; COLOR: #003399; TEXT-DECORATION: underline
+}
+A.popupLink:hover {
+	TEXT-DECORATION: underline
+}
+.footer {
+	FONT: 9pt arial; COLOR: #ffffff; BACKGROUND-COLOR: #999999; TEXT-ALIGN: center
+}
+.divider {
+	FONT: 9pt arial; COLOR: #cccccc
+}
+A.footernavlink {
+	FONT: 8pt arial; COLOR: #333366; TEXT-DECORATION: none
+}
+A.footernavlink:hover {
+	TEXT-DECORATION: underline
+}
+A.footerbold {
+	FONT: bold 9pt arial; COLOR: #ffffff; BACKGROUND-COLOR: #999999
+}
+P {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+UL {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+LI {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+.italictext {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-STYLE: italic; FONT-FAMILY: arial, helvetica
+}
+.tabletext {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: verdana, helvetica
+}
+.qa {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; COLOR: #cc0033; FONT-FAMILY: arial
+}
+.black10ptbld {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: verdana, helvetica
+}
+.black8pt {
+	FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+.codesnippet {
+	FONT-SIZE: 10pt; COLOR: #666666; FONT-FAMILY: courier
+}
+.FigureCap {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #666699; FONT-FAMILY: arial, helvetica
+}
+A.FigureCap {
+	COLOR: #666699; TEXT-DECORATION: none
+}
+.TableCap {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #666699; FONT-FAMILY: arial, helvetica
+}
+A.FigureCap:hover {
+	COLOR: #666699; TEXT-DECORATION: underline
+}
+.DropCap {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; COLOR: #003399
+}
+.SubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #003399; FONT-FAMILY: arial, helvetica
+}
+A.SubHead {
+	COLOR: #003399; TEXT-DECORATION: none
+}
+A.SubHead:hover {
+	TEXT-DECORATION: underline
+}
+.GraySubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #666666; FONT-FAMILY: times, serif
+}
+.BlackSubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+.AboutAuthor {
+	FONT: bold italic 12pt times; COLOR: #666666
+}
+.Question {
+	FONT: bold italic 10pt arial; COLOR: #666666
+}
+.FeatureHead {
+	FONT: bold 18pt times; COLOR: #000000; TEXT-DECORATION: none
+}
+.FeatureDek {
+	FONT: bold 10pt sans-serif; WIDTH: 250pt; COLOR: #003399
+}
+.toolport {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #666699; FONT-FAMILY: arial, helvetica
+}
+.breadcrumb {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #666666; FONT-FAMILY: arial, helvetica
+}
+A.breadcrumb {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #003399; FONT-FAMILY: arial, helvetica; TEXT-DECORATION: underline
+}
+A.breadcrumb:hover {
+	TEXT-DECORATION: underline
+}
+.WPBoxSmall {
+	FONT-SIZE: 8pt; MARGIN-LEFT: 10pt; COLOR: #666699; FONT-FAMILY: arial, helvetica
+}
+.WPBoxComp {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; MARGIN-LEFT: 20pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+.WPBoxLink {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #666699; FONT-FAMILY: arial, helvetica
+}
+A.WPBoxLink {
+	COLOR: #666699; TEXT-DECORATION: underline
+}
+A.WPBoxLink:visited {
+	COLOR: #666699; TEXT-DECORATION: underline
+}
+.SideBarSubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: arial, helvetica
+}
+.SideBarTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #003399; FONT-FAMILY: arial, helvetica
+}

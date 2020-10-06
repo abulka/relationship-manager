@@ -1,0 +1,164 @@
+<html><head><META HTTP-EQUIV="content-type" CONTENT="text/html; charset=ISO-8859-1"><title>Google Groups: View Thread</title></head><body bgcolor=#ffffff onload="window.focus();"><table bgcolor=#ffcc33 border=0 cellPadding=2 width=100%><tr><td bgcolor=#ffcc33><font face=arial,sans-serif>All messages from thread</font></td></tr></table>
+<a name="link1"></a>
+
+<table width=100% bgcolor=#e0e0e0 cellpadding=2 cellspacing=0 border=0><tr><td><font face=arial,sans-serif>
+
+<table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><font face=arial,sans-serif>Message 1 in thread</font></td></tr></table>
+From: <a href=/groups?hl=en&lr=&ie=UTF-8&q=author:johann.kerdal%40eur.sas.com+ target=_top>Johann Kerdal</a> (<a href=mailto:johann.kerdal%40eur.sas.com>johann.kerdal@eur.sas.com</a>)<br>Subject: Need Advise for choise of class <br><font face=arial,sans-serif><table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><tr><td>&nbsp;</td></tr><tr><td><a href=/groups?hl=en&lr=&ie=UTF-8&selm=9od2qn%242dr%241%40license1.unx.sas.com target=_top>View this article only</a></td></tr></table></font>
+Newsgroups: <a href=/groups?hl=en&lr=&ie=UTF-8&group=comp.lang.java.programmer target=_top>comp.lang.java.programmer</a><br>Date: 2001-09-20 08:55:01 PST <br></font></td></tr></table><pre>Hi guys,
+
+Here is what I want to do :
+
+I would like to store pairs of values :
+
+key1     value1
+key1     value2
+key2     value3
+
+
+As you can see, I have several nuplet with the same key.
+And the same value can be associated with several keys.
+
+I will have to iterate those nuplet.
+and check the key , every time the key is equal with the testkeyvalue, I
+need to retrieve the values from the nuplet.
+
+example :
+array to iterate : key3, key2,key1
+loop1 :
+
+key3 is not stored in my key-value structure, nothing to do
+
+loop2 :
+key2 is there so, need to retrieve nuplet key2-value3
+
+loop3 :
+key1 is there so, need to retrieve nuplets : key1-value1 and key1-value2
+
+
+I have already done one implementation but would like to be sure to have the
+best solution for performances issues.
+
+
+Thanks for your input
+
+
+Johann</pre><a name="link2"></a>
+<a name="s"></a>
+
+<table width=100% bgcolor=#e0e0e0 cellpadding=2 cellspacing=0 border=0><tr><td><font face=arial,sans-serif>
+
+<table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><font face=arial,sans-serif>Message 2 in thread</font></td></tr></table>
+From: <a href=/groups?hl=en&lr=&ie=UTF-8&q=author:phantomlogic%40nowhere.com+ target=_top>phantomlogic</a> (<a href=mailto:phantomlogic%40nowhere.com>phantomlogic@nowhere.com</a>)<br>Subject: Re: Need Advise for choise of class <br><font face=arial,sans-serif><table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><tr><td>&nbsp;</td></tr><tr><td><a href=/groups?hl=en&lr=&ie=UTF-8&selm=2muq7.19283%244W6.6244231%40typhoon.southeast.rr.com target=_top>View this article only</a></td></tr></table></font>
+Newsgroups: <a href=/groups?hl=en&lr=&ie=UTF-8&group=comp.lang.java.programmer target=_top>comp.lang.java.programmer</a><br>Date: 2001-09-20 16:53:27 PST <br></font></td></tr></table><pre>java.util.HashTable, java.util.HashMap, java.util.HashSet, et. al. Take your
+pick.</pre><a name="link3"></a>
+
+<table width=100% bgcolor=#e0e0e0 cellpadding=2 cellspacing=0 border=0><tr><td><font face=arial,sans-serif>
+
+<table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><font face=arial,sans-serif>Message 3 in thread</font></td></tr></table>
+From: <a href=/groups?hl=en&lr=&ie=UTF-8&q=author:jamestthomas%40hotmail.com+ target=_top>JTT</a> (<a href=mailto:jamestthomas%40hotmail.com>jamestthomas@hotmail.com</a>)<br>Subject: Re: Need Advise for choise of class <br><font face=arial,sans-serif><table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><tr><td>&nbsp;</td></tr><tr><td><a href=/groups?hl=en&lr=&ie=UTF-8&selm=dGTq7.24901%24NT3.3383625%40news1.rdc1.ct.home.com target=_top>View this article only</a></td></tr></table></font>
+Newsgroups: <a href=/groups?hl=en&lr=&ie=UTF-8&group=comp.lang.java.programmer target=_top>comp.lang.java.programmer</a><br>Date: 2001-09-21 20:35:37 PST <br></font></td></tr></table><pre>No, sets and maps do not allow duplicate keys.  Because of that possibility,
+you are stuck with lists and arrays.  To use Maps, you would have to alter
+each key value somehow by appending a count or something to keep them
+unique.  Otherwise, you could store a simple pair class you create in an
+ArrayList but you would have to consider number of records and performance
+issues which depends on your requirements.
+
+James
+&quot;phantomlogic&quot; &lt;phantomlogic@nowhere.com&gt; wrote in message
+<a target=_top href="http://groups.google.com/groups?selm=2muq7.19283%244W6.6244231%40typhoon.southeast.rr.com">news:2muq7.19283$4W6.6244231@typhoon.southeast.rr.com</a>...
+<font color="#660066">&gt; java.util.HashTable, java.util.HashMap, java.util.HashSet, et. al. Take your
+&gt; pick.
+&gt;
+&gt;</font></pre><a name="link4"></a>
+
+<table width=100% bgcolor=#e0e0e0 cellpadding=2 cellspacing=0 border=0><tr><td><font face=arial,sans-serif>
+
+<table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><font face=arial,sans-serif>Message 4 in thread</font></td></tr></table>
+From: <a href=/groups?hl=en&lr=&ie=UTF-8&q=author:phantomlogic%40nowhere.com+ target=_top>phantomlogic</a> (<a href=mailto:phantomlogic%40nowhere.com>phantomlogic@nowhere.com</a>)<br>Subject: Re: Need Advise for choise of class <br><font face=arial,sans-serif><table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><tr><td>&nbsp;</td></tr><tr><td><a href=/groups?hl=en&lr=&ie=UTF-8&selm=fZmr7.15232%240x.6069542%40typhoon.southeast.rr.com target=_top>View this article only</a></td></tr></table></font>
+Newsgroups: <a href=/groups?hl=en&lr=&ie=UTF-8&group=comp.lang.java.programmer target=_top>comp.lang.java.programmer</a><br>Date: 2001-09-23 08:12:28 PST <br></font></td></tr></table><pre>My apologies, I misinterpreted what he was trying to do.
+
+&quot;JTT&quot; &lt;jamestthomas@hotmail.com&gt; wrote in message
+<a target=_top href="http://groups.google.com/groups?selm=dGTq7.24901%24NT3.3383625%40news1.rdc1.ct.home.com">news:dGTq7.24901$NT3.3383625@news1.rdc1.ct.home.com</a>...
+<font color="#660066">&gt; No, sets and maps do not allow duplicate keys.  Because of that possibility,
+&gt; you are stuck with lists and arrays.  To use Maps, you would have to alter
+&gt; each key value somehow by appending a count or something to keep them
+&gt; unique.  Otherwise, you could store a simple pair class you create in an
+&gt; ArrayList but you would have to consider number of records and performance
+&gt; issues which depends on your requirements.
+&gt;
+&gt; James
+&gt; &quot;phantomlogic&quot; &lt;phantomlogic@nowhere.com&gt; wrote in message
+&gt; <a target=_top href="http://groups.google.com/groups?selm=2muq7.19283%244W6.6244231%40typhoon.southeast.rr.com">news:2muq7.19283$4W6.6244231@typhoon.southeast.rr.com</a>...</font>
+<font color="#007777">&gt; &gt; java.util.HashTable, java.util.HashMap, java.util.HashSet, et. al. Take your
+&gt; &gt; pick.
+&gt; &gt;
+&gt; &gt;</font>
+<font color="#660066">&gt;
+&gt;</font></pre><a name="link5"></a>
+
+<table width=100% bgcolor=#e0e0e0 cellpadding=2 cellspacing=0 border=0><tr><td><font face=arial,sans-serif>
+
+<table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><font face=arial,sans-serif>Message 5 in thread</font></td></tr></table>
+From: <a href=/groups?hl=en&lr=&ie=UTF-8&q=author:kala%40sankya.com+ target=_top>Babu Kalakrishnan</a> (<a href=mailto:kala%40sankya.com>kala@sankya.com</a>)<br>Subject: Re: Need Advise for choise of class <br><font face=arial,sans-serif><table cellpadding=0 cellspacing=0 border=0 align=right><tr><td><tr><td>&nbsp;</td></tr><tr><td><a href=/groups?hl=en&lr=&ie=UTF-8&selm=slrn9qog2m.2da.kala%40ganga.sankya.com target=_top>View this article only</a></td></tr></table></font>
+Newsgroups: <a href=/groups?hl=en&lr=&ie=UTF-8&group=comp.lang.java.programmer target=_top>comp.lang.java.programmer</a><br>Date: 2001-09-22 03:28:29 PST <br></font></td></tr></table><pre>On Thu, 20 Sep 2001 17:41:58 +0200, Johann Kerdal &lt;johann.kerdal@eur.sas.com&gt; wrote:
+<font color="#660066">&gt;Hi guys,
+&gt;
+&gt;Here is what I want to do :
+&gt;
+&gt;I would like to store pairs of values :
+&gt;
+&gt;key1     value1
+&gt;key1     value2
+&gt;key2     value3
+&gt;
+&gt;
+&gt;As you can see, I have several nuplet with the same key.
+&gt;And the same value can be associated with several keys.
+&gt;
+&gt;I will have to iterate those nuplet.
+&gt;and check the key , every time the key is equal with the testkeyvalue, I
+&gt;need to retrieve the values from the nuplet.
+&gt;
+&gt;example :
+&gt;array to iterate : key3, key2,key1
+&gt;loop1 : 
+&gt;key3 is not stored in my key-value structure, nothing to do 
+&gt;loop2 :
+&gt;key2 is there so, need to retrieve nuplet key2-value3 
+&gt;loop3 :
+&gt;key1 is there so, need to retrieve nuplets : key1-value1 and key1-value2 
+&gt;I have already done one implementation but would like to be sure to have the
+&gt;best solution for performances issues.</font>
+
+How about using a Hashtable (Or HashMap) with its key part being your
+key itself and the value component being an ArrayList containing your
+values ? 
+
+While adding key-value pairs, you need to first check whether the key
+already exists in the Hashtable by using get(key) method of the
+Hashtable. If the value returned is non-null, cast the returned result
+into an ArrayList and add your new value to it. If it is null, create a
+new ArrayList, add the value to it and store it in the hashtable.
+
+Similar logic to be applied for deletion of key-value pairs also (you
+delete the entry only if the returned ArrayList has a size of exactly 1.
+Otherwise you just delete the value entry from the ArrayList - not from
+the hashtable)
+
+<HR>
+
+Andy <B>was here</B>
+
+<TABLE>
+<TR>
+	<TD>wee</TD>
+	<TD>wee2</TD>
+</TR>
+<TR>
+	<TD>ok</TD>
+	<TD>there</TD>
+</TR>
+</TABLE>
+
+BK</pre><table border=0 width=100% cellpadding=0 cellspacing=0><tr><td bgcolor=#ffcc33><img height=3 alt="" src="/images/cleardot.gif"></td></tr></table><br><center><font size=-1>&copy;2003 Google</font></center></body></html>

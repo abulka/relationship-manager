@@ -1,0 +1,303 @@
+//DateTime start = DateTime.Now
+//DateTime StartTime = DateTime.Now
+//SpeedTest01(false)
+//DateTime StopTime = DateTime.Now
+//TimeSpan ElapsedTime = TimeSpan()
+//StopTime – StartTime
+//Console.WriteLine("Elapsed time = {0}", ElapsedTime.ToString())
+//Console.WriteLine("Test.Nothing2: {0}", (DateTime.Now - start))
+
+
+def PercentFasterOld(a as double, b as double):
+    //if a < b:
+    //    a,b=b,a
+    result as int = a/b*100
+    return result
+    
+    
+--------------------------------------
+
+
+def SpeedTest01(useCache, useEnforcement):
+
+	rm = EfficientRelationshipManager()
+	print rm
+	rm.AddRelationship('a','b', 'r1')
+	rm.AddRelationship('a','b', 'r2')
+	rm.AddRelationship('a','c', 'r1')
+	
+	
+	print "Hello, World!"
+	
+	
+	for i in range(1,500):
+		System.Console.Write(".")
+		fromobj = "a"+i
+		toobj = 'b'+i
+		rm.AddRelationship(fromobj, toobj, 'r3')
+		rm.AddRelationship(fromobj, 'b', 'r3')
+		rm.AddRelationship('a', toobj, 'r3')
+	
+		rm.AddRelationship(fromobj, toobj, 'r4')
+		rm.AddRelationship(fromobj, 'b', 'r4')
+		rm.AddRelationship('a', toobj, 'r4')
+	
+		//rm.DoesRelIdExistBetween('a','b','r3')
+	print "Pass one done"
+	
+	//rm2 = RM1() // RelationshipManagerConstrained()
+	rm2 = RelationshipManagerConstrained()
+	rm2.UseCache(useCache)
+	rm2.UseEnforcement(useEnforcement)
+	rm2.EnforceRelationship('relA', Cardinality.OneToMany, Directionality.DoubleDirectional)
+	for i in range(1,510):
+		System.Console.Write(".")
+		for b in range(1,20):
+			toobj = 'b'+b
+			rm2.AddRelationship('a', b, 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectsPointedToByMe('a', 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectPointedToByMe('b', 'relA')
+			list = rm2.FindObjectPointedToByMe('b1', 'relA')
+			list = rm2.FindObjectPointedToByMe('b2', 'relA')
+		
+def SpeedTest02turbo():
+
+	rm = RelationshipMgrTurbo()
+	print rm
+	rm.AddRelationship('a','b', 'r1')
+	rm.AddRelationship('a','b', 'r2')
+	rm.AddRelationship('a','c', 'r1')
+	
+	
+	print "Hello, World!"
+	
+	
+	for i in range(1,500):
+		System.Console.Write(".")
+		fromobj = "a"+i
+		toobj = 'b'+i
+		rm.AddRelationship(fromobj, toobj, 'r3')
+		rm.AddRelationship(fromobj, 'b', 'r3')
+		rm.AddRelationship('a', toobj, 'r3')
+	
+		rm.AddRelationship(fromobj, toobj, 'r4')
+		rm.AddRelationship(fromobj, 'b', 'r4')
+		rm.AddRelationship('a', toobj, 'r4')
+	
+		//rm.DoesRelIdExistBetween('a','b','r3')
+	print "Pass one done"
+	
+	rm2 = RelationshipMgrTurbo()
+	rm2.EnforceRelationship('relA', Cardinality.OneToMany, Directionality.DoubleDirectional)
+	for i in range(1,510):
+		System.Console.Write(".")
+		for b in range(1,20):
+			toobj = 'b'+b
+			rm2.AddRelationship('a', b, 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectsPointedToByMe('a', 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectPointedToByMe('b', 'relA')
+			list = rm2.FindObjectPointedToByMe('b1', 'relA')
+			list = rm2.FindObjectPointedToByMe('b2', 'relA')
+
+def SpeedTest03generic(rm as IRelationshipManager):
+
+	rm2 = rm
+	print rm
+	rm.AddRelationship('a','b', 'r1')
+	rm.AddRelationship('a','b', 'r2')
+	rm.AddRelationship('a','c', 'r1')
+	
+	
+	print "Hello, World!"
+	
+	
+	for i in range(1,500):
+		System.Console.Write(".")
+		fromobj = "a"+i
+		toobj = 'b'+i
+		rm.AddRelationship(fromobj, toobj, 'r3')
+		rm.AddRelationship(fromobj, 'b', 'r3')
+		rm.AddRelationship('a', toobj, 'r3')
+	
+		rm.AddRelationship(fromobj, toobj, 'r4')
+		rm.AddRelationship(fromobj, 'b', 'r4')
+		rm.AddRelationship('a', toobj, 'r4')
+	
+		//rm.DoesRelIdExistBetween('a','b','r3')
+	print "Pass one done"
+	
+	//rm2.EnforceRelationship('relA', Cardinality.OneToMany, Directionality.DoubleDirectional)
+	for i in range(1,510):
+		System.Console.Write(".")
+		for b in range(1,20):
+			toobj = 'b'+b
+			rm2.AddRelationship('a', b, 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectsPointedToByMe('a', 'relA')
+		for n in range(1,15):
+			list = rm2.FindObjectPointedToByMe('b', 'relA')
+			list = rm2.FindObjectPointedToByMe('b1', 'relA')
+			list = rm2.FindObjectPointedToByMe('b2', 'relA')
+
+-----------------------------------------------
+
+
+
+/*
+start = date.Now
+SpeedTest01(false, true)
+duration1 = date.Now - start
+
+start = date.Now
+SpeedTest01(true, true)
+duration2 = date.Now - start
+
+print 'without cache', duration1 //see System.TimeSpan docs 
+print 'with cache', duration2 //see System.TimeSpan docs 
+print 'cache makes things', duration1 - duration2, 'faster'
+*/
+
+
+
+---------------------------------------
+
+
+
+
+//import DateTime from System.DateTime
+//import TimeSpan from System.TimeSpan
+
+
+
+
+----------------
+
+
+
+
+print
+print 'with enforcement', duration1 //see System.TimeSpan docs 
+print 'without enforcement', duration2 //see System.TimeSpan docs 
+Console.Out.Write('skipping enforcement makes things')
+PrintPercentFaster(duration1.Ticks,duration2.Ticks)
+print 
+print
+print 'TURBO version', duration3
+Console.Out.Write('TURBO (no enforcement) makes things')
+PrintPercentFaster(duration2.Ticks,duration3.Ticks)
+
+
+
+
+--------------------------
+
+
+
+print "Old speed test of Turbo is", duration3
+print "New speed test of Turbo is", duration5
+PrintPercentFaster(duration3.Ticks, duration5.Ticks)
+
+
+----------------
+
+
+def PrintPercentFaster(old as double, new as double):
+	# =(C2-C1)/C1*100
+	result as int
+	times as int
+	
+	if new == old:
+		result = 0
+		print(old + " to " + new + " = no change")
+	elif new < old:
+		diff = (old-new)
+		times = old/new
+		result = diff/new * 100
+		print(old + " to " + new + " diff is " + diff + " = " + result + "% or " + times + "x faster ")
+	else:
+		diff = (new-old)
+		times = new/old
+		result = diff/old * 100
+		print(old + " to " + new + " diff is " + diff + " = " + result + "% or " + times + "x slower")
+	return result
+
+
+---------------------
+
+
+    """
+		Misc Scraps
+        //Assert.Equals(1,1)
+        print(x1.getAllY())
+        print([])
+        print([] == ArrayList())
+        a = ArrayList()
+        a.Add('a')
+        print(['a'] == a)
+        print(ArrayList(['a']) == a)
+        //Assert.Equals([], x1.getAllY())
+        print([] == List(ArrayList()))
+    """
+    
+-------------------------
+
+
+
+    def getAllY() as IList:
+    	i as IList
+    	i = RM.PS(self, "xtoy")
+    	//print('typeof', typeof(i))
+    	return i
+        //return RM.PS(self, "xtoy")
+
+
+------------------
+
+        print("BooVersion " + BooVersion)
+        #zz = ArrayList()
+        #print List(zz) == []
+        #assert List(zz) == []
+        #print List(x1.getAllY()) == List([y1, y2])
+        #print List(x1.getAllY()) == [y2, y1]
+
+--------------------
+
+        
+        print "_______________________________ " + y1.getX()
+        print "_______________________________ " + x1
+        ANDY1 = y1.getX()
+        ANDY2 = x1
+        COMP = y1.getX() == x1
+        print "_______________________________ " + ANDY1
+        print "_______________________________ " + ANDY2
+        print "_______________________________ " + COMP
+        print y1.getX() == x1
+        print "ZZZZZZZZZZZZZZZZ"
+        
+        
+--------------------
+
+        	print "____ " + o + "   vs. y1 " + y1 + "  and y2 " + y2
+
+
+-----------
+
+
+        # DEBUG
+        print "________________________"
+       	Console.Out.WriteLine("y1 id = " + (y1.GetHashCode)())
+       	Console.Out.WriteLine("y2 id = " + (y2.GetHashCode)())
+        for o in x1.getAllY():
+        	Console.Out.WriteLine("o id = " + (o.GetHashCode)())
+        # DEBUG
+
+        print "________________________ END"
+
+----------------------
+
+
+        

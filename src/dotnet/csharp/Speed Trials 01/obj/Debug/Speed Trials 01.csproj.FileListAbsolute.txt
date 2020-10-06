@@ -1,0 +1,9 @@
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Speed Trials 01.exe
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Speed Trials 01.pdb
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Relationship Manager Interfaces.dll
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Relationship Manager Turbo.dll
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Relationship Manager Turbo.pdb
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\bin\Debug\Relationship Manager Interfaces.pdb
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\Speed Trials 01.exe
+C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\Speed Trials 01.pdb

@@ -1,0 +1,249 @@
+.contact {
+	TEXT-ALIGN: center
+}
+.continue {
+	FONT-SIZE: x-small; TEXT-ALIGN: right
+}
+.colour1 {
+	BACKGROUND-COLOR: #e1f8f5
+}
+TR.colour1 .date {
+	BACKGROUND-COLOR: #e1f8f5
+}
+.numeric1 {
+	BACKGROUND-COLOR: #e1f8f5
+}
+.colour2 {
+	BACKGROUND-COLOR: #fff1e5
+}
+TR.colour2 .date {
+	BACKGROUND-COLOR: #fff1e5
+}
+.numeric2 {
+	BACKGROUND-COLOR: #fff1e5
+}
+.colour2 H3 {
+	BACKGROUND-COLOR: #e1f8f5
+}
+.colour2 H2 {
+	BACKGROUND-COLOR: #e1f8f5
+}
+.copyright {
+	FONT-SIZE: xx-small; VERTICAL-ALIGN: bottom; FONT-STYLE: italic; BACKGROUND-COLOR: #f7f0ff; TEXT-ALIGN: center
+}
+.credit {
+	FONT-SIZE: 0.85em; BACKGROUND-COLOR: #e5d7f6; TEXT-ALIGN: center
+}
+.dark {
+	COLOR: #ffffff
+}
+.date {
+	FONT-SIZE: smaller; COLOR: #00766f; BACKGROUND-COLOR: #f7f0ff; TEXT-ALIGN: right
+}
+.detail {
+	FONT-SIZE: smaller; COLOR: #00709a
+}
+.example {
+	FONT-FAMILY: monospace; BACKGROUND-COLOR: #ffffcc
+}
+.highlight {
+	FONT-WEIGHT: bold; COLOR: #fff1e5; BACKGROUND-COLOR: #745e93
+}
+.navbarhornewpag {
+	PAGE-BREAK-BEFORE: always
+}
+.negative {
+	COLOR: #ff0000
+}
+.newpage {
+	PAGE-BREAK-BEFORE: always
+}
+.numeric {
+	TEXT-ALIGN: right
+}
+.numeric1 {
+	TEXT-ALIGN: right
+}
+.numeric2 {
+	TEXT-ALIGN: right
+}
+.off {
+	COLOR: #999999; BACKGROUND-COLOR: #cecece
+}
+.right {
+	TEXT-ALIGN: right
+}
+.selected {
+	BORDER-RIGHT: #00709a 3px dashed; BORDER-TOP: #00709a 3px dashed; BORDER-LEFT: #00709a 3px dashed; COLOR: #00709a; BORDER-BOTTOM: #00709a 3px dashed; BACKGROUND-COLOR: #b7e6e1
+}
+.slogan {
+	FONT-WEIGHT: bold; FONT-SIZE: 1.4em; COLOR: #00766f; FONT-STYLE: italic; TEXT-ALIGN: center
+}
+.small {
+	FONT-SIZE: smaller
+}
+.verplicht {
+	BACKGROUND-COLOR: #f4d8c0
+}
+A:active {
+	COLOR: #00766f; BACKGROUND-COLOR: #e1f8f5
+}
+A.detail:active {
+	COLOR: #00766f; BACKGROUND-COLOR: #e1f8f5
+}
+A:hover {
+	COLOR: #ffffff; BACKGROUND-COLOR: #00766f
+}
+TD.navbarver A:hover {
+	COLOR: #ffffff; BACKGROUND-COLOR: #00766f
+}
+TD.navbarcel A:hover {
+	COLOR: #ffffff; BACKGROUND-COLOR: #00766f
+}
+A.detail {
+	FONT-SIZE: 0.75em
+}
+A.extern {
+	FONT-SIZE: 0.9em; FONT-FAMILY: monospace
+}
+A.extern:hover {
+	COLOR: #ffffff; BACKGROUND-COLOR: #00cc00
+}
+A.extern:active {
+	COLOR: #009900; BACKGROUND-COLOR: #ffff00
+}
+A.normal {
+	COLOR: #000000; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none
+}
+A.normal:hover {
+	COLOR: #000000; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none
+}
+A.normal:visited {
+	COLOR: #000000; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none
+}
+BODY {
+	FONT-FAMILY: sans-serif; BACKGROUND-COLOR: #ffffff
+}
+BUTTON {
+	FONT-SIZE: 0.8em; COLOR: #000000; FONT-FAMILY: serif
+}
+DT {
+	FONT-WEIGHT: bold
+}
+H1 {
+	PADDING-RIGHT: 3px; BACKGROUND-POSITION: left top; PADDING-LEFT: 3px; BACKGROUND-IMAGE: url(/topleft.png); PADDING-BOTTOM: 3px; COLOR: #4f371f; PADDING-TOP: 3px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #fff1e5
+}
+H2 {
+	PADDING-RIGHT: 3px; BACKGROUND-POSITION: left top; PADDING-LEFT: 3px; BACKGROUND-IMAGE: url(/topleft.png); PADDING-BOTTOM: 3px; COLOR: #4f371f; PADDING-TOP: 3px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #fff1e5
+}
+H3 {
+	PADDING-RIGHT: 3px; BACKGROUND-POSITION: left top; PADDING-LEFT: 3px; BACKGROUND-IMAGE: url(/topleft.png); PADDING-BOTTOM: 3px; COLOR: #4f371f; PADDING-TOP: 3px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #fff1e5
+}
+H4 {
+	PADDING-RIGHT: 3px; BACKGROUND-POSITION: left top; PADDING-LEFT: 3px; BACKGROUND-IMAGE: url(/topleft.png); PADDING-BOTTOM: 3px; COLOR: #4f371f; PADDING-TOP: 3px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #fff1e5
+}
+Q {
+	FONT-STYLE: italic
+}
+BLOCKQUOTE {
+	FONT-STYLE: italic
+}
+TD.navbarver TABLE H2 {
+	BACKGROUND-IMAGE: none
+}
+TD.navbarver TABLE H3 {
+	BACKGROUND-IMAGE: none
+}
+.contact H2 {
+	BACKGROUND-IMAGE: none
+}
+TD.colour1 H2 {
+	BACKGROUND-IMAGE: none
+}
+TD.colour2 H2 {
+	BACKGROUND-IMAGE: none
+}
+TD.credit H2 {
+	BACKGROUND-IMAGE: none
+}
+SUP {
+	FONT-SIZE: 0.8em
+}
+TD.applet {
+	BACKGROUND-COLOR: #999999; TEXT-ALIGN: center
+}
+TD.navbarcel {
+	FONT-SIZE: 0.95em; TEXT-ALIGN: right
+}
+TD.navbarlogo {
+	BACKGROUND-POSITION: left top; BACKGROUND-IMAGE: url(/topleft.png); BACKGROUND-REPEAT: no-repeat
+}
+TD.navbarlogo {
+	FONT-SIZE: 0.95em; COLOR: #4f371f
+}
+.navbarhor {
+	FONT-SIZE: 0.95em; COLOR: #4f371f
+}
+TD.navbarcel {
+	FONT-SIZE: 0.95em; COLOR: #4f371f
+}
+TD.navbarver TABLE {
+	FONT-SIZE: 0.95em; COLOR: #4f371f
+}
+TD.navbarlogo {
+	TEXT-ALIGN: center
+}
+.navbarhor {
+	TEXT-ALIGN: center
+}
+.navbarhornewpag {
+	TEXT-ALIGN: center
+}
+TD.navbarver {
+	BORDER-RIGHT: #00766f 0px outset; PADDING-RIGHT: 8px; BACKGROUND-POSITION: right bottom; BORDER-TOP: #00766f 0px outset; PADDING-LEFT: 8px; BACKGROUND-IMAGE: url(/navbarver.gif); PADDING-BOTTOM: 8px; VERTICAL-ALIGN: top; BORDER-LEFT: #00766f 3px outset; PADDING-TOP: 8px; BORDER-BOTTOM: #00766f 0px outset; BACKGROUND-REPEAT: no-repeat
+}
+.navbarhor {
+	BACKGROUND-COLOR: #b7e6e1
+}
+TD.navbarlogo {
+	BACKGROUND-COLOR: #b7e6e1
+}
+TD.navbarcel {
+	BACKGROUND-COLOR: #b7e6e1
+}
+.contact {
+	BACKGROUND-COLOR: #b7e6e1
+}
+.navbarhornewpag {
+	BACKGROUND-COLOR: #b7e6e1
+}
+TD.navbarver {
+	BACKGROUND-COLOR: #00766f
+}
+TD.navbarver TABLE {
+	BACKGROUND-IMAGE: none; BACKGROUND-COLOR: #f4d8c0
+}
+TD.navbarver .date {
+	BACKGROUND-IMAGE: none; BACKGROUND-COLOR: #f4d8c0
+}
+TD.navbarver TABLE {
+	BORDER-RIGHT: #f4d8c0 2px outset; BORDER-TOP: #f4d8c0 2px outset; BORDER-LEFT: #f4d8c0 2px outset; BORDER-BOTTOM: #f4d8c0 2px outset
+}
+TD.navbarver TABLE TD {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; PADDING-BOTTOM: 8px; PADDING-TOP: 8px
+}
+TD.prompt {
+	FONT-SIZE: smaller; VERTICAL-ALIGN: top; COLOR: #4f371f; BACKGROUND-COLOR: #f4d8c0; TEXT-ALIGN: right
+}
+TD.rond {
+	BACKGROUND-POSITION: right bottom; BACKGROUND-IMAGE: url(/botright.gif); BACKGROUND-REPEAT: no-repeat
+}
+TH {
+	VERTICAL-ALIGN: top; COLOR: #fff1e5; BACKGROUND-COLOR: #00766f; TEXT-ALIGN: left
+}
+TH A {
+	BACKGROUND-COLOR: #f4d8c0
+}
+TH.hor {
+	TEXT-ALIGN: right
+}

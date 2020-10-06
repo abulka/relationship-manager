@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="RelationshipManager.Turbo.RelationshipMgrTurbo">
+    <Position X="1" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <FileName>RelationshipMgrTurbo.cs</FileName>
+      <HashCode>AAAEEIgAQhBgAAAoQACAABQgMBgAgAQAaAgRAhRWAAk=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="forwardLinks" />
+      <Field Name="backLinks" />
+    </ShowAsAssociation>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="RelationshipManager.Turbo.RelationshipMgrTurbo.RelationshipOp">
+        <TypeIdentifier>
+          <NewMemberFileName>RelationshipMgrTurbo.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="RelationshipManager.Turbo.RelationshipMgrTurbo.CountingOp">
+        <TypeIdentifier>
+          <NewMemberFileName>RelationshipMgrTurbo.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Collections.Hashtable" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RelationshipManager.Turbo.RM">
+    <Position X="5.25" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>RelationshipMgrTurbo.cs</FileName>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAIEIAAAAAAAAAFAIQA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RelationshipManager.Turbo.ToObjsSingle">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAJAAAAAAAAAAAAAAAAQBAQAAAAAIAAAAAAAAABQAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RelationshipManager.Turbo.RelIds">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAAAAAAAEAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="result" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RelationshipManager.Turbo.Links">
+    <Position X="5.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAAAAAAAEAACAAgABAAAAEAAAAAAACAAAAAAAAAgAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="result" />
+    </ShowAsAssociation>
+    <InheritanceLine Type="RelationshipManager.Turbo.HashColl" ManuallyRouted="true">
+      <Path>
+        <Point X="9.25" Y="2.685" />
+        <Point X="9.25" Y="3.608" />
+        <Point X="6.5" Y="3.608" />
+        <Point X="6.5" Y="3.75" />
+      </Path>
+    </InheritanceLine>
+  </Class>
+  <Class Name="RelationshipManager.Turbo.HashColl">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAIAAAAAAAAAAAAAAAAQBAQAAAAAAAAAAAAgAABQAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Value" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RelationshipManager.Turbo.ToObjs" Collapsed="true">
+    <Position X="13.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="RelationshipManager.Turbo.IToObjs">
+    <Position X="10.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataStructures.cs</FileName>
+      <HashCode>AAIAAAAAAAAAAAAAAAAQBAQAAAAAAAAAAAAAAABQAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

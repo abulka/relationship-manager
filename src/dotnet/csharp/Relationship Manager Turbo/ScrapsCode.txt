@@ -1,0 +1,246 @@
+#define GetFirstKey_IMPLEMENTATION1
+
+using System;
+using System.Collections;
+using System.Text;
+
+
+
+        private object GetFirstKey(Hashtable h)
+        {
+#if GetFirstKey_IMPLEMENTATION1
+            IEnumerator e = h.Keys.GetEnumerator();
+            if (e.MoveNext())
+                return e.Current;
+            else
+                return null;
+#else
+            foreach (object o in h.Keys)
+                return o;  // return the first item always
+            return null;
+#endif
+        }
+        
+
+------------------------------------------------
+
+
+        private void RemoveOtherReferencesTo(Hashtable rootLinks, object obj, string relId)
+        {
+            // Now need to find all possible relationships involving the 'obj'
+            foreach (object o in rootLinks.Keys)
+            {
+                Hashtable relIdsHashTable = (Hashtable)rootLinks[o];
+
+                if (relIdsHashTable.Contains(relId))
+                {
+                    ((Hashtable)relIdsHashTable[relId]).Remove(obj);
+                    Console.WriteLine("Smart way sees " + relId + " and would remove " + obj);
+                }
+
+                //foreach (string _relId in relIdsHashTable.Keys)
+                //{
+                //    Hashtable toObjsHashTable = (Hashtable)relIdsHashTable[_relId];
+                //    if (_relId == relId)
+                //        toObjsHashTable.Remove(obj);
+                //}
+            }
+        }
+
+
+
+-------------------------------
+
+
+
+
+interface IRelationshipManager:
+	def AddRelationship(fromObj, toObj, relId)
+	def EnforceRelationship(relId, cardinality);
+	def EnforceRelationship(relId, cardinality, directionality)
+	def FindObjectsPointedToByMe(fromObj, relId) as IList
+	def FindObjectPointedToByMe(fromObj, relId) as object
+	def FindObjectsPointingToMe(toObj, relId) as IList
+	def FindObjectPointingToMe(toObj, relId) as object
+	def RemoveRelationship(fromObj, toObj, relId)
+	def RemoveAllRelationshipsInvolving(obj, relId)
+	def Count() as int 
+	def CountRelationships(relId) as int
+	def Clear()
+	
+	
+------------------------
+	
+        private bool IsOneToOne(string relId)
+        {
+            if (!enforcement)
+                return false;
+
+            if (!oneToOneRelIds.Contains(relId))
+                return false;
+            return oneToOneRelIds[relId];
+        }
+        
+        
+-------------------------------------
+        
+        
+    		RM.ER("xtoy", Cardinality.OneToOne, Directionality.DirectionalWithBackPointer)
+            RM.ER("xtoy", Cardinality.OneToOne, Directionality.DirectionalWithBackPointer);
+            //RM.P(self, "xtoy") // x1.getY()
+            //RM.NR(self, self.getY(), "xtoy") // clearY()
+            //RM.R(self, y, "xtoy") // x1.setY(y1)
+
+            //# Initial situation
+            Assert.Equals(null, RM.P("x1", "xtoy")); // assert x1.getY() == null
+            Assert.Equals(null, RM.P("x2", "xtoy")); // assert x2.getY() == null
+
+            //# After clearing pointers
+            RM.NR("x1", RM.P("x1", "xtoy"), "xtoy"); // x1.clearY()
+            Assert.Equals(null, RM.P("x1", "xtoy")); // assert x1.getY() == null
+            Assert.Equals(null, RM.P("x2", "xtoy")); // assert x2.getY() == null
+                
+            //# After setting one pointer, x1 -> y1
+            RM.R("x1", "y1", "xtoy"); // x1.setY(y1)
+            Assert.Equals("y1", RM.P("x1", "xtoy")); // assert x1.getY() == y1
+            Assert.Equals(null, RM.P("x2", "xtoy")); // assert x2.getY() == null
+
+---------------------------------
+
+		public object FindObjectPointedToByMe(object fromObj, string relId)
+		{
+            object result;
+            bool caching = cacheCallFindObjectPointedToByMe.cacheEnabled;
+
+            //Console.Write("CALL  fromObj=" + fromObj.GetHashCode() + " relId=" + relId);
+            if (caching && cacheCallFindObjectPointedToByMe.CallMatches(fromObj, relId))
+            {
+                //Debug1(cacheCallFindObjectPointedToByMe.result, true);
+                return cacheCallFindObjectPointedToByMe.result;
+            }
+            
+			Hashtable rhsObjs = GetToObjs(forwardLinks, fromObj, relId);
+            result = GetFirstHashKey(rhsObjs);
+
+            if (caching)
+                cacheCallFindObjectPointedToByMe.SetData(fromObj, relId, result);
+            //Debug1(result, false);
+            return result;
+		}
+		
+		
+		
+		--------------------
+		
+		
+        private void Debug1(object result, bool caching)
+        {
+            string msg;
+            if (caching)
+              msg = " CACHE RETURN ";
+            else
+              msg = " NORMAL RETURN ";
+          if (result != null)
+                Console.WriteLine(msg + "=" + result.GetHashCode());
+            else
+                Console.WriteLine(msg + " NULL");
+
+        }
+
+
+---------------------
+
+CALL  fromObj=6478101 relId=xtoy NORMAL RETURN  NULL
+CALL  fromObj=29051767 relId=xtoy NORMAL RETURN  NULL
+*CALL  fromObj=6478101 relId=xtoy NORMAL RETURN  NULL
+*CALL  fromObj=6478101 relId=xtoy NORMAL RETURN =22393586
+CALL  fromObj=29051767 relId=xtoy NORMAL RETURN  NULL
+non cached.
+how is it possible to call with the same 
+params and get diff return result?????
+
+
+CALL  fromObj=30856020 relId=xtoy NORMAL RETURN  NULL
+CALL  fromObj=16309692 relId=xtoy NORMAL RETURN  NULL
+CALL  fromObj=30856020 relId=xtoy NORMAL RETURN  NULL
+CALL  fromObj=30856020 relId=xtoy CACHE RETURN  NULL
+
+--------------------
+
+            Console.WriteLine("SINGLE: Add: Value={0} type={2} Obj param={1} type={2}", Value, obj, Value.GetType(), obj.GetType());
+            Console.WriteLine("SINGLE: Contains: Value={0} type={2} Obj param={1} type={2}", Value, obj, Value.GetType(), obj.GetType());
+
+// DEBUG
+            Console.WriteLine(a.GetType());
+            Console.WriteLine('a'.GetType());
+            char c = 'c';
+            Console.WriteLine(c.GetType());
+            int i = 1;
+            Console.WriteLine("int i " + i.GetType());
+            object o = i;		// boxing
+            Console.WriteLine("object o " + o.GetType());
+            int j = (int)o;	// unboxing
+            Console.WriteLine("int j = (int)o " + j.GetType());
+
+            System.ValueType r1 = 23.45; 
+            Console.WriteLine(r1.GetType()); // what does this print
+            //-------------------------------------------------------
+            System.ValueType r2 = 23.45F; 
+            Console.WriteLine(r2.GetType()); // What does this print
+            //-------------------------------------------------------
+            System.ValueType r3 = 2U; 
+            Console.WriteLine(r3.GetType()); // What does this print
+            //-------------------------------------------------------
+            System.ValueType r4 = 'c';
+            Console.WriteLine(r4.GetType()); // What does this print
+            //-------------------------------------------------------
+            //System.ValueType r = 'ac';
+            //Console.WriteLine(r.GetType()); // tricky 
+            //-------------------------------------------------------
+            //System.ValueType r5 = "Hello World"; 
+            //Console.WriteLine(r5.GetType()); // tricky
+            // END DEBUG
+
+
+
+            //rm.ER("rel1", Cardinality.OneToOne);
+            //rm.R('a', 'b', "rel1");
+            //Assert.IsTrue(rm.QR('a', 'b', "rel1"));
+
+            //rm.ER("rel1", Cardinality.OneToOne);
+            //rm.R(1, 2, "rel1");
+            //Assert.IsTrue(rm.QR(1, 2, "rel1"));
+            
+            
+------------------------------
+
+
+        public bool Contains(object obj)
+        {
+            Console.WriteLine("HASHCOLL Contains " + obj + " " + obj.GetType());
+            return Value.Contains(obj);
+        }
+        
+------------------------------
+
+  
+                        // NEW ATTEMPT
+
+                        //ExtinguishOldFrom(toObj, relId);
+                        object oldFrom = FindObjectPointingToMe(toObj, relId);
+                        if (oldFrom != null)
+                            RemoveRelationship(oldFrom, toObj, relId);
+
+                        //ExtinguishOldTo(fromObj, relId);
+                        if (fromObj == null)
+                            throw new Exception("null cannot point to anything!");
+                        object oldTo = FindObjectPointedToByMe(fromObj, relId);
+                        if (oldTo != null)
+                            RemoveRelationship(fromObj, oldTo, relId);
+                            
+                                  
+------------------------------
+        
+                    
+		        
+        	

@@ -1,0 +1,859 @@
+<html>
+
+<head>
+<title>RM Theory</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta name="Microsoft Theme" content="cactus 000, default">
+<meta name="Microsoft Border" content="t, default">
+</head>
+
+<body bgcolor="#FFFFCC" text="#000000" link="#006600" vlink="#993333" alink="#CC6600"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<h1 align="center"><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">RM Theory<br>
+<a href="./"><img src="_derived/home_cmp_cactus000_hbtn.gif" width="140" height="60" border="0" alt="Home" align="middle"></a> <a href="rm_cardinality.htm"><img src="_derived/rm_cardinality.htm_cmp_cactus000_hbtn.gif" width="140" height="60" border="0" alt="RM Cardinality" align="middle"></a><!--mstheme--></font></h1>
+<!--mstheme--></font></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h1><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">
+<font SIZE="5">
+
+Relationship Manager Pattern - Theory</font><!--mstheme--></font></h1>
+<p>-Andy Bulka, August 2001<br>
+<a HREF="mailto:abulka@netspace.net.au">abulka@netspace.net.au</a></p>
+<p>This page describes in more theoretical terms the scope of the relationship
+manager approach, and includes examples of how to code using relationship manager,
+covering all possible modelling scenarios. See also the <a href="RM.htm">original
+Relationship Manager design pattern</a>.</p>
+<h1><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300"><font SIZE="5"><a name="RM_API"></a>Relationship Manager API</font><!--mstheme--></font></h1>
+<!--mstheme--></font><table BORDER="1" CELLSPACING="0" CELLPADDING="2" WIDTH="762" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT"><b>Returns</b></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT"><b>Function Name</b></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT"><b>Short-hand </b></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">void</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">addRelationship(f, t, id)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">R(a,b)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">void</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">removeRelationship(f, t, id)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">NR(a,b)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">void</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">removeAllRelationshipsInvolving(o, id)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">NRS(o)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>EnforceAsOneToOne(id)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>EnforceAsOneToMany(id)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>EnforceAsManyToOne(id)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>EnforceAsManyToMany(id)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">Object</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+        <!--mstheme--></font><pre ALIGN="LEFT">findObjectPointedToByMe(fromMe, id, cast)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">P(a)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">Object</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+        <!--mstheme--></font><pre ALIGN="LEFT">findObjectPointingToMe(toMe, id cast)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">B(b)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">Vector</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">findObjectsPointedToByMe(f, id)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">PS(a)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="52" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">Vector</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="410" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">findObjectsPointingToMe(t, id)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+    <td WIDTH="72" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font FACE="Arial" SIZE="2">
+      <div align="left">
+      <!--mstheme--></font><pre ALIGN="LEFT">BS(b)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      </div>
+    <!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">&nbsp;
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Directionality and Back-references<!--mstheme--></font></h2>
+<p>Relationships are here considered directional.&nbsp; So when you add a
+relationship with R(a,b) then <b> a</b> points to <b>b</b>.</p>
+<p>Using a relationship manager you can get it to deduce who is pointing at you,
+which means you get 'back-references' for free.&nbsp; However being able to
+determine a back-reference doesn't mean that the model you are building <i>officially</i>
+has this directional pointer connection.&nbsp; Thus we must distinguish official pointers
+from deducible back references / back pointers.&nbsp;</p>
+<p>To find what <b> a</b> points
+to, use P(a).&nbsp; To find out what is pointing at <b>b</b>, use B(b).<font FACE="Arial" SIZE="2">&nbsp;&nbsp;</font></p>
+<!--mstheme--></font><table BORDER="1" CELLSPACING="0" CELLPADDING="2" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td WIDTH="45" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p><b>Short-hand&nbsp;</b> </p>
+    <!--mstheme--></font></td>
+    <td WIDTH="172" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p><b>Description</b></p>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="45" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">P(a)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="172" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p ALIGN="LEFT">Find Pointer From</p>
+    <!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="45" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">B(b)			</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="172" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p ALIGN="LEFT">Find Back Reference To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </p>
+    <!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>Thus, just because you point at something doesn't mean it is officially
+pointing back at you. But, using a relationship manager you can deduce who is
+pointing at you. This if you make <b>a</b> point to <b>b </b>with R(a,b) then</p>
+<!--mstheme--></font><table BORDER="1" CELLSPACING="0" CELLPADDING="2" WIDTH="536" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td WIDTH="298" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">P(a) == b</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="470" HEIGHT="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>a</b> points to <b>b</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="298" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">B(b) == a</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="470" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">the thing pointing at <b>b</b> is <b>a</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="298" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">P(b) == null</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="470" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>b</b> doesn't point at anything&nbsp; <i>(crucial
+      distinction - see above line).</i><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td WIDTH="298" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre ALIGN="LEFT">B(a) == null</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td WIDTH="470" HEIGHT="16"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">nothing is pointing back at <b>a</b><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Relationship Id<!--mstheme--></font></h2>
+<p>This is either an integer or a string.&nbsp; I have chosen to use a string in
+the Java implementation, since you can describe relationships easily in this way
+rather than having to map from an integer back to some meaningful description.</p>
+<!--mstheme--></font><pre>    RM.addRelationship(fromObject, toObject, relationshipId)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>will raise an exception if <font face="Courier New">relationshipId</font> is
+an empty string.&nbsp;&nbsp; </p>
+<p> All other functions (except for <font face="Courier New">addRelationship</font>)
+can pass either an empty string or <font face="Courier New">&quot;*&quot;</font>
+as the <font face="Courier New">relationshipId</font>, which means you are
+searching for any relationship at all.&nbsp; You would usually only want to do
+this if there is only <i>one</i> relationship between class X and class Y, then
+    your P and NR calls can specify <font face="Courier New"> &quot;*&quot;</font> as the relationshipId in order
+    to match any relationship between these two objects.&nbsp; Alternatively,
+    you can use relationship manager's overloaded versions of all its routines (except for <font face="Courier New">addRelationship</font>)
+which don't take a <font face="Courier New">relationshipId </font>where <font face="Courier New">relationshipId
+defaults to &quot;*&quot;.</font> </p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Relationship Id Cardinality<!--mstheme--></font></h2>
+<p>If you register your relationship id's with the appropriate cardinality, e.g.</p>
+<!--mstheme--></font><pre>    RM.EnforceAsOneToOne(relationshipId)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>then relationship manager will enforce these cardinalities in the following
+way.&nbsp; When setting a backpointer back to the 'one' side of a relationship
+(the rhs of a one-to- one or one- to- many) then there is no need to manually
+remove the existing relationship - relationship manager will remove the old
+relationships before adding the new one.</p>
+<h1><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">All possible relationship scenarios and how to implement them using the
+Relationship Manager API.<!--mstheme--></font></h1>
+<p>Note: All '<b>h</b>'<b>
+</b>sections below, use shorthand notation, which can simply be mapped onto real
+relationship manager methods. <i>See above</i> for a <a href="#RM_API">table
+showing the correspondences</a>.</p>
+<p>Note: The method names below are just suggestions. Normally you would use
+better method names that pertain to your application domain. Example 1. So
+instead of .add(y) you might have addOrder(order). Example 2. Instead of getAllX(y) you might have .getOrders()
+etc.</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">One to one<!--mstheme--></font></h2>
+<p><img border="0" src="images/rm_the1.gif" width="267" height="91"></p>
+<p>Class X points to class Y.<br>
+&quot;ONE SIDE&quot; API methods on X. No methods on Y.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>Call the relationship manager method RM.EnforceAsOneToOne(&quot;xtoy&quot;).</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<p><b>&quot;ONE SIDE&quot; API on the one class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>Y</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getY() </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.P(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, getY(), &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<p>None.</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">One to one, with back pointer<!--mstheme--></font></h2>
+<p><img border="0" src="images/rm_the2.jpg" width="287" height="89"></p>
+<p>Class X points to class Y.&nbsp; <br>
+Class Y can deduce a back pointer to class X.<br>
+&quot;ONE SIDE&quot; API methods on both X and Y.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>Call the relationship manager method RM.EnforceAsOneToOne(&quot;xtoy&quot;).</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<p>Same as one to one.</p>
+<p><b>&quot;ONE SIDE&quot; API on the one class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>Y</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getY() </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.P(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, getY(), &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300"><a name="oneToOneWithBackpointerYmethods"></a>Methods on class Y<!--mstheme--></font></h3>
+<p><b>&quot;ONE SIDE&quot; API on the one class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setX(x)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>1. clearX()  <i>see note 1</i>
+2. x.setY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>X</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getX()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.B(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearX()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getX().clearY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Notes:<!--mstheme--></font></h3>
+<ol>
+  <li>Step 1 in the Y method setX(x) implementation is only necessary if you
+    have <i>not</i> called the relationship manager method EnforceAsOneToOne(&quot;xtoy&quot;).&nbsp;
+    If you <i>have</i> called the enforce method, then relationship manager will
+    remove the existing relationship for you, and you don't need to do step 1.</li>
+  <li>Notice all the relationshipId's in this example (in both classes) are the
+    same viz. <font face="Courier New">&quot;xtoy&quot;</font></li>
+  <li>The Y methods which call their own methods or which call the methods of
+    the X class, in order to do their implementation - could also call the
+    relationship manager directly.&nbsp; For example step 2 of setX could be
+    implemented as RM.R(x, this, &quot;xtoy&quot;) instead.&nbsp;</li>
+</ol>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Discussion<!--mstheme--></font></h3>
+<p>One of the benefits of the relationship manager pattern is that you don't
+have to explicitly wire up and maintain back-pointers.&nbsp; Once you add a
+pointer relationship, you get the back pointer on that relationship available, for
+free.&nbsp; And once you delete the pointer relationship, the back-pointer
+relationship goes away automatically too.</p>
+<p>However if you want to delete or change the back-pointer relationship (from
+Y's perspective) then you must talk to the relationship manager in terms of the
+relationship <font face="Courier New">&quot;xtoy&quot;.&nbsp; </font>If you
+implement&nbsp; the back-pointer relationship as a different relationship, with
+a different relationshipId, then you will fall prey to the same out of synch
+problems that traditional spaghetti wiring techniques often fall prey to.&nbsp;
+The trick is to treat the relationship as two sides of the one relationshipId.</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300"><a name="OneToMany"></a>One to many<!--mstheme--></font></h2>
+<p>&nbsp;<img border="0" src="images/rm_the3.gif" width="248" height="82"></p>
+<p>Class X points to many instances of class Y.<br>
+&quot;MANY SIDE&quot; API methods on X.&nbsp;&nbsp; No methods on Y.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>None.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<p><b>&quot;MANY SIDE&quot; API on the one class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>addY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getAllY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>removeY(y) </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<p>None.</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">One to many, with back pointer<!--mstheme--></font></h2>
+<img border="0" src="images/rm_the4.gif" width="238" height="79">
+<p>Class X points to class Y.&nbsp; <br>
+Class Y can deduce a back pointer to class X.<br>
+&quot;MANY SIDE&quot; API methods on X.<br>
+&quot;ONE SIDE&quot; API methods on Y.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>Optional: Call the relationship manager method RM.EnforceAsOneToMany(&quot;xtoy&quot;).</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<p>Same as one to many, i.e.</p>
+<p><b>&quot;MANY SIDE&quot; API on the one class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>addY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getAllY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>removeY(y) </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<p>Same as <a href="#oneToOneWithBackpointerYmethods">one- to- one with
+backpointer Y methods</a>, except due to the fact that X holds 'many' Y's, the
+setX implementation calls addy instead of setY.</p>
+<p><b>&quot;ONE SIDE&quot; API on the many class:</b></p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setX(x)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>1. clearX()  <i>see note 1</i>
+2. x.addY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>X</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getX()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.B(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearX()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getX().removeY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Notes:<!--mstheme--></font></h3>
+<ol>
+  <li>Step 1 in the Y method setX(x) implementation is only necessary if you
+    have <i>not</i> called the relationship manager method EnforceAsOneToMany(&quot;xtoy&quot;).&nbsp;
+    If you <i>have</i> called the enforce method, then relationship manager will
+    remove the existing relationship for you, and you don't need to do step 1.</li>
+  <li>Notice all the relationshipId's in this example (in both classes) are the
+    same viz. <font face="Courier New">&quot;xtoy&quot;<br>
+    </font></li>
+</ol>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Many to One<!--mstheme--></font></h2>
+<p>&nbsp;<img border="0" src="images/rm_the7.gif" width="248" height="78">&nbsp;</p>
+<p>Many instances of class X point to a single instance of class Y.</p>
+<p>Could have&nbsp;<br>
+&nbsp; &quot;MANY SIDE&quot; API methods on Y.<br>
+&nbsp;&nbsp; No methods on X.<br>
+or&nbsp;<br>
+&nbsp; &quot;ONE SIDE&quot; API methods on X.<br>
+&nbsp;&nbsp; No methods on Y.<br>
+or both (backpointer version)<br>
+&nbsp; &quot;MANY SIDE&quot; API methods on Y.<br>
+&nbsp; &quot;ONE SIDE&quot; API methods on X.</p>
+<p>&nbsp;</p>
+<p>This is not quite the same as one-to-many since the directionality of the
+relationship is <i>from </i>the <i>many side </i>rather than from the <i>one
+side</i>.&nbsp; Nevertheless the methods and implementation are the
+same.&nbsp;&nbsp;</p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>class side</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>api</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">many side (the one with the * in UML)<!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">gets the single setting API<!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">one side<!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">gets the many API<!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>None.</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+      <p align="center"><b>example method name<br>
+      &quot;ONE SIDE&quot; API</b></p>
+    <!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>1. clearY()  <i>see note 1</i>
+2. y.addX(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>X</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.B(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getX().removeY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>&nbsp;</p>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addY(y)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllY()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeY(y)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addX(x)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(x, this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllX()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.BS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeX(x)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(x, this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>&nbsp;</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">&nbsp;<!--mstheme--></font></h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Many to many<!--mstheme--></font></h2>
+<img border="0" src="images/rm_the5.gif" width="276" height="88">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>None</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addY(y)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllY()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeY(y)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addX(y)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, x, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllX()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeX(y)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, x, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p>&nbsp;</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Many to many, with backpointers?<!--mstheme--></font></h2>
+<img border="0" src="images/rm_the5.gif" width="276" height="88">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Constructor or Initialisation Stage<!--mstheme--></font></h3>
+<p>Optional: Call the relationship manager method RM.EnforceAsManyToMany(&quot;xtoy&quot;).</p>
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class X<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addY(y)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllY()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeY(y)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, y, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p align="left"><i>and optionally back-pointer setter methods ...</i>
+
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>Y</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getBackToY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.B(this, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p align="left"><i>and optionally back-pointer setter methods ...</i>
+
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" height="106" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setY(y)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>1. clearBackPointerToX()  <i>see note 1</i>
+2. y.setPointerToY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearBackPointerToY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>this.getBackToY().clearPointer()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Methods on class Y<!--mstheme--></font></h3>
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">addX(y)</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.R(this, x, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>list</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">getAllX()</font></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.PS(this, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre><font FACE="Arial" SIZE="2">removeX(y)</font><i><font FACE="Arial" SIZE="1"> </font></i></pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.NR(this, x, &quot;ytox&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p align="left"><i>and optionally back-pointer setter methods ...</i>
+
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>X</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>getBackToX()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>RM.B(this, &quot;xtoy&quot;)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p align="left"><i>and optionally back-pointer setter methods ...</i>
+
+<!--mstheme--></font><table border="2" cellpadding="3" cellspacing="1" height="106" bordercolordark="#993333" bordercolorlight="#996600">
+  <tr>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>returns</b><!--mstheme--></font></td>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>example method name</b><!--mstheme--></font></td>
+    <td height="42"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><b>how to implement&nbsp;using the<br>
+      relationship manager API</b><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>setX(x)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>1. clearBackPointerToY()  <i>see note 1</i>
+2. x.setPointerToY(this)</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+  <tr>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>void </pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>clearBackPointerToY()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+    <td height="17"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font><pre>this.getBackToX().clearPointer()</pre><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<h3><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Notes:<!--mstheme--></font></h3>
+<p>Too complicated.</p>
+<p>But if want to support both official pointers from a1 to b1 and from b1 to a2
+and then backpointers from b1 to a1 and a2 to b1.</p>
+<p>Is setting a backpointer an official relationship? yes (in 1.2 of RM)</p>
+<p>Perhaps backpointers don't apply to many to many since </p>
+<p>&nbsp;</p>
+<h2><!--mstheme--><font face="Comic Sans MS, Arial, Helvetica" color="#003300">Complex example 1<!--mstheme--></font></h2>
+<img border="0" src="images/rm_the6.gif" width="259" height="195">
+<p>&nbsp;</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<p class="bodycopy"><i>Cardinality</i> refers to the number of entities on each
+side of the relationship. Thus, you can define the following types of
+relationships between EJBs:</p>
+<!--mstheme--></font><table cellPadding="4" width="90%" align="center" border="1" bordercolordark="#993333" bordercolorlight="#996600">
+  <tbody>
+    <tr vAlign="top">
+      <th class="boldbodycopy" width="25%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Cardinality<!--mstheme--></font></th>
+      <th class="boldbodycopy"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Example<!--mstheme--></font></th>
+    </tr>
+    <tr vAlign="top">
+      <td class="bodycopy" width="25%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">One-to-one<!--mstheme--></font></td>
+      <td class="bodycopy"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Every employee has a private office.<!--mstheme--></font></td>
+    </tr>
+    <tr vAlign="top">
+      <td class="bodycopy" width="25%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">One-to-many<!--mstheme--></font></td>
+      <td class="bodycopy"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">A department has many employees.<!--mstheme--></font></td>
+    </tr>
+    <tr vAlign="top">
+      <td class="bodycopy" width="25%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Many-to-one<!--mstheme--></font></td>
+      <td class="bodycopy"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Many employees work in a department.<!--mstheme--></font></td>
+    </tr>
+    <tr vAlign="top">
+      <td class="bodycopy" width="25%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Many-to-many<!--mstheme--></font></td>
+      <td class="bodycopy"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">Employees work on several projects at once, and each
+        project may have several employees working on it.<!--mstheme--></font></td>
+    </tr>
+  </tbody>
+</table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<p class="bodycopy">Each relationship also has a <i>direction</i>: one-way or
+two-way (also called uni-directional and bi-directional). For an example of a
+one-way relationship, think of a dictionary: given a word, you can look up the
+definition, but knowing a definition won't help you find a word. In contrast,
+applications commonly define a two-way relationship between employees and
+departments: you can find out which department a given employee belongs to and
+which employees belong to a given department.</p>
+<p class="bodycopy">&nbsp;from <a href="http://technet.oracle.com/sample_code/tutorials/fbs/cmr/concepts.htm">http://technet.oracle.com/sample_code/tutorials/fbs/cmr/concepts.htm</a>
+</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/cactus/cacruled.gif" width="600" height="10"></p>
+<p class="bodycopy">&nbsp;</p>
+<p class="bodycopy">&nbsp;</p>
+<p>&nbsp;</p>
+&nbsp;<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table></body>
+
+</html>

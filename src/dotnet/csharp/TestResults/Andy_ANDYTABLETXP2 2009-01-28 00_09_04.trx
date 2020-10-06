@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="aad49825-8135-4b28-91bf-92a52912f368" name="Andy@ANDYTABLETXP2 2009-01-28 00:09:04" runUser="ANDYTABLETXP2\Andy" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestRunConfiguration name="Local Test Run" id="31b9cbcb-3b13-450c-8810-99c93c9d60f1">
+    <Description>This is a default test run configuration for a local test run.</Description>
+    <Deployment runDeploymentRoot="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\TestResults\Andy_ANDYTABLETXP2 2009-01-28 00_09_04">
+      <DeploymentItem filename="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Relationship Manager Interfaces\bin\Debug\Relationship Manager Interfaces.dll" />
+      <DeploymentItem filename="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Relationship Manager Turbo\bin\Debug\Relationship Manager Turbo.dll" />
+    </Deployment>
+    <TestTypeSpecific />
+  </TestRunConfiguration>
+  <ResultSummary outcome="Completed">
+    <Counters total="40" executed="40" passed="40" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <Times creation="2009-01-28T00:09:04.4627500+11:00" queuing="2009-01-28T00:09:19.6033750+11:00" start="2009-01-28T00:09:20.1658750+11:00" finish="2009-01-28T00:09:40.1971250+11:00" />
+  <TestDefinitions>
+    <UnitTest name="BackFindSingularWhenNonExistent" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="d273ee01-7dd2-5bca-985a-61438ea53ef9">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="4f2650ad-5360-4fcf-852e-612f94a11c38" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinks, Tests" name="BackFindSingularWhenNonExistent" />
+    </UnitTest>
+    <UnitTest name="CountMany" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="d6f04fcc-79be-f27e-0c72-3dd717aa9a9d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="3be34420-f4ed-483c-bc3b-bb1f40a1265a" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountMany" />
+    </UnitTest>
+    <UnitTest name="ClearMany" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="30e54f5d-6563-59a4-9d86-48d6496b9bee">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="5636ddf1-e695-4805-b491-a6224e282f45" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="ClearMany" />
+    </UnitTest>
+    <UnitTest name="BidirectionalBug1" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="63062fff-2ef3-58d1-9a5c-01b0750bcaeb">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="25ffe77d-6dd9-48b6-9a60-7a279b667654" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBidirectional, Tests" name="BidirectionalBug1" />
+    </UnitTest>
+    <UnitTest name="DoesRelIdExistBetween" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="0b621961-37ce-ce9a-a47e-6056a4e70e21">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="067ef92f-474e-40b3-86d3-0851b6b3c068" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestMiscQuerying, Tests" name="DoesRelIdExistBetween" />
+    </UnitTest>
+    <UnitTest name="ClassicOneToOne" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="afbc5890-e67c-9e5a-9770-fbf4ff59043a">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="307ba698-f984-4d6f-ba3c-d8f4c1792e3a" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcementVisioExamples, Tests" name="ClassicOneToOne" />
+    </UnitTest>
+    <UnitTest name="FindObjectsPointedToByMe1" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="9abbd6e3-72d0-8716-857d-a531810e50e1">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="fa9aaadc-a7e3-4b3c-a7f6-f27e64c875a4" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestNullSituations, Tests" name="FindObjectsPointedToByMe1" />
+    </UnitTest>
+    <UnitTest name="BackMultipleLinks" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="02214837-9ec4-85b1-aa3d-ce461beb4f7e">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="c4548182-ea00-4dd6-987b-3eb454870bfa" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinks, Tests" name="BackMultipleLinks" />
+    </UnitTest>
+    <UnitTest name="FingSingular" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="cab0fb99-326b-bb0a-b0f1-94f1f45e86c5">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="8cc39afa-528f-4895-81ce-5b7eda4bcb9f" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="FingSingular" />
+    </UnitTest>
+    <UnitTest name="CountManyAfterRemove" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="791bb444-0899-909c-6fb5-e573229d413f">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="2082f7f1-94c4-4825-a78d-6a70d96006ff" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountManyAfterRemove" />
+    </UnitTest>
+    <UnitTest name="CacheBug1a" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="1eff0862-bf69-c5b5-726a-9b4db582cc4b">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="8a21bf1f-751e-4c08-b8eb-6097464032be" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.FindCacheFullTest1, Tests" name="CacheBug1a" />
+    </UnitTest>
+    <UnitTest name="ClassicOneToMany" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="d1c3ffa1-47a0-66f7-84fd-5c0a74188d50">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="ba65bbaa-f6db-4a45-8208-b1715555f627" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcementVisioExamples, Tests" name="ClassicOneToMany" />
+    </UnitTest>
+    <UnitTest name="RemoveNonExistantRelationship" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="55c89f46-aad4-ca79-9d91-c658d5a11f26">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="8e982750-e2b5-49f8-aab2-133719f83342" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="RemoveNonExistantRelationship" />
+    </UnitTest>
+    <UnitTest name="BackLinksSingleObject" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="29b8766d-ea20-73c4-f933-f827feb4330d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6539e7a4-bef5-4df7-9e2f-5e86c4a3171f" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinks, Tests" name="BackLinksSingleObject" />
+    </UnitTest>
+    <UnitTest name="BasicSingleAdd" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="ef7343fe-210d-d55f-8ae7-459f4d60bec8">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="1ad31686-6106-4657-bf20-fbd3bbedce33" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="BasicSingleAdd" />
+    </UnitTest>
+    <UnitTest name="TestRM_02" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="9789f4a8-fcc8-3c0f-e604-75d49601df1b">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="57a29d19-4eee-40e0-83e8-02f45fc44f95" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestRMShortHand, Tests" name="TestRM_02" />
+    </UnitTest>
+    <UnitTest name="CountZero" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="6a7fc6fc-3363-34e8-b78e-f533b80e2ddd">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6eefcd7e-9419-4603-8844-c35dbd22e82f" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountZero" />
+    </UnitTest>
+    <UnitTest name="RemoveRelationship" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="f79738ad-cf77-6f67-6c17-4d2bac3bd07d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6ed3671e-a818-4276-a9c3-0f587bbb3261" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="RemoveRelationship" />
+    </UnitTest>
+    <UnitTest name="BackRemoveSimpleSingle" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="8104aa57-e574-9eee-7426-25b13bbcaad1">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="34943d11-2921-4a09-b366-85c950a817b6" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinkRemoval, Tests" name="BackRemoveSimpleSingle" />
+    </UnitTest>
+    <UnitTest name="CountRelationshipsSimple" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="6c2c796b-e786-fb4c-6dbe-10fef566f698">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="0a3586c2-8e29-4cbf-9302-fce480d47ff1" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountRelationshipsSimple" />
+    </UnitTest>
+    <UnitTest name="TestNoRelationshipsYet" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="ef6eb077-4379-c0d0-207a-26744b154654">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="c52958fd-f6ae-4358-ab38-76ef97f462ed" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestNullSituations, Tests" name="TestNoRelationshipsYet" />
+    </UnitTest>
+    <UnitTest name="RemoveAllRelationshipsFrom" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="3462af80-62ed-419c-1a74-6f14d173d6fc">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="0e186a05-7458-42d5-9653-bbf919b9fbdf" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="RemoveAllRelationshipsFrom" />
+    </UnitTest>
+    <UnitTest name="ClassicManyToOne" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="fa2c1484-a2a8-5e0d-7b41-a044c99564d0">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="4a07cc1d-8e5e-4ead-bfc0-f3a259f7772c" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcementVisioExamples, Tests" name="ClassicManyToOne" />
+    </UnitTest>
+    <UnitTest name="TestRM_01" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="432eb358-c7c1-cdd6-7635-0783c8d792bd">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="72b2e7bc-6f0c-4b0f-bcf7-ff366c6fbd62" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestRMShortHand, Tests" name="TestRM_01" />
+    </UnitTest>
+    <UnitTest name="BidirectionalBug1a" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="10a08600-0a77-b9ac-6d65-1b90a54c47e4">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="34f89f06-5e6e-4e30-8e07-fcb3052d5ee0" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBidirectional2, Tests" name="BidirectionalBug1a" />
+    </UnitTest>
+    <UnitTest name="TestMethod1" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="211e0a47-30b8-60a6-4222-2c968cd0d482">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6b94486a-e870-4c13-9b39-062be1711608" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="TestMethod1" />
+    </UnitTest>
+    <UnitTest name="BackRemoveAllRelationshipsTo" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="e0c3e73c-f34f-07c4-0bc2-678baadb95ba">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6419bb58-0426-4862-84b4-7a5d0c9aa0ed" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinkRemoval, Tests" name="BackRemoveAllRelationshipsTo" />
+    </UnitTest>
+    <UnitTest name="CountZeroAfterClear" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="60ea921c-71c6-bcf1-493c-fbce01c30769">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="d5529299-85f1-4591-a57f-bfd2c8ff4627" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountZeroAfterClear" />
+    </UnitTest>
+    <UnitTest name="Bug00111" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="0c0a90d2-c3bc-a764-356b-75fa17733524">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="b162419a-0c0e-468d-9c2f-4bd74af28f45" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestCacheBug, Tests" name="Bug00111" />
+    </UnitTest>
+    <UnitTest name="BackSingleBackLink" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="d3a52644-613f-a63b-666e-cf2c05648149">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="5d036c71-4f4b-4d1e-bbfb-2f66aed53d5b" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinks, Tests" name="BackSingleBackLink" />
+    </UnitTest>
+    <UnitTest name="CountOne" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="b0f3d6ca-b982-fb43-5cfa-5da3b423e6fc">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="7ef8eebc-c31c-4898-81a1-51803ab0d488" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="CountOne" />
+    </UnitTest>
+    <UnitTest name="ClassicNoEnforcement" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="30db721d-c57c-e983-d087-989f5412c4ce">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="af054f25-3f9a-4864-948b-cb6263d6ad5a" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcementVisioExamples, Tests" name="ClassicNoEnforcement" />
+    </UnitTest>
+    <UnitTest name="RemoveAllRelationshipsTo" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="059164a9-9673-b21d-7df5-6d6315767211">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="b333cf11-630f-4b66-b643-1c91dbdb7e42" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="RemoveAllRelationshipsTo" />
+    </UnitTest>
+    <UnitTest name="FindRelIdsBetween" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="0c5fb24e-8330-6503-965b-4ccf59acc9be">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="dd89ff7e-45d1-4663-a221-0e41a9f0318c" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestMiscQuerying, Tests" name="FindRelIdsBetween" />
+    </UnitTest>
+    <UnitTest name="ClearSingle" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="212607cb-585a-76a0-6e7b-3179cd00840a">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="d9a326c4-3fe8-4919-96cf-2f2dd83d60d6" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestClearAndCount, Tests" name="ClearSingle" />
+    </UnitTest>
+    <UnitTest name="EnforceOneToOneSimple" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="f4b986d9-967c-bbe0-5238-888aedf5ba55">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="3e2b703e-b308-4947-a49e-0463a8fd943b" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcement, Tests" name="EnforceOneToOneSimple" />
+    </UnitTest>
+    <UnitTest name="FindSingularWhenNonExistent" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="033d2276-020e-7ebd-06d4-06cedf3b81b7">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="b9d45ac1-195f-42d6-8c5c-70276865b7d4" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="FindSingularWhenNonExistent" />
+    </UnitTest>
+    <UnitTest name="AddAFew" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="5ec90ec6-5726-aeac-fa2c-5ffe13b696d1">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="5844817a-9a74-463a-871c-53c0cb67da12" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTest1, Tests" name="AddAFew" />
+    </UnitTest>
+    <UnitTest name="BackRemoveAllRelationshipsFrom" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="57b3da70-582f-224a-1586-6992d08e255f">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="3db580b4-27f6-4ed0-a494-0c4d1c0bec91" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestBackLinkRemoval, Tests" name="BackRemoveAllRelationshipsFrom" />
+    </UnitTest>
+    <UnitTest name="ClassicManyToMany" storage="c:\documents and settings\andy\desktop\relationshipmanager56\turbo rm source and tests - vs2005\tests\bin\debug\tests.dll" id="e8598902-bc78-09bd-a9d8-8cf18ab54d17">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="f81fd17d-af7d-4bb2-bd9d-026cfae276b4" />
+      <TestMethod codeBase="C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\bin\Debug\Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Tests.UnitTestEnforcementVisioExamples, Tests" name="ClassicManyToMany" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="211e0a47-30b8-60a6-4222-2c968cd0d482" executionId="6b94486a-e870-4c13-9b39-062be1711608" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef7343fe-210d-d55f-8ae7-459f4d60bec8" executionId="1ad31686-6106-4657-bf20-fbd3bbedce33" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5ec90ec6-5726-aeac-fa2c-5ffe13b696d1" executionId="5844817a-9a74-463a-871c-53c0cb67da12" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cab0fb99-326b-bb0a-b0f1-94f1f45e86c5" executionId="8cc39afa-528f-4895-81ce-5b7eda4bcb9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="033d2276-020e-7ebd-06d4-06cedf3b81b7" executionId="b9d45ac1-195f-42d6-8c5c-70276865b7d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f79738ad-cf77-6f67-6c17-4d2bac3bd07d" executionId="6ed3671e-a818-4276-a9c3-0f587bbb3261" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="55c89f46-aad4-ca79-9d91-c658d5a11f26" executionId="8e982750-e2b5-49f8-aab2-133719f83342" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3462af80-62ed-419c-1a74-6f14d173d6fc" executionId="0e186a05-7458-42d5-9653-bbf919b9fbdf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="059164a9-9673-b21d-7df5-6d6315767211" executionId="b333cf11-630f-4b66-b643-1c91dbdb7e42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8104aa57-e574-9eee-7426-25b13bbcaad1" executionId="34943d11-2921-4a09-b366-85c950a817b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="57b3da70-582f-224a-1586-6992d08e255f" executionId="3db580b4-27f6-4ed0-a494-0c4d1c0bec91" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e0c3e73c-f34f-07c4-0bc2-678baadb95ba" executionId="6419bb58-0426-4862-84b4-7a5d0c9aa0ed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3a52644-613f-a63b-666e-cf2c05648149" executionId="5d036c71-4f4b-4d1e-bbfb-2f66aed53d5b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="02214837-9ec4-85b1-aa3d-ce461beb4f7e" executionId="c4548182-ea00-4dd6-987b-3eb454870bfa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="29b8766d-ea20-73c4-f933-f827feb4330d" executionId="6539e7a4-bef5-4df7-9e2f-5e86c4a3171f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d273ee01-7dd2-5bca-985a-61438ea53ef9" executionId="4f2650ad-5360-4fcf-852e-612f94a11c38" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="63062fff-2ef3-58d1-9a5c-01b0750bcaeb" executionId="25ffe77d-6dd9-48b6-9a60-7a279b667654" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10a08600-0a77-b9ac-6d65-1b90a54c47e4" executionId="34f89f06-5e6e-4e30-8e07-fcb3052d5ee0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c0a90d2-c3bc-a764-356b-75fa17733524" executionId="b162419a-0c0e-468d-9c2f-4bd74af28f45" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1eff0862-bf69-c5b5-726a-9b4db582cc4b" executionId="8a21bf1f-751e-4c08-b8eb-6097464032be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="212607cb-585a-76a0-6e7b-3179cd00840a" executionId="d9a326c4-3fe8-4919-96cf-2f2dd83d60d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30e54f5d-6563-59a4-9d86-48d6496b9bee" executionId="5636ddf1-e695-4805-b491-a6224e282f45" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a7fc6fc-3363-34e8-b78e-f533b80e2ddd" executionId="6eefcd7e-9419-4603-8844-c35dbd22e82f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60ea921c-71c6-bcf1-493c-fbce01c30769" executionId="d5529299-85f1-4591-a57f-bfd2c8ff4627" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b0f3d6ca-b982-fb43-5cfa-5da3b423e6fc" executionId="7ef8eebc-c31c-4898-81a1-51803ab0d488" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d6f04fcc-79be-f27e-0c72-3dd717aa9a9d" executionId="3be34420-f4ed-483c-bc3b-bb1f40a1265a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="791bb444-0899-909c-6fb5-e573229d413f" executionId="2082f7f1-94c4-4825-a78d-6a70d96006ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c2c796b-e786-fb4c-6dbe-10fef566f698" executionId="0a3586c2-8e29-4cbf-9302-fce480d47ff1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4b986d9-967c-bbe0-5238-888aedf5ba55" executionId="3e2b703e-b308-4947-a49e-0463a8fd943b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="afbc5890-e67c-9e5a-9770-fbf4ff59043a" executionId="307ba698-f984-4d6f-ba3c-d8f4c1792e3a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d1c3ffa1-47a0-66f7-84fd-5c0a74188d50" executionId="ba65bbaa-f6db-4a45-8208-b1715555f627" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa2c1484-a2a8-5e0d-7b41-a044c99564d0" executionId="4a07cc1d-8e5e-4ead-bfc0-f3a259f7772c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e8598902-bc78-09bd-a9d8-8cf18ab54d17" executionId="f81fd17d-af7d-4bb2-bd9d-026cfae276b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30db721d-c57c-e983-d087-989f5412c4ce" executionId="af054f25-3f9a-4864-948b-cb6263d6ad5a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b621961-37ce-ce9a-a47e-6056a4e70e21" executionId="067ef92f-474e-40b3-86d3-0851b6b3c068" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c5fb24e-8330-6503-965b-4ccf59acc9be" executionId="dd89ff7e-45d1-4663-a221-0e41a9f0318c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef6eb077-4379-c0d0-207a-26744b154654" executionId="c52958fd-f6ae-4358-ab38-76ef97f462ed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9abbd6e3-72d0-8716-857d-a531810e50e1" executionId="fa9aaadc-a7e3-4b3c-a7f6-f27e64c875a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="432eb358-c7c1-cdd6-7635-0783c8d792bd" executionId="72b2e7bc-6f0c-4b0f-bcf7-ff366c6fbd62" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9789f4a8-fcc8-3c0f-e604-75d49601df1b" executionId="57a29d19-4eee-40e0-83e8-02f45fc44f95" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="6b94486a-e870-4c13-9b39-062be1711608" testId="211e0a47-30b8-60a6-4222-2c968cd0d482" testName="TestMethod1" computerName="ANDYTABLETXP2" duration="00:00:09.6480340" startTime="2009-01-28T00:09:20.3221250+11:00" endTime="2009-01-28T00:09:39.4002500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1ad31686-6106-4657-bf20-fbd3bbedce33" testId="ef7343fe-210d-d55f-8ae7-459f4d60bec8" testName="BasicSingleAdd" computerName="ANDYTABLETXP2" duration="00:00:00.0067885" startTime="2009-01-28T00:09:39.4315000+11:00" endTime="2009-01-28T00:09:39.4471250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5844817a-9a74-463a-871c-53c0cb67da12" testId="5ec90ec6-5726-aeac-fa2c-5ffe13b696d1" testName="AddAFew" computerName="ANDYTABLETXP2" duration="00:00:00.0011574" startTime="2009-01-28T00:09:39.4627500+11:00" endTime="2009-01-28T00:09:39.4783750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8cc39afa-528f-4895-81ce-5b7eda4bcb9f" testId="cab0fb99-326b-bb0a-b0f1-94f1f45e86c5" testName="FingSingular" computerName="ANDYTABLETXP2" duration="00:00:00.0027905" startTime="2009-01-28T00:09:39.4783750+11:00" endTime="2009-01-28T00:09:39.4940000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b9d45ac1-195f-42d6-8c5c-70276865b7d4" testId="033d2276-020e-7ebd-06d4-06cedf3b81b7" testName="FindSingularWhenNonExistent" computerName="ANDYTABLETXP2" duration="00:00:00.0003966" startTime="2009-01-28T00:09:39.4940000+11:00" endTime="2009-01-28T00:09:39.4940000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6ed3671e-a818-4276-a9c3-0f587bbb3261" testId="f79738ad-cf77-6f67-6c17-4d2bac3bd07d" testName="RemoveRelationship" computerName="ANDYTABLETXP2" duration="00:00:00.0013641" startTime="2009-01-28T00:09:39.5096250+11:00" endTime="2009-01-28T00:09:39.5096250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8e982750-e2b5-49f8-aab2-133719f83342" testId="55c89f46-aad4-ca79-9d91-c658d5a11f26" testName="RemoveNonExistantRelationship" computerName="ANDYTABLETXP2" duration="00:00:00.0015228" startTime="2009-01-28T00:09:39.5096250+11:00" endTime="2009-01-28T00:09:39.5252500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0e186a05-7458-42d5-9653-bbf919b9fbdf" testId="3462af80-62ed-419c-1a74-6f14d173d6fc" testName="RemoveAllRelationshipsFrom" computerName="ANDYTABLETXP2" duration="00:00:00.0016546" startTime="2009-01-28T00:09:39.5252500+11:00" endTime="2009-01-28T00:09:39.5408750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b333cf11-630f-4b66-b643-1c91dbdb7e42" testId="059164a9-9673-b21d-7df5-6d6315767211" testName="RemoveAllRelationshipsTo" computerName="ANDYTABLETXP2" duration="00:00:00.0006858" startTime="2009-01-28T00:09:39.5408750+11:00" endTime="2009-01-28T00:09:39.5565000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="34943d11-2921-4a09-b366-85c950a817b6" testId="8104aa57-e574-9eee-7426-25b13bbcaad1" testName="BackRemoveSimpleSingle" computerName="ANDYTABLETXP2" duration="00:00:00.0009741" startTime="2009-01-28T00:09:39.5565000+11:00" endTime="2009-01-28T00:09:39.5721250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3db580b4-27f6-4ed0-a494-0c4d1c0bec91" testId="57b3da70-582f-224a-1586-6992d08e255f" testName="BackRemoveAllRelationshipsFrom" computerName="ANDYTABLETXP2" duration="00:00:00.0011638" startTime="2009-01-28T00:09:39.5721250+11:00" endTime="2009-01-28T00:09:39.5877500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6419bb58-0426-4862-84b4-7a5d0c9aa0ed" testId="e0c3e73c-f34f-07c4-0bc2-678baadb95ba" testName="BackRemoveAllRelationshipsTo" computerName="ANDYTABLETXP2" duration="00:00:00.0009515" startTime="2009-01-28T00:09:39.5877500+11:00" endTime="2009-01-28T00:09:39.5877500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5d036c71-4f4b-4d1e-bbfb-2f66aed53d5b" testId="d3a52644-613f-a63b-666e-cf2c05648149" testName="BackSingleBackLink" computerName="ANDYTABLETXP2" duration="00:00:00.0016692" startTime="2009-01-28T00:09:39.6033750+11:00" endTime="2009-01-28T00:09:39.6033750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c4548182-ea00-4dd6-987b-3eb454870bfa" testId="02214837-9ec4-85b1-aa3d-ce461beb4f7e" testName="BackMultipleLinks" computerName="ANDYTABLETXP2" duration="00:00:00.0007847" startTime="2009-01-28T00:09:39.6033750+11:00" endTime="2009-01-28T00:09:39.6190000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6539e7a4-bef5-4df7-9e2f-5e86c4a3171f" testId="29b8766d-ea20-73c4-f933-f827feb4330d" testName="BackLinksSingleObject" computerName="ANDYTABLETXP2" duration="00:00:00.0006433" startTime="2009-01-28T00:09:39.6190000+11:00" endTime="2009-01-28T00:09:39.6346250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4f2650ad-5360-4fcf-852e-612f94a11c38" testId="d273ee01-7dd2-5bca-985a-61438ea53ef9" testName="BackFindSingularWhenNonExistent" computerName="ANDYTABLETXP2" duration="00:00:00.0004034" startTime="2009-01-28T00:09:39.6346250+11:00" endTime="2009-01-28T00:09:39.6502500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="25ffe77d-6dd9-48b6-9a60-7a279b667654" testId="63062fff-2ef3-58d1-9a5c-01b0750bcaeb" testName="BidirectionalBug1" computerName="ANDYTABLETXP2" duration="00:00:00.0026869" startTime="2009-01-28T00:09:39.6502500+11:00" endTime="2009-01-28T00:09:39.6658750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="34f89f06-5e6e-4e30-8e07-fcb3052d5ee0" testId="10a08600-0a77-b9ac-6d65-1b90a54c47e4" testName="BidirectionalBug1a" computerName="ANDYTABLETXP2" duration="00:00:00.0039477" startTime="2009-01-28T00:09:39.6658750+11:00" endTime="2009-01-28T00:09:39.6815000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b162419a-0c0e-468d-9c2f-4bd74af28f45" testId="0c0a90d2-c3bc-a764-356b-75fa17733524" testName="Bug00111" computerName="ANDYTABLETXP2" duration="00:00:00.0015549" startTime="2009-01-28T00:09:39.6815000+11:00" endTime="2009-01-28T00:09:39.6971250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8a21bf1f-751e-4c08-b8eb-6097464032be" testId="1eff0862-bf69-c5b5-726a-9b4db582cc4b" testName="CacheBug1a" computerName="ANDYTABLETXP2" duration="00:00:00.0014867" startTime="2009-01-28T00:09:39.6971250+11:00" endTime="2009-01-28T00:09:39.7127500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d9a326c4-3fe8-4919-96cf-2f2dd83d60d6" testId="212607cb-585a-76a0-6e7b-3179cd00840a" testName="ClearSingle" computerName="ANDYTABLETXP2" duration="00:00:00.0019156" startTime="2009-01-28T00:09:39.7127500+11:00" endTime="2009-01-28T00:09:39.7283750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5636ddf1-e695-4805-b491-a6224e282f45" testId="30e54f5d-6563-59a4-9d86-48d6496b9bee" testName="ClearMany" computerName="ANDYTABLETXP2" duration="00:00:00.0011079" startTime="2009-01-28T00:09:39.7283750+11:00" endTime="2009-01-28T00:09:39.7283750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6eefcd7e-9419-4603-8844-c35dbd22e82f" testId="6a7fc6fc-3363-34e8-b78e-f533b80e2ddd" testName="CountZero" computerName="ANDYTABLETXP2" duration="00:00:00.0003637" startTime="2009-01-28T00:09:39.7440000+11:00" endTime="2009-01-28T00:09:39.7440000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d5529299-85f1-4591-a57f-bfd2c8ff4627" testId="60ea921c-71c6-bcf1-493c-fbce01c30769" testName="CountZeroAfterClear" computerName="ANDYTABLETXP2" duration="00:00:00.0004989" startTime="2009-01-28T00:09:39.7596250+11:00" endTime="2009-01-28T00:09:39.7596250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7ef8eebc-c31c-4898-81a1-51803ab0d488" testId="b0f3d6ca-b982-fb43-5cfa-5da3b423e6fc" testName="CountOne" computerName="ANDYTABLETXP2" duration="00:00:00.0004469" startTime="2009-01-28T00:09:39.7596250+11:00" endTime="2009-01-28T00:09:39.7752500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3be34420-f4ed-483c-bc3b-bb1f40a1265a" testId="d6f04fcc-79be-f27e-0c72-3dd717aa9a9d" testName="CountMany" computerName="ANDYTABLETXP2" duration="00:00:00.0005950" startTime="2009-01-28T00:09:39.7752500+11:00" endTime="2009-01-28T00:09:39.7908750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2082f7f1-94c4-4825-a78d-6a70d96006ff" testId="791bb444-0899-909c-6fb5-e573229d413f" testName="CountManyAfterRemove" computerName="ANDYTABLETXP2" duration="00:00:00.0008193" startTime="2009-01-28T00:09:39.7908750+11:00" endTime="2009-01-28T00:09:39.8065000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0a3586c2-8e29-4cbf-9302-fce480d47ff1" testId="6c2c796b-e786-fb4c-6dbe-10fef566f698" testName="CountRelationshipsSimple" computerName="ANDYTABLETXP2" duration="00:00:00.0010836" startTime="2009-01-28T00:09:39.8065000+11:00" endTime="2009-01-28T00:09:39.8065000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3e2b703e-b308-4947-a49e-0463a8fd943b" testId="f4b986d9-967c-bbe0-5238-888aedf5ba55" testName="EnforceOneToOneSimple" computerName="ANDYTABLETXP2" duration="00:00:00.0016979" startTime="2009-01-28T00:09:39.8221250+11:00" endTime="2009-01-28T00:09:39.8221250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="307ba698-f984-4d6f-ba3c-d8f4c1792e3a" testId="afbc5890-e67c-9e5a-9770-fbf4ff59043a" testName="ClassicOneToOne" computerName="ANDYTABLETXP2" duration="00:00:00.0053523" startTime="2009-01-28T00:09:39.8377500+11:00" endTime="2009-01-28T00:09:39.8377500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ba65bbaa-f6db-4a45-8208-b1715555f627" testId="d1c3ffa1-47a0-66f7-84fd-5c0a74188d50" testName="ClassicOneToMany" computerName="ANDYTABLETXP2" duration="00:00:00.0020524" startTime="2009-01-28T00:09:39.8533750+11:00" endTime="2009-01-28T00:09:39.8533750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4a07cc1d-8e5e-4ead-bfc0-f3a259f7772c" testId="fa2c1484-a2a8-5e0d-7b41-a044c99564d0" testName="ClassicManyToOne" computerName="ANDYTABLETXP2" duration="00:00:00.0018963" startTime="2009-01-28T00:09:39.8690000+11:00" endTime="2009-01-28T00:09:39.8690000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f81fd17d-af7d-4bb2-bd9d-026cfae276b4" testId="e8598902-bc78-09bd-a9d8-8cf18ab54d17" testName="ClassicManyToMany" computerName="ANDYTABLETXP2" duration="00:00:00.0064653" startTime="2009-01-28T00:09:39.8846250+11:00" endTime="2009-01-28T00:09:39.8846250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="af054f25-3f9a-4864-948b-cb6263d6ad5a" testId="30db721d-c57c-e983-d087-989f5412c4ce" testName="ClassicNoEnforcement" computerName="ANDYTABLETXP2" duration="00:00:00.0004444" startTime="2009-01-28T00:09:39.9002500+11:00" endTime="2009-01-28T00:09:39.9002500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="067ef92f-474e-40b3-86d3-0851b6b3c068" testId="0b621961-37ce-ce9a-a47e-6056a4e70e21" testName="DoesRelIdExistBetween" computerName="ANDYTABLETXP2" duration="00:00:00.0006397" startTime="2009-01-28T00:09:39.9002500+11:00" endTime="2009-01-28T00:09:39.9158750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dd89ff7e-45d1-4663-a221-0e41a9f0318c" testId="0c5fb24e-8330-6503-965b-4ccf59acc9be" testName="FindRelIdsBetween" computerName="ANDYTABLETXP2" duration="00:00:00.0012512" startTime="2009-01-28T00:09:39.9158750+11:00" endTime="2009-01-28T00:09:39.9315000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c52958fd-f6ae-4358-ab38-76ef97f462ed" testId="ef6eb077-4379-c0d0-207a-26744b154654" testName="TestNoRelationshipsYet" computerName="ANDYTABLETXP2" duration="00:00:00.0005908" startTime="2009-01-28T00:09:39.9315000+11:00" endTime="2009-01-28T00:09:39.9471250+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fa9aaadc-a7e3-4b3c-a7f6-f27e64c875a4" testId="9abbd6e3-72d0-8716-857d-a531810e50e1" testName="FindObjectsPointedToByMe1" computerName="ANDYTABLETXP2" duration="00:00:00.0005374" startTime="2009-01-28T00:09:39.9471250+11:00" endTime="2009-01-28T00:09:39.9627500+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="72b2e7bc-6f0c-4b0f-bcf7-ff366c6fbd62" testId="432eb358-c7c1-cdd6-7635-0783c8d792bd" testName="TestRM_01" computerName="ANDYTABLETXP2" duration="00:00:00.0009934" startTime="2009-01-28T00:09:39.9627500+11:00" endTime="2009-01-28T00:09:39.9783750+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="57a29d19-4eee-40e0-83e8-02f45fc44f95" testId="9789f4a8-fcc8-3c0f-e604-75d49601df1b" testName="TestRM_02" computerName="ANDYTABLETXP2" duration="00:00:00.0005475" startTime="2009-01-28T00:09:39.9783750+11:00" endTime="2009-01-28T00:09:39.9940000+11:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

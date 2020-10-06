@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boo56Test01", "Boo56Test01\Boo56Test01.csproj", "{F1972EF6-BCCC-4265-AD98-1E982E210491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooFormTest01", "BooFormTest01\BooFormTest01.csproj", "{8954BED0-2EC9-4723-98B0-E1867F054733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boo56MicrosoftTestProject1", "Boo56MicrosoftTestProject1\Boo56MicrosoftTestProject1.csproj", "{1C510511-A35C-43D5-905B-30421EB70F7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{084FDCE1-1943-4447-9F60-1ACDF1AC5483}"
+	ProjectSection(SolutionItems) = preProject
+		Boo56Test01.vsmdi = Boo56Test01.vsmdi
+		localtestrun.testrunconfig = localtestrun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Interfaces", "..\..\Relationship Manager Interfaces\Relationship Manager Interfaces.csproj", "{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Boo56Test01.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1972EF6-BCCC-4265-AD98-1E982E210491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1972EF6-BCCC-4265-AD98-1E982E210491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1972EF6-BCCC-4265-AD98-1E982E210491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1972EF6-BCCC-4265-AD98-1E982E210491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8954BED0-2EC9-4723-98B0-E1867F054733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8954BED0-2EC9-4723-98B0-E1867F054733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8954BED0-2EC9-4723-98B0-E1867F054733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8954BED0-2EC9-4723-98B0-E1867F054733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C510511-A35C-43D5-905B-30421EB70F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C510511-A35C-43D5-905B-30421EB70F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C510511-A35C-43D5-905B-30421EB70F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C510511-A35C-43D5-905B-30421EB70F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

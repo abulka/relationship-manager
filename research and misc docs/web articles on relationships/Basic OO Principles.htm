@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ <HEAD>
+   <TITLE> Basic OO Principles
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:sinc%20at%20webpeak.com">
+   <META NAME="robots" CONTENT="index,nofollow">
+   
+   <LINK REL="Previous"  HREF="001829.html">
+   <LINK REL="Next"  HREF="001862.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Basic OO Principles
+   </H1>
+    <B>Richard Sincovec
+    </B> 
+    <A HREF="mailto:sinc%20at%20webpeak.com"
+       TITLE="Basic OO Principles">sinc at webpeak.com
+       </A><BR>
+    <I>Fri Sep 15 18:28:05 2000</I>
+    <P><UL CLASS="no_index">
+        <LI> Previous message: <A HREF="001829.html">Basic OO Principles (was: WebObjects DataBase performance)
+</A></li>
+        <LI> Next message: <A HREF="001862.html">Basic OO Principles
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1844">[ date ]</a>
+              <a href="thread.html#1844">[ thread ]</a>
+              <a href="subject.html#1844">[ subject ]</a>
+              <a href="author.html#1844">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>The concepts are not lost in EOF, just obscured a bit.  Most of your
+confusion is caused by EOModeler.  EOModeler doesn't really work at a high
+enough level of abstraction.  However, your code can easily have that
+PK-&gt;FK join, if it is required.
+
+I'll get to that in a moment.  First, though, I think part of the problem
+is the fact that people keep calling these primary keys &quot;meaningless&quot;.  
+The primary key is not meaningless - in fact, it has a very clearly
+defined meaning.  It is a value that uniquely identifies a row in a table
+in a relational database.  (Notice that this definition has no mention of
+an object in it.)
+
+Class properties also have very clearly defined meanings; its just that
+their meanings depend on the object they are a part of.  When we decided
+to use a relational database to store our objects, we decided to start by
+mapping objects to tables, class properties to columns, and instances to
+rows. Each distinct attribute has its own row.  But remember, the PK is
+also a column with a clearly defined meaning.  If we try to combine the PK
+with a class property, that is like trying to combine two distinct class
+properties into one database column.  It would be like saying, &quot;Hmm... The
+social security number and the phone number are both unique integers.  
+That means they're close enough to each other that we could use one column
+in the database for both.&quot;  It doesn't make sense logically.
+Likewise, it doesn't make sense logically to try and combine the PK
+column with a class property column.  It's muddy-ing concepts.
+
+Now, back to to-one relationships.  The reason why to-one relationships
+seem like an exception is because, for implementation purposes, EOModeler
+takes a very low-level view of the whole process.
+
+If we actually take a step back, and look at things from an Object
+Modeling perspective, then it doesn't make sense to have a one-directional
+relationship.  Also, relationships do not &quot;belong&quot; to objects.  They are
+first-class citizens in their own rights, at the same level of importance
+as entities.  A relationship is always attatched to two entities, a source
+and a destination (which may be the same entity).  The relationship may
+optionally only be traversed in one direction by our code, but at a
+conceptual level it exists in both directions.
+
+I've found it most useful to assume the convention that a relationship may
+always be traversed from its source entity to its destination entity.  
+The relationship may optionally be traversed from the destination entity
+to the source entity.  In this case, I call the relationship
+&quot;bidirectional&quot;.  Notice that, with this paradigm, in most cases it
+matters which entity is the source and which is the destination.
+
+Net result of this thinking is that we have four different kinds of
+relationships: one-to-one, one-to-many, many-to-one, and many-to-many.
+(Remember, each of these may or may not also be bidirectional.  The
+difference between bidirectional 1:many and bidirectional many:1 is not
+significant.)  The relationship that you are talking about is the
+bidirectional 1:1 relationship.  This is the only time when you have a
+PK-&gt;FK join.  Also by my conventions, this join is the reverse direction
+of the 1:1 relationship; I always model a 1:1 relationship so that the
+forward direction is to a PK (which means EOF can handle the to-one
+relationship). The backward direction is then only to a PK if the
+relationship is also &quot;Propagate Primary Key&quot;.
+
+For ease of implementation, EOModeler splits each relationship into two
+&quot;halves&quot;, or EORelationships, each of which &quot;belongs&quot; to a different
+entity. If a relationship may only be traversed in one direction, then
+only one of the EORelationships is put into the EOModel.  It is this
+implementation detail which makes EOF relatively easy to work with, at the
+expense of making 1:1 relationships a bit messy.
+
+However, it really isn't that messy.  The side of the 1:1 relationship
+that has the PK-&gt;FK join may be modeled as a to-many in EOModeler.  All
+you then need is some simple to-one style accessor methods that cover the
+to-many accessor methods, and in your code, you can completely forget the
+fact that it's modeled as a 1:many in EOModeler.  To your code, it is a
+1:1.  The cover methods look pretty much exactly like the ones for the
+optional to-one relationship given in the EOF Developer's Guide.
+
+This may seem a little indirect, but it really isn't that bad.  In
+practice, 1:1 relationships are rare.
+
+All of the concepts are actually rather clean in EOF.  It's just EOModeler
+that needs work.  The EOModels themselves are fine; we just need a new
+tool for creating them.
+
+EOModeler also has a &quot;Propagate Primary Key&quot; option, which is related to
+all of this in a sideways manner.  Propagate Primary Key is kind of a
+special beast, though, and rather rare.  I actually haven't ever used it
+in my real-world development.  It has never been appropriate.  (1:1
+relationships are the only ones that may have Propagate Primary Key set to
+Yes, and relationships with Propagate Primary Key are the only PK&lt;-&gt;PK
+relationships in EOF.)
+
+If you want the pure concepts, use UML.  If you want a tool that lets you
+quickly and easily get real-world applications working, use EOModeler.
+Admittedly, it would be nice if we had a new EOModeler with clean
+concepts...  That will be coming in the future.  Probably not from Apple,
+they seem too distracted with Java at the moment.  But from somebody...
+
+-- Sinc
+
+PS: Beware flattened relationships.  There are a few times when they are
+valid.  But usually, you should never use flattened relationships.  You
+should always traverse the object graph, instead.
+
+The times when you should use flattened relationships are:
+1) In a many-to-many relationship
+2) In inheritance mapping
+3) To overcome a physical database limitation, like max number of columns
+   in a table or the single-blob limitation of Oracle
+4) Can't think of any others
+
+You should probably never use flattened relationships for convenience,
+except in read-only situations.
+
+
+On Fri, 15 Sep 2000, Michael Gersten wrote:
+
+&gt;<i> Unfortunately, in EOF, you do lose something.
+</I>&gt;<i> 
+</I>&gt;<i> You cannot have a to-one relationship that isn't to the destination
+</I>&gt;<i> primary key, even if you can guarantee that it is unique.
+</I>&gt;<i> 
+</I>&gt;<i> Suddenly, you're not working with simple, flattenable to-one's; you've
+</I>&gt;<i> got arrays, you've got more custom code (or, give me a keypath for the
+</I>&gt;<i> first element of an array :-), etc.
+</I>&gt;<i> 
+</I>&gt;<i> &quot;Chad Leigh, ObjectWerks, Inc.&quot; wrote:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; --On Friday, September 15, 2000 2:18 AM -0700 Anders Peterson
+</I>&gt;<i> &gt; &lt;<A HREF="mailto:anders_peterson@altavista.com">anders_peterson@altavista.com</A>&gt; wrote:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; I never argued that foreign keys should be made class attributes. All
+</I>&gt;<i> &gt; &gt; Iíve said is that in a well-designed database some tables may have
+</I>&gt;<i> &gt; &gt; meaningful, non-integer, primary keys. If that is so the corresponding WO
+</I>&gt;<i> &gt; &gt; classes must have the primary keys as class attributes. And I argue that
+</I>&gt;<i> &gt; &gt; in some cases having a well designed database is more important than
+</I>&gt;<i> &gt; &gt; complying with the dogma that no primary keys should be made class
+</I>&gt;<i> &gt; &gt; attributes.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; But those same well designed databsae tables could take that PK and make it
+</I>&gt;<i> &gt; a normal column (indexed etc of course) and through in a &quot;meangingless&quot; PK
+</I>&gt;<i> &gt; and still be well developed and designed database tables.  You lose nothing
+</I>&gt;<i> &gt; in doing this really and gain a whole lot.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Chad Leigh, VP Engineering
+</I>&gt;<i> &gt; ObjectWerks, Inc.
+</I>&gt;<i> &gt; Enterprise Solutions Provider and Consulting
+</I>&gt;<i> &gt; <A HREF="mailto:chad@objectwerks.com">chad@objectwerks.com</A>
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; WebObjects-dev mailing list
+</I>&gt;<i> &gt; <A HREF="mailto:WebObjects-dev@omnigroup.com">WebObjects-dev@omnigroup.com</A>
+</I>&gt;<i> &gt; <A HREF="http://www.omnigroup.com/mailman/listinfo/webobjects-dev">http://www.omnigroup.com/mailman/listinfo/webobjects-dev</A>
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> Michael
+</I>&gt;<i> ---
+</I>&gt;<i> ICQ#: 21282678 (nick: &quot;Keybounce&quot;). AOL/AIM name: &quot;Keybounce&quot;
+</I>&gt;<i> Email name: <A HREF="mailto:michael_sig01@stb.nccom.com">michael_sig01@stb.nccom.com</A>
+</I>&gt;<i> Spam bait email: <A HREF="mailto:abuse@127.0.0.1">abuse@127.0.0.1</A> <A HREF="mailto:enforcement@sec.gov">enforcement@sec.gov</A>
+</I>&gt;<i> <A HREF="mailto:cyberfraud@nasaa.org">cyberfraud@nasaa.org</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+</PRE>
+<!--endarticle-->
+    <HR>
+    <P><UL CLASS="no_index">
+        <!--threads-->
+	<LI> Previous message: <A HREF="001829.html">Basic OO Principles (was: WebObjects DataBase performance)
+</A></li>
+	<LI> Next message: <A HREF="001862.html">Basic OO Principles
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1844">[ date ]</a>
+              <a href="thread.html#1844">[ thread ]</a>
+              <a href="subject.html#1844">[ subject ]</a>
+              <a href="author.html#1844">[ author ]</a>
+         </LI>
+       </UL>
+</body></html>

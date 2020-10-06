@@ -1,0 +1,6 @@
+﻿Microsoft Visual Studio Solution File, Format Version 9.00
+# SharpDevelop 2.0.0.930
+Project("{A33008B1-5DAC-44D5-9060-242E3B6E38F2}") = "UnitTestRm01", "UnitTestRm01.booproj", "{D5A24087-855B-4A89-9B41-AB90F6E35FD9}"
+EndProject
+Global
+EndGlobal
