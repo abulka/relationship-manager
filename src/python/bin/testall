@@ -1,0 +1,3 @@
+python -V
+pwd
+python -m unittest discover -p 'test*' -v tests

@@ -1,82 +1,5 @@
-"""
-Relationship manager revisited.
-Version 1.2
-June 2003. 
-(c) Andy Bulka
-http://www.atug.com/andypatterns
-
-  ____      _       _   _                 _     _
- |  _ \ ___| | __ _| |_(_) ___  _ __  ___| |__ (_)_ __
- | |_) / _ \ |/ _` | __| |/ _ \| '_ \/ __| '_ \| | '_ \
- |  _ <  __/ | (_| | |_| | (_) | | | \__ \ | | | | |_) |
- |_| \_\___|_|\__,_|\__|_|\___/|_| |_|___/_| |_|_| .__/
-                                                 |_|
-  __  __
- |  \/  | __ _ _ __   __ _  __ _  ___ _ __
- | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|
- | |  | | (_| | | | | (_| | (_| |  __/ |
- |_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|
-                           |___/
-"""
-
-class RM1:
-    def __init__(self):
-        from relationshipmanager import RelationshipManager
-        self.rm = RelationshipManager()
-        self.enforcer = {}
-        
-    def ER(self, relId, cardinality, directionality="directional"):
-        # enforceRelationship(id, cardinality, directionality)
-        self.enforcer[relId] = (cardinality, directionality)
-        
-    def _RemoveExistingRelationships(self, fromObj, toObj, relId):
-        def ExtinguishOldFrom():
-            oldFrom = self.B(toObj, relId)
-            self.NR(oldFrom, toObj, relId)
-        def ExtinguishOldTo():
-            oldTo = self.P(fromObj, relId)
-            self.NR(fromObj, oldTo, relId)
-        if relId in self.enforcer.keys():
-            cardinality, directionality = self.enforcer[relId]
-            if cardinality == "onetoone":
-                ExtinguishOldFrom()
-                ExtinguishOldTo()
-            elif cardinality == "onetomany": # and directionality == "directional":
-                ExtinguishOldFrom()
-
-    def R(self, fromObj, toObj, relId):
-        # addRelationship(f, t, id)
-        self._RemoveExistingRelationships(fromObj, toObj, relId)
-        self.rm.AddRelationship(fromObj, toObj, relId)
-
-        if relId in self.enforcer.keys():
-            cardinality, directionality = self.enforcer[relId]
-            if directionality == "bidirectional":
-                self.rm.AddRelationship(toObj, fromObj, relId)
-        
-    def P(self, fromObj, relId):
-        # findObjectPointedToByMe(fromMe, id, cast)
-        return self.rm.FindObject(fromObj, None, relId)
-        
-    def B(self, toObj, relId):
-        # findObjectPointingToMe(toMe, id cast)
-        return self.rm.FindObject(None, toObj, relId)
-
-    def PS(self, fromObj, relId):
-        # findObjectsPointedToByMe(fromMe, id, cast)
-        return self.rm.FindObjects(fromObj, None, relId)
-
-    def NR(self, fromObj, toObj, relId):
-        # removeRelationship(f, t, id)
-        self.rm.RemoveRelationships(fromObj, toObj, relId)
-        
-        if relId in self.enforcer.keys():
-            cardinality, directionality = self.enforcer[relId]
-            if directionality == "bidirectional":
-                self.rm.RemoveRelationships(toObj, fromObj, relId)
-
-
 import unittest
+from src.RM import RM1
 
 RM = None
 
@@ -86,7 +9,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         global RM
         RM = RM1()
         
-    def checkOneToOne_XSingularApi_YNoApi(self):
+    def test_OneToOne_XSingularApi_YNoApi(self):
         """
          ______________        ______________
         |       X      |      |       Y      |
@@ -180,7 +103,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert x2.getY() == y1
 
 
-    def checkOneToOne_XNoApi_YSingularApi(self):
+    def test_OneToOne_XNoApi_YSingularApi(self):
         """
          ______________        ______________
         |       X      |      |       Y      |
@@ -388,7 +311,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.clearX()
         assertallclear()
 
-    def checkOneToOne_XSingularApi_YSingularApi(self):
+    def test_OneToOne_XSingularApi_YSingularApi(self):
         """
         Since both sides have an API, then this is bidirectional
          ______________        ______________
@@ -418,7 +341,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         y2 = Y()
         self.onetooneasserts(x1,x2,y1,y2)
 
-    def checkOneToOne_XSingularApi_YSingularApi_Alt(self):
+    def test_OneToOne_XSingularApi_YSingularApi_Alt(self):
         """
         Alternative implementation of same API.
 
@@ -469,7 +392,10 @@ class TestCase02_OneToMany(unittest.TestCase):
         global RM
         RM = RM1()
 
-    def checkOneToMany_XPluralApi_YNoApi(self):
+    def tearDown(self):
+        RM = None
+
+    def test_OneToMany_XPluralApi_YNoApi(self):
         """
         One to Many
         
@@ -500,7 +426,7 @@ class TestCase02_OneToMany(unittest.TestCase):
         y2 = Y()
         self.onetomanyasserts(x1,x2,y1,y2)
 
-    def checkOneToMany_XPluralApi_YSingularApi(self):
+    def test_OneToMany_XPluralApi_YSingularApi(self):
         """
         One to Many, BI
         
@@ -570,7 +496,7 @@ class TestCase02_OneToMany(unittest.TestCase):
             def removeY(self, y):      RM.NR(self, y, "xtoy")
             
         class Y:
-##            def setX(self, x):         RM.R(self, x, "xy")
+            ## def setX(self, x):         RM.R(self, x, "xy")
             def setX(self, x):         RM.R(x, self, "xtoy")  # though bi, there is still a direction!
             def getX(self):     return RM.P(self, "xtoy")
             def clearX(self):          RM.NR(self, self.getX(), "xtoy")
@@ -582,7 +508,7 @@ class TestCase02_OneToMany(unittest.TestCase):
         self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
 
 
-    def checkOneToMany_XPluralApi_YSingularApi_Alt(self):
+    def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
         """
         Alternative implentation, using "directional" and B()
          _________________        ______________
@@ -592,8 +518,7 @@ class TestCase02_OneToMany(unittest.TestCase):
         |addY(self, y)    |1    *|setX(self, x) |
         |getAllY(self)    |<---->|getX(self)    |
         |removeY(self, y) |      |clearX(self)  |
-        |_________________|      |______________|
-        
+        |_________________|      |______________|       
         """
         class X:
             def __init__(self):        RM.ER("xtoy", "onetomany", "directional")
@@ -612,6 +537,16 @@ class TestCase02_OneToMany(unittest.TestCase):
         y2 = Y()
         self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
 
+        """
+        Note re running this test
+
+        ** Interesting, this passes when run with suite and script but fails when run via any of
+        python -m unittest -v tests.test_rm
+        python -m unittest -v tests.test_rm.TestCase02_OneToMany
+        python -m unittest -v tests.test_rm.TestCase02_OneToMany.test_OneToMany_XPluralApi_YSingularApi_Alt
+        
+
+        """
 
     def onetomanyasserts(self, x1, x2, y1, y2, yapi=0):
 
@@ -686,7 +621,10 @@ class TestCase02_OneToMany(unittest.TestCase):
                       `--->(  y2   )
                             `-----'
             """
-            assert x1.getAllY() == [y1, y2], "Actual situation %s" % x1.getAllY()
+            # this way of testing is dependent on a certain order which sometimes fails: assert x1.getAllY() == [y1, y2], "Actual situation %s" % x1.getAllY()
+            self.assertEqual(len(x1.getAllY()), 2)
+            self.assertIn(y1, x1.getAllY())
+            self.assertIn(y2, x1.getAllY())
             if yapi:
                 assert y1.getX() == x1
                 assert y2.getX() == x1
@@ -740,7 +678,10 @@ class TestCase02_OneToMany(unittest.TestCase):
             if yapi:
                 assert y1.getX() == x1
         def assertSituation04():
-            assert x1.getAllY() == [y1, y2]
+            # this way of testing is dependent on a certain order which sometimes fails: assert x1.getAllY() == [y1, y2]
+            self.assertEqual(len(x1.getAllY()), 2)
+            self.assertIn(y1, x1.getAllY())
+            self.assertIn(y2, x1.getAllY())
             if yapi:
                 assert y2.getX() == x1
         def assertSituation05():
@@ -938,11 +879,19 @@ class TestCase02_OneToMany(unittest.TestCase):
 
 
 def suite():
-    suite1 = unittest.makeSuite(TestCase01_OneToOne, 'check')
-    suite2 = unittest.makeSuite(TestCase02_OneToMany, 'check')
+    # This suite only gets used by an explicit test runner when executing this file as a program
+    # For CLI unit test discovery launching, use 'python -m unittest tests.test_rm'
+    suite1 = unittest.makeSuite(TestCase01_OneToOne, 'test')
+    suite2 = unittest.makeSuite(TestCase02_OneToMany, 'test')
     alltests = unittest.TestSuite((suite1,suite2))
     return alltests
-    
+
+def _suite():
+    # test just one test
+    suite = unittest.makeSuite(TestCase02_OneToMany, 'test_OneToMany_XPluralApi_YSingularApi_Alt')
+    alltests = unittest.TestSuite((suite,))
+    return alltests
+
 def main():
     """ Run all the suites.  To run via a gui, then
             python unittestgui.py NestedDictionaryTest.suite
@@ -959,4 +908,3 @@ def main():
 if __name__ == '__main__':
     main()
     
-
