@@ -37,7 +37,7 @@ class RelationshipManager:
         def ExtinguishOldTo():
             oldTo = self.P(fromObj, relId)
             self.NR(fromObj, oldTo, relId)
-        if relId in self.enforcer.keys():
+        if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if cardinality == "onetoone":
                 ExtinguishOldFrom()
@@ -50,7 +50,7 @@ class RelationshipManager:
         self._RemoveExistingRelationships(fromObj, toObj, relId)
         self.rm.AddRelationship(fromObj, toObj, relId)
 
-        if relId in self.enforcer.keys():
+        if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
                 self.rm.AddRelationship(toObj, fromObj, relId)
@@ -71,7 +71,7 @@ class RelationshipManager:
         # removeRelationship(f, t, id)
         self.rm.RemoveRelationships(fromObj, toObj, relId)
         
-        if relId in self.enforcer.keys():
+        if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
                 self.rm.RemoveRelationships(toObj, fromObj, relId)

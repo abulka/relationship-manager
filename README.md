@@ -21,7 +21,7 @@ Andy's Relationship Manager Pattern incl. various implementations
 
 ## Python
 
-Uses Python 2 (this code was implemented before Python 3 even existed).
+Uses Python 3. Open the `src/python` directory in vscode or your favourite IDE and run tests etc. from there.
 
 Run the tests
 

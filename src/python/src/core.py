@@ -59,7 +59,7 @@ class RelationshipManagerOriginal2:
         self.Relationships.append( (From, To, RelId) ) # assoc obj
   def RemoveRelationships(self, From, To, RelId=1):
       """ Specifying None as a parameter means 'any' """
-      havespecifiedallParams = lambda : (From<>None and To<>None and RelId<>None)
+      havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
       def NumberOfNonWildcardParamsSupplied():
           numberOfNoneParams = 0
           if From == None: numberOfNoneParams+=1
@@ -68,7 +68,7 @@ class RelationshipManagerOriginal2:
           return numberOfNoneParams
 
       if NumberOfNonWildcardParamsSupplied() > 1:
-          raise RuntimeError, 'Only one parameter can be left as None, (match anything).'
+          raise RuntimeError('Only one parameter can be left as None, (match anything).')
 
       if havespecifiedallParams():
           association = (From, To, RelId)  # this is implementation dependent.
@@ -91,9 +91,9 @@ class RelationshipManagerOriginal2:
   def FindObjects(self, From=None, To=None, RelId=1):
       """ Specifying None as a parameter means 'any' """
       if From==None and To==None:
-          raise RuntimeError, "Either 'From' or 'To' has to be specified"
+          raise RuntimeError("Either 'From' or 'To' has to be specified")
       resultlist = []
-      havespecifiedallParams = lambda : (From<>None and To<>None and RelId<>None)
+      havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
       match = lambda obj,list,index : obj==list[index] or obj==None
       for association in self.Relationships:
           if match(From,association,0) and match(To,association,1) and match(RelId,association,2):
@@ -167,11 +167,11 @@ class BigRelationshipManager1(object):
 
         if From==None:
             subdict = self.InverseOfRelations.get(To, {})
-            resultlist = [ k for k, v in subdict.iteritems() if v == RelId]
+            resultlist = [ k for k, v in subdict.items() if v == RelId]
         elif To==None:
             # returns a list of all the matching tos
             subdict = self.Relations.get(From, {})
-            resultlist = [ k for k, v in subdict.iteritems() if v == RelId]
+            resultlist = [ k for k, v in subdict.items() if v == RelId]
         else:
             # returns a list of all the matching (from, to, relid)
             subdict = self.Relations.get(From, {})
@@ -237,7 +237,7 @@ class EfficientRelationshipManager1(object):
       """
       Specifying None as a parameter means 'any'
       """
-      havespecifiedallParams = lambda : (From<>None and To<>None and RelId<>None)
+      havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
       def NumberOfNonWildcardParamsSupplied():
           numberOfNoneParams = 0
           if From == None: numberOfNoneParams+=1
@@ -246,11 +246,11 @@ class EfficientRelationshipManager1(object):
           return numberOfNoneParams
 
       if NumberOfNonWildcardParamsSupplied() > 1:
-          raise RuntimeError, 'Only one parameter can be left as None, (indicating a match with anything).'
+          raise RuntimeError('Only one parameter can be left as None, (indicating a match with anything).')
 
       def ZapRelId(From, To, RelId):
           def _ZapRelationId(rdict, From, To, RelId):
-              assert (From<>None and To<>None and RelId<>None)
+              assert (From!=None and To!=None and RelId!=None)
               relList = rdict[From][To]
               if RelId in relList:
                   relList.remove(RelId)
@@ -296,19 +296,19 @@ class EfficientRelationshipManager1(object):
           From=None To=None RelId=None  error
         """
         if From==None and To==None:
-            raise RuntimeError, "Either 'From' or 'To' has to be specified"
+            raise RuntimeError("Either 'From' or 'To' has to be specified")
 
-        havespecifiedallParams = lambda : (From<>None and To<>None and RelId<>None)
+        havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
         resultlist = []
 
         if From==None:
             subdict = self.InverseOfRelations.get(To, {})
-            resultlist = [ k for k, v in subdict.iteritems() if (RelId in v or RelId == None)]
+            resultlist = [ k for k, v in subdict.items() if (RelId in v or RelId == None)]
 
         elif To==None:
             # returns a list of all the matching tos
             subdict = self.Relations.get(From, {})
-            resultlist = [ k for k, v in subdict.iteritems() if (RelId in v or RelId == None)]
+            resultlist = [ k for k, v in subdict.items() if (RelId in v or RelId == None)]
 
         else:
           """

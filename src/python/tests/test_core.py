@@ -5,6 +5,13 @@ from src.core import EfficientRelationshipManager1 as RelationshipManager
 
 class TestCase00(unittest.TestCase):
     def test_example(self):
+        # FRED FRED FRED <-- this doesn't get printed
+        
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
+        
+        """
+        sdfsdfsdfsdfsdfdsf <-- this does
+        """
         pass
 
 class TestCase01(unittest.TestCase):
@@ -57,7 +64,7 @@ class TestCase02(unittest.TestCase):
         assert self.rm.FindObject(None,'b', 'r2') == 'a'
 
 
-        assert self.rm.FindObject(None,'c') <> 'a' # default relationshipid is integer 1 which is not the string 'r1' nor is it 'r2'
+        assert self.rm.FindObject(None,'c') != 'a' # default relationshipid is integer 1 which is not the string 'r1' nor is it 'r2'
         assert self.rm.FindObject(None,'c','r1') == 'a'
 
     def test_MultipleReturns01(self):
@@ -275,7 +282,8 @@ def suite():
     return alltests
 
 def main():
-    runner = unittest.TextTestRunner(descriptions=0, verbosity=2) # default is descriptions=1, verbosity=1
+    # runner = unittest.TextTestRunner(descriptions=0, verbosity=2) # default is descriptions=1, verbosity=1
+    runner = unittest.TextTestRunner(descriptions=False, verbosity=0) # default is descriptions=1, verbosity=1
     runner.run( suite() )
 
 if __name__ == '__main__':

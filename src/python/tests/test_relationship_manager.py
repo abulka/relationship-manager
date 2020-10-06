@@ -10,6 +10,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         RM = RelationshipManager()
         
     def test_OneToOne_XSingularApi_YNoApi(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
          ______________        ______________
         |       X      |      |       Y      |
@@ -104,6 +105,7 @@ class TestCase01_OneToOne(unittest.TestCase):
 
 
     def test_OneToOne_XNoApi_YSingularApi(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
          ______________        ______________
         |       X      |      |       Y      |
@@ -312,6 +314,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         assertallclear()
 
     def test_OneToOne_XSingularApi_YSingularApi(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
         Since both sides have an API, then this is bidirectional
          ______________        ______________
@@ -342,6 +345,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         self.onetooneasserts(x1,x2,y1,y2)
 
     def test_OneToOne_XSingularApi_YSingularApi_Alt(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
         Alternative implementation of same API.
 
@@ -396,6 +400,8 @@ class TestCase02_OneToMany(unittest.TestCase):
         RM = None
 
     def test_OneToMany_XPluralApi_YNoApi(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
+
         """
         One to Many
         
@@ -427,6 +433,7 @@ class TestCase02_OneToMany(unittest.TestCase):
         self.onetomanyasserts(x1,x2,y1,y2)
 
     def test_OneToMany_XPluralApi_YSingularApi(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
         One to Many, BI
         
@@ -509,6 +516,7 @@ class TestCase02_OneToMany(unittest.TestCase):
 
 
     def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
+        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
         Alternative implentation, using "directional" and B()
          _________________        ______________
