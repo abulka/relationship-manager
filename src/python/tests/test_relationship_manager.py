@@ -1,5 +1,5 @@
 import unittest
-from src.RM import RM1
+from src.relationship_manager import RelationshipManager
 
 RM = None
 
@@ -7,7 +7,7 @@ class TestCase01_OneToOne(unittest.TestCase):
 
     def setUp(self):
         global RM
-        RM = RM1()
+        RM = RelationshipManager()
         
     def test_OneToOne_XSingularApi_YNoApi(self):
         """
@@ -390,7 +390,7 @@ class TestCase02_OneToMany(unittest.TestCase):
 
     def setUp(self):
         global RM
-        RM = RM1()
+        RM = RelationshipManager()
 
     def tearDown(self):
         RM = None

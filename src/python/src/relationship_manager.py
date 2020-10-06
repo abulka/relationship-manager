@@ -1,9 +1,9 @@
 """
-Relationship manager revisited.
-Version 1.2
-June 2003. 
+Relationship manager.
+Version 1.3
+June 2003, updated October 2020.
 (c) Andy Bulka
-http://www.atug.com/andypatterns
+https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/
 
   ____      _       _   _                 _     _
  |  _ \ ___| | __ _| |_(_) ___  _ __  ___| |__ (_)_ __
@@ -18,12 +18,12 @@ http://www.atug.com/andypatterns
  |_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|
                            |___/
 """
+from src.core import EfficientRelationshipManager1 as RMCoreAPI
 
 
-class RM1:
+class RelationshipManager:
     def __init__(self):
-        from src.relationshipmanager import RelationshipManager
-        self.rm = RelationshipManager()
+        self.rm = RMCoreAPI()
         self.enforcer = {}
         
     def ER(self, relId, cardinality, directionality="directional"):

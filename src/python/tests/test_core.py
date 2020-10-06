@@ -1,12 +1,7 @@
 import unittest, random, time
 import os, sys
-
-# print os.getcwd()
-# print sys.path
-# if os.getcwd() not in sys.path:
-#     raise RuntimeWarning("hmm path muckup")
-
-from src.relationshipmanager import RelationshipManager
+# could import other 'core' implementations instead and test them.
+from src.core import EfficientRelationshipManager1 as RelationshipManager
 
 class TestCase00(unittest.TestCase):
     def test_example(self):

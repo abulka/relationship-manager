@@ -1,3 +1,15 @@
+import copy
+
+"""
+Core Implementations of Relationship Manager - various:
+    - RelationshipManagerOriginal
+    - RelationshipManagerOriginal2
+    - BigRelationshipManager1
+    - EfficientRelationshipManager1 (latest)
+
+Note that the actual RelationshipManager adds a little bit of functionality too.
+"""
+
 class RelationshipManagerOriginal:
   def __init__(self):		# Constructor
       self.Relationships = []
@@ -179,11 +191,7 @@ class BigRelationshipManager1(object):
         else:
             return None
 
-
-
 #-----------------------------------
-
-import copy
 
 class EfficientRelationshipManager1(object):
     """
@@ -332,5 +340,5 @@ class EfficientRelationshipManager1(object):
 #class RelationshipManager(RelationshipManagerOriginal):
 #class RelationshipManager(RelationshipManagerOriginal2):
 #class RelationshipManager(BigRelationshipManager1):
-class RelationshipManager(EfficientRelationshipManager1):
-    pass
+# class RelationshipManager(EfficientRelationshipManager1):
+#     pass
