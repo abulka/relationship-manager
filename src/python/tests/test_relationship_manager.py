@@ -1,6 +1,6 @@
 import unittest
 import pprint
-from src.relationship_manager import RelationshipManager
+from src.relationship_manager import EnforcingRelationshipManagerShortMethodNames as RelationshipManager
 
 RM = None
 

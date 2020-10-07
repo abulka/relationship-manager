@@ -1,7 +1,9 @@
 import unittest, random, time
 import os, sys
-# could import other 'core' implementations instead and test them.
-from src.core import EfficientRelationshipManager1 as RelationshipManager
+from src.relationship_manager import RelationshipManager
+
+# could import 'core' implementations instead and test them.
+# from src.core import EfficientRelationshipManager1 as RelationshipManager
 
 class TestCase00(unittest.TestCase):
     def test_example(self):
@@ -10,7 +12,7 @@ class TestCase00(unittest.TestCase):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         
         """
-        sdfsdfsdfsdfsdfdsf <-- this does
+        sdfsdfsdfsdfsdfdsf <-- this does get printed, unless we do the above multiline trick
         """
         pass
 

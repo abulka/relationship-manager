@@ -1,4 +1,5 @@
 import copy
+from typing import List, Set, Dict, Tuple, Optional, Union
 
 """
 Core Implementations of Relationship Manager - various:
@@ -9,6 +10,47 @@ Core Implementations of Relationship Manager - various:
 
 Note that the actual RelationshipManager adds a little bit of functionality too.
 """
+
+# class InterfaceRelationshipManager:
+#     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
+#     def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
+#     Relationships = property(GetRelations, SetRelations)
+
+#     def AddRelationship(self, From, To, RelId=1) -> None:
+#         """Add a relationship of type RelId which can be an integer or string"""
+
+#     def RemoveRelationships(self, From, To, RelId=1) -> None:
+#       """
+#       Specifying None as a parameter means 'any'
+#       """
+
+#     def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]:
+#         """
+#         Specifying None as a parameter means 'any'. E.g. when you specify:
+
+#             # 'From' is None - use normal relations dictionary
+#             From=None To=blah RelId=blah  anyone pointing to 'To' of specific RelId
+#             From=None To=blah RelId=None  anyone pointing to 'To'
+
+#             # 'To' is None - use inverse relations dictionary
+#             From=blah To=None RelId=blah  anyone 'From' points to, of specific RelId
+#             From=blah To=None RelId=None  anyone 'From' points to
+
+#             # Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
+#             From=blah To=blah RelId=None  all RelId's between blah and blah
+#             From=blah To=blah RelId=blah  T/F does this specific relationship exist  <--- bool returned, yuk
+
+#             From=None To=None RelId=blah  error (though you could implement returning 
+#                                                 a list of From,To pairs using the R blah e.g. [('a','b'),('a','c')]
+#             From=None To=None RelId=None  error
+#         """
+
+#     def FindObject(self, From=None, To=None, RelId=1) -> object:
+#         pass
+
+#     def Clear(self) -> None:
+#         pass
+
 
 class RelationshipManagerOriginal:
   def __init__(self):		# Constructor
