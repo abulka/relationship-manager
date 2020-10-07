@@ -1,950 +1,322 @@
-import unittest
-import pprint
-from src.relationship_manager import EnforcingRelationshipManagerShortMethodNames as RelationshipManager
+import unittest, random, time
+import os, sys
+from src.relationship_manager import RelationshipManager
 
-RM = None
 
-class TestCase01_OneToOne(unittest.TestCase):
-
-    def setUp(self):
-        global RM
-        RM = RelationshipManager()
+class TestCase00(unittest.TestCase):
+    def test_example(self):
+        # FRED FRED FRED <-- this doesn't get printed
         
-    def test_OneToOne_XSingularApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
-        """
-         ______________        ______________
-        |       X      |      |       Y      |
-        |______________|      |______________|
-        |              |      |              |
-        |void  setY(y) |1    1|              |
-        |Y     getY()  |----->|              |
-        |void  clearY()|      |              |
-        |______________|      |______________|
-
-        """
-        class X:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self):     return RM.P(self, "xtoy")
-            def clearY(self):          RM.NR(self, self.getY(), "xtoy")
-            
-        class Y:
-            pass
-            
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        # Initial situation
-        assert x1.getY() == None
-        assert x2.getY() == None
-
-        # After clearing pointers
-        x1.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == None
-            
-        # After setting one pointer, x1 -> y1
-        x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
-
-        # After setting x2 -> y1, we cannot allow a situation where
-        # both x's to point to the same y, since this would be "many to one".
-        # The existing x1 -> y1 must be auto deleted by the relationship manager
-        # relationship enforcer.
-        assert x1.getY() == y1
-        x2.setY(y1)
-        assert x1.getY() == None  # relationship should have been auto removed
-        assert x2.getY() == y1
-
-        # Clear one pointer
-        x1.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == y1
-            
-        # Clear other pointer
-        x2.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == None
-
-        # Change from pointing to one thing then point to another
-        x1.setY(y1)
-        x1.setY(y2)
-        assert x1.getY() == y2
-            
-        # Ensure repeat settings do not disturb things
-        x1.clearY()
-        x2.clearY()
-        # x1 -> y1, x2 -> None
-        x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
-        # repeat
-        x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
         
-        # x1 -> None, x2 -> y1
-        x2.setY(y1)
-        assert x1.getY() == None
-        assert x2.getY() == y1
-        # repeat
-        x2.setY(y1)
-        assert x1.getY() == None
-        assert x2.getY() == y1
-        
-        # x1 -> y2, x2 -> y1
-        x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
-        # repeat
-        x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
-
-
-    def test_OneToOne_XNoApi_YSingularApi(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
-         ______________        ______________
-        |       X      |      |       Y      |
-        |______________|      |______________|
-        |              |      |              |
-        |              |1    1|setX(self, x) |
-        |              |----->|getX(self)    |
-        |              |      |clearX(self)  |
-        |______________|      |______________|        
-
+        sdfsdfsdfsdfsdfdsf <-- this does get printed, unless we do the above multiline trick
         """
-        class X:
-            pass
-            
-        class Y:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
-
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-
-        # Initial situation
-        assert y1.getX() == None
-        assert y2.getX() == None
-
-        # After clearing pointers
-        y1.clearX()
-        assert y1.getX() == None
-        assert y2.getX() == None
-            
-        # After setting one pointer, thus x1 -> y1
-        y1.setX(x1)
-        assert y1.getX() == x1
-        assert y2.getX() == None
-
-        # Want to show two x's pointing to same y
-        # Cannot do this since need access to an x api to do the 2nd link
-        # but this unit test assumes that the X has no API at all.
         pass
 
-        # A y can be pointed to by many x's
-        # An x can only point at one y at a time
-        # So if x1 -> y1 and then x1 -> y2 then y1 is being pointed to by no-one.
-        # After setting other pointer, both x's pointing to same y, thus x1 & x2 -> y1
-        y2.setX(x1)
-        assert y1.getX() == None  # should be auto cleared
-        assert y2.getX() == x1
-
-        # Clear one pointer
-        y1.clearX()
-        assert y1.getX() == None
-        assert y2.getX() == x1
-            
-        # Clear other pointer
-        y2.clearX()
-        assert y1.getX() == None
-        assert y2.getX() == None
-
-        # Change from x1 -> y1 to x2 -> y1 (pointing to one thing then point to another)
-        y1.clearX()
-        y2.clearX()
-        y1.setX(x1)
-        y1.setX(x2)
-        assert y1.getX() == x2
-        assert y2.getX() == None
-
-        # Ensure repeat settings do not disturb things
-        y1.clearX()
-        y2.clearX()
-        y1.setX(x1)
-        assert y1.getX() == x1
-        assert y2.getX() == None
-        # repeat
-        y1.setX(x1)
-        assert y1.getX() == x1
-        assert y2.getX() == None
-
-
-    def onetooneasserts(self, x1, x2, y1, y2):
-
-        def assertallclear():
-            assert x1.getY() == None
-            assert x2.getY() == None
-            assert y1.getX() == None
-            assert y2.getX() == None
-        
-        # Initial situation
-        assertallclear()
-
-        # After clearing pointers
-        x1.clearY()
-        x2.clearY()
-        y1.clearX()
-        y2.clearX()
-        assertallclear()
-
-        # After setting one pointer, x1 <-> y1
-        x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
-        assert y1.getX() == x1
-        assert y2.getX() == None
-
-        # After clearing that one pointer, x1 <-> y1
-        x1.clearY()
-        assertallclear()
-
-        # After setting one pointer, via y API, x1 <-> y1
-        y1.setX(x1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
-        assert y1.getX() == x1
-        assert y2.getX() == None
-        y1.clearX()
-        assertallclear()
-
-        # After setting one pointer, via y API, x1 <-> y1
-        # then change it via x API, to          x1 <-> y2
-        # thus the old x1 <-> y1 must extinguish.
-        y1.setX(x1)
-        x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
-        assert y2.getX() == x1
-        # repeat
-        y1.setX(x1)
-        x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
-        assert y2.getX() == x1
-        # clear
-        x1.clearY()
-        assertallclear()
-        
-        # Do same trick using opposite API's
-        x1.setY(y1)                             # instead of y1.setX(x1)
-        y2.setX(x1)                             # instead of x1.setY(y2)
-        # exactly the same assertions
-        assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
-        assert y2.getX() == x1
-        # repeat
-        x1.setY(y1)
-        y2.setX(x1)
-        assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
-        assert y2.getX() == x1
-
-        y2.clearX()
-        assertallclear()
-
-
-        # Wire both x1-y1, x2-y2 using x API
-        x1.setY(y1)
-        x2.setY(y2)
-        assert x1.getY() == y1
-        assert x2.getY() == y2
-        assert y1.getX() == x1
-        assert y2.getX() == x2
-        # repeat wiring using opposite Y api, same asserts
-        y1.setX(x1)
-        y2.setX(x2)
-        assert x1.getY() == y1
-        assert x2.getY() == y2
-        assert y1.getX() == x1
-        assert y2.getX() == x2
-        # Now set x2-y1 using x API, should yield x1-None, x2-y1
-        x2.setY(y1)
-        assert x1.getY() == None
-        assert x2.getY() == y1
-        assert y1.getX() == x2
-        assert y2.getX() == None
-        # Repeat above set x2-y1 using y API, same asserts
-        y1.setX(x2)
-        assert x1.getY() == None
-        assert x2.getY() == y1
-        assert y1.getX() == x2
-        assert y2.getX() == None
-        # Now set x1-y2, using y API, should yield x1-y2, x2-y1
-        y2.setX(x1)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
-        assert y1.getX() == x2
-        assert y2.getX() == x1
-        # Repeat above set x1-y2, using x API, same asserts
-        x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
-        assert y1.getX() == x2
-        assert y2.getX() == x1
-        
-        x1.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == y1
-        assert y1.getX() == x2
-        assert y2.getX() == None
-        y1.clearX()
-        assertallclear()
-
-    def test_OneToOne_XSingularApi_YSingularApi(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
-        """
-        Since both sides have an API, then this is bidirectional
-         ______________        ______________
-        |       X      |      |       Y      |
-        |______________|      |______________|
-        |              |      |              |
-        |void  setY(y) |1    1|setX(self, x) |
-        |Y     getY()  |<---->|getX(self)    |
-        |void  clearY()|      |clearX(self)  |
-        |______________|      |______________|        
-        """
-        class X:
-            def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
-            def setY(self, y):         RM.R(self, y, "xy")
-            def getY(self):     return RM.P(self, "xy")
-            def clearY(self):          RM.NR(self, self.getY(), "xy")
-            
-        class Y:
-            def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
-            def setX(self, x):         RM.R(self, x, "xy")
-            def getX(self):     return RM.P(self, "xy")
-            def clearX(self):          RM.NR(self, self.getX(), "xy")
-            
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        self.onetooneasserts(x1,x2,y1,y2)
-
-    def test_OneToOne_XSingularApi_YSingularApi_Alt(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
-        """
-        Alternative implementation of same API.
-
-         ______________        ______________
-        |       X      |      |       Y      |
-        |______________|      |______________|
-        |              |      |              |
-        |void  setY(y) |1    1|setX(self, x) |
-        |Y     getY()  |<---->|getX(self)    |
-        |void  clearY()|      |clearX(self)  |
-        |______________|      |______________|        
-        
-        Proves that the bidirectional one to one - API using only P()
-         (whether implemented as two synchronised relationships,
-          or whether implemented as a smart single bi relationship)
-        can also be imlpemented as directional one to one - API using B() and P()
-         (whether implemented as a single relationship,
-          or whether implemented as two synchronised (more efficient) relationships).
-        
-        Note that the above alternative API implementation is a pure 
-        combination of the two directional APIs from unit tests
-            XSingularApi_YNoApi
-            XNoApi_YSingularApi
-        using the directional relationship "xtoy".
-        """
-        class X:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self):     return RM.P(self, "xtoy")
-            def clearY(self):          RM.NR(self, self.getY(), "xtoy")
-        class Y:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
-        
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        self.onetooneasserts(x1,x2,y1,y2)
-
-
-
-class TestCase02_OneToMany(unittest.TestCase):
-
+class TestCase01(unittest.TestCase):
     def setUp(self):
-        global RM
-        RM = RelationshipManager()
+        self.rm = RelationshipManager()
+    def test_Basic00(self):
+        self.rm.AddRelationship('a','b')
+        self.rm.AddRelationship('a','c')
 
-    def tearDown(self):
-        RM = None
+        result = self.rm.FindObjects('a',None)
+        assert result == ['b','c'] or result == ['c','b']
+        assert self.rm.FindObjects(None,'a') == []
+        assert self.rm.FindObjects(None,'b') == ['a']
+        assert self.rm.FindObjects(None,'c') == ['a']
+    def test_Basic01Singular(self):
+        self.rm.AddRelationship('a','b')
+        self.rm.AddRelationship('a','c')
+        assert self.rm.FindObject(None,'b') == 'a'
+        assert self.rm.FindObject(None,'c') == 'a'
 
-    def test_OneToMany_XPluralApi_YNoApi(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
+        result = self.rm.FindObject('a',None) # could be 'b' or 'c' - arbitrary
+        assert result == 'b' or result == 'c'
+
+
+class TestCase02(unittest.TestCase):
+    def setUp(self):
+        """
+        A --r1-> B
+        A <-r1-- B
+        A --r2-> B
+        A --r1-> C
+        """
+        self.rm = RelationshipManager()
+
+        self.rm.AddRelationship('a','b', 'r1')
+        self.rm.AddRelationship('a','b', 'r2')
+
+        self.rm.AddRelationship('b','a', 'r1')
+
+        self.rm.AddRelationship('a','c', 'r1')
+
+    def test_IfRelIdIsWorking01(self):
+        result = self.rm.FindObject('a',None,'r1') # could be 'b' or 'c' - arbitrary
+        assert result == 'b' or result == 'c'
+
+        assert self.rm.FindObject('a',None, 'r2') == 'b'
+        assert self.rm.FindObject('a',None, 'r3') == None
+
+        assert self.rm.FindObject(None,'b', 'r1') == 'a'
+        assert self.rm.FindObject(None,'b', 'r2') == 'a'
+
+
+        assert self.rm.FindObject(None,'c') != 'a' # default relationshipid is integer 1 which is not the string 'r1' nor is it 'r2'
+        assert self.rm.FindObject(None,'c','r1') == 'a'
+
+    def test_MultipleReturns01(self):
+        #assert self.rm.FindObjects('a',None,'r1').sort() == ['b', 'c']
+        res = self.rm.FindObjects('a',None,'r1')
+        res.sort()
+        assert res == ['b', 'c']
+
+        assert self.rm.FindObjects(None,'b','r1') == ['a']
+        assert self.rm.FindObjects(None,'b') == []  # cos no relationships with id integer 1 have been created
+
+        ok = False
+        try:
+          assert self.rm.FindObjects(None,None) == []   # invalid - must specify at least either from or to
+        except RuntimeError:
+          ok = True
+        assert ok
+
+
+    def test_NonExistent01(self):
+        assert self.rm.FindObjects('aa',None,'r1') == []
+        assert self.rm.FindObjects('a',None,'r1111') == []
+        assert self.rm.FindObjects('az',None,None) == []
+        assert self.rm.FindObjects(None,'bb','r1') == []
+        assert self.rm.FindObjects(None,'b','r1111') == []
+        assert self.rm.FindObjects('a',None,'r1111') == []
+        assert self.rm.FindObjects(None,'bb',None) == []
+
+    def test_FindRelationshipIds_NewFeatureFeb2005_01(self):
+        # ***
+        # *** Original behaviour was to return the actual relationship tuples (bad cos implementation dependent!)
+        # ***
+        # *** New behaviour is to return a boolean.
+        # ***
+        # When specify both sides of a relationship, PLUS the relationship itself,
+        # then there is nothing to find, so return a boolean T/F if that relationship exists.
+        #
+        assert self.rm.FindObjects('a','b','r1') == True
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','b','zzz') == False
 
         """
-        One to Many
-        
-         _________________        ______________
-        |        X        |      |       Y      |
-        |_________________|      |______________|
-        |                 |      |              |
-        |addY(self, y)    |1    *|              |
-        |getAllY(self)    |----->|              |
-        |removeY(self, y) |      |              |
-        |_________________|      |______________|
-
-        X has the required plural API, 
-        Y has no API.
+        This next one is a bit subtle - we are in fact specifying all parameters, because the
+        default relId is integer 1 (allowing you to create simple relationships easily).
+        Thus the question we are asking is "is there a R of type 'integer 1' between a and b?"
         """
-        class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "directional")
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
-        class Y:
-            pass
+        assert self.rm.FindObjects('a','b') == False # cos no relationships with id integer 1 have been created
 
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2)
+    def test_FindRelationshipIds_NewFeatureFeb2005_02(self):
+        # ***
+        # *** Original behaviour was to return the actual relationship tuples (bad cos implementation dependent!)
+        # ***
+        # *** New behaviour is to return a list of the relationship ids.
+        # ***
+        # When specify both sides of the relationship but leave the relationship None, you get a list of the relationships.
+        #
+        assert self.rm.FindObjects('a','b',None) == ['r1', 'r2']
 
-    def test_OneToMany_XPluralApi_YSingularApi(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
+    def test_Removal_01(self):
+        # Specify wildcard RelId
+        assert self.rm.FindObjects('a','b',None) == ['r1', 'r2']
+        assert self.rm.FindObjects('a','b','r1') == True
+        assert self.rm.FindObjects('a','b','r2') == True
+        self.rm.RemoveRelationships('a','b',None)  # remove all R's between a and b
+        assert self.rm.FindObjects('a','b',None) == [], 'Getting ' + str(self.rm.FindObjects('a','b',None))
+        assert self.rm.FindObjects('a','b','r1') == False
+        assert self.rm.FindObjects('a','b','r2') == False
+
+    def test_Removal_02(self):
+        # Specify all params
+        self.rm.RemoveRelationships('a','b','r1')
+        assert self.rm.FindObjects('a','b',None) == ['r2']
+        assert self.rm.FindObjects('a','b','r1') == False
+        assert self.rm.FindObjects('a','b','r2') == True
+
+    def test_Removal_03(self):
+        # Specify 'from' param
+        assert self.rm.FindObjects('a','b','r1') == True
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == True
+        self.rm.RemoveRelationships('a',None,'r1')
+        assert self.rm.FindObjects('a','b','r1') == False # zapped
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == False # zapped
+
+        assert self.rm.FindObject(None,'b','r1') == None
+        assert self.rm.FindObject(None,'b','r2') == 'a'
+        assert self.rm.FindObject(None,'c',None) == None
+
+    def test_Removal_04(self):
+        # Specify 'to' param
+        assert self.rm.FindObjects('a','b','r1') == True
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == True
+        self.rm.RemoveRelationships(None,'b','r1')
+        assert self.rm.FindObjects('a','b','r1') == False # zapped
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == True
+
+        self.rm.RemoveRelationships(None,'c','r1')
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == False # zapped
+
+        self.rm.RemoveRelationships(None,'b','r2')
+        assert self.rm.FindObjects('a','b','r2') == False # zapped
+        assert self.rm.FindObjects('a','c','r1') == False
+
+class TestCase03(unittest.TestCase):
+    def setUp(self):
         """
-        One to Many, BI
-        
-         _________________        ______________
-        |        X        |      |       Y      |
-        |_________________|      |______________|
-        |                 |      |              |
-        |addY(self, y)    |1    *|setX(self, x) |
-        |getAllY(self)    |<---->|getX(self)    |
-        |removeY(self, y) |      |clearX(self)  |
-        |_________________|      |______________|
-
-        X has the required plural API, 
-        Y has the reciprocal singular API
-        
-        Since there are two API's, one on each class, this makes it a bidirectional relationship.
-        
-        However !! there still remains a strong sense of directionality since the one to many
-        is directional i.e. the one is the X and the many is the Y.
-
-        Thus RM.R on both API's must be always done from the X to the Y.
-        
-        So in a sense, the relationships should be named "xtoy" even though it is bi.
-        
-        
-                               ___               ___
-          _________        ___d888b___       ___d888
-         d888888888b______d88888888888b_____d8888888
-        d8888888888888888888888888888888888888888888
-        Y88P     Y8888888888P       Y888888888P
-        
-        ASIDE:
-        Only in the many to many case would you consider using a name like "xy" for a 
-        relationshipId.  ??
-        
-        But even then, you often have a many to many that is directional
-        e.g. many brothers to many sisters - you must get the directionality right 
-        e.g. "brothertosister" is one relationship
-             X (brother)                                Y (sister)
-             addSister(s)  RM.R(this,s,'btos')          addBrother(b)  RM.R(b,this,'btos')
-             getSisters()                               getBrothers()
-             
-        Notice the directionality is always the one way.
-        
-        Will there ever be a many to many where directionality DOESN'T matter?
-        Perhaps if there are two different objects pointing to each other, there
-        are going to be the 'attachment points' - thus you ALWAYS need to know
-        who is on what side of the relationship.
-        
-        END ASIDE.
-        
-        h88b     h8888888888b       h888888888b
-        q8888888888888888888888888888888888888888888
-         q888888888p""   "q88888888888p""q8888888
-                           ""q888p""       ""q888
-        
-        This too, has two implementations, do it as a BI, with proper pointers
-        from y to x (rather than relying on backpointers).  
-        Note that implementationally, both cases can be done with a single relationship
-        or both cases can be done with a pair of relationships.
-        one relationship, a bi
+        Lots of relationsips. Check the speed.
         """
-        class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "bidirectional")
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
-        class Y:
-            ## def setX(self, x):         RM.R(self, x, "xy")
-            def setX(self, x):         RM.R(x, self, "xtoy")  # though bi, there is still a direction!
-            def getX(self):     return RM.P(self, "xtoy")
-            def clearX(self):          RM.NR(self, self.getX(), "xtoy")
+        self.rm = RelationshipManager()
+        #self.THINGS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ'    # ori takes MINUTES   efficient1 takes 1.7
+        self.THINGS = 'abcdefghijk'                                             # ori takes 4.6       efficient1 takes 0.38
 
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
+        for c in self.THINGS:
+          for c2 in self.THINGS:
+            self.rm.AddRelationship(c,c2,'r1')
+            self.rm.AddRelationship(c,c2,'r2')
+            self.rm.AddRelationship(c2,c,'r3')
+
+    def test_Speed01(self):
+        t = time.time()
+
+        for c in self.THINGS:
+          for c2 in self.THINGS:
+            assert c2 in self.rm.FindObjects(c,None,'r1')
+            assert c2 in self.rm.FindObjects(c,None,'r2')
+            assert c in self.rm.FindObjects(c2,None,'r3')
+
+        timetook = time.time() -t
+        #print "Relationship lookups took", timetook, 'seconds'
+
+        assert timetook < 0.05, 'Relationship manager not fast enough! ' + str(timetook)
 
 
-    def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
-        """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
+class TestCase04(unittest.TestCase):
+    def setUp(self):
         """
-        Alternative implentation, using "directional" and B()
-         _________________        ______________
-        |        X        |      |       Y      |
-        |_________________|      |______________|
-        |                 |      |              |
-        |addY(self, y)    |1    *|setX(self, x) |
-        |getAllY(self)    |<---->|getX(self)    |
-        |removeY(self, y) |      |clearX(self)  |
-        |_________________|      |______________|       
+        A --r1-> B
+        A --r1-> B   # attempt to add a second R of the same type
+        A --r2-> B
+        A --r1-> C
         """
-        class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "directional")
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
-        class Y:
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
-    
-        x1 = X()
-        x2 = X()
-        y1 = Y()
-        y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
+        self.rm = RelationshipManager()
 
+        self.rm.AddRelationship('a','b', 'r1')
+        self.rm.AddRelationship('a','b', 'r1')
+        self.rm.AddRelationship('a','b', 'r2')
+        self.rm.AddRelationship('a','c', 'r1')
+
+    def test_Duplicates01(self):
+        assert self.rm.FindObjects('a','b','r1') == True # [('a', 'b', 'r1')]
+        assert self.rm.FindObjects('a','b',None) == ['r1','r2']
+        assert self.rm.FindObjects('a','c','r1') == True # [('a', 'c', 'r1')]
+        assert self.rm.FindObjects('a','c',None) == ['r1']
+
+class TestCase05(unittest.TestCase):
+    def setUp(self):
         """
-        Note re running this test
+        Check getting and setting the 'Relationships' property, which,
+        despite the implementation, should look the same.
+        In the original RM the property is actually accessed directly (naughty)
+        and the implementation is the same as the spec, namely a list of tuples (from,to,relid)
 
-        ** Interesting, this passes when run with suite and script but fails when run via any of
-        python -m unittest -v tests.test_rm
-        python -m unittest -v tests.test_rm.TestCase02_OneToMany
-        python -m unittest -v tests.test_rm.TestCase02_OneToMany.test_OneToMany_XPluralApi_YSingularApi_Alt
-        
-
+        A --r1-> B
+        A --r2-> B
+        A --r1-> C
+        B --r1-> A
+        C --r9-> B
         """
+        self.rm = RelationshipManager()
 
-    def onetomanyasserts(self, x1, x2, y1, y2, yapi=0):
+        self.rm.AddRelationship('a','b', 'r1')
+        self.rm.AddRelationship('a','b', 'r2')
+        self.rm.AddRelationship('a','c', 'r1')
+        self.rm.AddRelationship('b','a', 'r1')
+        self.rm.AddRelationship('c','b', 'r9')
 
-        def assertallclear():
-            assert x1.getAllY() == []
-            assert x2.getAllY() == []
-            if yapi:
-                assert y1.getX() == None
-                assert y2.getX() == None
-        def assertSituation00():
-            assert x1.getAllY() == [y1]
-            if yapi:
-                assert y1.getX() == x1
-        
-        # Initial situation
-        assertallclear()
-
-        # clearing pointers that do not exist, should be ok.
-        x1.removeY(y1)
-        assertallclear()
-        x1.removeY(y2)
-        assertallclear()
-        x2.removeY(y1)
-        assertallclear()
-        x2.removeY(y2)
-        assertallclear()
-        if yapi:
-            y1.clearX()
-            assertallclear()
-            y2.clearX()
-            assertallclear()
+    def test_Get01(self):
+        r = self.rm.Relationships
+        #assert r == [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'), ('b', 'a', 'r1'), ('c', 'b', 'r9')]
+        assert len(r) == 5
+        assert ('a', 'b', 'r1') in r
+        assert ('a', 'b', 'r2') in r
+        assert ('a', 'c', 'r1') in r
+        assert ('b', 'a', 'r1') in r
+        assert ('c', 'b', 'r9') in r
 
 
-        """
-        +--------------------------------+
-        |Add a single X to Y relationship|
-        +--------------------------------+
-        """
-        x1.addY(y1)
-        """
-         ,-----.      ,-----.
-        (  x1   )--->(  y1   )
-         `-----'      `-----'
-        """
-        assertSituation00()
-        # now remove it
-        x1.removeY(y1)
-        assertallclear()
+    def test_Set01(self):
+        r = [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'), ('b', 'a', 'r1'), ('c', 'b', 'r9')]
+        newrm = RelationshipManager()
+        newrm.Relationships = r
 
-        # Add initial relationship, from the y side
-        if yapi:
-            y1.setX(x1)
-            assertSituation00()
-            # now remove it, from the y side
-            y1.clearX()
-            assertallclear()
-
-
-        """
-        +--------------------------------------------+
-        |Add two relationships coming from a single X|
-        |to multiple Y's.                            |
-        +--------------------------------------------+
-        """
-        def assertSituation01():
-            """
-             ,-----.      ,-----.
-            (  x1   )--->(  y1   )
-             `-----'.     `-----'
-                    |
-                     \      ,-----.
-                      `--->(  y2   )
-                            `-----'
-            """
-            # this way of testing is dependent on a certain order which sometimes fails: assert x1.getAllY() == [y1, y2], "Actual situation %s" % x1.getAllY()
-            self.assertEqual(len(x1.getAllY()), 2)
-            self.assertIn(y1, x1.getAllY())
-            self.assertIn(y2, x1.getAllY())
-            if yapi:
-                assert y1.getX() == x1
-                assert y2.getX() == x1
-        def assertSituation02():
-            """
-             ,-----.      ,-----.
-            (  x1   )    (  y1   )
-             `-----'.     `-----'
-                    |
-                     \      ,-----.
-                      `--->(  y2   )
-                            `-----'
-            """
-            assert x1.getAllY() == [y2]
-            if yapi:
-                assert y1.getX() == None
-                assert y2.getX() == x1
-        # Add two relationships, from x API
-        x1.addY(y1)
-        x1.addY(y2)
-        assertSituation01()
-        # now remove y1
-        x1.removeY(y1)
-        assertSituation02()
-        # now remove y2
-        x1.removeY(y2)
-        assertallclear()
-
-        # Add two relationships, from the y api side.
-        if yapi:
-            assertallclear()
-            y1.setX(x1)
-            y2.setX(x1)
-            assertSituation01()
-            # now remove y1
-            y1.clearX()
-            assertSituation02()
-            # now remove y1
-            y2.clearX()
-            assertallclear()
-
-
-
-        """
-        +---------------------------+
-        |Add same relationship twice|
-        +---------------------------+
-        """
-        def assertSituation03():
-            assert x1.getAllY() == [y1]
-            if yapi:
-                assert y1.getX() == x1
-        def assertSituation04():
-            # this way of testing is dependent on a certain order which sometimes fails: assert x1.getAllY() == [y1, y2]
-            self.assertEqual(len(x1.getAllY()), 2)
-            self.assertIn(y1, x1.getAllY())
-            self.assertIn(y2, x1.getAllY())
-            if yapi:
-                assert y2.getX() == x1
-        def assertSituation05():
-            if yapi:
-                assert y1.getX() == None
-            assert x1.getAllY() == [y2]
-        x1.addY(y1)
-        x1.addY(y1)
-        """
-         ,-----.      ,-----.
-        (  x1   )--->(  y1   )
-         `-----'      `-----'
-
-                        ,-----.
-                       (  y2   )
-                        `-----'        
-        """
-        assertSituation03()
-        
-        x1.addY(y2)
-        x1.addY(y2)
-        """
-         ,-----.      ,-----.
-        (  x1   )--->(  y1   )
-         `-----' `.   `-----'
-                   `-.
-                      `>,-----.
-                       (  y2   )
-                        `-----'
-        """
-        assertSituation04()
-        # now remove y1 (again, twice, just to check robustness)
-        x1.removeY(y1)
-        x1.removeY(y1)
-        """
-         ,-----.      ,-----.
-        (  x1   )--->(  y1   )
-         `-----'      `-----'
-
-                        ,-----.
-                       (  y2   )
-                        `-----'        
-        """
-        assertSituation05()
-        # now remove y2 twice
-        x1.removeY(y2)
-        x1.removeY(y2)
-
-        assertallclear()
-        
-
-        """
-        +----------------------------------------+
-        |Add same relationship twice, from Y side|
-        +----------------------------------------+
-        """
-        if yapi:
-            y1.setX(x1)
-            y1.setX(x1)
-            """
-             ,-----.      ,-----.
-            (  x1   )--->(  y1   )
-             `-----'      `-----'
-
-                            ,-----.
-                           (  y2   )
-                            `-----'        
-            """
-            assertSituation03()
-            y2.setX(x1)
-            y2.setX(x1)
-            """
-             ,-----.      ,-----.
-            (  x1   )--->(  y1   )
-             `-----' `.   `-----'
-                       `-.
-                          `>,-----.
-                           (  y2   )
-                            `-----'
-            """
-            assertSituation04()
-            # now remove y1, from Y side (again, twice, just to check robustness)
-            y1.clearX()
-            y1.clearX()
-            """
-             ,-----.      ,-----.
-            (  x1   )--->(  y1   )
-             `-----'      `-----'
-
-                            ,-----.
-                           (  y2   )
-                            `-----'        
-            """
-            assertSituation05()
-            # now remove y2 twice, from Y side
-            y2.clearX()
-            y2.clearX()
-
-            assertallclear()
-        
-
-        """
-        +----------------------------------------------------+
-        |Add two relationships, then add a third             |
-        |relationship which effects an previous relationship.|
-        +----------------------------------------------------+
-        """
-        # Make x1 -> y1,y2
-        assertallclear()
-        x1.addY(y1)
-        x1.addY(y2)
-        """
-          ,-----.      ,-----.
-         (  x1   )--->(  y1   )
-          `-----' `.   `-----'
-                    `-.
-            ,-----.    `>,-----.
-           (  x2   )    (  y2   )
-            `-----'      `-----'
-        """
-        # Now make x2 -> y1
-        x2.addY(y1)
-        """
-         ,-----.        ,-----.
-        (  x1   )     >(  y1   )
-         `-----' `. ,'  `-----'
-                   /-.
-           ,-----,'   `>,-----.
-          (  x2   )    (  y2   )
-           `-----'      `-----'        
-        After much thought, I believe the addition of the x2 -> y1 relationship
-         should extinguish the existing x1 -> y1 since y's can only be pointed to by one x.
-        If you want to keep the existing x1 -> y1 then you actually are describing the
-         many to many, directional, no y api, scenario.        
-        """
-        assert x1.getAllY() == [y2]
-        assert x2.getAllY() == [y1]
-        if yapi:
-            assert y1.getX() == x2
-            assert y2.getX() == x1
-
-        x1.removeY(y2)
-        x2.removeY(y1)
-        assertallclear()
-        
-
-        """
-        +---------------------------------------------------+
-        |Two different X's point to the same Y.             |
-        |Again enforcement that y only pointed to by one X, |
-        |and that the original relationship is extinguished.|
-        +---------------------------------------------------+
-        """
-        def assertSituation06():
-            assert x1.getAllY() == []
-            assert x2.getAllY() == [y1]
-            if yapi:
-                assert y1.getX() == x2
-
-        x1.addY(y1)
-        """
-         ,-----.      ,-----.
-        (  x1   )--->(  y1   )
-         `-----'      `-----'
-          ,-----.
-         (  x2   )
-          `-----'
-        """
-        x2.addY(y1)
-        """
-         ,-----.      ,-----.
-        (  x1   )  .>(  y1   )
-         `-----'   |  `-----'
-          ,-----.  |
-         (  x2   --+
-          `-----'        
-        """
-        assertSituation06()
-
-        x2.removeY(y1)
-        assertallclear()
-
-
-        # Same as above, except wired via Y's API
-        if yapi:
-            y1.setX(x1)
-            y1.setX(x2)
-            assertSituation06()
-            y1.clearX()
-            assertallclear()
-
-        assertallclear()
-
-
-@unittest.skip('persistence not implemented')
-class TestCase03_Persistence(unittest.TestCase):
-
-    def test_naive_persistence(self):
-
-        class RelationshipManagerPersistent(RelationshipManager):
-            def __init__(self):
-                RelationshipManager.__init__(self)
-
-            def __repr__(self):
-                return pprint.pformat(self.rm.Relationships)
-
-            def LoadFromStr(self, str):
-                self.rm.Relationships = eval(str)
-
-            def LoadFromList(self, L):
-                self.rm.Relationships = L
-                # what about restoring InverseOfRelations ?
-
-        rm = RelationshipManagerPersistent()
-        rm.ER("xtoy", "onetoone", "directional")
-        x = object()
-        y = object()
-        rm.R(x, y, "xtoy")
-        self.assertEqual(rm.P(x, "xtoy"), y)
-
-        # now try to persist and restore
-        # print(repr(rm))
-        s = repr(rm)
-        rm.LoadFromStr(s)  # yeah this isn't going to work, need to properly persist as JSON or something
-        
+        assert self.rm.FindObjects('a','b','r1') == True
+        assert self.rm.FindObjects('a','b','r2') == True
+        assert self.rm.FindObjects('a','c','r1') == True
+        assert self.rm.FindObjects('b','a','r1') == True
+        assert self.rm.FindObjects('c','b','r9') == True
 
 
 def suite():
     # This suite only gets used by an explicit test runner when executing this file as a program
-    # For CLI unit test discovery launching, use 'python -m unittest tests.test_rm'
-    suite1 = unittest.makeSuite(TestCase01_OneToOne, 'test')
-    suite2 = unittest.makeSuite(TestCase02_OneToMany, 'test')
-    alltests = unittest.TestSuite((suite1,suite2))
-    return alltests
-
-def _suite():
-    # test just one test
-    suite = unittest.makeSuite(TestCase02_OneToMany, 'test_OneToMany_XPluralApi_YSingularApi_Alt')
-    alltests = unittest.TestSuite((suite,))
+    # For CLI unit test discovery launching, use 'python -m unittest tests.test_core' or for verbosity
+    # python -m unittest -v tests.test_core
+    suite0 = unittest.makeSuite(TestCase00,'test')
+    suite1 = unittest.makeSuite(TestCase01,'test')
+    suite2 = unittest.makeSuite(TestCase02,'test')
+    suite3 = unittest.makeSuite(TestCase03,'test')
+    suite4 = unittest.makeSuite(TestCase04,'test')
+    suite5 = unittest.makeSuite(TestCase05,'test')
+    alltests = unittest.TestSuite( (suite0,suite1,suite2,suite3,suite4,suite5) )
     return alltests
 
 def main():
-    """ Run all the suites.  To run via a gui, then
-            python unittestgui.py NestedDictionaryTest.suite
-        Note that I run with VERBOSITY on HIGH  :-) just like in the old days
-        with pyUnit for python 2.0
-        Simply call
-          runner = unittest.TextTestRunner(descriptions=0, verbosity=2)
-        The default arguments are descriptions=1, verbosity=1
-    """
-    runner = unittest.TextTestRunner(descriptions = 0, verbosity = 2) # default is descriptions=1, verbosity=1
-    #runner = unittest.TextTestRunner(descriptions=0, verbosity=1) # default is descriptions=1, verbosity=1
-    runner.run(suite())
-    
+    # runner = unittest.TextTestRunner(descriptions=0, verbosity=2) # default is descriptions=1, verbosity=1
+    runner = unittest.TextTestRunner(descriptions=False, verbosity=0) # default is descriptions=1, verbosity=1
+    runner.run( suite() )
+
 if __name__ == '__main__':
     main()
-    
+
+
+"""
+SCRAPS
+
+import pprint
+
+class RelationshipManagerPersistent(RelationshipManager):
+    def __init__(self):
+        RelationshipManager.__init__(self)
+
+    def __repr__(self):
+        return pprint.pformat(self.Relationships)
+
+    def LoadFromStr(self, str):
+        self.Relationships = eval(str)
+
+    def LoadFromList(self, L):
+        self.Relationships = L
+
+P.S.  There may be more stuff like this to integrate back into the main
+      relationshipmanager.py module found in oobtree.py
+      e.g.
+        self._ConvertRelations(self.oobtreeAllies.relations.Relationships)
+        LoadFromReprStr(self, strdict):
+        __repr__(self):
+        __str__(self):
+        LoadFromDict
+        etc.
+"""
+
+#-----------------------------
