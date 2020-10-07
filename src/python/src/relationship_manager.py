@@ -32,6 +32,7 @@ class RelationshipManager:
     Could use a different core api implementation, though GetRelations() and SetRelations()
     only supported by the later core implementations.
     """
+
     def __init__(self) -> None:
         self.rm = RMCoreImplementation()
 
@@ -57,7 +58,7 @@ class RelationshipManager:
 
     def FindObjectPointedToByMe(self, fromObj, relId) -> object:
         return self.rm.FindObject(fromObj, None, relId)
-        
+
     def FindObjectPointingToMe(self, toObj, relId) -> object:  # Back pointer query
         return self.rm.FindObject(None, toObj, relId)
 
@@ -80,17 +81,19 @@ class EnforcingRelationshipManager(RelationshipManager):
         - When adding the same relationship again (by mistake?) any previous 
         relationship is removed first.
     """
+
     def __init__(self):
         super().__init__()
         self.enforcer = {}
-        
+
     def EnforceRelationship(self, relId, cardinality, directionality="directional"):
         self.enforcer[relId] = (cardinality, directionality)
-        
+
     def _RemoveExistingRelationships(self, fromObj, toObj, relId):
         def ExtinguishOldFrom():
             oldFrom = self.FindObjectPointingToMe(toObj, relId)
             self.RemoveRelationships(oldFrom, toObj, relId)
+
         def ExtinguishOldTo():
             oldTo = self.FindObjectPointedToByMe(fromObj, relId)
             self.RemoveRelationships(fromObj, oldTo, relId)
@@ -99,7 +102,7 @@ class EnforcingRelationshipManager(RelationshipManager):
             if cardinality == "onetoone":
                 ExtinguishOldFrom()
                 ExtinguishOldTo()
-            elif cardinality == "onetomany": # and directionality == "directional":
+            elif cardinality == "onetomany":  # and directionality == "directional":
                 ExtinguishOldFrom()
 
     def AddRelationship(self, fromObj, toObj, relId):
@@ -125,17 +128,17 @@ class EnforcingRelationshipManager(RelationshipManager):
 class EnforcingRelationshipManagerShortMethodNames:  # nicer for unit tests
     def __init__(self):
         self.rm = EnforcingRelationshipManager()
-        
+
     def ER(self, relId, cardinality, directionality="directional"):
         self.rm.EnforceRelationship(relId, cardinality, directionality)
-        
+
     def R(self, fromObj, toObj, relId):
         self.rm.AddRelationship(fromObj, toObj, relId)
-        
+
     def P(self, fromObj, relId):
         # findObjectPointedToByMe(fromMe, id, cast)
         return self.rm.FindObject(fromObj, None, relId)
-        
+
     def B(self, toObj, relId):
         # findObjectPointingToMe(toMe, id cast)
         return self.rm.FindObject(None, toObj, relId)

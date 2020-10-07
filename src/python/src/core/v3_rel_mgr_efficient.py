@@ -17,6 +17,7 @@ class EfficientRelationshipManager(object):
     Adds Relationships property for setting and getting the relationships
     which helps if persisting.
     """
+
     def __init__(self):     # Constructor
         self.Relations = {}
         self.InverseOfRelations = {}
@@ -27,12 +28,13 @@ class EfficientRelationshipManager(object):
             todict = self.Relations[fromobj]
             for toobj in todict:
                 for relId in todict[toobj]:
-                  result.append((fromobj, toobj, relId))
+                    result.append((fromobj, toobj, relId))
         return result
+
     def SetRelations(self, listofrelationshiptuples):
         for r in listofrelationshiptuples:
             self.AddRelationship(From=r[0], To=r[1], RelId=r[2])
-    Relationships = property(GetRelations, SetRelations) # ANDY
+    Relationships = property(GetRelations, SetRelations)  # ANDY
 
     def AddRelationship(self, From, To, RelId=1):
         def AddEntry(relationsDict, From, To, RelId):
@@ -45,49 +47,54 @@ class EfficientRelationshipManager(object):
         AddEntry(self.Relations, From, To, RelId)
         AddEntry(self.InverseOfRelations, To, From, RelId)
 
-
     def RemoveRelationships(self, From, To, RelId=1):
-      """
-      Specifying None as a parameter means 'any'
-      """
-      havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
-      def NumberOfNonWildcardParamsSupplied():
-          numberOfNoneParams = 0
-          if From == None: numberOfNoneParams+=1
-          if To == None: numberOfNoneParams+=1
-          if RelId == None: numberOfNoneParams+=1
-          return numberOfNoneParams
+        """
+        Specifying None as a parameter means 'any'
+        """
+        def havespecifiedallParams(): return (
+            From != None and To != None and RelId != None)
 
-      if NumberOfNonWildcardParamsSupplied() > 1:
-          raise RuntimeError('Only one parameter can be left as None, (indicating a match with anything).')
+        def NumberOfNonWildcardParamsSupplied():
+            numberOfNoneParams = 0
+            if From == None:
+                numberOfNoneParams += 1
+            if To == None:
+                numberOfNoneParams += 1
+            if RelId == None:
+                numberOfNoneParams += 1
+            return numberOfNoneParams
 
-      def ZapRelId(From, To, RelId):
-          def _ZapRelationId(rdict, From, To, RelId):
-              assert (From!=None and To!=None and RelId!=None)
-              relList = rdict[From][To]
-              if RelId in relList:
-                  relList.remove(RelId)
-              if relList == []:     # no more relationships, so remove the entire mapping
-                  del rdict[From][To]
-          _ZapRelationId(self.Relations,          From, To,   RelId)
-          _ZapRelationId(self.InverseOfRelations, To,   From, RelId)
+        if NumberOfNonWildcardParamsSupplied() > 1:
+            raise RuntimeError(
+                'Only one parameter can be left as None, (indicating a match with anything).')
 
-      if havespecifiedallParams():
-          if self.FindObjects(From, To, RelId):  # returns T/F
-              ZapRelId(From, To, RelId)
-      else:
-          lzt = self.FindObjects(From, To, RelId) # this list will be either From or To or RelIds depending on which param was set as None (meaning match anything)
-          if lzt:
-              for objOrRelid in lzt:
-                  if From==None:
-                    # lzt contains all the things that point to 'To' with relid 'RelId'
-                    # objOrRelid is the specific thing during this iteration that point to 'To', so delete it
-                    ZapRelId(objOrRelid, To, RelId)
-                  elif To==None:
-                    ZapRelId(From, objOrRelid, RelId)
-                  elif RelId==None:
-                    ZapRelId(From, To, objOrRelid)
+        def ZapRelId(From, To, RelId):
+            def _ZapRelationId(rdict, From, To, RelId):
+                assert (From != None and To != None and RelId != None)
+                relList = rdict[From][To]
+                if RelId in relList:
+                    relList.remove(RelId)
+                if relList == []:     # no more relationships, so remove the entire mapping
+                    del rdict[From][To]
+            _ZapRelationId(self.Relations,          From, To,   RelId)
+            _ZapRelationId(self.InverseOfRelations, To,   From, RelId)
 
+        if havespecifiedallParams():
+            if self.FindObjects(From, To, RelId):  # returns T/F
+                ZapRelId(From, To, RelId)
+        else:
+            # this list will be either From or To or RelIds depending on which param was set as None (meaning match anything)
+            lzt = self.FindObjects(From, To, RelId)
+            if lzt:
+                for objOrRelid in lzt:
+                    if From == None:
+                        # lzt contains all the things that point to 'To' with relid 'RelId'
+                        # objOrRelid is the specific thing during this iteration that point to 'To', so delete it
+                        ZapRelId(objOrRelid, To, RelId)
+                    elif To == None:
+                        ZapRelId(From, objOrRelid, RelId)
+                    elif RelId == None:
+                        ZapRelId(From, To, objOrRelid)
 
     def FindObjects(self, From=None, To=None, RelId=1):
         """
@@ -108,33 +115,37 @@ class EfficientRelationshipManager(object):
           From=None To=None RelId=blah  error (though you could implement returning a list of From,To pairs using the R blah e.g. [('a','b'),('a','c')]
           From=None To=None RelId=None  error
         """
-        if From==None and To==None:
+        if From == None and To == None:
             raise RuntimeError("Either 'From' or 'To' has to be specified")
 
-        havespecifiedallParams = lambda : (From!=None and To!=None and RelId!=None)
+        def havespecifiedallParams(): return (
+            From != None and To != None and RelId != None)
         resultlist = []
 
-        if From==None:
+        if From == None:
             subdict = self.InverseOfRelations.get(To, {})
-            resultlist = [ k for k, v in subdict.items() if (RelId in v or RelId == None)]
+            resultlist = [k for k, v in subdict.items() if (
+                RelId in v or RelId == None)]
 
-        elif To==None:
+        elif To == None:
             # returns a list of all the matching tos
             subdict = self.Relations.get(From, {})
-            resultlist = [ k for k, v in subdict.items() if (RelId in v or RelId == None)]
+            resultlist = [k for k, v in subdict.items() if (
+                RelId in v or RelId == None)]
 
         else:
-          """
-          # Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
-          From=blah To=blah RelId=None  all RelId's between blah and blah
-          From=blah To=blah RelId=blah  T/F does this specific relationship exist
-          """
-          subdict = self.Relations.get(From, {})
-          relationIdsList = subdict.get(To, [])
-          if RelId==None:
-              resultlist = relationIdsList  # return the entire list of relationship ids between these two.
-          else:
-              return RelId in relationIdsList # return T/F
+            """
+            # Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
+            From=blah To=blah RelId=None  all RelId's between blah and blah
+            From=blah To=blah RelId=blah  T/F does this specific relationship exist
+            """
+            subdict = self.Relations.get(From, {})
+            relationIdsList = subdict.get(To, [])
+            if RelId == None:
+                # return the entire list of relationship ids between these two.
+                resultlist = relationIdsList
+            else:
+                return RelId in relationIdsList  # return T/F
         return copy.copy(resultlist)
 
     def Clear(self):

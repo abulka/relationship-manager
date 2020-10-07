@@ -12,11 +12,13 @@ NOTE1 = '  [must first clearX(), though..see note 1A]'
 NOTE2 = '  [must first clearY(), though..see note 1A]'
 AVOID_RM_WHERE_POSSIBLE = 0
 
+
 class API:
     def __init__(self, fromclassname, toclassname, cardinality):
         self.fromclassname = fromclassname
         self.toclassname = toclassname
-        assert cardinality in ('onetoone', 'onetomany', 'manytoone', 'manytomany')
+        assert cardinality in ('onetoone', 'onetomany',
+                               'manytoone', 'manytomany')
         self.cardinality = cardinality
         self.result = ''
         self.theoneclass = ''
@@ -27,7 +29,7 @@ class API:
             self.theoneclass = self.fromclassname
         elif self.cardinality == 'manytoone':
             self.theoneclass = self.toclassname
-        
+
     def _Init(self, lhs, rhs):
         self.result = ''
         return self._ConvertLhsRhsToTuplesIfManyToMany(lhs, rhs)
@@ -52,22 +54,22 @@ class API:
             lhs = lhs.split(',')
             rhs = rhs.split(',')
         return lhs, rhs
-            
+
     def _YmethodsMessage(self):
-        self.result += '\n---- %s methods ----\n'%self.toclassname
+        self.result += '\n---- %s methods ----\n' % self.toclassname
 
     def _XmethodsMessage(self):
-        self.result += '\n---- %s methods ----\n'%self.fromclassname
-        
+        self.result += '\n---- %s methods ----\n' % self.fromclassname
+
     def _LhsRhsMsg(self, lhs, rhs):
         if lhs and not rhs:
-            self.result += 'X has %s   -  Y has no API\n'%(lhs,)
+            self.result += 'X has %s   -  Y has no API\n' % (lhs,)
         elif rhs and not lhs:
-            self.result += 'X has no API  -  Y has %s\n'%(rhs,)
+            self.result += 'X has no API  -  Y has %s\n' % (rhs,)
         elif lhs and rhs:
-            self.result += 'X has %s  -  Y has %s\n'%(lhs, rhs)
+            self.result += 'X has %s  -  Y has %s\n' % (lhs, rhs)
         return self.result
-    
+
     def _CardinalityHeaderMsg(self):
         self.result += '\n' + '='*10 + '   ' + self.cardinality + '   ' + '='*20 + '\n'
 
@@ -75,21 +77,22 @@ class API:
         self.result += '*'*45 + '\n'
 
     def _NeedPluralApi(self):
-        self.result += "\nN/A - %s requires a plural api on the 'one' class %s.\n"%(self.cardinality,self.theoneclass)
+        self.result += "\nN/A - %s requires a plural api on the 'one' class %s.\n" % (
+            self.cardinality, self.theoneclass)
         return self.result
 
-
     def _apiLhsSingular(self):
-        self.result += 'void  setY(y)    RM.R(this, y, "xtoy")%s\n'%NOTE2
+        self.result += 'void  setY(y)    RM.R(this, y, "xtoy")%s\n' % NOTE2
         self.result += 'Y     getY()     RM.P(this, "xtoy")\n'
         self.result += 'void  clearY()   RM.NR(this, getY(), "xtoy")\n'
 
     def _apiLhsSingular2(self, rhs, rhsCardinality='pluralapi'):
-        assert rhsCardinality == 'pluralapi'  # we have no other calls than this. yet.
+        # we have no other calls than this. yet.
+        assert rhsCardinality == 'pluralapi'
         # Could potentially split this off into common and then routines which use RM and those that
         # use the rhs 'pluralapi'.  Just like the other case.
         self.result += 'Y     getY()     RM.B(this, "ytox")\n'
-        self.result += 'void  setY(y)    RM.R(y, this, "ytox")%s\n'%NOTE2
+        self.result += 'void  setY(y)    RM.R(y, this, "ytox")%s\n' % NOTE2
         self.result += 'void  clearY()   RM.NR(getY(), this, "ytox")\n'
 
     def _apiLhsPlural(self):
@@ -116,13 +119,14 @@ class API:
             yClassSetCallsXmethod, yClassRemoveCallsXmethod = 'addY', 'removeY'
         else:
             yClassSetCallsXmethod, yClassRemoveCallsXmethod = 'setY', 'clearY'
-        
-        self.result += 'void  setX(x)    x.%s(this)%s\n'%(yClassSetCallsXmethod, NOTE1)
-        self.result += 'void  clearX()   getX().%s()\n'%yClassRemoveCallsXmethod
+
+        self.result += 'void  setX(x)    x.%s(this)%s\n' % (
+            yClassSetCallsXmethod, NOTE1)
+        self.result += 'void  clearX()   getX().%s()\n' % yClassRemoveCallsXmethod
 
     def _apiRhsSingular_PureRm(self):
         # self.result += '  (no lhs, so have to call RM methods directly)\n'
-        self.result += 'void  setX(x)    RM.R(x, this, "xtoy")%s\n'%NOTE1
+        self.result += 'void  setX(x)    RM.R(x, this, "xtoy")%s\n' % NOTE1
         self.result += 'void  clearX()   RM.NR( RM.B(this, "xtoy"), this, "xtoy")\n'
 
     def _apiRhsSingular(self, lhs, lhsCardinality):
@@ -143,20 +147,20 @@ class API:
         self._CardinalityHeaderMsg()
         self._LhsRhsMsg(lhs, rhs)
         self._PureLine()
-        
+
         if self.cardinality == 'onetoone':
             assert lhs != 'pluralapi'
             assert lhs != 'pluralapi'
 
             self._XmethodsMessage()
-            
+
             if lhs == 'singularapi':
                 self._apiLhsSingular()
             else:
                 self.result += 'None\n'
-                
+
             self._YmethodsMessage()
-            
+
             if rhs == 'singularapi':
                 self._apiRhsSingular(lhs, lhsCardinality='singularapi')
             else:
@@ -165,41 +169,40 @@ class API:
         elif self.cardinality == 'onetomany':
             assert lhs == 'pluralapi' or lhs == ''
             assert rhs == 'singularapi' or rhs == ''
-            
+
             if rhs == 'singularapi' and lhs != 'pluralapi':
                 return self._NeedPluralApi()
 
             self._XmethodsMessage()
-            
+
             if lhs == 'pluralapi':
                 self._apiLhsPlural()
             else:
                 self.result += 'None\n'
-            
+
             self._YmethodsMessage()
-            
+
             if rhs == 'singularapi':
                 self._apiRhsSingular(lhs, lhsCardinality='singularapi')
             else:
                 self.result += 'None\n'
 
-           
         elif self.cardinality == 'manytoone':
             assert lhs == 'singularapi' or lhs == ''
             assert rhs == 'pluralapi' or rhs == ''
 
             if lhs == 'singularapi' and rhs != 'pluralapi':
                 return self._NeedPluralApi()
-            
+
             self._XmethodsMessage()
-            
+
             if lhs == 'singularapi' and rhs:
                 self._apiLhsSingular()
             else:
                 self.result += 'None\n'
-            
+
             self._YmethodsMessage()
-            
+
             if rhs == 'pluralapi':
                 self._apiRhsPlural()
             else:
@@ -216,9 +219,9 @@ class API:
             self._CarriageReturnBetweenDoubleApis(lhs)
             if 'singularapi' in lhs:
                 self._apiLhsSingular2(rhs, rhsCardinality='pluralapi')
-            
+
             self._YmethodsMessage()
-            
+
             if 'pluralapi' in rhs:
                 self._apiRhsPlural2()
             self._CarriageReturnBetweenDoubleApis(rhs)
@@ -229,6 +232,7 @@ class API:
             self.result += 'NOT IMPLEMENTED\n'
 
         return self.result
+
 
 print('\n'*50)
 
@@ -248,7 +252,7 @@ One-to-many there are two possibilites.
 """
 api = API('X', 'Y', 'onetomany')
 print(api.gen(lhs='pluralapi', rhs=''))
-#print api.gen(lhs='',          rhs='singularapi')  # N/A - onetomany requires a plural api on the 'one' class X.
+# print api.gen(lhs='',          rhs='singularapi')  # N/A - onetomany requires a plural api on the 'one' class X.
 print(api.gen(lhs='pluralapi', rhs='singularapi'))
 
 """
@@ -257,7 +261,7 @@ Many-to-one there are two possibilites.
  Plural API on the other, with or without a singular API on the one.
 """
 api = API('X', 'Y', 'manytoone')
-#print api.gen(lhs='singularapi', rhs='')   # N/A - manytoone requires a plural api on the 'one' class Y.
+# print api.gen(lhs='singularapi', rhs='')   # N/A - manytoone requires a plural api on the 'one' class Y.
 print(api.gen(lhs='',            rhs='pluralapi'))
 print(api.gen(lhs='singularapi', rhs='pluralapi'))
 
@@ -271,7 +275,6 @@ print(api.gen(lhs='pluralapi',             rhs='pluralapi'))
 print(api.gen(lhs='pluralapi',             rhs='pluralapi,singularapi'))
 print(api.gen(lhs='pluralapi,singularapi', rhs='pluralapi'))
 print(api.gen(lhs='pluralapi,singularapi', rhs='pluralapi,singularapi'))
-
 
 
 """

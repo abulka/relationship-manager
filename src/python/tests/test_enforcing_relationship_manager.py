@@ -4,12 +4,13 @@ from src.relationship_manager import EnforcingRelationshipManagerShortMethodName
 
 RM = None
 
+
 class TestCase01_OneToOne(unittest.TestCase):
 
     def setUp(self):
         global RM
         RM = RelationshipManager()
-        
+
     def test_OneToOne_XSingularApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
@@ -26,12 +27,12 @@ class TestCase01_OneToOne(unittest.TestCase):
         class X:
             def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
             def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self):     return RM.P(self, "xtoy")
+            def getY(self): return RM.P(self, "xtoy")
             def clearY(self):          RM.NR(self, self.getY(), "xtoy")
-            
+
         class Y:
             pass
-            
+
         x1 = X()
         x2 = X()
         y1 = Y()
@@ -44,7 +45,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         x1.clearY()
         assert x1.getY() == None
         assert x2.getY() == None
-            
+
         # After setting one pointer, x1 -> y1
         x1.setY(y1)
         assert x1.getY() == y1
@@ -63,7 +64,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         x1.clearY()
         assert x1.getY() == None
         assert x2.getY() == y1
-            
+
         # Clear other pointer
         x2.clearY()
         assert x1.getY() == None
@@ -73,7 +74,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         x1.setY(y1)
         x1.setY(y2)
         assert x1.getY() == y2
-            
+
         # Ensure repeat settings do not disturb things
         x1.clearY()
         x2.clearY()
@@ -85,7 +86,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         x1.setY(y1)
         assert x1.getY() == y1
         assert x2.getY() == None
-        
+
         # x1 -> None, x2 -> y1
         x2.setY(y1)
         assert x1.getY() == None
@@ -94,7 +95,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         x2.setY(y1)
         assert x1.getY() == None
         assert x2.getY() == y1
-        
+
         # x1 -> y2, x2 -> y1
         x1.setY(y2)
         assert x1.getY() == y2
@@ -103,7 +104,6 @@ class TestCase01_OneToOne(unittest.TestCase):
         x1.setY(y2)
         assert x1.getY() == y2
         assert x2.getY() == y1
-
 
     def test_OneToOne_XNoApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
@@ -120,11 +120,11 @@ class TestCase01_OneToOne(unittest.TestCase):
         """
         class X:
             pass
-            
+
         class Y:
             def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
             def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
+            def getX(self): return RM.B(self, "xtoy")
             def clearX(self):          RM.NR(self.getX(), self, "xtoy")
 
         x1 = X()
@@ -140,7 +140,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.clearX()
         assert y1.getX() == None
         assert y2.getX() == None
-            
+
         # After setting one pointer, thus x1 -> y1
         y1.setX(x1)
         assert y1.getX() == x1
@@ -163,7 +163,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.clearX()
         assert y1.getX() == None
         assert y2.getX() == x1
-            
+
         # Clear other pointer
         y2.clearX()
         assert y1.getX() == None
@@ -188,7 +188,6 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert y1.getX() == x1
         assert y2.getX() == None
 
-
     def onetooneasserts(self, x1, x2, y1, y2):
 
         def assertallclear():
@@ -196,7 +195,7 @@ class TestCase01_OneToOne(unittest.TestCase):
             assert x2.getY() == None
             assert y1.getX() == None
             assert y2.getX() == None
-        
+
         # Initial situation
         assertallclear()
 
@@ -246,7 +245,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         # clear
         x1.clearY()
         assertallclear()
-        
+
         # Do same trick using opposite API's
         x1.setY(y1)                             # instead of y1.setX(x1)
         y2.setX(x1)                             # instead of x1.setY(y2)
@@ -265,7 +264,6 @@ class TestCase01_OneToOne(unittest.TestCase):
 
         y2.clearX()
         assertallclear()
-
 
         # Wire both x1-y1, x2-y2 using x API
         x1.setY(y1)
@@ -305,7 +303,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert x2.getY() == y1
         assert y1.getX() == x2
         assert y2.getX() == x1
-        
+
         x1.clearY()
         assert x1.getY() == None
         assert x2.getY() == y1
@@ -330,20 +328,20 @@ class TestCase01_OneToOne(unittest.TestCase):
         class X:
             def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
             def setY(self, y):         RM.R(self, y, "xy")
-            def getY(self):     return RM.P(self, "xy")
+            def getY(self): return RM.P(self, "xy")
             def clearY(self):          RM.NR(self, self.getY(), "xy")
-            
+
         class Y:
             def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
             def setX(self, x):         RM.R(self, x, "xy")
-            def getX(self):     return RM.P(self, "xy")
+            def getX(self): return RM.P(self, "xy")
             def clearX(self):          RM.NR(self, self.getX(), "xy")
-            
+
         x1 = X()
         x2 = X()
         y1 = Y()
         y2 = Y()
-        self.onetooneasserts(x1,x2,y1,y2)
+        self.onetooneasserts(x1, x2, y1, y2)
 
     def test_OneToOne_XSingularApi_YSingularApi_Alt(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
@@ -375,20 +373,20 @@ class TestCase01_OneToOne(unittest.TestCase):
         class X:
             def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
             def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self):     return RM.P(self, "xtoy")
+            def getY(self): return RM.P(self, "xtoy")
             def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+
         class Y:
             def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
             def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
+            def getX(self): return RM.B(self, "xtoy")
             def clearX(self):          RM.NR(self.getX(), self, "xtoy")
-        
+
         x1 = X()
         x2 = X()
         y1 = Y()
         y2 = Y()
-        self.onetooneasserts(x1,x2,y1,y2)
-
+        self.onetooneasserts(x1, x2, y1, y2)
 
 
 class TestCase02_OneToMany(unittest.TestCase):
@@ -419,11 +417,13 @@ class TestCase02_OneToMany(unittest.TestCase):
         Y has no API.
         """
         class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "directional")
+            def __init__(self):        RM.ER(
+                "xtoy", "onetomany", "directional")
+
             def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
+            def getAllY(self): return RM.PS(self, "xtoy")
             def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
+
         class Y:
             pass
 
@@ -431,7 +431,7 @@ class TestCase02_OneToMany(unittest.TestCase):
         x2 = X()
         y1 = Y()
         y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2)
+        self.onetomanyasserts(x1, x2, y1, y2)
 
     def test_OneToMany_XPluralApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
@@ -498,23 +498,25 @@ class TestCase02_OneToMany(unittest.TestCase):
         one relationship, a bi
         """
         class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "bidirectional")
+            def __init__(self):        RM.ER(
+                "xtoy", "onetomany", "bidirectional")
+
             def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
+            def getAllY(self): return RM.PS(self, "xtoy")
             def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
+
         class Y:
             ## def setX(self, x):         RM.R(self, x, "xy")
-            def setX(self, x):         RM.R(x, self, "xtoy")  # though bi, there is still a direction!
-            def getX(self):     return RM.P(self, "xtoy")
+            # though bi, there is still a direction!
+            def setX(self, x):         RM.R(x, self, "xtoy")
+            def getX(self): return RM.P(self, "xtoy")
             def clearX(self):          RM.NR(self, self.getX(), "xtoy")
 
         x1 = X()
         x2 = X()
         y1 = Y()
         y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
-
+        self.onetomanyasserts(x1, x2, y1, y2, yapi=1)
 
     def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
@@ -530,21 +532,23 @@ class TestCase02_OneToMany(unittest.TestCase):
         |_________________|      |______________|       
         """
         class X:
-            def __init__(self):        RM.ER("xtoy", "onetomany", "directional")
+            def __init__(self):        RM.ER(
+                "xtoy", "onetomany", "directional")
+
             def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self):  return RM.PS(self, "xtoy")
+            def getAllY(self): return RM.PS(self, "xtoy")
             def removeY(self, y):      RM.NR(self, y, "xtoy")
-            
+
         class Y:
             def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self):     return RM.B(self, "xtoy")
+            def getX(self): return RM.B(self, "xtoy")
             def clearX(self):          RM.NR(self.getX(), self, "xtoy")
-    
+
         x1 = X()
         x2 = X()
         y1 = Y()
         y2 = Y()
-        self.onetomanyasserts(x1,x2,y1,y2,yapi=1)
+        self.onetomanyasserts(x1, x2, y1, y2, yapi=1)
 
         """
         Note re running this test
@@ -565,11 +569,12 @@ class TestCase02_OneToMany(unittest.TestCase):
             if yapi:
                 assert y1.getX() == None
                 assert y2.getX() == None
+
         def assertSituation00():
             assert x1.getAllY() == [y1]
             if yapi:
                 assert y1.getX() == x1
-        
+
         # Initial situation
         assertallclear()
 
@@ -587,7 +592,6 @@ class TestCase02_OneToMany(unittest.TestCase):
             assertallclear()
             y2.clearX()
             assertallclear()
-
 
         """
         +--------------------------------+
@@ -613,7 +617,6 @@ class TestCase02_OneToMany(unittest.TestCase):
             y1.clearX()
             assertallclear()
 
-
         """
         +--------------------------------------------+
         |Add two relationships coming from a single X|
@@ -637,6 +640,7 @@ class TestCase02_OneToMany(unittest.TestCase):
             if yapi:
                 assert y1.getX() == x1
                 assert y2.getX() == x1
+
         def assertSituation02():
             """
              ,-----.      ,-----.
@@ -675,8 +679,6 @@ class TestCase02_OneToMany(unittest.TestCase):
             y2.clearX()
             assertallclear()
 
-
-
         """
         +---------------------------+
         |Add same relationship twice|
@@ -686,6 +688,7 @@ class TestCase02_OneToMany(unittest.TestCase):
             assert x1.getAllY() == [y1]
             if yapi:
                 assert y1.getX() == x1
+
         def assertSituation04():
             # this way of testing is dependent on a certain order which sometimes fails: assert x1.getAllY() == [y1, y2]
             self.assertEqual(len(x1.getAllY()), 2)
@@ -693,6 +696,7 @@ class TestCase02_OneToMany(unittest.TestCase):
             self.assertIn(y2, x1.getAllY())
             if yapi:
                 assert y2.getX() == x1
+
         def assertSituation05():
             if yapi:
                 assert y1.getX() == None
@@ -709,7 +713,7 @@ class TestCase02_OneToMany(unittest.TestCase):
                         `-----'        
         """
         assertSituation03()
-        
+
         x1.addY(y2)
         x1.addY(y2)
         """
@@ -740,7 +744,6 @@ class TestCase02_OneToMany(unittest.TestCase):
         x1.removeY(y2)
 
         assertallclear()
-        
 
         """
         +----------------------------------------+
@@ -790,7 +793,6 @@ class TestCase02_OneToMany(unittest.TestCase):
             y2.clearX()
 
             assertallclear()
-        
 
         """
         +----------------------------------------------------+
@@ -835,7 +837,6 @@ class TestCase02_OneToMany(unittest.TestCase):
         x1.removeY(y2)
         x2.removeY(y1)
         assertallclear()
-        
 
         """
         +---------------------------------------------------+
@@ -872,7 +873,6 @@ class TestCase02_OneToMany(unittest.TestCase):
 
         x2.removeY(y1)
         assertallclear()
-
 
         # Same as above, except wired via Y's API
         if yapi:
@@ -914,8 +914,8 @@ class TestCase03_Persistence(unittest.TestCase):
         # now try to persist and restore
         # print(repr(rm))
         s = repr(rm)
-        rm.LoadFromStr(s)  # yeah this isn't going to work, need to properly persist as JSON or something
-        
+        # yeah this isn't going to work, need to properly persist as JSON or something
+        rm.LoadFromStr(s)
 
 
 def suite():
@@ -923,14 +923,17 @@ def suite():
     # For CLI unit test discovery launching, use 'python -m unittest tests.test_rm'
     suite1 = unittest.makeSuite(TestCase01_OneToOne, 'test')
     suite2 = unittest.makeSuite(TestCase02_OneToMany, 'test')
-    alltests = unittest.TestSuite((suite1,suite2))
+    alltests = unittest.TestSuite((suite1, suite2))
     return alltests
+
 
 def _suite():
     # test just one test
-    suite = unittest.makeSuite(TestCase02_OneToMany, 'test_OneToMany_XPluralApi_YSingularApi_Alt')
+    suite = unittest.makeSuite(
+        TestCase02_OneToMany, 'test_OneToMany_XPluralApi_YSingularApi_Alt')
     alltests = unittest.TestSuite((suite,))
     return alltests
+
 
 def main():
     """ Run all the suites.  To run via a gui, then
@@ -941,10 +944,11 @@ def main():
           runner = unittest.TextTestRunner(descriptions=0, verbosity=2)
         The default arguments are descriptions=1, verbosity=1
     """
-    runner = unittest.TextTestRunner(descriptions = 0, verbosity = 2) # default is descriptions=1, verbosity=1
-    #runner = unittest.TextTestRunner(descriptions=0, verbosity=1) # default is descriptions=1, verbosity=1
+    runner = unittest.TextTestRunner(
+        descriptions=0, verbosity=2)  # default is descriptions=1, verbosity=1
+    # runner = unittest.TextTestRunner(descriptions=0, verbosity=1) # default is descriptions=1, verbosity=1
     runner.run(suite())
-    
+
+
 if __name__ == '__main__':
     main()
-    
