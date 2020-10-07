@@ -1,41 +1,43 @@
 """
-Observer Pattern - RelationshipManager based implementation
+Observer Pattern - Relationship Manager based implementation
 
-Note: this is a but hacky, could be better and use RM more fully.
-e.g. Observer doesn't reference RM?
+Each observer can have one subject only in this implementation, but it could be
+enhanced very easily. 
+
+A further enhancement might be to allow a different relationship id so that
+observers could observer a subject in multiple ways (each way would correspond
+to a relationship id). The the notification could be of a certain relationship
+id, thus making more granular and efficient notifications.
 """
 from src.relationship_manager import RelationshipManager
 
 
+rm = RelationshipManager()
+
+
 class Observer:
-    def __init__(self):
-        self.subject = None
+   
+    @property
+    def subject(self):
+        return rm.FindObjectPointedToByMe(self)
 
-    def Notify(self, target, notificationEventType):
-        pass
+    @subject.setter
+    def subject(self, _subject):
+        rm.AddRelationship(self, _subject)
+
+    def Notify(self, subject, notificationEventType):
+        pass  # implementations override this and do something
 
 
-class Observable:
-    rm = RelationshipManager()
-
-    def __init__(self):
-        #self.observers = []
-        #self.rm = RelationshipManager()
-        pass
+class Subject:
 
     def NotifyAll(self, notificationEventType):
-        observers = self.rm.FindObjects(self, None)
+        observers = rm.FindObjects(None, self)  # all things pointing at me
         for o in observers:
             o.Notify(self, notificationEventType)
 
     def AddObserver(self, observer):
-        # self.observers.append(observer)
-        self.rm.AddRelationship(self, observer)
-        observer.subject = self
-        # print 'AddObserver', observer, observer.subject
+        rm.AddRelationship(observer, self)
 
     def RemoveObserver(self, observer):
-        # print 'RemoveObserver', observer, self
-        observer.subject = None
-        # self.observers.remove(observer)
-        self.rm.RemoveRelationships(From=self, To=observer)
+        rm.RemoveRelationships(From=observer, To=self)

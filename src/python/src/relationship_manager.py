@@ -56,10 +56,10 @@ class RelationshipManager:
     def FindObject(self, From=None, To=None, RelId=1) -> object:
         return self.rm.FindObject(From, To, RelId)
 
-    def FindObjectPointedToByMe(self, fromObj, relId) -> object:
+    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
         return self.rm.FindObject(fromObj, None, relId)
 
-    def FindObjectPointingToMe(self, toObj, relId) -> object:  # Back pointer query
+    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
         return self.rm.FindObject(None, toObj, relId)
 
     def Clear(self) -> None:

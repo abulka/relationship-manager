@@ -1,10 +1,10 @@
 import unittest
-from src.examples.observer import Observer, Observable
+from src.examples.observer import Observer, Subject
 
 
 class TestObserver(unittest.TestCase):
     def test_basic_instantiation(self):
-        me = Observable()
+        me = Subject()
         spriteview = Observer()
         me.AddObserver(spriteview)
         # assert spriteview in me.observers
@@ -17,7 +17,7 @@ class TestObserver(unittest.TestCase):
             def Notify(self, target, notificationEventType):
                 Watcher.state += 1
 
-        class Model(Observable):
+        class Model(Subject):
             def Add(self):
                 self.NotifyAll(notificationEventType='')
 
@@ -48,7 +48,7 @@ class TestObserver(unittest.TestCase):
             def Notify(self, target, notificationEventType):
                 StateKeeper.state += 10
 
-        class Model(Observable):
+        class Model(Subject):
             def Add(self):
                 self.NotifyAll(notificationEventType='')
 
