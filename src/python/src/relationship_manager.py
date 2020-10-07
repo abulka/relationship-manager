@@ -18,7 +18,11 @@ https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/
                            |___/
 """
 from typing import List, Set, Dict, Tuple, Optional, Union
-from src.core import EfficientRelationshipManager1
+
+# from src.core.v0_rel_mgr_original import RelationshipManagerOriginal as RMCoreImplementation  # 8 test failures
+# from src.core.v1_rel_mgr_original_better_findobjects import RelationshipManagerOriginalBetterFindObjects as RMCoreImplementation  # 2 test failures
+# from src.core.v2_rel_mgr_efficient_buggy import EfficientRelationshipManagerBuggy as RMCoreImplementation  # 12 test failures
+from src.core.v3_rel_mgr_efficient import EfficientRelationshipManager as RMCoreImplementation  # 0 test failures
 
 
 class RelationshipManager:
@@ -29,7 +33,7 @@ class RelationshipManager:
     only supported by the later core implementations.
     """
     def __init__(self) -> None:
-        self.rm = EfficientRelationshipManager1()
+        self.rm = RMCoreImplementation()
 
     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
         return self.rm.GetRelations()
