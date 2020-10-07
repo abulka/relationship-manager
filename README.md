@@ -12,18 +12,65 @@ rather than acting as a huge central database.
 
 Classes that use a Relationship Manager to implement their relationship properties and methods have a consistent metaphor and trivial implementation code (one line calls). In contrast - traditional "pointer" and "arraylist" techniques of implementing relationships are fully flexible but often require a reasonable amount of non-trivial code which can be tricky to get working correctly and are almost always a pain to maintain due to the detailed coding and coupling between classes involved.
 
-
-
+Using a `Relationship Manager` object to manage the relationships can mitigate these problems and make managing relationships straightforward.
 
 # Implementations
 
-Andy's Relationship Manager Pattern incl. various implementations
+Here are various implementations of the Relationship Manager Pattern:
+
+- Python: Uses Python 3, there are no dependencies.
+- Java
+- C#: Visual Studio 2005 project with unit test. Very fast implementation used in at least one commercial product.
 
 ## Python
 
-Uses Python 3. Open the `src/python` directory in vscode or your favourite IDE and run tests etc. from there.
+For general use import like this
 
-Run the tests
+```python
+from src.relationship_manager import EnforcingRelationshipManager as RelationshipManager
+```
+
+Then to use e.g.
+
+```python
+rm = RelationshipManager()
+rm.EnforceRelationship("xtoy", "onetoone", "directional")
+x = object()
+y = object()
+rm.AddRelationship(x, y, "xtoy")
+self.assertEqual(rm.FindObjectPointedToByMe(x, "xtoy"), y)
+```
+
+Read the unit test to see all functionality being exercised, incl. backpointer queries.
+
+### Python API
+
+The API is:
+
+```python
+class InterfaceCoreRelationshipManager:
+    def AddRelationship(self, From, To, RelId: Union[int,str]=1) -> None: pass
+    def RemoveRelationships(self, From, To, RelId=1) -> None: pass
+    def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
+    def FindObject(self, From=None, To=None, RelId=1) -> object: pass
+    def Clear(self) -> None: pass
+    def FindObjectPointedToByMe(self, fromObj, relId) -> object: pass
+    def FindObjectPointingToMe(self, toObj, relId) -> object: pass # Back pointer query
+    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
+    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
+    Relationships = property(GetRelations, SetRelations)
+    def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
+```
+
+If you don't need the `EnforceRelationship` method then simply
+```python
+from src.relationship_manager import RelationshipManager
+```
+
+### Running the tests
+
+Open the `src/python` directory in vscode or your favourite IDE and run tests etc. from there.
+
 
 ```shell
 python -m unittest discover -p 'test*' -v tests
@@ -62,24 +109,6 @@ test_Set01 (test_core.TestCase05) ... ok
 ----------------------------------------------------------------------
 Ran 23 tests in 0.012s
 ```
-### Python API
-
-For testing import like this
-
-```python
-from src.relationship_manager import RelationshipManager
-```
-
-For more general uses import like this
-```python
-from src.core import EfficientRelationshipManager1 as RelationshipManager
-```
-
-The `src.core` relationship managers have the full api whereas the 
-`src.relationship_manager` relationship manager has reduced and 
-abbreviated API names useful for unit testing.
-
-Unfortunately the testing version has some extra constraints and cleanup functionality which ideally would be in the core relationship managers. There is more work here to do.
 
 ## C#
 
@@ -91,9 +120,35 @@ The [boo language](http://boo-language.github.io/) for .NET is now dead, however
 
 ## Java
 
-A java implementation
+A java implementation.
 
 ## Javascript
 
 To be completed.
 
+# Final Thoughts
+
+## Persistence
+
+Persistence is an issue. Often you want to persist all objects and the relationships between them. This has been solved in Relationship Manager a few times but I have to find the code.
+
+## References and memory
+
+Be careful - the Relationship Manager will have references to your objects so garbage collection may not be able to kick in. If you remove all relationships for an object it should be removed from the Relationship Manager, but this needs to be verified in these implementations.
+
+## Performance
+
+Be mindful that normal object to object wiring using references and lists of references is going to be much faster than a Relationship Manager.
+
+## Other implementations
+
+You may want to google for other more professional [Object Databases](https://en.wikipedia.org/wiki/Object_database). For example, in the Python space we have:
+
+- https://github.com/grundic/awesome-python-models - A curated list of awesome Python libraries, which implement models, schemas, serializers/deserializers, ODM's/ORM's, Active Records or similar patterns.
+- https://www.opensourceforu.com/2017/05/three-python-databases-pickledb-tinydb-zodb/ - A peek at three Python databases: PickleDB, TinyDB and ZODB
+- https://tinydb.readthedocs.io/en/stable/usage.html#queries - Welcome to TinyDB, your tiny, document oriented database optimized for your happiness
+- https://divmod.readthedocs.io/en/latest/products/axiom/index.html - Axiom is an object database whose primary goal is to provide an object-oriented layer to an SQL database
+- http://www.newtdb.org/en/latest/getting-started.html - Newt DB - You’ll need a Postgres Database server.
+- http://www.zodb.org/en/latest/tutorial.html#tutorial-label - This tutorial is intended to guide developers with a step-by-step introduction of how to develop an application which stores its data in the ZODB.
+
+However most of these need a backing SQL database - Relationship Manager does not. Then again, Relationship Manager doesn't have built in persistence.

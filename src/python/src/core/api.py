@@ -45,12 +45,6 @@ class InterfaceCoreRelationshipManager:
     def RemoveRelationships(self, From, To, RelId=1) -> None: pass
     def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
     def FindObject(self, From=None, To=None, RelId=1) -> object: pass
-    def FindObjectPointedToByMe(self, fromObj, relId) -> object: pass
-    def FindObjectPointingToMe(self, toObj, relId) -> object: pass # Back pointer query
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
-    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
-    Relationships = property(GetRelations, SetRelations)
     def Clear(self) -> None: pass
 
 class InterfaceRelationshipManager(InterfaceCoreRelationshipManager):
@@ -62,4 +56,3 @@ class InterfaceRelationshipManager(InterfaceCoreRelationshipManager):
 
 class InterfaceEnforcingRelationshipManager(InterfaceRelationshipManager):
     def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
-
