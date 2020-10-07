@@ -36,6 +36,8 @@ class RelationshipManagerOriginalBetterFindObjects:
                     association = (From, objOrRelid, RelId)
                   elif RelId==None:
                     association = (From, To, objOrRelid)
+                  else:
+                    raise("Could not figure out association, aborting")
 
                   if association in self.Relationships:
                     self.Relationships.remove(association)
