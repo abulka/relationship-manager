@@ -25,15 +25,15 @@ class Entity:
 
 
 @dataclass
-class Objects:
-    """an alternative to a dictionary, just want a namespace to store vars/attrs in"""
+class Namespace:
+    """An alternative to a dictionary, just want a namespace to store vars/attrs
+    in. Cannot use object() since instances don't allow arbitrary attribute
+    assignment. We use a dataclass because it implements eq and hash for us, cos
+    we compare namespaces later on.
+    """
 
 
-class XXObjects():
-    """an alternative to a dictionary, just want a namespace to store vars/attrs in"""
-
-
-objects = Objects()  # create a namespace for the variables
+objects = Namespace()  # create a namespace for the variables
 objects.id1 = Entity(strength=1, wise=True, experience=80)
 objects.id2 = Entity(strength=2, wise=False, experience=20)
 objects.id3 = Entity(strength=3, wise=True, experience=100)
@@ -66,28 +66,30 @@ def checkRelationships(rm, objects):
 
 checkRelationships(rm, objects)
 
+# prepare for persistence - wrap the objects and relationships in an outer object
+# create a namespace for persisting - could use a dict, it doesn't matter.
+data = Namespace()
+data.objects = objects
+data.relations = rm.Relationships
+pprint.pprint(data, indent=4)
+
 # persist
-mydict = {
-    'objects': objects,
-    'relations': rm.Relationships
-}
-pprint.pprint(mydict, indent=4)
-asbytes = pickle.dumps(mydict)
+asbytes = pickle.dumps(data)
 # asbytes = pickle.dumps(rm.Relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # resurrect from a asbytes
-mydict2 = pickle.loads(asbytes)
-pprint.pprint(mydict2, indent=4)
+data2 = pickle.loads(asbytes)
+pprint.pprint(data2, indent=4)
 rm2 = RelationshipManager()
-objects2 = mydict2['objects']
-rm2.Relationships = mydict2['relations']
+objects2 = data2.objects
+rm2.Relationships = data2.relations
 # rm2.Relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # check resurrected version is the same as the original
-assert isinstance(mydict2, dict)
-assert isinstance(mydict2['objects'].id1, Entity)
-assert isinstance(objects, Objects)
-assert isinstance(objects2, Objects)
+assert isinstance(data2, Namespace)
+assert isinstance(data2.objects.id1, Entity)
+assert isinstance(objects, Namespace)
+assert isinstance(objects2, Namespace)
 
 # cannot be true cos instances are different unless supply __eq__ and __hash__ (use dataclass to do this for us)
 assert objects == objects2
