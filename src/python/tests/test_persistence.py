@@ -1,7 +1,7 @@
 import unittest
 import pprint
 import random
-from src.persistence import RelationshipManagerPersistent as RelationshipManager
+from src.relationship_manager import RelationshipManagerPersistent as RelationshipManager
 from dataclasses import dataclass  # requires 3.7
 
 
@@ -21,13 +21,13 @@ class TestPersistence(unittest.TestCase):
 
     def test_persistence(self):
         rm = RelationshipManager()
-        id1 = rm.objects.id1 = Entity(strength=1, wise=True, experience=80)
-        id2 = rm.objects.id2 = Entity(strength=2, wise=False, experience=20)
-        id3 = rm.objects.id3 = Entity(strength=3, wise=True, experience=100)
+        obj1 = rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
+        obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
+        obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
 
-        rm.AddRelationship(id1, id2)
-        rm.AddRelationship(id1, id3)
-        self.assertEqual(rm.FindObjects(id1), [id2, id3])
+        rm.AddRelationship(obj1, obj2)
+        rm.AddRelationship(obj1, obj3)
+        self.assertEqual(rm.FindObjects(obj1), [obj2, obj3])
 
         # persist
         asbytes = rm.dumps()
@@ -36,7 +36,8 @@ class TestPersistence(unittest.TestCase):
         rm2 = RelationshipManager.loads(asbytes)
 
         # check things worked
-        newid1 = rm2.objects.id1
-        newid2 = rm2.objects.id2
-        newid3 = rm2.objects.id3
-        self.assertEqual(rm2.FindObjects(newid1), [newid2, newid3])
+        newobj1 = rm2.objects.obj1
+        newobj2 = rm2.objects.obj2
+        newobj3 = rm2.objects.obj3
+        self.assertEqual(rm2.FindObjects(newobj1), [newobj2, newobj3])
+        self.assertIs(rm2.FindObjectPointedToByMe(newobj1), newobj2, "getting copies not references?")

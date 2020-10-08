@@ -18,6 +18,8 @@ https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/
                            |___/
 """
 from typing import List, Set, Dict, Tuple, Optional, Union
+import pickle
+from dataclasses import dataclass  # requires 3.7
 
 # from src.core.v0_rel_mgr_original import RelationshipManagerOriginal as RMCoreImplementation  # 8 test failures
 # from src.core.v1_rel_mgr_original_better_findobjects import RelationshipManagerOriginalBetterFindObjects as RMCoreImplementation  # 2 test failures
@@ -149,3 +151,62 @@ class EnforcingRelationshipManagerShortMethodNames:  # nicer for unit tests
 
     def NR(self, fromObj, toObj, relId=1):
         self.rm.RemoveRelationships(fromObj, toObj, relId)
+
+
+# Persistence
+
+@dataclass
+class Namespace:
+    """Just want a namespace to store vars/attrs in. Could use a dictionary."""
+
+
+@dataclass
+class PersistenceWrapper:
+    """Holds both objects and relationships. Could use a dictionary."""
+    objects: Namespace  # Put all your objects involved in relationships as attributes of this object
+    relations: List  # Relationship Manager relationship List will go here
+
+
+class RelationshipManagerPersistent(EnforcingRelationshipManager):
+    """
+    Persistent Relationship Manager.  
+    
+    Provides an attribute object called `.objects` where you can keep all the
+    objects involved in relationships e.g.
+
+        rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
+
+    Then when you persist the Relationship Manager both the objects and
+    relations are pickled and later restored. This means your objects are
+    accessible by attribute name e.g. rm.objects.obj1 at all times. You can
+    assign these references to local variables for convenience e.g.
+    
+        obj1 = rm.objects.obj1
+
+    Usage:
+        # persist
+        asbytes = rm.dumps()
+
+        # resurrect
+        rm2 = RelationshipManagerPersistent.loads(asbytes)
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.objects = Namespace()  # assign to this namespace directly to record your objects
+
+    def Clear(self):
+        super().__init__()
+        self.objects = Namespace()
+
+    def dumps(self) -> bytes:
+        return pickle.dumps(PersistenceWrapper(
+            objects=self.objects, relations=self.Relationships))
+
+    @staticmethod
+    def loads(asbytes: bytes):  # -> RelationshipManagerPersistent:
+        data: PersistenceWrapper = pickle.loads(asbytes)
+        rm = EnforcingRelationshipManager()
+        rm.objects = data.objects
+        rm.Relationships = data.relations
+        return rm
