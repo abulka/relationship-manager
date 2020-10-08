@@ -48,24 +48,59 @@ Read the unit test to see all functionality being exercised, incl. backpointer q
 The API is:
 
 ```python
-class InterfaceCoreRelationshipManager:
-    def AddRelationship(self, From, To, RelId: Union[int,str]=1) -> None: pass
-    def RemoveRelationships(self, From, To, RelId=1) -> None: pass
-    def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
-    def FindObject(self, From=None, To=None, RelId=1) -> object: pass
-    def Clear(self) -> None: pass
-    def FindObjectPointedToByMe(self, fromObj, relId) -> object: pass
-    def FindObjectPointingToMe(self, toObj, relId) -> object: pass # Back pointer query
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
-    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
-    Relationships = property(GetRelations, SetRelations)
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
+def AddRelationship(self, From, To, RelId: Union[int,str]=1) -> None: pass
+def RemoveRelationships(self, From, To, RelId=1) -> None: pass
+def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
+def FindObject(self, From=None, To=None, RelId=1) -> object: pass
+def Clear(self) -> None: pass
+def FindObjectPointedToByMe(self, fromObj, relId) -> object: pass
+def FindObjectPointingToMe(self, toObj, relId) -> object: pass # Back pointer query
+def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
+def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
+Relationships = property(GetRelations, SetRelations)
+def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
 ```
 
 If you don't need the `EnforceRelationship` method then simply
 ```python
 from src.relationship_manager import RelationshipManager
 ```
+
+### Hiding the use of Relationship Manager
+
+Its probably best to hide the use of Relationship Manager and simply use it as
+an implementation underneath traditional wiring methods like `.add()` and
+`setY()` or properties like `.subject` etc. 
+
+For example, to implement:
+```
+         ______________        ______________
+        |       X      |      |       Y      |
+        |______________|      |______________|
+        |              |      |              |
+        |void  setY(y) |1    1|              |
+        |Y     getY()  |----->|              |
+        |void  clearY()|      |              |
+        |______________|      |______________|
+```
+
+write the Python code like this:
+```python
+class X:
+    def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
+    def setY(self, y):         RM.R(self, y, "xtoy")
+    def getY(self):     return RM.P(self, "xtoy")
+    def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+
+class Y:
+    pass
+```
+
+Note the use of the abbreviated Relationship Manager API `EnforcingRelationshipManagerShortMethodNames` found in 
+python/src/relationship_manager.py
+
+All possible permutations of this approach can be found in 
+python/tests/test_enforcing_relationship_manager.py
 
 ### Running the tests
 
@@ -109,6 +144,72 @@ test_Set01 (test_core.TestCase05) ... ok
 ----------------------------------------------------------------------
 Ran 23 tests in 0.012s
 ```
+
+### Persistence
+
+Persistence can be a bit tricky because you need to persist both objects and relationships between those objects.
+
+Other libraries that implement models, schemas, serializers/deserializers,
+ODM's/ORM's, Active Records or similar patterns will require you to define your
+classes in a particular way. Relationship Manager works with any Python objects
+like dataclass objects etc. without any special decoration or structure
+required.
+
+Whilst it is possible to simply pickle a Relationship Manager instance and
+restore it, you won't have easy access to the objects involved. Sure,
+Relationship Manager will return objects which have been resurrected from
+persistence correctly but how, in such a unpickled situation, will you pass
+object instances to the Relationship Manager API? Thus its better to prepare
+your persitence properly and store all your objects in a dictionary or object
+and pickle that together with the Relationship Manager.  E.g.
+
+```python
+@dataclass
+class Entity:
+    strength: int = 0
+    wise: bool = False
+    experience: int = 0
+
+    def __hash__(self):
+        hash_value = hash(self.strength) ^ hash(
+            self.wise) ^ hash(self.experience)
+        return hash_value
+
+@dataclass
+class Namespace:
+    """Just want a namespace to store vars/attrs in. Could use a dictionary."""
+
+@dataclass
+class PersistenceWrapper:
+    """Holds both objects and relationships. Could use a dictionary."""
+    objects: Namespace  # Put all your objects involved in relationships as attributes of this object
+    relations: List  # Relationship Manager relationship List will go here
+
+objects = Namespace()  # create a namespace for the variables
+objects.id1 = Entity(strength=1, wise=True, experience=80)
+objects.id2 = Entity(strength=2, wise=False, experience=20)
+objects.id3 = Entity(strength=3, wise=True, experience=100)
+rm = RelationshipManager()
+rm.AddRelationship(objects.id1, objects.id2)
+rm.AddRelationship(objects.id1, objects.id3)
+assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
+
+# persist
+asbytes = pickle.dumps(PersistenceWrapper(objects=objects, relations=rm.Relationships))
+
+# resurrect
+data: PersistenceWrapper = pickle.loads(asbytes)
+rm2 = RelationshipManager()
+objects2 = data.objects
+rm2.Relationships = data.relations
+
+# check things worked
+assert rm2.FindObjects(objects2.id1) == [objects2.id2, objects2.id3]
+```
+
+For a more detailed example, see 
+python/src/examples/persistence/persist_pickle.py
+as well as other persistence approached in that directory.
 
 ## C#
 

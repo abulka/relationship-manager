@@ -522,7 +522,7 @@ class TestCase02_OneToMany(unittest.TestCase):
     def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
-        Alternative implentation, using "directional" and B()
+        Alternative implementation, using "directional" and B()
          _________________        ______________
         |        X        |      |       Y      |
         |_________________|      |______________|
@@ -884,39 +884,6 @@ class TestCase02_OneToMany(unittest.TestCase):
             assertallclear()
 
         assertallclear()
-
-
-@unittest.skip('persistence not implemented')
-class TestCase03_Persistence(unittest.TestCase):
-
-    def test_naive_persistence(self):
-
-        class RelationshipManagerPersistent(RelationshipManager):
-            def __init__(self):
-                RelationshipManager.__init__(self)
-
-            def __repr__(self):
-                return pprint.pformat(self.rm.Relationships)
-
-            def LoadFromStr(self, str):
-                self.rm.Relationships = eval(str)
-
-            def LoadFromList(self, L):
-                self.rm.Relationships = L
-                # what about restoring InverseOfRelations ?
-
-        rm = RelationshipManagerPersistent()
-        rm.ER("xtoy", "onetoone", "directional")
-        x = object()
-        y = object()
-        rm.R(x, y, "xtoy")
-        self.assertEqual(rm.P(x, "xtoy"), y)
-
-        # now try to persist and restore
-        # print(repr(rm))
-        s = repr(rm)
-        # yeah this isn't going to work, need to properly persist as JSON or something
-        rm.LoadFromStr(s)
 
 
 def suite():
