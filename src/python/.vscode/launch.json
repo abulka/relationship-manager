@@ -24,6 +24,19 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}",
             "env": {"PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+            "name": "Single test: using -m unittest",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "-v",
+                "tests.test_persistence.TestPersistence"
+            ], 
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "env": {"PYTHONPATH": "${workspaceRoot}"}
         }
     ]
 }

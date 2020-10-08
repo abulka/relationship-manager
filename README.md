@@ -140,6 +140,8 @@ Be careful - the Relationship Manager will have references to your objects so ga
 
 Be mindful that normal object to object wiring using references and lists of references is going to be much faster than a Relationship Manager.
 
+You can have multiple relationship manager instances to manage different areas of your programming domain, which increases efficiency and comprehensibility.
+
 ## Other implementations
 
 You may want to google for other more professional [Object Databases](https://en.wikipedia.org/wiki/Object_database). For example, in the Python space we have:

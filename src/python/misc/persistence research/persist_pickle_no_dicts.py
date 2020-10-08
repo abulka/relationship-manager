@@ -1,0 +1,98 @@
+import pprint
+import random
+from dataclasses import dataclass  # requires 3.7
+import copy
+import pickle
+from typing import List, Set, Dict, Tuple, Optional
+from src.relationship_manager import RelationshipManager
+
+"""
+Persist a bunch of objects and proper "object to object" Relationship Manager
+based relationships using pickle. No dictionaries.
+"""
+
+
+@dataclass
+class Entity:
+    strength: int = 0
+    wise: bool = False
+    experience: int = 0
+
+    def __hash__(self):
+        hash_value = hash(self.strength) ^ hash(
+            self.wise) ^ hash(self.experience)
+        return hash_value
+
+
+@dataclass
+class Objects:
+    """an alternative to a dictionary, just want a namespace to store vars/attrs in"""
+
+
+class XXObjects():
+    """an alternative to a dictionary, just want a namespace to store vars/attrs in"""
+
+
+objects = Objects()  # create a namespace for the variables
+objects.id1 = Entity(strength=1, wise=True, experience=80)
+objects.id2 = Entity(strength=2, wise=False, experience=20)
+objects.id3 = Entity(strength=3, wise=True, experience=100)
+rm = RelationshipManager()
+rm.AddRelationship(objects.id1, objects.id2)
+rm.AddRelationship(objects.id1, objects.id3)
+
+
+def checkRelationships(rm, objects):
+    assert rm.FindObjectPointedToByMe(objects.id1) == objects.id2
+    assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
+    assert rm.FindObjectPointingToMe(
+        objects.id2) == objects.id1  # back pointer
+    assert rm.FindObjectPointingToMe(
+        objects.id3) == objects.id1  # back pointer
+
+    # Extra check, ensure new objects have not been created in the rm which simply
+    # refers to existing instances which have been resurrected. Use 'is' to check.
+    id1 = objects.id1
+    id2 = objects.id2
+    id3 = objects.id3
+    assert rm.FindObjectPointedToByMe(id1) is id2
+    assert rm.FindObjectPointingToMe(id3) is id1  # back pointer
+    # double check again that references not copies are being created, by changing an attribute
+    oldStringth = id2.strength
+    id2.strength = 1000
+    assert rm.FindObjectPointedToByMe(id1).strength == 1000
+    id2.strength = oldStringth
+
+
+checkRelationships(rm, objects)
+
+# persist
+mydict = {
+    'objects': objects,
+    'relations': rm.Relationships
+}
+pprint.pprint(mydict, indent=4)
+asbytes = pickle.dumps(mydict)
+# asbytes = pickle.dumps(rm.Relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
+
+# resurrect from a asbytes
+mydict2 = pickle.loads(asbytes)
+pprint.pprint(mydict2, indent=4)
+rm2 = RelationshipManager()
+objects2 = mydict2['objects']
+rm2.Relationships = mydict2['relations']
+# rm2.Relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
+
+# check resurrected version is the same as the original
+assert isinstance(mydict2, dict)
+assert isinstance(mydict2['objects'].id1, Entity)
+assert isinstance(objects, Objects)
+assert isinstance(objects2, Objects)
+
+# cannot be true cos instances are different unless supply __eq__ and __hash__ (use dataclass to do this for us)
+assert objects == objects2
+
+assert objects.id1.wise == objects2.id1.wise
+checkRelationships(rm2, objects2)
+
+print('done, all OK')
