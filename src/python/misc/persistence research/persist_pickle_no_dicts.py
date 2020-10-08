@@ -30,7 +30,25 @@ class Namespace:
     in. Cannot use object() since instances don't allow arbitrary attribute
     assignment. We use a dataclass because it implements eq and hash for us, cos
     we compare namespaces later on.
+
+    Unfortunately we don't get anything except "Namespace()" in the repr cos we
+    haven't declared any attributes here. Lucky pickle is smarter and will pull
+    out all the vars and put them back! To work around this we define repr here
+    to burrow in and display any dynamically created attributes - nice. This repr
+    here doesn't affect persistence because pickle looks at reality not repr.
     """
+
+    def __repr__(self) -> str:
+        return repr(vars(self))
+
+
+@dataclass
+class PersistenceWrapper:
+    """Could have used another Namespace instance instead, or a dictionary -
+    doesn't matter. At least here we can do a nice repr for diagnostics.
+    """
+    objects: Namespace
+    relations: List
 
 
 objects = Namespace()  # create a namespace for the variables
@@ -67,11 +85,9 @@ def checkRelationships(rm, objects):
 checkRelationships(rm, objects)
 
 # prepare for persistence - wrap the objects and relationships in an outer object
-# create a namespace for persisting - could use a dict, it doesn't matter.
-data = Namespace()
-data.objects = objects
-data.relations = rm.Relationships
-pprint.pprint(data, indent=4)
+# to create a namespace for persisting - could use a dict, it doesn't matter.
+data = PersistenceWrapper(objects=objects, relations=rm.Relationships)
+pprint.pprint(data, indent=4, width=1)  # doesn't seem to indent?
 
 # persist
 asbytes = pickle.dumps(data)
@@ -79,14 +95,14 @@ asbytes = pickle.dumps(data)
 
 # resurrect from a asbytes
 data2 = pickle.loads(asbytes)
-pprint.pprint(data2, indent=4)
+pprint.pprint(data2, indent=4, width=1)  # doesn't seem to indent?
 rm2 = RelationshipManager()
 objects2 = data2.objects
 rm2.Relationships = data2.relations
 # rm2.Relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # check resurrected version is the same as the original
-assert isinstance(data2, Namespace)
+assert isinstance(data2, PersistenceWrapper)
 assert isinstance(data2.objects.id1, Entity)
 assert isinstance(objects, Namespace)
 assert isinstance(objects2, Namespace)
