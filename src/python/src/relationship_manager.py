@@ -105,7 +105,7 @@ class EnforcingRelationshipManager(RelationshipManager):
             elif cardinality == "onetomany":  # and directionality == "directional":
                 ExtinguishOldFrom()
 
-    def AddRelationship(self, fromObj, toObj, relId):
+    def AddRelationship(self, fromObj, toObj, relId=1):
         self._RemoveExistingRelationships(fromObj, toObj, relId)
         super().AddRelationship(fromObj, toObj, relId)
         if relId in list(self.enforcer.keys()):
@@ -113,7 +113,7 @@ class EnforcingRelationshipManager(RelationshipManager):
             if directionality == "bidirectional":
                 self.rm.AddRelationship(toObj, fromObj, relId)
 
-    def RemoveRelationships(self, fromObj, toObj, relId):
+    def RemoveRelationships(self, fromObj, toObj, relId=1):
         super().RemoveRelationships(fromObj, toObj, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
@@ -132,20 +132,20 @@ class EnforcingRelationshipManagerShortMethodNames:  # nicer for unit tests
     def ER(self, relId, cardinality, directionality="directional"):
         self.rm.EnforceRelationship(relId, cardinality, directionality)
 
-    def R(self, fromObj, toObj, relId):
+    def R(self, fromObj, toObj, relId=1):
         self.rm.AddRelationship(fromObj, toObj, relId)
 
-    def P(self, fromObj, relId):
+    def P(self, fromObj, relId=1):
         # findObjectPointedToByMe(fromMe, id, cast)
         return self.rm.FindObject(fromObj, None, relId)
 
-    def B(self, toObj, relId):
+    def B(self, toObj, relId=1):
         # findObjectPointingToMe(toMe, id cast)
         return self.rm.FindObject(None, toObj, relId)
 
-    def PS(self, fromObj, relId):
+    def PS(self, fromObj, relId=1):
         # findObjectsPointedToByMe(fromMe, id, cast)
         return self.rm.FindObjects(fromObj, None, relId)
 
-    def NR(self, fromObj, toObj, relId):
+    def NR(self, fromObj, toObj, relId=1):
         self.rm.RemoveRelationships(fromObj, toObj, relId)
