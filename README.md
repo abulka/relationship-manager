@@ -302,11 +302,11 @@ python -m unittest discover -p 'test*' -v tests
 
 ## C#
 
-Very fast implementation - the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio.
+Very fast implementation for .NET - has been used in a commercial project. Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio.
 
 ## Boo
 
-The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .dll that was usable by other .NET languages.
+The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.
 
 ## Java
 
@@ -317,10 +317,6 @@ A java implementation.
 To be completed.
 
 # Final Thoughts
-
-## Persistence
-
-Persistence is an issue. Often you want to persist all objects and the relationships between them. This has been solved in Relationship Manager a few times but I have to find the code.
 
 ## References and memory
 
@@ -343,4 +339,4 @@ You may want to google for other more professional [Object Databases](https://en
 - http://www.newtdb.org/en/latest/getting-started.html - Newt DB - You’ll need a Postgres Database server.
 - http://www.zodb.org/en/latest/tutorial.html#tutorial-label - This tutorial is intended to guide developers with a step-by-step introduction of how to develop an application which stores its data in the ZODB.
 
-However most of these need a backing SQL database - Relationship Manager does not. Then again, Relationship Manager doesn't have built in persistence.
+However most of these need a backing SQL database - Relationship Manager does not.
