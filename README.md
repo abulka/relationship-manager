@@ -97,10 +97,49 @@ class Y:
 ```
 
 Note the use of the abbreviated Relationship Manager API `EnforcingRelationshipManagerShortMethodNames` found in 
-python/src/relationship_manager.py
+`python/src/relationship_manager.py`
 
 All possible permutations of this approach can be found in 
-python/tests/test_enforcing_relationship_manager.py
+`python/tests/test_enforcing_relationship_manager.py`
+
+Here is another example of hiding the use of Relationship Manager, 
+found in the examples folder as `python/src/examples/observer.py` - the
+classic Subject/Observer pattern:
+
+```python
+from src.relationship_manager import RelationshipManager
+
+
+rm = RelationshipManager()
+
+
+class Observer:
+   
+    @property
+    def subject(self):
+        return rm.FindObjectPointedToByMe(self)
+
+    @subject.setter
+    def subject(self, _subject):
+        rm.AddRelationship(self, _subject)
+
+    def Notify(self, subject, notificationEventType):
+        pass  # implementations override this and do something
+
+
+class Subject:
+
+    def NotifyAll(self, notificationEventType):
+        observers = rm.FindObjects(None, self)  # all things pointing at me
+        for o in observers:
+            o.Notify(self, notificationEventType)
+
+    def AddObserver(self, observer):
+        rm.AddRelationship(observer, self)
+
+    def RemoveObserver(self, observer):
+        rm.RemoveRelationships(From=observer, To=self)
+```
 
 ### Persistence
 
@@ -165,7 +204,7 @@ assert rm2.FindObjects(objects2.id1) == [objects2.id2, objects2.id3]
 ```
 
 For a more detailed example, see 
-python/src/examples/persistence/persist_pickle.py
+`python/src/examples/persistence/persist_pickle.py`
 as well as other persistence approached in that directory.
 
 ### Easiest persistence technique
@@ -259,40 +298,6 @@ Open the `src/python` directory in vscode or your favourite IDE and run tests et
 
 ```shell
 python -m unittest discover -p 'test*' -v tests
-```
-
-output
-
-```
-bash-3.2$ testall 
-Python 2.7.17
-/Users/Andy/Devel/relationship-manager/src/python
-test_OneToOne_XNoApi_YSingularApi (test_rm.TestCase01_OneToOne) ... ok
-test_OneToOne_XSingularApi_YNoApi (test_rm.TestCase01_OneToOne) ... ok
-test_OneToOne_XSingularApi_YSingularApi (test_rm.TestCase01_OneToOne) ... ok
-test_OneToOne_XSingularApi_YSingularApi_Alt (test_rm.TestCase01_OneToOne) ... ok
-test_OneToMany_XPluralApi_YNoApi (test_rm.TestCase02_OneToMany) ... ok
-test_OneToMany_XPluralApi_YSingularApi (test_rm.TestCase02_OneToMany) ... ok
-test_OneToMany_XPluralApi_YSingularApi_Alt (test_rm.TestCase02_OneToMany) ... ok
-test_example (test_core.TestCase00) ... ok
-test_Basic00 (test_core.TestCase01) ... ok
-test_Basic01Singular (test_core.TestCase01) ... ok
-test_FindRelationshipIds_NewFeatureFeb2005_01 (test_core.TestCase02) ... ok
-test_FindRelationshipIds_NewFeatureFeb2005_02 (test_core.TestCase02) ... ok
-test_IfRelIdIsWorking01 (test_core.TestCase02) ... ok
-test_MultipleReturns01 (test_core.TestCase02) ... ok
-test_NonExistent01 (test_core.TestCase02) ... ok
-test_Removal_01 (test_core.TestCase02) ... ok
-test_Removal_02 (test_core.TestCase02) ... ok
-test_Removal_03 (test_core.TestCase02) ... ok
-test_Removal_04 (test_core.TestCase02) ... ok
-test_Speed01 (test_core.TestCase03) ... ok
-test_Duplicates01 (test_core.TestCase04) ... ok
-test_Get01 (test_core.TestCase05) ... ok
-test_Set01 (test_core.TestCase05) ... ok
-
-----------------------------------------------------------------------
-Ran 23 tests in 0.012s
 ```
 
 ## C#
