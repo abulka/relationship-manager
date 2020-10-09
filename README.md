@@ -24,10 +24,17 @@ Here are various implementations of the Relationship Manager Pattern:
 
 ## Python
 
+### Installation
+
+For now, simply copy the single file `relationship_manager.py` into your project.
+A `pip` installer will be coming.
+
+### Use
+
 For general use import like this
 
 ```python
-from src.relationship_manager import EnforcingRelationshipManager as RelationshipManager
+from src.relationship_manager import RelationshipManager
 ```
 
 Then to use e.g.
@@ -59,11 +66,10 @@ def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
 def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
 Relationships = property(GetRelations, SetRelations)
 def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
-```
-
-If you don't need the `EnforceRelationship` method then simply
-```python
-from src.relationship_manager import RelationshipManager
+objects: Namespace  # persistence related
+def dumps(self) -> bytes:  # pickle persistence related
+@staticmethod
+def loads(asbytes: bytes) -> RelationshipManagerPersistent:
 ```
 
 ### Hiding the use of Relationship Manager
@@ -209,8 +215,8 @@ as well as other persistence approached in that directory.
 
 ### Easiest persistence technique
 
-Alternatively, the easiest approach to persistence is to use the built in
-`RelationshipManagerPersistent`. It provides an attribute
+Alternatively, the easiest approach to persistence is to use the built in `dumps` and `loads`
+methods of `RelationshipManager`. Relationship Manager also provides an attribute
 object called `.objects` where you should keep all the objects involved in
 relationships e.g.
 
@@ -276,10 +282,12 @@ assert rm2.FindObjectPointedToByMe(newobj1) is newobj2
 print('done, all OK')
 ```
 
-The API of `RelationshipManagerPersistent` adds:
+The persistence API of `RelationshipManager` is:
 
 ```python
-objects: Namespace  # create attributes on this, pointing to those objects involved in relationships
+# please create attributes on this, pointing to those objects involved in relationships
+# it is however optional
+objects: Namespace  
 
 def dumps(self) -> bytes:
 

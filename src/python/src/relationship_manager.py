@@ -29,6 +29,7 @@ as does EnforcingRelationshipManager (the EnforceRelationship method).
 
 """
 
+
 class EfficientRelationshipManager(object):
     """
     Good core implementation, maps forward and reverse pointers
@@ -45,7 +46,7 @@ class EfficientRelationshipManager(object):
     Adds Relationships property for setting and getting the relationships
     which helps if persisting.
 
-    core - for older core versions see misc/old orginals
+    core - for older core versions see misc/old orginal/
     """
 
     def __init__(self):     # Constructor
@@ -190,15 +191,14 @@ class EfficientRelationshipManager(object):
             return None
 
 
-class RMCoreImplementation(EfficientRelationshipManager): pass
+class RMCoreImplementation(EfficientRelationshipManager):
+    pass
 
 
-class RelationshipManager:
+class BasicRelationshipManager:
     """
-    Main Relationship Manager to use in your projects.
-
     Could use a different core api implementation, though GetRelations() and SetRelations()
-    only supported by the later core implementations.
+    only supported by the later core implementations in misc/old original/.
     """
 
     def __init__(self) -> None:
@@ -234,7 +234,7 @@ class RelationshipManager:
         self.rm.Clear()
 
 
-class EnforcingRelationshipManager(RelationshipManager):
+class EnforcingRelationshipManager(BasicRelationshipManager):
     """
     A stricter Relationship Manager which adds the method 'EnforceRelationship'
     where you register the cardinality and directionality of each relationship.
@@ -336,7 +336,7 @@ class PersistenceWrapper:
 class RelationshipManagerPersistent(EnforcingRelationshipManager):
     """
     Persistent Relationship Manager.  
-    
+
     Provides an attribute object called `.objects` where you can keep all the
     objects involved in relationships e.g.
 
@@ -346,7 +346,7 @@ class RelationshipManagerPersistent(EnforcingRelationshipManager):
     relations are pickled and later restored. This means your objects are
     accessible by attribute name e.g. rm.objects.obj1 at all times. You can
     assign these references to local variables for convenience e.g.
-    
+
         obj1 = rm.objects.obj1
 
     Usage:
@@ -376,3 +376,7 @@ class RelationshipManagerPersistent(EnforcingRelationshipManager):
         rm.objects = data.objects
         rm.Relationships = data.relations
         return rm
+
+
+class RelationshipManager(RelationshipManagerPersistent):
+    """Main Relationship Manager to use in your projects."""

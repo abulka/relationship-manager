@@ -40,4 +40,4 @@ class Subject:
         rm.AddRelationship(observer, self)
 
     def RemoveObserver(self, observer):
-        rm.RemoveRelationships(From=observer, To=self)
+        rm.RemoveRelationships(fromObj=observer, toObj=self)
