@@ -2,7 +2,7 @@
 
 A central mediating class which records all the one-to-one, one-to-many and many-to-many relationships between a group of selected classes. 
 
-Official [Relationship Manager Pattern](https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/) page incl. academic paper by Andy Bulka.
+Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager-design-pattern/) page incl. academic paper by Andy Bulka.
 
 ## Brief Discussion
 

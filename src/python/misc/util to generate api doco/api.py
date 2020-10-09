@@ -1,15 +1,6 @@
 from typing import List, Set, Dict, Tuple, Optional, Union
 
 """
-Core Implementations of Relationship Manager - various:
-    - RelationshipManagerOriginal
-    - RelationshipManagerOriginal2
-    - BigRelationshipManager1
-    - EfficientRelationshipManager1 (latest)
-
-Note that the actual RelationshipManager uses this core implementation and 
-adds a little bit of functionality too (the Relationships property), 
-as does EnforcingRelationshipManager (the EnforceRelationship method).
 
 What is a relationship RelId?
     Type RelId can be an integer or descriptive string
