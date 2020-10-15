@@ -34,7 +34,7 @@ A `pip` installer will be coming.
 For general use import like this
 
 ```python
-from src.relationship_manager import RelationshipManager
+from rm_python.relationship_manager import RelationshipManager
 ```
 
 Then to use e.g.
@@ -113,7 +113,7 @@ found in the examples folder as `python/src/examples/observer.py` - the
 classic Subject/Observer pattern:
 
 ```python
-from src.relationship_manager import RelationshipManager
+from rm_python.relationship_manager import RelationshipManager
 
 
 rm = RelationshipManager()
@@ -235,7 +235,7 @@ persisting them then restoring them:
 ```python
 import pprint
 import random
-from src.relationship_manager import RelationshipManagerPersistent as RelationshipManager
+from rm_python.relationship_manager import RelationshipManagerPersistent as RelationshipManager
 from dataclasses import dataclass  # requires 3.7
 
 """

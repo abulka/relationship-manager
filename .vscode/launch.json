@@ -32,7 +32,7 @@
             "module": "unittest",
             "args": [
                 "-v",
-                "tests.test_persistence.TestPersistence"
+                "tests.python.test_persistence.TestPersistence"
             ], 
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}",

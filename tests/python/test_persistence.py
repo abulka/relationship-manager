@@ -1,7 +1,7 @@
 import unittest
 import pprint
 import random
-from src.relationship_manager import RelationshipManagerPersistent as RelationshipManager
+from rm_python.relationship_manager import RelationshipManagerPersistent as RelationshipManager
 from dataclasses import dataclass  # requires 3.7
 
 

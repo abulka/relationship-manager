@@ -1,5 +1,5 @@
 import unittest
-from src.examples.observer import Observer, Subject
+from rm_python.examples.observer import Observer, Subject
 
 
 class TestObserver(unittest.TestCase):
