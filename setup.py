@@ -11,7 +11,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name="relationship-manager",
     version="1.0.0",
-    description="Lightweight Object Database, managing relationships between classes",
+    description="Ultra-lightweight Object Database, manages relationships between classes",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/abulka/relationship-manager",

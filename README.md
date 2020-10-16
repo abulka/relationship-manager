@@ -26,8 +26,11 @@ Here are various implementations of the Relationship Manager Pattern:
 
 ### Installation
 
-For now, simply copy the single file `relationship_manager.py` into your project.
-A `pip` installer will be coming.
+```shell
+pip install -i https://test.pypi.org/simple/ relationship-manager
+```
+
+You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from there.
 
 ### Use
 
