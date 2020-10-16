@@ -28,7 +28,7 @@ Here are various implementations of the Relationship Manager Pattern in this Git
 pip install -i relationship-manager
 ```
 
-You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from that single file. However `pip` is the preferred way and the following examples will assume you are importing from the `rm_python` package created by `pip`.
+You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from that single file. However `pip` is the preferred way and the following examples will assume you are importing from the `relmgr` package installed by `pip`.
 
 ## Usage
 
@@ -44,7 +44,7 @@ assert rm.FindObjectPointedToByMe(x, "xtoy") == y
 ```
 
 - Read the unit tests to see all functionality being exercised, incl. backpointer queries. 
-- See the examples below and in the `rm_python/examples/` directory of this repository.
+- See the examples below and in the `relmgr/examples/` directory of this repository.
 - See API below. 
 - See the Relationship Manager pattern referred to above for lots more documentation.
 
@@ -138,7 +138,7 @@ Note the use of the abbreviated Relationship Manager API in this example.
 ### Another example
 
 Here is another example of hiding the use of Relationship Manager, 
-found in the examples folder as `rm_python/examples/observer.py` - the
+found in the examples folder as `relmgr/examples/observer.py` - the
 classic Subject/Observer pattern:
 
 ```python
@@ -323,7 +323,7 @@ assert rm2.FindObjects(objects2.id1) == [objects2.id2, objects2.id3]
 ```
 
 For a more detailed example, see 
-`rm_python/examples/persistence/persist_pickle.py`
+`relmgr/examples/persistence/persist_pickle.py`
 as well as other persistence approaches in that directory, including an approach which 
 stores objects in dictionaries with ids and uses the Relationship Manager to store relationships between those ids, rather than relationships between object references.
 

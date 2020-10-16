@@ -24,7 +24,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     # packages=find_packages(exclude=("tests","tests.examples")),
-    packages=["rm_python"],
+    packages=["relmgr"],
     include_package_data=True,
     install_requires=[],
     entry_points={
