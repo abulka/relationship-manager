@@ -3,7 +3,7 @@ import random
 import time
 import os
 import sys
-from rm_python.relationship_manager import RelationshipManager
+from relmgr import RelationshipManager
 
 
 class TestCase00(unittest.TestCase):

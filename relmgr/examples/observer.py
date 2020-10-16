@@ -9,7 +9,7 @@ observers could observer a subject in multiple ways (each way would correspond
 to a relationship id). The the notification could be of a certain relationship
 id, thus making more granular and efficient notifications.
 """
-from rm_python.relationship_manager import RelationshipManager
+from relmgr import RelationshipManager
 
 
 rm = RelationshipManager()

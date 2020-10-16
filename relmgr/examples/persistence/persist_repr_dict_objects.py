@@ -3,7 +3,7 @@ import random
 from dataclasses import dataclass  # requires 3.7
 import copy
 from typing import List, Set, Dict, Tuple, Optional
-from rm_python.relationship_manager import RelationshipManager
+from relmgr import RelationshipManager
 
 """
 Persist a dictionary of objects Dict[str, Entity] using repr into a string and

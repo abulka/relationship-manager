@@ -1,7 +1,7 @@
 import pprint
 import random
-from rm_python.relationship_manager import RelationshipManager
 from dataclasses import dataclass
+from relmgr import RelationshipManager
 
 """
 Simplest RelationshipManager with built in persistence.

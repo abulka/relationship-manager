@@ -33,7 +33,7 @@ You can also simply copy the single file `relationship_manager.py` into your pro
 ## Usage
 
 ```python
-from rm_python.relationship_manager import RelationshipManager
+from relmgr import RelationshipManager
   
 rm = RelationshipManager()
 rm.EnforceRelationship("xtoy", "onetoone", "directional")
@@ -90,12 +90,18 @@ def dumps(self) -> bytes:  # pickle persistence related
 def loads(asbytes: bytes) -> RelationshipManagerPersistent:
 ```
 
-All possible permutations of this abbreviate API approach can be found in 
-`tests/python/test_enforcing_relationship_manager.py`
+All possible permutations of using this abbreviate API approach can be found in 
+`tests/python/test_enforcing_relationship_manager.py`. Using these shorter names in unit tests was helpful in testing Relationship Manager itself, however you should probably use the proper long method names in your own code.
+
+Finally, you can import the shorter relationship manager class `RM` - which is equivalent to the usual `RelationshipManager` class.
+
+```python
+from relmgr import RelMgr
+```
 
 ## Hiding the use of Relationship Manager
 
-Its probably best to hide the use of Relationship Manager and simply use it as
+Its probably best practice to hide the use of Relationship Manager and simply use it as
 an implementation underneath traditional wiring methods like `.add()` and
 `setY()` or properties like `.subject` etc. 
 
@@ -113,6 +119,10 @@ For example, to implement:
 
 write the Python code like this:
 ```python
+from relmgr import RelMgr
+
+RM = RelMgr()
+
 class X:
     def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
     def setY(self, y):         RM.R(self, y, "xtoy")
@@ -125,14 +135,14 @@ class Y:
 
 Note the use of the abbreviated Relationship Manager API in this example.
 
-### Another example of hiding the use of Relationship Manager
+### Another example
 
 Here is another example of hiding the use of Relationship Manager, 
 found in the examples folder as `rm_python/examples/observer.py` - the
 classic Subject/Observer pattern:
 
 ```python
-from rm_python.relationship_manager import RelationshipManager
+from relmgr import RelationshipManager
 
 
 rm = RelationshipManager()
@@ -188,7 +198,7 @@ persisting them then restoring them:
 ```python
 import pprint
 import random
-from rm_python.relationship_manager import RelationshipManagerPersistent as RelationshipManager
+from relmgr import RelationshipManager
 from dataclasses import dataclass
 
 @dataclass
@@ -338,7 +348,7 @@ python -m venv env
 
 env/bin/pip install relationship-manager
 env/bin/python
-> from rm_python.relationship_manager import RelationshipManager
+> from relmgr import RelationshipManager
 ```
 
 You can activate the virtual environment after you create it, which makes running `pip` and `python` etc. easier
@@ -351,7 +361,7 @@ python -m venv env
 source env/bin/activate
 pip install relationship-manager
 python
-> from rm_python.relationship_manager import RelationshipManager
+> from relmgr import RelationshipManager
 ```
 
 # Final Thoughts on the Python Implementation
