@@ -1,6 +1,6 @@
 import unittest
 import pprint
-from rm_python.relationship_manager import EnforcingRelationshipManagerShortMethodNames as RelationshipManager
+from rm_python.relationship_manager import RelationshipManager
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
 RM = None

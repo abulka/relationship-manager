@@ -1,13 +1,12 @@
 import pprint
 import random
-from src.relationship_manager import RelationshipManagerPersistent as RelationshipManager
-from dataclasses import dataclass  # requires 3.7
+from rm_python.relationship_manager import RelationshipManager
+from dataclasses import dataclass
 
 """
 Simplest RelationshipManager with built in persistence.
 
-See tests/test_persistence.py for corresponding unit test.
-See src/relationship_manager.py for doco.
+See tests/python/test_persistence.py for corresponding unit tests.
 """
 
 @dataclass

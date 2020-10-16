@@ -1,12 +1,12 @@
-# Relationship Manager Pattern
+# Relationship Manager - Lightweight Object Database
 
 A central mediating class which records all the one-to-one, one-to-many and many-to-many relationships between a group of selected classes. 
 
 Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
 
-## Brief Discussion
+## What is it?
 
-In a sense, an [Object Database](https://en.wikipedia.org/wiki/Object_database) is an implementation of the RM pattern. 
+In a sense, an [Object Database](https://en.wikipedia.org/wiki/Object_database) is an elaborate implementation of the RM pattern. 
 The *intent* of the RM pattern is lighter weight, to replace the wirings between objects
 rather than acting as a huge central database.
 
@@ -14,17 +14,15 @@ Classes that use a Relationship Manager to implement their relationship properti
 
 Using a `Relationship Manager` object to manage the relationships can mitigate these problems and make managing relationships straightforward.
 
-# Implementations
-
-Here are various implementations of the Relationship Manager Pattern:
+Here are various implementations of the Relationship Manager Pattern in this GitHub repository:
 
 - Python: Uses Python 3, there are no dependencies.
 - Java
 - C#: Visual Studio 2005 project with unit test. Very fast implementation used in at least one commercial product.
 
-## Python
+# Python
 
-### Installation
+## Installation
 
 ```shell
 pip install -i https://test.pypi.org/simple/ relationship-manager
@@ -32,7 +30,7 @@ pip install -i https://test.pypi.org/simple/ relationship-manager
 
 You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from that single file. However `pip` is the preferred way and the following examples will assume you are importing from the `rm_python` package created by `pip`.
 
-### Use
+## Usage
 
 ```python
 from rm_python.relationship_manager import RelationshipManager
@@ -45,34 +43,12 @@ rm.AddRelationship(x, y, "xtoy")
 assert rm.FindObjectPointedToByMe(x, "xtoy") == y
 ```
 
-Read the unit test to see all functionality being exercised, incl. backpointer queries.
+- Read the unit tests to see all functionality being exercised, incl. backpointer queries. 
+- See the examples below and in the `rm_python/examples/` directory of this repository.
+- See API below. 
+- See the Relationship Manager pattern referred to above for lots more documentation.
 
-#### Installing into a new virtual environment
-
-```shell
-mkdir proj1
-cd proj1
-python -m venv env
-
-env/bin/pip install relationship-manager
-env/bin/python
-> from rm_python.relationship_manager import RelationshipManager
-```
-
-Alternatively you can activate the virtual environment after you create it, which makes running `pip` and `python` etc. easier
-
-```
-mkdir proj1
-cd proj1
-python -m venv env
-
-source env/bin/activate
-pip install relationship-manager
-python
-> from rm_python.relationship_manager import RelationshipManager
-```
-
-### Python API
+## Python API
 
 The API is:
 
@@ -84,17 +60,40 @@ def FindObject(self, From=None, To=None, RelId=1) -> object: pass
 def Clear(self) -> None: pass
 def FindObjectPointedToByMe(self, fromObj, relId) -> object: pass
 def FindObjectPointingToMe(self, toObj, relId) -> object: pass # Back pointer query
-def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]: pass
-def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None: pass
 Relationships = property(GetRelations, SetRelations)
 def EnforceRelationship(self, relId, cardinality, directionality="directional"): pass
-objects: Namespace  # persistence related
+
+# persistence related
+objects: Namespace
+def dumps(self) -> bytes:
+def loads(asbytes: bytes) -> RelationshipManagerPersistent: # @staticmethod
+```
+
+The abbreviated Relationship Manager API is typically only used in unit tests and some documentation:
+
+```python
+def ER(self, relId, cardinality, directionality="directional"): # EnforceRelationship
+def R(self, fromObj, toObj, relId=1):  # AddRelationship
+def P(self, fromObj, relId=1):  # findObjectPointedToByMe
+def PS(self, fromObj, relId=1):  # findObjectsPointedToByMe
+def B(self, toObj, relId=1):  # findObjectPointingToMe
+def NR(self, fromObj, toObj, relId=1):  # RemoveRelationships
+def CL(self):  # Clear
+
+# No abbreviated API for the following:
+def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
+def FindObject(self, From=None, To=None, RelId=1) -> object: pass
+Relationships = property(GetRelations, SetRelations)
+# No abbreviated API for the persistence API:
+objects: Namespace
 def dumps(self) -> bytes:  # pickle persistence related
-@staticmethod
 def loads(asbytes: bytes) -> RelationshipManagerPersistent:
 ```
 
-### Hiding the use of Relationship Manager
+All possible permutations of this abbreviate API approach can be found in 
+`tests/python/test_enforcing_relationship_manager.py`
+
+## Hiding the use of Relationship Manager
 
 Its probably best to hide the use of Relationship Manager and simply use it as
 an implementation underneath traditional wiring methods like `.add()` and
@@ -124,14 +123,12 @@ class Y:
     pass
 ```
 
-Note the use of the abbreviated Relationship Manager API `EnforcingRelationshipManagerShortMethodNames` found in 
-`python/src/relationship_manager.py`
+Note the use of the abbreviated Relationship Manager API in this example.
 
-All possible permutations of this approach can be found in 
-`python/tests/test_enforcing_relationship_manager.py`
+### Another example of hiding the use of Relationship Manager
 
 Here is another example of hiding the use of Relationship Manager, 
-found in the examples folder as `python/src/examples/observer.py` - the
+found in the examples folder as `rm_python/examples/observer.py` - the
 classic Subject/Observer pattern:
 
 ```python
@@ -169,7 +166,91 @@ class Subject:
         rm.RemoveRelationships(From=observer, To=self)
 ```
 
-### Persistence
+## Persistence
+
+The easiest approach to persistence is to use the built in `dumps` and `loads`
+methods of `RelationshipManager`. Relationship Manager also provides an attribute
+object called `.objects` where you should keep all the objects involved in
+relationships e.g.
+
+```python
+rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
+```
+
+Then when you persist the Relationship Manager both the objects and
+relations are pickled and later restored. This means your objects are
+accessible by attribute name e.g. `rm.objects.obj1` at all times. You can
+assign these references to local variables for convenience e.g. `obj1 = rm.objects.obj1`.
+    
+Here is complete example of creating three entitys, wiring them up, 
+persisting them then restoring them:
+
+```python
+import pprint
+import random
+from rm_python.relationship_manager import RelationshipManagerPersistent as RelationshipManager
+from dataclasses import dataclass
+
+@dataclass
+class Entity:
+    strength: int = 0
+    wise: bool = False
+    experience: int = 0
+
+    def __hash__(self):
+        hash_value = hash(self.strength) ^ hash(
+            self.wise) ^ hash(self.experience)
+        return hash_value
+
+
+rm = RelationshipManager()
+obj1 = rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
+obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
+obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
+
+rm.AddRelationship(obj1, obj2)
+rm.AddRelationship(obj1, obj3)
+assert rm.FindObjects(obj1) == [obj2, obj3]
+
+# persist
+asbytes = rm.dumps()
+
+# resurrect
+rm2 = RelationshipManager.loads(asbytes)
+
+# check things worked
+newobj1 = rm2.objects.obj1
+newobj2 = rm2.objects.obj2
+newobj3 = rm2.objects.obj3
+assert rm2.FindObjects(newobj1) == [newobj2, newobj3]
+assert rm2.FindObjectPointedToByMe(newobj1) is newobj2
+
+print('done, all OK')
+```
+
+### Persistence API
+
+As a reminder, the persistence API of `RelationshipManager` is:
+
+```python
+objects: Namespace  
+
+def dumps(self) -> bytes:
+
+@staticmethod
+def loads(asbytes: bytes) -> RelationshipManagerPersistent:
+```
+
+Please create attributes on the `objects` property of the relationship manager, pointing to those objects involved in relationships. It is however optional, and only provides a guaranteed way of pickling and persisting the objects involved in the relationships along with the relationships themselves, when persisting the relationship manager.  
+
+You could attach your other application state to this `objects` property of the relationship manager and thus save your entire application state into the same file.  Alternively save the pickeled bytes into your own persistence file solution.
+
+There are currently no `dump()` or `load()` methods implemented, which would pickle
+to and from a *file*. These can easily be added in a subclass or just write and
+read the results of the existing `dumps()` and `loads()` methods to a file
+yourself, as bytes.
+
+### Manual Control of Persistence
 
 Persistence can be a bit tricky because you need to persist both objects and relationships between those objects.
 
@@ -232,121 +313,48 @@ assert rm2.FindObjects(objects2.id1) == [objects2.id2, objects2.id3]
 ```
 
 For a more detailed example, see 
-`python/src/examples/persistence/persist_pickle.py`
-as well as other persistence approached in that directory.
+`rm_python/examples/persistence/persist_pickle.py`
+as well as other persistence approaches in that directory, including an approach which 
+stores objects in dictionaries with ids and uses the Relationship Manager to store relationships between those ids, rather than relationships between object references.
 
-### Easiest persistence technique
+## Running the tests
 
-Alternatively, the easiest approach to persistence is to use the built in `dumps` and `loads`
-methods of `RelationshipManager`. Relationship Manager also provides an attribute
-object called `.objects` where you should keep all the objects involved in
-relationships e.g.
+Check our this project from GitHub, open the project directory in vscode and there is a local `settings.json` and `launch.json` already populated which means you can choose the launch profile `Run all tests: using -m unittest` or use the vscode built in GUI test runner (hit the `Discover Tests` button then the `Run all tests` button).
 
-```python
-rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
-```
-
-Then when you persist the Relationship Manager both the objects and
-relations are pickled and later restored. This means your objects are
-accessible by attribute name e.g. `rm.objects.obj1` at all times. You can
-assign these references to local variables for convenience e.g. `obj1 = rm.objects.obj1`.
-    
-Here is complete example of creating three entitys, wiring them up, 
-persisting them then restoring them:
-
-```python
-import pprint
-import random
-from rm_python.relationship_manager import RelationshipManagerPersistent as RelationshipManager
-from dataclasses import dataclass  # requires 3.7
-
-"""
-Simplest RelationshipManager with built in persistence.
-
-See tests/test_persistence.py for corresponding unit test.
-See src/relationship_manager.py for doco.
-"""
-
-@dataclass
-class Entity:
-    strength: int = 0
-    wise: bool = False
-    experience: int = 0
-
-    def __hash__(self):
-        hash_value = hash(self.strength) ^ hash(
-            self.wise) ^ hash(self.experience)
-        return hash_value
-
-
-rm = RelationshipManager()
-obj1 = rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
-obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
-obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
-
-rm.AddRelationship(obj1, obj2)
-rm.AddRelationship(obj1, obj3)
-assert rm.FindObjects(obj1) == [obj2, obj3]
-
-# persist
-asbytes = rm.dumps()
-
-# resurrect
-rm2 = RelationshipManager.loads(asbytes)
-
-# check things worked
-newobj1 = rm2.objects.obj1
-newobj2 = rm2.objects.obj2
-newobj3 = rm2.objects.obj3
-assert rm2.FindObjects(newobj1) == [newobj2, newobj3]
-assert rm2.FindObjectPointedToByMe(newobj1) is newobj2
-
-print('done, all OK')
-```
-
-The persistence API of `RelationshipManager` is:
-
-```python
-# please create attributes on this, pointing to those objects involved in relationships
-# it is however optional
-objects: Namespace  
-
-def dumps(self) -> bytes:
-
-@staticmethod
-def loads(asbytes: bytes) -> RelationshipManagerPersistent:
-```
-
-There are currently no `dump()` or `load()` methods implemented, which would pickle
-to and from a file. These can easily be added in a subclass or just write and
-read the results of the existing `dumps()` and `loads()` methods to a file
-yourself, as bytes.
-
-### Running the tests
-
-Open the `src/python` directory in vscode or your favourite IDE and run tests etc. from there.
+Or simply:
 
 ```shell
 python -m unittest discover -p 'test*' -v tests
 ```
 
-## C#
+## Appendix: Installing into a new virtual environment
 
-Very fast implementation for .NET - has been used in a commercial project. Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio.
+Either use `pipenv` to manage a new virtual environment or use Python's built in `venv`:
 
-## Boo
+```shell
+mkdir proj1
+cd proj1
+python -m venv env
 
-The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.
+env/bin/pip install relationship-manager
+env/bin/python
+> from rm_python.relationship_manager import RelationshipManager
+```
 
-## Java
+You can activate the virtual environment after you create it, which makes running `pip` and `python` etc. easier
 
-A java implementation.
+```
+mkdir proj1
+cd proj1
+python -m venv env
 
-## Javascript
+source env/bin/activate
+pip install relationship-manager
+python
+> from rm_python.relationship_manager import RelationshipManager
+```
 
-To be completed.
-
-# Final Thoughts
+# Final Thoughts on the Python Implementation
 
 ## References and memory
 
@@ -358,8 +366,6 @@ Be mindful that normal object to object wiring using references and lists of ref
 
 You can have multiple relationship manager instances to manage different areas of your programming domain, which increases efficiency and comprehensibility.
 
-## Other implementations
-
 You may want to google for other more professional [Object Databases](https://en.wikipedia.org/wiki/Object_database). For example, in the Python space we have:
 
 - https://github.com/grundic/awesome-python-models - A curated list of awesome Python libraries, which implement models, schemas, serializers/deserializers, ODM's/ORM's, Active Records or similar patterns.
@@ -369,4 +375,25 @@ You may want to google for other more professional [Object Databases](https://en
 - http://www.newtdb.org/en/latest/getting-started.html - Newt DB - You’ll need a Postgres Database server.
 - http://www.zodb.org/en/latest/tutorial.html#tutorial-label - This tutorial is intended to guide developers with a step-by-step introduction of how to develop an application which stores its data in the ZODB.
 
-However most of these need a backing SQL database - Relationship Manager does not.
+However most of these need a backing SQL database - Relationship Manager does not, which may be a benefit - no databases to set up - just get on with coding.
+
+# Other implementations of Relationship Manager 
+
+In this Github repository there are several other implementations of Relationship Manager 
+
+## C#
+
+Very fast implementation for .NET - has been used in a commercial project. Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio.
+
+## Boo
+
+The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and perfectly usable, however the C# implementation is much faster.
+
+## Java
+
+A java implementation.
+
+## Javascript
+
+To be completed.
+

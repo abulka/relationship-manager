@@ -19,7 +19,7 @@ https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/
 """
 from typing import List, Set, Dict, Tuple, Optional, Union
 import pickle
-from dataclasses import dataclass  # requires 3.7
+from dataclasses import dataclass  # requires at least 3.7
 import copy
 
 """
@@ -292,34 +292,35 @@ class EnforcingRelationshipManager(BasicRelationshipManager):
         super().Clear()
         self.enforcer = {}
 
-
-class EnforcingRelationshipManagerShortMethodNames:  # nicer for unit tests
-    def __init__(self):
-        self.rm = EnforcingRelationshipManager()
+    # Add short API for pithy, more convenient unit testing
 
     def ER(self, relId, cardinality, directionality="directional"):
-        self.rm.EnforceRelationship(relId, cardinality, directionality)
+        self.EnforceRelationship(relId, cardinality, directionality)
 
     def R(self, fromObj, toObj, relId=1):
-        self.rm.AddRelationship(fromObj, toObj, relId)
+        self.AddRelationship(fromObj, toObj, relId)
 
     def P(self, fromObj, relId=1):
         # findObjectPointedToByMe(fromMe, id, cast)
-        return self.rm.FindObject(fromObj, None, relId)
+        return self.FindObject(fromObj, None, relId)
 
     def B(self, toObj, relId=1):
         # findObjectPointingToMe(toMe, id cast)
-        return self.rm.FindObject(None, toObj, relId)
+        return self.FindObject(None, toObj, relId)
 
     def PS(self, fromObj, relId=1):
         # findObjectsPointedToByMe(fromMe, id, cast)
-        return self.rm.FindObjects(fromObj, None, relId)
+        return self.FindObjects(fromObj, None, relId)
 
     def NR(self, fromObj, toObj, relId=1):
-        self.rm.RemoveRelationships(fromObj, toObj, relId)
+        self.RemoveRelationships(fromObj, toObj, relId)    
+
+    def CL(self):
+        self.Clear()
 
 
 # Persistence
+
 
 @dataclass
 class Namespace:
