@@ -30,28 +30,47 @@ Here are various implementations of the Relationship Manager Pattern:
 pip install -i https://test.pypi.org/simple/ relationship-manager
 ```
 
-You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from there.
+You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from that single file. However `pip` is the preferred way and the following examples will assume you are importing from the `rm_python` package created by `pip`.
 
 ### Use
 
-For general use import like this
-
 ```python
 from rm_python.relationship_manager import RelationshipManager
-```
-
-Then to use e.g.
-
-```python
+  
 rm = RelationshipManager()
 rm.EnforceRelationship("xtoy", "onetoone", "directional")
 x = object()
 y = object()
 rm.AddRelationship(x, y, "xtoy")
-self.assertEqual(rm.FindObjectPointedToByMe(x, "xtoy"), y)
+assert rm.FindObjectPointedToByMe(x, "xtoy") == y
 ```
 
 Read the unit test to see all functionality being exercised, incl. backpointer queries.
+
+#### Installing into a new virtual environment
+
+```shell
+mkdir proj1
+cd proj1
+python -m venv env
+
+env/bin/pip install relationship-manager
+env/bin/python
+> from rm_python.relationship_manager import RelationshipManager
+```
+
+Alternatively you can activate the virtual environment after you create it, which makes running `pip` and `python` etc. easier
+
+```
+mkdir proj1
+cd proj1
+python -m venv env
+
+source env/bin/activate
+pip install relationship-manager
+python
+> from rm_python.relationship_manager import RelationshipManager
+```
 
 ### Python API
 
