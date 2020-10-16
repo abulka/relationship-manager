@@ -1,8 +1,7 @@
 """
 Relationship manager.
-Version 1.3
 (c) Andy Bulka 2003-2020 (wow that's a long time!)
-https://abulka.github.io/blog/2001/08/04/relationship-manager-design-pattern/
+https://github.com/abulka/relationship-manager
 
   ____      _       _   _                 _     _
  |  _ \ ___| | __ _| |_(_) ___  _ __  ___| |__ (_)_ __
@@ -21,13 +20,6 @@ from typing import List, Set, Dict, Tuple, Optional, Union
 import pickle
 from dataclasses import dataclass  # requires at least 3.7
 import copy
-
-"""
-Note that the actual RelationshipManager uses this core implementation and 
-adds a little bit of functionality too (the Relationships property), 
-as does EnforcingRelationshipManager (the EnforceRelationship method).
-
-"""
 
 
 class EfficientRelationshipManager(object):
