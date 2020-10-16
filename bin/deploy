@@ -1,0 +1,12 @@
+echo Remember to bump the version number, probably the patch, using the bump script
+
+#pip install twine
+#pip install wheel
+
+python setup.py sdist bdist_wheel
+twine check dist/*
+
+echo To release do one of:
+
+echo "twine upload --repository-url https://test.pypi.org/legacy/ dist/*"
+echo "twine upload dist/*"
