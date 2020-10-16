@@ -3,6 +3,9 @@ echo Remember to bump the version number, probably the patch, using the bump scr
 #pip install twine
 #pip install wheel
 
+# get rid of old versions cos they will be unecessarily uploaded again
+rm dist/*
+
 python setup.py sdist bdist_wheel
 twine check dist/*
 
