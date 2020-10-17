@@ -1,6 +1,7 @@
 import unittest
 import pprint
 from relmgr import RelationshipManager
+# from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager  # test caching version
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
 RM = None

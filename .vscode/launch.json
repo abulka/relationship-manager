@@ -37,6 +37,19 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}",
             "env": {"PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+            "name": "Single test: TestCaching",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "-v",
+                "tests.python.test_stress.TestCaching"
+            ], 
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "env": {"PYTHONPATH": "${workspaceRoot}"}
         }
     ]
 }

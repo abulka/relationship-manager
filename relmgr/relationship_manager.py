@@ -20,6 +20,7 @@ from typing import List, Set, Dict, Tuple, Optional, Union
 import pickle
 from dataclasses import dataclass  # requires at least 3.7
 import copy
+from functools import lru_cache
 
 
 class EfficientRelationshipManager(object):
@@ -369,6 +370,40 @@ class RelationshipManagerPersistent(EnforcingRelationshipManager):
         rm.objects = data.objects
         rm.Relationships = data.relations
         return rm
+
+
+class RelationshipManagerCaching(RelationshipManagerPersistent):
+    # def ER(self, relId, cardinality, directionality="directional"):
+    #     super().ER(relId, cardinality, directionality)
+
+    def R(self, fromObj, toObj, relId=1):
+        super().R(fromObj, toObj, relId)
+        self._clearCaches()
+
+    @lru_cache(maxsize=None)
+    def P(self, fromObj, relId=1):
+        return super().P(fromObj, relId)
+
+    @lru_cache(maxsize=None)
+    def B(self, toObj, relId=1):
+        return super().B(toObj, relId)
+
+    @lru_cache(maxsize=None)
+    def PS(self, fromObj, relId=1):
+        return super().PS(fromObj, relId)
+
+    def NR(self, fromObj, toObj, relId=1):
+        super().NR(fromObj, toObj, relId)
+        self._clearCaches()
+
+    def CL(self):
+        super()
+        self._clearCaches()
+
+    def _clearCaches(self):
+        self.P.cache_clear()
+        self.B.cache_clear()
+        self.PS.cache_clear()
 
 
 class RelationshipManager(RelationshipManagerPersistent):
