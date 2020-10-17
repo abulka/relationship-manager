@@ -8,9 +8,9 @@ DEBUG = False
 CACHING_ON = True
 
 if CACHING_ON:
-    from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager  # test caching version
+    from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager
 else:
-    from relmgr.relationship_manager import RelationshipManagerPersistent as RelationshipManager  # test non caching version
+    from relmgr.relationship_manager import RelationshipManagerPersistent as RelationshipManager
 
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
@@ -25,6 +25,7 @@ class TestCaching(unittest.TestCase):
         self.start_time = timeit.default_timer()
 
     def tearDown(self):
+        global RM
         RM = None
         elapsed = timeit.default_timer() - self.start_time
         if DEBUG:
@@ -45,7 +46,7 @@ class TestCaching(unittest.TestCase):
         for i in range(NUM_RELS):
             RM.R(random.choice(fromIds), random.choice(toIds), relId="stress")
 
-        # now access them repeadedly
+        # now access them repeatedly
         for i in range(STRESS_AMOUNT):
             for fromId in range(len(fromIds)):
                 rels = RM.PS(fromId, "stress")
