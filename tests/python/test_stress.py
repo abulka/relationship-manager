@@ -10,7 +10,7 @@ CACHING_ON = True
 if CACHING_ON:
     from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager  # test caching version
 else:
-    from relmgr import RelationshipManager
+    from relmgr.relationship_manager import RelationshipManagerPersistent as RelationshipManager  # test non caching version
 
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
@@ -49,7 +49,7 @@ class TestCaching(unittest.TestCase):
         for i in range(STRESS_AMOUNT):
             for fromId in range(len(fromIds)):
                 rels = RM.PS(fromId, "stress")
-                if i == 0:
+                if i == 0 and DEBUG:
                     print(rels)
 
         # report the results

@@ -50,6 +50,19 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}",
             "env": {"PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+            "name": "Single test: test_Removal_01",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "-v",
+                "tests.python.test_relationship_manager.TestCase02.test_Removal_01"
+            ], 
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "env": {"PYTHONPATH": "${workspaceRoot}"}
         }
     ]
 }

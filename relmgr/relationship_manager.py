@@ -373,8 +373,69 @@ class RelationshipManagerPersistent(EnforcingRelationshipManager):
 
 
 class RelationshipManagerCaching(RelationshipManagerPersistent):
-    # def ER(self, relId, cardinality, directionality="directional"):
-    #     super().ER(relId, cardinality, directionality)
+
+    @lru_cache(maxsize=None)
+    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+        return super().GetRelations()
+
+    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
+        super().SetRelations(listofrelationshiptuples)
+        self._clearCaches()
+
+    # (not necessary to override) Relationships = property(GetRelations, SetRelations)
+
+    def AddRelationship(self, From, To, RelId=1) -> None:
+        super().AddRelationship(From, To, RelId)
+        self._clearCaches()
+
+    def RemoveRelationships(self, fromObj, toObj, RelId=1) -> None:
+        super().RemoveRelationships(fromObj, toObj, RelId)
+        self._clearCaches()
+
+    @lru_cache(maxsize=None)
+    def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]:
+        # print(f"FindObjects {From=} {To=} {RelId=}")
+        return super().FindObjects(From, To, RelId)
+
+    @lru_cache(maxsize=None)
+    def FindObject(self, From=None, To=None, RelId=1) -> object:
+        return super().FindObject(From, To, RelId)
+
+    @lru_cache(maxsize=None)
+    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+        return super().FindObject(fromObj, None, relId)
+
+    @lru_cache(maxsize=None)
+    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
+        return super().FindObject(None, toObj, relId)
+
+    def Clear(self) -> None:
+        super().Clear()
+        self._clearCaches()
+
+    ## Enforcing
+
+    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+        self.enforcer[relId] = (cardinality, directionality)
+
+    ## Persistence
+
+    # (not necessary to override) self.objects
+
+    # (not necessary to override) def dumps(self) -> bytes:
+
+    @staticmethod
+    def loads(asbytes: bytes):  # -> RelationshipManagerCaching:
+        data: PersistenceWrapper = pickle.loads(asbytes)
+        rm = RelationshipManagerCaching()  # could we use super() here to determine class to create?
+        rm.objects = data.objects
+        rm.Relationships = data.relations
+        # rm._clearCaches()  # not needed cos its a new instance
+        return rm    
+
+    ## Short API
+
+    # (not necessary to override) def ER(self, relId, cardinality, directionality="directional"):
 
     def R(self, fromObj, toObj, relId=1):
         super().R(fromObj, toObj, relId)
@@ -404,7 +465,16 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
         self.P.cache_clear()
         self.B.cache_clear()
         self.PS.cache_clear()
+        self.FindObjects.cache_clear()
+        self.FindObject.cache_clear()
+        self.GetRelations.cache_clear()
+        self.FindObjectPointingToMe.cache_clear()
+        self.FindObjectPointedToByMe.cache_clear()
 
 
-class RelationshipManager(RelationshipManagerPersistent):
+# class RelationshipManager(RelationshipManagerPersistent):
+#     """Main Relationship Manager to use in your projects."""
+
+
+class RelationshipManager(RelationshipManagerCaching):
     """Main Relationship Manager to use in your projects."""

@@ -133,6 +133,7 @@ class TestCase02(unittest.TestCase):
         assert self.rm.FindObjects('a', 'b', None) == ['r1', 'r2']
 
     def test_Removal_01(self):
+        # print()
         # Specify wildcard RelId
         assert self.rm.FindObjects('a', 'b', None) == ['r1', 'r2']
         assert self.rm.FindObjects('a', 'b', 'r1') == True
