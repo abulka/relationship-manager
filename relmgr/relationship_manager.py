@@ -92,7 +92,7 @@ class EfficientRelationshipManager(object):
             raise RuntimeError(
                 'Only one parameter can be left as None, (indicating a match with anything).')
 
-        def ZapRelId(From, To, RelId):
+        def ZapRelId(from_, to, rel_id):
             def _ZapRelationId(rdict, from_, to, rel_id):
                 assert (from_ is not None and to is not None and rel_id is not None)
                 rel_list = rdict[from_][to]
@@ -100,84 +100,84 @@ class EfficientRelationshipManager(object):
                     rel_list.remove(rel_id)
                 if not rel_list:     # no more relationships, so remove the entire mapping
                     del rdict[from_][to]
-            _ZapRelationId(self.Relations,          From, To,   RelId)
-            _ZapRelationId(self.InverseOfRelations, To,   From, RelId)
+            _ZapRelationId(self.Relations,          from_, to,   rel_id)
+            _ZapRelationId(self.InverseOfRelations, to,   from_, rel_id)
 
         if have_specified_all_params():
             if self.FindObjects(from_, to, rel_id):  # returns T/F
                 ZapRelId(from_, to, rel_id)
         else:
-            # this list will be either From or To or RelIds depending on which param was set as None (meaning match anything)
+            # this list will be either 'from_' or 'to' or RelIds depending on which param was set as None (meaning match anything)
             lzt = self.FindObjects(from_, to, rel_id)
             if lzt:
                 for objOrRelid in lzt:
                     if from_ == None:
-                        # lzt contains all the things that point to 'To' with relid 'RelId'
-                        # objOrRelid is the specific thing during this iteration that point to 'To', so delete it
+                        # lzt contains all the things that point to 'to' with relid 'rel_id'
+                        # objOrRelid is the specific thing during this iteration that point to 'to', so delete it
                         ZapRelId(objOrRelid, to, rel_id)
                     elif to == None:
                         ZapRelId(from_, objOrRelid, rel_id)
                     elif rel_id == None:
                         ZapRelId(from_, to, objOrRelid)
 
-    def FindObjects(self, From=None, To=None, RelId=1):
+    def FindObjects(self, from_=None, to=None, rel_id=1):
         """
         Specifying None as a parameter means 'any'
         Can specify
-          # 'From' is None - use normal relations dictionary
-          From=None To=blah RelId=blah  anyone pointing to 'To' of specific RelId
-          From=None To=blah RelId=None  anyone pointing to 'To'
+          # 'from_' is None - use normal relations dictionary
+          from_=None to=blah rel_id=blah  anyone pointing to 'to' of specific rel_id
+          from_=None to=blah rel_id=None  anyone pointing to 'to'
 
-          # 'To' is None - use inverse relations dictionary
-          From=blah To=None RelId=blah  anyone 'From' points to, of specific RelId
-          From=blah To=None RelId=None  anyone 'From' points to
+          # 'to' is None - use inverse relations dictionary
+          from_=blah to=None rel_id=blah  anyone 'from_' points to, of specific rel_id
+          from_=blah to=None rel_id=None  anyone 'from_' points to
 
-          # Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
-          From=blah To=blah RelId=None  all RelId's between blah and blah
-          From=blah To=blah RelId=blah  T/F does this specific relationship exist
+          # Both 'to' & 'from_' specified, use any e.g. use normal relations dictionary
+          from_=blah to=blah rel_id=None  all rel_id's between blah and blah
+          from_=blah to=blah rel_id=blah  T/F does this specific relationship exist
 
-          From=None To=None RelId=blah  error (though you could implement returning a list of From,To pairs using the R blah e.g. [('a','b'),('a','c')]
-          From=None To=None RelId=None  error
+          from_=None to=None rel_id=blah  error (though you could implement returning a list of from_,to pairs using the R blah e.g. [('a','b'),('a','c')]
+          from_=None to=None rel_id=None  error
         """
-        if From == None and To == None:
-            raise RuntimeError("Either 'From' or 'To' has to be specified")
+        if from_ is None and to is None:
+            raise RuntimeError("Either 'from_' or 'to' has to be specified")
 
         def havespecifiedallParams(): return (
-            From != None and To != None and RelId != None)
+            from_ != None and to != None and rel_id != None)
         resultlist = []
 
-        if From == None:
-            subdict = self.InverseOfRelations.get(To, {})
+        if from_ == None:
+            subdict = self.InverseOfRelations.get(to, {})
             resultlist = [k for k, v in subdict.items() if (
-                RelId in v or RelId == None)]
+                rel_id in v or rel_id == None)]
 
-        elif To == None:
+        elif to == None:
             # returns a list of all the matching tos
-            subdict = self.Relations.get(From, {})
+            subdict = self.Relations.get(from_, {})
             resultlist = [k for k, v in subdict.items() if (
-                RelId in v or RelId == None)]
+                rel_id in v or rel_id == None)]
 
         else:
             """
-            # Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
-            From=blah To=blah RelId=None  all RelId's between blah and blah
-            From=blah To=blah RelId=blah  T/F does this specific relationship exist
+            # Both 'to' & 'from_' specified, use any e.g. use normal relations dictionary
+            from_=blah to=blah rel_id=None  all rel_id's between blah and blah
+            from_=blah to=blah rel_id=blah  T/F does this specific relationship exist
             """
-            subdict = self.Relations.get(From, {})
-            relationIdsList = subdict.get(To, [])
-            if RelId == None:
+            subdict = self.Relations.get(from_, {})
+            relationIdsList = subdict.get(to, [])
+            if rel_id == None:
                 # return the entire list of relationship ids between these two.
                 resultlist = relationIdsList
             else:
-                return RelId in relationIdsList  # return T/F
+                return rel_id in relationIdsList  # return T/F
         return copy.copy(resultlist)
 
     def Clear(self):
         self.Relations.clear()
         self.InverseOfRelations.clear()
 
-    def FindObject(self, From=None, To=None, RelId=1):    # ANDY
-        lzt = self.FindObjects(From, To, RelId)
+    def FindObject(self, from_=None, to=None, rel_id=1):    # ANDY
+        lzt = self.FindObjects(from_, to, rel_id)
         if lzt:
             return lzt[0]
         else:
@@ -205,17 +205,17 @@ class BasicRelationshipManager:
 
     Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, From, To, RelId=1) -> None:
-        self.rm.AddRelationship(From, To, RelId)
+    def AddRelationship(self, from_, to, rel_id=1) -> None:
+        self.rm.AddRelationship(from_, to, rel_id)
 
-    def RemoveRelationships(self, From, To, RelId=1) -> None:
-        self.rm.RemoveRelationships(From, To, RelId)
+    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+        self.rm.RemoveRelationships(from_, to, rel_id)
 
-    def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]:
-        return self.rm.FindObjects(From, To, RelId)
+    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+        return self.rm.FindObjects(from_, to, rel_id)
 
-    def FindObject(self, From=None, To=None, RelId=1) -> object:
-        return self.rm.FindObject(From, To, RelId)
+    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
+        return self.rm.FindObject(from_, to, rel_id)
 
     def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
         return self.rm.FindObject(fromObj, None, relId)
@@ -384,26 +384,25 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
 
     # (not necessary to override) Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, From, To, RelId=1) -> None:
-        super().AddRelationship(From, To, RelId)
+    def AddRelationship(self, from_, to, rel_id=1) -> None:
+        super().AddRelationship(from_, to, rel_id)
         self._clearCaches()
 
-    def RemoveRelationships(self, fromObj, toObj, RelId=1) -> None:
-        super().RemoveRelationships(fromObj, toObj, RelId)
+    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+        super().RemoveRelationships(from_, to, rel_id)
         self._clearCaches()
 
     @lru_cache(maxsize=None)
-    def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]:
-        # print(f"FindObjects {From=} {To=} {RelId=}")
-        return super().FindObjects(From, To, RelId)
+    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+        return super().FindObjects(from_, to, rel_id)
 
     @lru_cache(maxsize=None)
-    def FindObject(self, From=None, To=None, RelId=1) -> object:
-        return super().FindObject(From, To, RelId)
+    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
+        return super().FindObject(from_, to, rel_id)
 
     @lru_cache(maxsize=None)
-    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
-        return super().FindObject(fromObj, None, relId)
+    def FindObjectPointedToByMe(self, from_, relId=1) -> object:
+        return super().FindObject(from_, None, relId)
 
     @lru_cache(maxsize=None)
     def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
