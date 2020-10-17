@@ -48,77 +48,77 @@ class EfficientRelationshipManager(object):
 
     def GetRelations(self):
         result = []
-        for fromobj in self.Relations:
-            todict = self.Relations[fromobj]
-            for toobj in todict:
-                for relId in todict[toobj]:
-                    result.append((fromobj, toobj, relId))
+        for from_ in self.Relations:
+            to_dict = self.Relations[from_]
+            for to in to_dict:
+                for relId in to_dict[to]:
+                    result.append((from_, to, relId))
         return result
 
-    def SetRelations(self, listofrelationshiptuples):
-        for r in listofrelationshiptuples:
-            self.AddRelationship(From=r[0], To=r[1], RelId=r[2])
-    Relationships = property(GetRelations, SetRelations)  # ANDY
+    def SetRelations(self, list_of_relationship_tuples: List[Tuple]):
+        for r in list_of_relationship_tuples:
+            self.AddRelationship(from_=r[0], to=r[1], rel_id=r[2])
+    Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, From, To, RelId=1):
-        def AddEntry(relationsDict, From, To, RelId):
-            if From not in relationsDict:
-                relationsDict[From] = {}
-            if To not in relationsDict[From]:
-                relationsDict[From][To] = []
-            if RelId not in relationsDict[From][To]:
-                relationsDict[From][To].append(RelId)
-        AddEntry(self.Relations, From, To, RelId)
-        AddEntry(self.InverseOfRelations, To, From, RelId)
+    def AddRelationship(self, from_, to, rel_id=1):
+        def AddEntry(relationsDict, from_, to, rel_id):
+            if from_ not in relationsDict:
+                relationsDict[from_] = {}
+            if to not in relationsDict[from_]:
+                relationsDict[from_][to] = []
+            if rel_id not in relationsDict[from_][to]:
+                relationsDict[from_][to].append(rel_id)
+        AddEntry(self.Relations, from_, to, rel_id)
+        AddEntry(self.InverseOfRelations, to, from_, rel_id)
 
-    def RemoveRelationships(self, From, To, RelId=1):
+    def RemoveRelationships(self, from_, to, rel_id=1):
         """
         Specifying None as a parameter means 'any'
         """
-        def havespecifiedallParams(): return (
-            From != None and To != None and RelId != None)
+        def have_specified_all_params(): return (
+                from_ is not None and to is not None and rel_id is not None)
 
-        def NumberOfNonWildcardParamsSupplied():
-            numberOfNoneParams = 0
-            if From == None:
-                numberOfNoneParams += 1
-            if To == None:
-                numberOfNoneParams += 1
-            if RelId == None:
-                numberOfNoneParams += 1
-            return numberOfNoneParams
+        def number_of_wildcard_params():
+            result = 0  # number of None params, which represent a wildcard match
+            if from_ is None:
+                result += 1
+            if to is None:
+                result += 1
+            if rel_id is None:
+                result += 1
+            return result
 
-        if NumberOfNonWildcardParamsSupplied() > 1:
+        if number_of_wildcard_params() > 1:
             raise RuntimeError(
                 'Only one parameter can be left as None, (indicating a match with anything).')
 
         def ZapRelId(From, To, RelId):
-            def _ZapRelationId(rdict, From, To, RelId):
-                assert (From != None and To != None and RelId != None)
-                relList = rdict[From][To]
-                if RelId in relList:
-                    relList.remove(RelId)
-                if relList == []:     # no more relationships, so remove the entire mapping
-                    del rdict[From][To]
+            def _ZapRelationId(rdict, from_, to, rel_id):
+                assert (from_ is not None and to is not None and rel_id is not None)
+                rel_list = rdict[from_][to]
+                if rel_id in rel_list:
+                    rel_list.remove(rel_id)
+                if not rel_list:     # no more relationships, so remove the entire mapping
+                    del rdict[from_][to]
             _ZapRelationId(self.Relations,          From, To,   RelId)
             _ZapRelationId(self.InverseOfRelations, To,   From, RelId)
 
-        if havespecifiedallParams():
-            if self.FindObjects(From, To, RelId):  # returns T/F
-                ZapRelId(From, To, RelId)
+        if have_specified_all_params():
+            if self.FindObjects(from_, to, rel_id):  # returns T/F
+                ZapRelId(from_, to, rel_id)
         else:
             # this list will be either From or To or RelIds depending on which param was set as None (meaning match anything)
-            lzt = self.FindObjects(From, To, RelId)
+            lzt = self.FindObjects(from_, to, rel_id)
             if lzt:
                 for objOrRelid in lzt:
-                    if From == None:
+                    if from_ == None:
                         # lzt contains all the things that point to 'To' with relid 'RelId'
                         # objOrRelid is the specific thing during this iteration that point to 'To', so delete it
-                        ZapRelId(objOrRelid, To, RelId)
-                    elif To == None:
-                        ZapRelId(From, objOrRelid, RelId)
-                    elif RelId == None:
-                        ZapRelId(From, To, objOrRelid)
+                        ZapRelId(objOrRelid, to, rel_id)
+                    elif to == None:
+                        ZapRelId(from_, objOrRelid, rel_id)
+                    elif rel_id == None:
+                        ZapRelId(from_, to, objOrRelid)
 
     def FindObjects(self, From=None, To=None, RelId=1):
         """
