@@ -1,0 +1,2 @@
+export PYTHONPATH="$PWD"
+python relmgr/examples/import_rm_example.py

@@ -1,9 +1,12 @@
 import sys
 
+# Example of running a script which imports Relationship Manager module
+# and what you need to do to get to make that work and import correctly.
+
 """
 If running this script from root of project e.g.
 
-python relmgr/examples/import_eg.py
+python relmgr/examples/import_rm_example.py
 
 then do one of the following
 
@@ -26,7 +29,10 @@ sys.path.append(CODE_DIR)
 """
 
 for path in sys.path:
-    print(path)
+    if path.endswith("/relationship-manager"):
+        print(path, "<--- this is the critical path needed to resolve relmgr module imports")
+    else:
+        print(path)
 
 from relmgr import RelationshipManager
 print("ok")
