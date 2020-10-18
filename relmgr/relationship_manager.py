@@ -470,6 +470,25 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
         self.FindObjectPointingToMe.cache_clear()
         self.FindObjectPointedToByMe.cache_clear()
 
+        """
+        Alternative cache clear 
+        https://www.geeksforgeeks.org/clear-lru-cache-in-python/
+
+        But it might other caches - unless we can 
+        limit it to those used by RM
+
+            gc.collect() 
+            
+            # All objects collected 
+            objects = [i for i in gc.get_objects()  
+                    if isinstance(i, functools._lru_cache_wrapper)] 
+            
+            # All objects cleared 
+            for object in objects: 
+                object.cache_clear() 
+
+        """
+
 
 # class RelationshipManager(RelationshipManagerPersistent):
 #     """Main Relationship Manager to use in your projects."""
