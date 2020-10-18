@@ -86,3 +86,17 @@ class RelationshipManagerOriginalBetterFindObjects:
 
     def Clear(self):
         del self.Relationships[0:]
+
+
+if __name__ == "__main__":
+    import pprint
+
+    rm = RelationshipManagerOriginalBetterFindObjects()
+    rm.AddRelationship('a', 'b', 1)  # [('a', 'b', 1)]
+    pprint.pprint(rm.Relationships)
+    rm.AddRelationship('a', 'b', 2)  # [('a', 'b', 1), ('a', 'b', 2)]
+    pprint.pprint(rm.Relationships)
+
+    rm.AddRelationship('a', 'x', 1)
+    rm.AddRelationship('fred', 'mary', 1)
+    pprint.pprint(rm.Relationships)

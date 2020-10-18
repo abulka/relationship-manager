@@ -8,6 +8,13 @@ class EfficientRelationshipManagerBuggy(object):
      Note the reason it doesn't support relationship Id's is that when adding an entry
      any subsequent relationship Id clobbers the previous relationship Id, since dictionaries
      cannot have duplicate keys.
+
+     This was solved in `EfficientRelationshipManager` by changing the datastructure from
+        {'a': {'b': 1}}
+    to 
+        {'a': {'b': [1]}}
+    so that when you add a second relationship '2' between the same two objects 'a' and 'b' we get
+        {'a': {'b': [1, 2]}}
     """
 
     def __init__(self):     # Constructor
@@ -76,3 +83,13 @@ class EfficientRelationshipManagerBuggy(object):
             return lzt[0]
         else:
             return None
+
+
+if __name__ == "__main__":
+    import pprint
+
+    rm = EfficientRelationshipManagerBuggy()
+    rm.AddRelationship('a', 'b', 1)  # {'a': {'b': 1}}
+    pprint.pprint(rm.Relations)
+    rm.AddRelationship('a', 'b', 2)  # this clobbers the previous relationship: {'a': {'b': 2}}
+    pprint.pprint(rm.Relations)

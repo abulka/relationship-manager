@@ -158,3 +158,20 @@ class EfficientRelationshipManager(object):
             return lzt[0]
         else:
             return None
+
+
+if __name__ == "__main__":
+    import pprint
+
+    rm = EfficientRelationshipManager()
+    rm.AddRelationship('a', 'b', 1)  # {'a': {'b': 1}}
+    pprint.pprint(rm.Relations)
+    rm.AddRelationship('a', 'b', 2)  # this clobbers the previous relationship: {'a': {'b': 2}}
+    pprint.pprint(rm.Relations)
+
+    rm.AddRelationship('a', 'x', 1)
+    rm.AddRelationship('fred', 'mary', 1)
+    pprint.pprint(rm.Relations)
+    pprint.pprint(rm.InverseOfRelations)
+
+    print(rm.Relationships)  # the official property returns a flat list
