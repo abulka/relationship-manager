@@ -1,3 +1,4 @@
+from build.lib.relmgr.relationship_manager import Namespace
 from typing import List, Set, Dict, Tuple, Optional, Union
 from relmgr import RelationshipManager
 
@@ -51,53 +52,56 @@ class InterfaceEnforcingRelationshipManager(InterfaceRelationshipManager):
 """
 
 
-class IRelationshipManagerAPI(RelationshipManager):
+class IRelationshipManagerAPI:
     """API of Relationship Manager - for documentaton purposes"""
 
+    """Optional place for storing objects involved in relationships, so the objects are saved"""
+    objects: Namespace
+
     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
-        return super().GetRelations()
+        """Getter"""
 
     def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
-        super().SetRelations(listofrelationshiptuples)
+        """Setter"""
 
+    """Property to get flat list of relationships tuples"""
     Relationships = property(GetRelations, SetRelations)
-
+    
     def AddRelationship(self, from_, to, rel_id=1) -> None:
-        super().AddRelationship(from_, to, rel_id)
+        """Add relationships between ... """
 
     def RemoveRelationships(self, from_, to, rel_id=1) -> None:
-        super().RemoveRelationships(from_, to, rel_id)
+        """Remove all relationships between ... """
 
     def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
-        return super().FindObjects(from_, to, rel_id)
+        """Find all objects - low level"""
 
     def FindObject(self, from_=None, to=None, rel_id=1) -> object:
-        return super().FindObject(from_, to, rel_id)
+        """Find first object - low level"""
 
     def FindObjectPointedToByMe(self, from_, relId=1) -> object:
-        return super().FindObject(from_, None, relId)
+        """Find first object pointed to by me - first target"""
 
     def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
-        return super().FindObject(None, toObj, relId)
+        """Find first object pointed to me - first source"""
 
     def Clear(self) -> None:
-        super().Clear()
-
-    ## Enforcing
+        """Clear all relationships, does not affect .objects - if you want to clear that too then
+        assign a new empty object to it.  E.g. rm.objects = Namespace()
+        """
 
     def EnforceRelationship(self, relId, cardinality, directionality="directional"):
-        self.enforcer[relId] = (cardinality, directionality)
-
-    ## Persistence
-
-    # self.objects
+        """Enforce a relationship by auto creating reciprocal relationships in the case of 
+        bidirectional relationships, and by overwriting existing relationships if in the case
+        of one-to-one cardinality?
+        """
 
     def dumps(self) -> bytes:
-        super().dumps()
+        """Dump relationship tuples and objects to pickled bytes"""
 
     @staticmethod
     def loads(asbytes: bytes) -> RelationshipManager:
-        return super().loads(asbytes)
+        """Load relationship tuples and objects from pickled bytes"""
 
     ## Short API
 
