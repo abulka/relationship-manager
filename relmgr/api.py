@@ -1,4 +1,4 @@
-from build.lib.relmgr.relationship_manager import Namespace
+from relmgr.relationship_manager import Namespace
 from typing import List, Set, Dict, Tuple, Optional, Union
 from relmgr import RelationshipManager
 
