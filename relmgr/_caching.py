@@ -44,7 +44,7 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         return super().FindObject(source, None, relId)
 
     @lru_cache(maxsize=None)
-    def FindObjectPointingToMe(self, target, relId=1) -> object:  # Back pointer query
+    def source_to(self, target, relId=1) -> object:  # Back pointer query
         return super().FindObject(None, target, relId)
 
     def Clear(self) -> None:
@@ -60,5 +60,5 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         self.FindObjects.cache_clear()
         self.FindObject.cache_clear()
         self.GetRelations.cache_clear()
-        self.FindObjectPointingToMe.cache_clear()
+        self.source_to.cache_clear()
         self.target_of.cache_clear()

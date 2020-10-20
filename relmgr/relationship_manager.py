@@ -108,7 +108,7 @@ class RelationshipManager():
         """Find first object pointed to by me - first target"""
         return self.rm.FindObject(source, None, relId)
 
-    def FindObjectPointingToMe(self, target, relId=1) -> object:  # Back pointer query
+    def source_to(self, target, relId=1) -> object:  # Back pointer query
         """Find first object pointed to me - first source"""
         return self.rm.FindObject(None, target, relId)
 

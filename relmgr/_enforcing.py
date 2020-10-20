@@ -32,7 +32,7 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
 
     def _RemoveExistingRelationships(self, fromObj, toObj, relId):
         def ExtinguishOldFrom():
-            oldFrom = self.FindObjectPointingToMe(toObj, relId)
+            oldFrom = self.source_to(toObj, relId)
             self.remove_rel(oldFrom, toObj, relId)
 
         def ExtinguishOldTo():
