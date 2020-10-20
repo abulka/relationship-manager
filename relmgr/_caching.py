@@ -4,10 +4,10 @@ import pprint
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Dict, List, Optional, Set, Tuple, Union
-from relmgr.enforcing import EnforcingRelationshipManager
+from relmgr._enforcing import _EnforcingRelationshipManager
 
 
-class RelationshipManagerCaching(EnforcingRelationshipManager):
+class _RelationshipManagerCaching(_EnforcingRelationshipManager):
     # no persistence in this
 
     def __init__(self):

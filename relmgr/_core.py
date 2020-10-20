@@ -6,7 +6,7 @@ from functools import lru_cache
 from typing import Dict, List, Optional, Set, Tuple, Union
 
 
-class CoreRelationshipManager(object):
+class _CoreRelationshipManager(object):
     """
     Good efficient implementation in that it maps forward and reverse pointers
     for better performance of backpointer lookups e.g.

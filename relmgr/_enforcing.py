@@ -4,10 +4,10 @@ import pprint
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Dict, List, Optional, Set, Tuple, Union
-from relmgr.core import CoreRelationshipManager
+from relmgr._core import _CoreRelationshipManager
 
 
-class EnforcingRelationshipManager(CoreRelationshipManager):
+class _EnforcingRelationshipManager(_CoreRelationshipManager):
     """
     A stricter Relationship Manager which adds the method 'EnforceRelationship'
     where you register the cardinality and directionality of each relationship.

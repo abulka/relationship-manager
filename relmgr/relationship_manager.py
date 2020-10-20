@@ -1,6 +1,6 @@
 """
-Relationship Manager - Lightweight Object Database for Python 3.
-(c) Andy Bulka 2003 - 2020
+Relationship Manager - Lightweight Object Database for Python.
+(c) Andy Bulka 2003 - 2020.
 https://github.com/abulka/relationship-manager
 """
 import copy
@@ -9,8 +9,8 @@ import pprint
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Dict, List, Optional, Set, Tuple, Union
-from relmgr.enforcing import EnforcingRelationshipManager
-from relmgr.caching import RelationshipManagerCaching
+from relmgr._enforcing import _EnforcingRelationshipManager
+from relmgr._caching import _RelationshipManagerCaching
 from relmgr.persist_support import Namespace, PersistenceWrapper
 
 
@@ -32,11 +32,13 @@ __pdoc__['RelationshipManager.dumps'] = """
         obj1 = rm.objects.obj1
 
     Usage:
+        ```
         # persist
         asbytes = rm.dumps()
 
         # resurrect
         rm2 = RelationshipManagerPersistent.loads(asbytes)
+        ```
 """
 
 
@@ -45,9 +47,9 @@ class RelationshipManager():
 
     def __init__(self, caching=True) -> None:
         if caching:
-            self.rm = RelationshipManagerCaching()
+            self.rm = _RelationshipManagerCaching()
         else:
-            self.rm = EnforcingRelationshipManager()
+            self.rm = _EnforcingRelationshipManager()
 
         self.objects = Namespace()
         """Assign to this `.objects` namespace directly to record your objects
@@ -128,5 +130,7 @@ class RelationshipManager():
     # Util
 
     def debug_print_rels(self):
+        """Just a diagnostic method to print the relationships in the rm.
+        See also the `RelationshipManager.Relationships` property."""
         print()
         pprint.pprint(self.Relationships)

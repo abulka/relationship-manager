@@ -28,8 +28,6 @@ Here are various implementations of the Relationship Manager Pattern in this Git
 pip install relationship-manager
 ```
 
-You can also simply copy the single file `relationship_manager.py` into your project and import the `RelationshipManager` class from that single file. However `pip` is the preferred way and the following examples will assume you are importing from the `relmgr` package installed by `pip`.
-
 ## Usage
 
 ```python
