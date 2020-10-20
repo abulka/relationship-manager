@@ -104,16 +104,21 @@ class RelationshipManager():
         """Find first object - low level"""
         return self.rm._find_object(source, target, rel_id)
 
+    def targets_of(self, source, rel_id) -> List:
+        """Find all objects pointed to by me - all the things 'source' is pointing at."""
+        pass  # TODO 
+
     def target_of(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
         return self.rm._find_object(source, None, relId)
 
-    def source_to(self, target, relId=1) -> object:  # Back pointer query
-        """Find first object pointed to me - first source"""
-        return self.rm._find_object(None, target, relId)
+    def sources_to(self, target, rel_id) -> List:  # Back pointer query 
+        """Find all objects pointing to me. Perhaps rename 'pointers_to'."""
+        pass  # TODO 
 
-    # TODO def targets_of(self, source, rel_id) -> List: pass
-    # TODO def sources_to(self, target, rel_id) -> List: pass # Back pointer query
+    def source_to(self, target, relId=1) -> object:  # Back pointer query
+        """Find first object pointing to me - first source. Perhaps rename 'pointer_to'."""
+        return self.rm._find_object(None, target, relId)
 
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
