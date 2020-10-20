@@ -48,17 +48,21 @@ class RelationshipManager():
         """Add relationships between ... """
         self.rm.add_rel(source, target, rel_id)
 
-    def remove_rel(self, source, target, rel_id=1) -> None:  # TODO rename to _remove_rels ?
-        """Remove all relationships between ... 
-        If you specify None for either source or target a wildcard match will occur.
-        Arguably this should be replaced with remove_targets and remove_sources
+    def remove_rel(self, source, target, rel_id=1) -> None:
+        """Remove all relationships between `source` and `target` of type `rel_id`.
+        If you specify `None` for any parameter a wildcard match removal will occur.
+        For example:
+
+        Syntax    | Meaning
+        --------|------
+        `remove_rel('a', 'b')`     | remove all relationships between 'a' and 'b'
+        `remove_rel('a', 'b', None)`     | remove all relationships between 'a' and 'b'
+        `remove_rel('a', 'b', 'r1')`     | remove the 'r1' relationship between 'a' and 'b'
+        `remove_rel('a', None)`     | remove all pointers (relationships) from 'a'
+        `remove_rel(None, 'b')`     | remove any pointers (relationships) to 'b'
+        
         """
         self.rm.remove_rel(source, target, rel_id)
-
-    # def remove_targets(self, source, rel_id=1) -> None:
-    #     """Remove all relationships between source and anything else with rel_id ... 
-    #     """
-    #     self.rm.remove_rel(source, None, rel_id)
 
     def find_targets(self, source, rel_id=1) -> List:
         """Find all objects pointed to by me - all the things 'source' is pointing at."""
