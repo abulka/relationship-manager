@@ -2,16 +2,10 @@ import unittest
 import pprint
 import random
 import timeit
+from relmgr.relationship_manager import RelationshipManager
 
 DEBUG = False
-
 CACHING_ON = True
-
-if CACHING_ON:
-    from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager
-else:
-    from relmgr.relationship_manager import RelationshipManagerPersistent as RelationshipManager
-
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
 RM = None
@@ -21,7 +15,7 @@ class TestCaching(unittest.TestCase):
 
     def setUp(self):
         global RM
-        RM = RelationshipManager()
+        RM = RelationshipManager(caching=CACHING_ON)
         self.start_time = timeit.default_timer()
 
     def tearDown(self):
@@ -40,7 +34,7 @@ class TestCaching(unittest.TestCase):
         fromIds = list(range(100))
         toIds = list(range(100))
         NUM_RELS = 300
-        STRESS_AMOUNT = 20000
+        STRESS_AMOUNT = 10000
 
         # build the relationships
         for i in range(NUM_RELS):

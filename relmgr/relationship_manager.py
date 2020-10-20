@@ -255,32 +255,6 @@ class EnforcingRelationshipManager(CoreRelationshipManager):
         super().Clear()
         self.enforcer = {}
 
-    # Add short API for pithy, more convenient unit testing
-
-    def ER(self, relId, cardinality, directionality="directional"):
-        self.EnforceRelationship(relId, cardinality, directionality)
-
-    def R(self, fromObj, toObj, relId=1):
-        self.AddRelationship(fromObj, toObj, relId)
-
-    def P(self, fromObj, relId=1):
-        # findObjectPointedToByMe(fromMe, id, cast)
-        return self.FindObject(fromObj, None, relId)
-
-    def B(self, toObj, relId=1):
-        # findObjectPointingToMe(toMe, id cast)
-        return self.FindObject(None, toObj, relId)
-
-    def PS(self, fromObj, relId=1):
-        # findObjectsPointedToByMe(fromMe, id, cast)
-        return self.FindObjects(fromObj, None, relId)
-
-    def NR(self, fromObj, toObj, relId=1):
-        self.RemoveRelationships(fromObj, toObj, relId)    
-
-    def CL(self):
-        self.Clear()
-
 
 # Persistence
 
@@ -402,38 +376,7 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
         # rm._clearCaches()  # not needed cos its a new instance
         return rm    
 
-    ## Short API
-
-    # (not necessary to override) def ER(self, relId, cardinality, directionality="directional"):
-
-    def R(self, fromObj, toObj, relId=1):
-        super().R(fromObj, toObj, relId)
-        self._clearCaches()
-
-    @lru_cache(maxsize=None)
-    def P(self, fromObj, relId=1):
-        return super().P(fromObj, relId)
-
-    @lru_cache(maxsize=None)
-    def B(self, toObj, relId=1):
-        return super().B(toObj, relId)
-
-    @lru_cache(maxsize=None)
-    def PS(self, fromObj, relId=1):
-        return super().PS(fromObj, relId)
-
-    def NR(self, fromObj, toObj, relId=1):
-        super().NR(fromObj, toObj, relId)
-        self._clearCaches()
-
-    def CL(self):
-        super()
-        self._clearCaches()
-
     def _clearCaches(self):
-        self.P.cache_clear()
-        self.B.cache_clear()
-        self.PS.cache_clear()
         self.FindObjects.cache_clear()
         self.FindObject.cache_clear()
         self.GetRelations.cache_clear()
@@ -458,14 +401,6 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
                 object.cache_clear() 
 
         """
-
-
-# class RelationshipManager(RelationshipManagerPersistent):
-#     """Main Relationship Manager to use in your projects."""
-
-
-# class RelationshipManager(RelationshipManagerCaching):
-#     """Main Relationship Manager to use in your projects."""
 
 
 class RelationshipManager():
