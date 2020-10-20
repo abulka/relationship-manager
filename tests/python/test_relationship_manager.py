@@ -140,7 +140,7 @@ class TestCase02(unittest.TestCase):
         assert self.rm.FindObjects('a', 'b', 'r1') == True
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         # remove all R's between a and b
-        self.rm.RemoveRelationships('a', 'b', None)
+        self.rm.remove_rel('a', 'b', None)
         assert self.rm.FindObjects(
             'a', 'b', None) == [], 'Getting ' + str(self.rm.FindObjects('a', 'b', None))
         assert self.rm.FindObjects('a', 'b', 'r1') == False
@@ -148,7 +148,7 @@ class TestCase02(unittest.TestCase):
 
     def test_Removal_02(self):
         # Specify all params
-        self.rm.RemoveRelationships('a', 'b', 'r1')
+        self.rm.remove_rel('a', 'b', 'r1')
         assert self.rm.FindObjects('a', 'b', None) == ['r2']
         assert self.rm.FindObjects('a', 'b', 'r1') == False
         assert self.rm.FindObjects('a', 'b', 'r2') == True
@@ -158,7 +158,7 @@ class TestCase02(unittest.TestCase):
         assert self.rm.FindObjects('a', 'b', 'r1') == True
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         assert self.rm.FindObjects('a', 'c', 'r1') == True
-        self.rm.RemoveRelationships('a', None, 'r1')
+        self.rm.remove_rel('a', None, 'r1')
         assert self.rm.FindObjects('a', 'b', 'r1') == False  # zapped
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         assert self.rm.FindObjects('a', 'c', 'r1') == False  # zapped
@@ -172,16 +172,16 @@ class TestCase02(unittest.TestCase):
         assert self.rm.FindObjects('a', 'b', 'r1') == True
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         assert self.rm.FindObjects('a', 'c', 'r1') == True
-        self.rm.RemoveRelationships(None, 'b', 'r1')
+        self.rm.remove_rel(None, 'b', 'r1')
         assert self.rm.FindObjects('a', 'b', 'r1') == False  # zapped
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         assert self.rm.FindObjects('a', 'c', 'r1') == True
 
-        self.rm.RemoveRelationships(None, 'c', 'r1')
+        self.rm.remove_rel(None, 'c', 'r1')
         assert self.rm.FindObjects('a', 'b', 'r2') == True
         assert self.rm.FindObjects('a', 'c', 'r1') == False  # zapped
 
-        self.rm.RemoveRelationships(None, 'b', 'r2')
+        self.rm.remove_rel(None, 'b', 'r2')
         assert self.rm.FindObjects('a', 'b', 'r2') == False  # zapped
         assert self.rm.FindObjects('a', 'c', 'r1') == False
 

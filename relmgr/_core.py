@@ -53,7 +53,7 @@ class _CoreRelationshipManager(object):
         AddEntry(self.Relations, source, target, rel_id)
         AddEntry(self.InverseOfRelations, target, source, rel_id)
 
-    def RemoveRelationships(self, source, target, rel_id=1) -> None:
+    def remove_rel(self, source, target, rel_id=1) -> None:
         """
         Specifying None as a parameter means 'any'
         """
@@ -105,7 +105,7 @@ class _CoreRelationshipManager(object):
     def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """
         Specifying None as a parameter means 'any'
-        Can specify
+        E.g. when you specify:
           # 'source' is None - use normal relations dictionary
           source=None target=blah rel_id=blah  anyone pointing to 'target' of specific rel_id
           source=None target=blah rel_id=None  anyone pointing to 'target'
@@ -118,8 +118,12 @@ class _CoreRelationshipManager(object):
           source=blah target=blah rel_id=None  all rel_id's between blah and blah
           source=blah target=blah rel_id=blah  T/F does this specific relationship exist
 
+          # All none
           source=None target=None rel_id=blah  error (though you could implement returning a list of source,target pairs using the R blah e.g. [('a','b'),('a','c')]
           source=None target=None rel_id=None  error
+        
+        Tip: Other uses of None as a parameter value
+            remove_rel(self, From, To, RelId=1) -> None: Specifying None as a parameter means 'any'
         """
         if source is None and target is None:
             raise RuntimeError("Either 'source' or 'target' has to be specified")

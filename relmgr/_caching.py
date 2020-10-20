@@ -27,8 +27,8 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         super().add_rel(source, target, rel_id)
         self._clearCaches()
 
-    def RemoveRelationships(self, source, target, rel_id=1) -> None:
-        super().RemoveRelationships(source, target, rel_id)
+    def remove_rel(self, source, target, rel_id=1) -> None:
+        super().remove_rel(source, target, rel_id)
         self._clearCaches()
 
     @lru_cache(maxsize=None)

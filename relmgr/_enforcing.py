@@ -33,11 +33,11 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
     def _RemoveExistingRelationships(self, fromObj, toObj, relId):
         def ExtinguishOldFrom():
             oldFrom = self.FindObjectPointingToMe(toObj, relId)
-            self.RemoveRelationships(oldFrom, toObj, relId)
+            self.remove_rel(oldFrom, toObj, relId)
 
         def ExtinguishOldTo():
             oldTo = self.FindObjectPointedToByMe(fromObj, relId)
-            self.RemoveRelationships(fromObj, oldTo, relId)
+            self.remove_rel(fromObj, oldTo, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if cardinality == "onetoone":
@@ -54,12 +54,12 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
             if directionality == "bidirectional":
                 super().add_rel(toObj, fromObj, relId)
 
-    def RemoveRelationships(self, fromObj, toObj, relId=1):
-        super().RemoveRelationships(fromObj, toObj, relId)
+    def remove_rel(self, fromObj, toObj, relId=1):
+        super().remove_rel(fromObj, toObj, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
-                super().RemoveRelationships(toObj, fromObj, relId)
+                super().remove_rel(toObj, fromObj, relId)
 
     def Clear(self) -> None:
         super().Clear()

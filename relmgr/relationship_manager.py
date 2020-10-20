@@ -30,38 +30,6 @@ You can then make queries e.g. using
 
 Type RelId can be an integer or descriptive string e.g. `x-to-y`.
 
-## Note on the low level FindObjects() method
-
-```
-FindObjects(self, From=None, To=None, RelId=1):
-```
-
-Specifying None as a parameter means 'any'. E.g. when you specify:
-
-'From' is None - use normal relations dictionary
-```
-From=None To=blah RelId=blah  anyone pointing to 'To' of specific RelId
-From=None To=blah RelId=None  anyone pointing to 'To'
-```
-
-'To' is None - use inverse relations dictionary
-```
-From=blah To=None RelId=blah  anyone 'From' points to, of specific RelId
-From=blah To=None RelId=None  anyone 'From' points to
-```
-
-Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
-```
-From=blah To=blah RelId=None  all RelId's between blah and blah
-From=blah To=blah RelId=blah  T/F does this specific relationship exist  <--- bool returned, yuk
-From=None To=None RelId=blah  error (though you could implement returning 
-                                    a list of From,To pairs using the R blah e.g. [('a','b'),('a','c')]
-From=None To=None RelId=None  error
-```
-
-## Other uses of None as a parameter value
-
-RemoveRelationships(self, From, To, RelId=1) -> None: Specifying None as a parameter means 'any'
 """
 
 __pdoc__['RelationshipManager.dumps'] = """
@@ -124,9 +92,9 @@ class RelationshipManager():
         """Add relationships between ... """
         self.rm.add_rel(source, target, rel_id)
 
-    def RemoveRelationships(self, source, target, rel_id=1) -> None:
+    def remove_rel(self, source, target, rel_id=1) -> None:
         """Remove all relationships between ... """
-        self.rm.RemoveRelationships(source, target, rel_id)
+        self.rm.remove_rel(source, target, rel_id)
 
     def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """Find first object - low level"""
@@ -194,7 +162,7 @@ class RelationshipManager():
         return self.FindObjects(source, None, relId)
 
     def NR(self, source, target, relId=1):
-        self.RemoveRelationships(source, target, relId)
+        self.remove_rel(source, target, relId)
 
     def CL(self):
         self.Clear()
