@@ -105,7 +105,7 @@ checkRelationships(rm, objects)
 # persist
 mydict = {
     'objects': objects,
-    'relations': rm.Relationships
+    'relations': rm.relationships
 }
 pprint.pprint(mydict, indent=4)
 asbytes = pickle.dumps(mydict)
@@ -115,7 +115,7 @@ mydict2 = pickle.loads(asbytes)
 pprint.pprint(mydict2, indent=4)
 rm2 = RelationshipManager()
 objects2 = mydict2['objects']
-rm2.Relationships = mydict2['relations']
+rm2.relationships = mydict2['relations']
 
 # check resurrected version is the same as the original
 assert isinstance(mydict2, dict)

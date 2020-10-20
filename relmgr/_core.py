@@ -19,7 +19,7 @@ class _CoreRelationshipManager(object):
             same as above except meaning is reversed.
         }
 
-    Adds Relationships property for setting and getting the relationships
+    Has relationships property for setting and getting the relationships
     which helps if persisting.
 
     """
@@ -40,7 +40,7 @@ class _CoreRelationshipManager(object):
     def SetRelations(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
         for r in list_of_relationship_tuples:
             self.add_rel(source=r[0], target=r[1], rel_id=r[2])
-    Relationships = property(GetRelations, SetRelations)
+    relationships = property(GetRelations, SetRelations)
 
     def add_rel(self, source, target, rel_id=1) -> None:
         def AddEntry(relationsDict, source, target, rel_id):

@@ -86,20 +86,20 @@ checkRelationships(rm, objects)
 
 # prepare for persistence - wrap the objects and relationships in an outer object
 # to create a namespace for persisting - could use a dict, it doesn't matter.
-data = PersistenceWrapper(objects=objects, relations=rm.Relationships)
+data = PersistenceWrapper(objects=objects, relations=rm.relationships)
 pprint.pprint(data, indent=4, width=1)  # doesn't seem to indent?
 
 # persist
 asbytes = pickle.dumps(data)
-# asbytes = pickle.dumps(rm.Relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
+# asbytes = pickle.dumps(rm.relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # resurrect from a asbytes
 data2 = pickle.loads(asbytes)
 pprint.pprint(data2, indent=4, width=1)  # doesn't seem to indent?
 rm2 = RelationshipManager()
 objects2 = data2.objects
-rm2.Relationships = data2.relations
-# rm2.Relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
+rm2.relationships = data2.relations
+# rm2.relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # check resurrected version is the same as the original
 assert isinstance(data2, PersistenceWrapper)

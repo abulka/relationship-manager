@@ -21,7 +21,7 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         super().SetRelations(listofrelationshiptuples)
         self._clearCaches()
 
-    # (not necessary to override) Relationships = property(GetRelations, SetRelations)
+    # (not necessary to override) relationships = property(GetRelations, SetRelations)
 
     def add_rel(self, source, target, rel_id=1) -> None:
         super().add_rel(source, target, rel_id)

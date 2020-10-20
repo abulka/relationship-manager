@@ -245,7 +245,7 @@ class TestCase04(unittest.TestCase):
 class TestCase05(unittest.TestCase):
     def setUp(self):
         """
-        Check getting and setting the 'Relationships' property, which,
+        Check getting and setting the 'relationships' property, which,
         despite the implementation, should look the same.
         In the original RM the property is actually accessed directly (naughty)
         and the implementation is the same as the spec, namely a list of tuples (from,to,relid)
@@ -265,7 +265,7 @@ class TestCase05(unittest.TestCase):
         self.rm.add_rel('c', 'b', 'r9')
 
     def test_Get01(self):
-        r = self.rm.Relationships
+        r = self.rm.relationships
         #assert r == [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'), ('b', 'a', 'r1'), ('c', 'b', 'r9')]
         assert len(r) == 5
         assert ('a', 'b', 'r1') in r
@@ -278,7 +278,7 @@ class TestCase05(unittest.TestCase):
         r = [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'),
              ('b', 'a', 'r1'), ('c', 'b', 'r9')]
         newrm = RelationshipManager()
-        newrm.Relationships = r
+        newrm.relationships = r
 
         assert self.rm._find_objects('a', 'b', 'r1') == True
         assert self.rm._find_objects('a', 'b', 'r2') == True
@@ -312,34 +312,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-"""
-SCRAPS
-
-import pprint
-
-class RelationshipManagerPersistent(RelationshipManager):
-    def __init__(self):
-        RelationshipManager.__init__(self)
-
-    def __repr__(self):
-        return pprint.pformat(self.Relationships)
-
-    def LoadFromStr(self, str):
-        self.Relationships = eval(str)
-
-    def LoadFromList(self, L):
-        self.Relationships = L
-
-P.S.  There may be more stuff like this to integrate back into the main
-      relationshipmanager.py module found in oobtree.py
-      e.g.
-        self._ConvertRelations(self.oobtreeAllies.relations.Relationships)
-        LoadFromReprStr(self, strdict):
-        __repr__(self):
-        __str__(self):
-        LoadFromDict
-        etc.
-"""
-
-# -----------------------------

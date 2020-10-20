@@ -47,13 +47,13 @@ assert rm._find_objects(objects.id1) == [objects.id2, objects.id3]
 
 # persist
 asbytes = pickle.dumps(PersistenceWrapper(
-    objects=objects, relations=rm.Relationships))
+    objects=objects, relations=rm.relationships))
 
 # resurrect
 data: PersistenceWrapper = pickle.loads(asbytes)
 rm2 = RelationshipManager()
 objects2 = data.objects
-rm2.Relationships = data.relations
+rm2.relationships = data.relations
 
 # check things worked
 assert rm2._find_objects(objects2.id1) == [objects2.id2, objects2.id3]

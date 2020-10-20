@@ -85,7 +85,7 @@ class RelationshipManager():
         self.rm.SetRelations(listofrelationshiptuples)
         """Setter"""
 
-    Relationships = property(GetRelations, SetRelations)
+    relationships = property(GetRelations, SetRelations)
     """Property to get flat list of relationships tuples"""
 
     def add_rel(self, source, target, rel_id=1) -> None:
@@ -124,7 +124,7 @@ class RelationshipManager():
         The `objects` attribute and all objects stored therein
         (within the instance of `RelationshipManager.objects`) also get persisted."""
         return pickle.dumps(PersistenceWrapper(
-            objects=self.objects, relations=self.Relationships))
+            objects=self.objects, relations=self.relationships))
 
     @staticmethod
     def loads(asbytes: bytes):  # -> RelationshipManager:
@@ -134,7 +134,7 @@ class RelationshipManager():
         data: PersistenceWrapper = pickle.loads(asbytes)
         rm = RelationshipManager()
         rm.objects = data.objects
-        rm.Relationships = data.relations
+        rm.relationships = data.relations
         return rm  
 
     def clear(self) -> None:
@@ -171,6 +171,6 @@ class RelationshipManager():
 
     def debug_print_rels(self):
         """Just a diagnostic method to print the relationships in the rm.
-        See also the `RelationshipManager.Relationships` property."""
+        See also the `RelationshipManager.relationships` property."""
         print()
-        pprint.pprint(self.Relationships)
+        pprint.pprint(self.relationships)
