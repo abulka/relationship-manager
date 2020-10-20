@@ -26,8 +26,8 @@ class TestPersistence(unittest.TestCase):
         obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
         obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
 
-        rm.AddRelationship(obj1, obj2)
-        rm.AddRelationship(obj1, obj3)
+        rm.add_rel(obj1, obj2)
+        rm.add_rel(obj1, obj3)
         self.assertEqual(rm.FindObjects(obj1), [obj2, obj3])
 
         # persist

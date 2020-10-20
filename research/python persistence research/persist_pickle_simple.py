@@ -41,8 +41,8 @@ objects.id1 = Entity(strength=1, wise=True, experience=80)
 objects.id2 = Entity(strength=2, wise=False, experience=20)
 objects.id3 = Entity(strength=3, wise=True, experience=100)
 rm = RelationshipManager()
-rm.AddRelationship(objects.id1, objects.id2)
-rm.AddRelationship(objects.id1, objects.id3)
+rm.add_rel(objects.id1, objects.id2)
+rm.add_rel(objects.id1, objects.id3)
 assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
 
 # persist

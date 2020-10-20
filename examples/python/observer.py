@@ -23,7 +23,7 @@ class Observer:
 
     @subject.setter
     def subject(self, _subject):
-        rm.AddRelationship(self, _subject)
+        rm.add_rel(self, _subject)
 
     def Notify(self, subject, notificationEventType):
         pass  # implementations override this and do something
@@ -37,7 +37,7 @@ class Subject:
             o.Notify(self, notificationEventType)
 
     def AddObserver(self, observer):
-        rm.AddRelationship(observer, self)
+        rm.add_rel(observer, self)
 
     def RemoveObserver(self, observer):
         rm.RemoveRelationships(from_=observer, to=self)

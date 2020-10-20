@@ -23,8 +23,8 @@ class TestCase01(unittest.TestCase):
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
     def test_Basic00(self):
-        self.rm.AddRelationship('a', 'b')
-        self.rm.AddRelationship('a', 'c')
+        self.rm.add_rel('a', 'b')
+        self.rm.add_rel('a', 'c')
 
         result = self.rm.FindObjects('a', None)
         assert result == ['b', 'c'] or result == ['c', 'b']
@@ -33,8 +33,8 @@ class TestCase01(unittest.TestCase):
         assert self.rm.FindObjects(None, 'c') == ['a']
 
     def test_Basic01Singular(self):
-        self.rm.AddRelationship('a', 'b')
-        self.rm.AddRelationship('a', 'c')
+        self.rm.add_rel('a', 'b')
+        self.rm.add_rel('a', 'c')
         assert self.rm.FindObject(None, 'b') == 'a'
         assert self.rm.FindObject(None, 'c') == 'a'
 
@@ -53,12 +53,12 @@ class TestCase02(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
 
-        self.rm.AddRelationship('b', 'a', 'r1')
+        self.rm.add_rel('b', 'a', 'r1')
 
-        self.rm.AddRelationship('a', 'c', 'r1')
+        self.rm.add_rel('a', 'c', 'r1')
 
     def test_IfRelIdIsWorking01(self):
         # could be 'b' or 'c' - arbitrary
@@ -198,9 +198,9 @@ class TestCase03(unittest.TestCase):
 
         for c in self.THINGS:
             for c2 in self.THINGS:
-                self.rm.AddRelationship(c, c2, 'r1')
-                self.rm.AddRelationship(c, c2, 'r2')
-                self.rm.AddRelationship(c2, c, 'r3')
+                self.rm.add_rel(c, c2, 'r1')
+                self.rm.add_rel(c, c2, 'r2')
+                self.rm.add_rel(c2, c, 'r3')
 
     def test_Speed01(self):
         t = time.time()
@@ -228,10 +228,10 @@ class TestCase04(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
-        self.rm.AddRelationship('a', 'c', 'r1')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
+        self.rm.add_rel('a', 'c', 'r1')
 
     def test_Duplicates01(self):
         assert self.rm.FindObjects(
@@ -258,11 +258,11 @@ class TestCase05(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
-        self.rm.AddRelationship('a', 'c', 'r1')
-        self.rm.AddRelationship('b', 'a', 'r1')
-        self.rm.AddRelationship('c', 'b', 'r9')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
+        self.rm.add_rel('a', 'c', 'r1')
+        self.rm.add_rel('b', 'a', 'r1')
+        self.rm.add_rel('c', 'b', 'r9')
 
     def test_Get01(self):
         r = self.rm.Relationships

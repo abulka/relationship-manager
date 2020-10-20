@@ -36,8 +36,8 @@ objects: Dict[str, Entity] = {
     'id-3': Entity(strength=100, wise=True, experience=100),
 }
 rm = RelationshipManager()
-rm.AddRelationship('id-1', 'id-2')
-rm.AddRelationship('id-1', 'id-3')
+rm.add_rel('id-1', 'id-2')
+rm.add_rel('id-1', 'id-3')
 def checkRelationships(rm):
     assert rm.FindObjectPointedToByMe('id-1') == 'id-2'
     assert rm.FindObjects('id-1') == ['id-2', 'id-3']

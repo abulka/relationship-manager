@@ -46,13 +46,13 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
             elif cardinality == "onetomany":  # and directionality == "directional":
                 ExtinguishOldFrom()
 
-    def AddRelationship(self, fromObj, toObj, relId=1):
+    def add_rel(self, fromObj, toObj, relId=1):
         self._RemoveExistingRelationships(fromObj, toObj, relId)
-        super().AddRelationship(fromObj, toObj, relId)
+        super().add_rel(fromObj, toObj, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
-                super().AddRelationship(toObj, fromObj, relId)
+                super().add_rel(toObj, fromObj, relId)
 
     def RemoveRelationships(self, fromObj, toObj, relId=1):
         super().RemoveRelationships(fromObj, toObj, relId)

@@ -30,7 +30,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         """
         class X:
             def __init__(self):        RM.EnforceRelationship("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.AddRelationship(self, y, "xtoy")
+            def setY(self, y):         RM.add_rel(self, y, "xtoy")
             def getY(self):     return RM.FindObjectPointedToByMe(self, "xtoy")
             def clearY(self):          RM.RemoveRelationships(self, self.getY(), "xtoy")
         # class X:

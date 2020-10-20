@@ -120,9 +120,9 @@ class RelationshipManager():
     Relationships = property(GetRelations, SetRelations)
     """Property to get flat list of relationships tuples"""
 
-    def AddRelationship(self, from_, to, rel_id=1) -> None:
+    def add_rel(self, from_, to, rel_id=1) -> None:
         """Add relationships between ... """
-        self.rm.AddRelationship(from_, to, rel_id)
+        self.rm.add_rel(from_, to, rel_id)
 
     def RemoveRelationships(self, from_, to, rel_id=1) -> None:
         """Remove all relationships between ... """
@@ -182,7 +182,7 @@ class RelationshipManager():
         self.EnforceRelationship(relId, cardinality, directionality)
 
     def R(self, fromObj, toObj, relId=1):
-        self.AddRelationship(fromObj, toObj, relId)
+        self.add_rel(fromObj, toObj, relId)
 
     def P(self, fromObj, relId=1):
         return self.FindObject(fromObj, None, relId)

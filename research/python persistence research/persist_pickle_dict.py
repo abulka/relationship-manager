@@ -73,8 +73,8 @@ objects: Dict[str, Entity] = {
     'id-3': Entity(strength=3, wise=True, experience=100),
 }
 rm = RelationshipManager()
-rm.AddRelationship(objects['id-1'], objects['id-2'])
-rm.AddRelationship(objects['id-1'], objects['id-3'])
+rm.add_rel(objects['id-1'], objects['id-2'])
+rm.add_rel(objects['id-1'], objects['id-3'])
 
 
 def checkRelationships(rm, objects):

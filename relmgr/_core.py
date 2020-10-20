@@ -39,10 +39,10 @@ class _CoreRelationshipManager(object):
 
     def SetRelations(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
         for r in list_of_relationship_tuples:
-            self.AddRelationship(from_=r[0], to=r[1], rel_id=r[2])
+            self.add_rel(from_=r[0], to=r[1], rel_id=r[2])
     Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, from_, to, rel_id=1) -> None:
+    def add_rel(self, from_, to, rel_id=1) -> None:
         def AddEntry(relationsDict, from_, to, rel_id):
             if from_ not in relationsDict:
                 relationsDict[from_] = {}

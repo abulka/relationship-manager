@@ -23,8 +23,8 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
 
     # (not necessary to override) Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, from_, to, rel_id=1) -> None:
-        super().AddRelationship(from_, to, rel_id)
+    def add_rel(self, from_, to, rel_id=1) -> None:
+        super().add_rel(from_, to, rel_id)
         self._clearCaches()
 
     def RemoveRelationships(self, from_, to, rel_id=1) -> None:
