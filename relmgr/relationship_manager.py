@@ -24,10 +24,10 @@ from functools import lru_cache
 import pprint
 
 
-class EfficientRelationshipManager(object):
+class CoreRelationshipManager(object):
     """
-    Good core implementation, maps forward and reverse pointers
-    for efficiency e.g.
+    Good efficient implementation in that it maps forward and reverse pointers
+    for better performance of backpointer lookups e.g.
 
         relations {
             from1 : {to1:[rel1]}
@@ -47,7 +47,7 @@ class EfficientRelationshipManager(object):
         self.Relations = {}
         self.InverseOfRelations = {}
 
-    def GetRelations(self):
+    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
         result = []
         for from_ in self.Relations:
             to_dict = self.Relations[from_]
@@ -56,12 +56,12 @@ class EfficientRelationshipManager(object):
                     result.append((from_, to, relId))
         return result
 
-    def SetRelations(self, list_of_relationship_tuples: List[Tuple]):
+    def SetRelations(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
         for r in list_of_relationship_tuples:
             self.AddRelationship(from_=r[0], to=r[1], rel_id=r[2])
     Relationships = property(GetRelations, SetRelations)
 
-    def AddRelationship(self, from_, to, rel_id=1):
+    def AddRelationship(self, from_, to, rel_id=1) -> None:
         def AddEntry(relationsDict, from_, to, rel_id):
             if from_ not in relationsDict:
                 relationsDict[from_] = {}
@@ -72,7 +72,7 @@ class EfficientRelationshipManager(object):
         AddEntry(self.Relations, from_, to, rel_id)
         AddEntry(self.InverseOfRelations, to, from_, rel_id)
 
-    def RemoveRelationships(self, from_, to, rel_id=1):
+    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
         """
         Specifying None as a parameter means 'any'
         """
@@ -121,7 +121,7 @@ class EfficientRelationshipManager(object):
                     elif rel_id == None:
                         ZapRelId(from_, to, objOrRelid)
 
-    def FindObjects(self, from_=None, to=None, rel_id=1):
+    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
         """
         Specifying None as a parameter means 'any'
         Can specify
@@ -173,62 +173,31 @@ class EfficientRelationshipManager(object):
                 return rel_id in relationIdsList  # return T/F
         return copy.copy(resultlist)
 
-    def Clear(self):
-        self.Relations.clear()
-        self.InverseOfRelations.clear()
-
-    def FindObject(self, from_=None, to=None, rel_id=1):    # ANDY
+    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
         lzt = self.FindObjects(from_, to, rel_id)
         if lzt:
             return lzt[0]
         else:
             return None
 
+    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+        return self.FindObject(fromObj, None, relId)
 
-class RMCoreImplementation(EfficientRelationshipManager):
+    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
+        return self.FindObject(None, toObj, relId)
+
+    def Clear(self):
+        self.Relations.clear()
+        self.InverseOfRelations.clear()
+
+
+class RMCoreImplementation(CoreRelationshipManager):
     pass
 
 
-class BasicRelationshipManager:
-    """
-    Could use a different core api implementation, though GetRelations() and SetRelations()
-    only supported by the later core implementations in misc/old original/.
-    """
-
-    def __init__(self) -> None:
-        self.rm = RMCoreImplementation()
-
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
-        return self.rm.GetRelations()
-
-    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
-        self.rm.SetRelations(listofrelationshiptuples)
-
-    Relationships = property(GetRelations, SetRelations)
-
-    def AddRelationship(self, from_, to, rel_id=1) -> None:
-        self.rm.AddRelationship(from_, to, rel_id)
-
-    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
-        self.rm.RemoveRelationships(from_, to, rel_id)
-
-    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
-        return self.rm.FindObjects(from_, to, rel_id)
-
-    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
-        return self.rm.FindObject(from_, to, rel_id)
-
-    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
-        return self.rm.FindObject(fromObj, None, relId)
-
-    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
-        return self.rm.FindObject(None, toObj, relId)
-
-    def Clear(self) -> None:
-        self.rm.Clear()
 
 
-class EnforcingRelationshipManager(BasicRelationshipManager):
+class EnforcingRelationshipManager(CoreRelationshipManager):
     """
     A stricter Relationship Manager which adds the method 'EnforceRelationship'
     where you register the cardinality and directionality of each relationship.
@@ -273,14 +242,14 @@ class EnforcingRelationshipManager(BasicRelationshipManager):
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
-                self.rm.AddRelationship(toObj, fromObj, relId)
+                super().AddRelationship(toObj, fromObj, relId)
 
     def RemoveRelationships(self, fromObj, toObj, relId=1):
         super().RemoveRelationships(fromObj, toObj, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]
             if directionality == "bidirectional":
-                self.rm.RemoveRelationships(toObj, fromObj, relId)
+                super().RemoveRelationships(toObj, fromObj, relId)
 
     def Clear(self) -> None:
         super().Clear()
