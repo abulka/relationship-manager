@@ -28,7 +28,7 @@ class TestPersistence(unittest.TestCase):
 
         rm.add_rel(obj1, obj2)
         rm.add_rel(obj1, obj3)
-        self.assertEqual(rm.FindObjects(obj1), [obj2, obj3])
+        self.assertEqual(rm._find_objects(obj1), [obj2, obj3])
 
         # persist
         asbytes = rm.dumps()
@@ -40,5 +40,5 @@ class TestPersistence(unittest.TestCase):
         newobj1 = rm2.objects.obj1
         newobj2 = rm2.objects.obj2
         newobj3 = rm2.objects.obj3
-        self.assertEqual(rm2.FindObjects(newobj1), [newobj2, newobj3])
+        self.assertEqual(rm2._find_objects(newobj1), [newobj2, newobj3])
         self.assertIs(rm2.target_of(newobj1), newobj2, "getting copies not references?")

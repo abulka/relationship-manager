@@ -28,7 +28,7 @@ obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
 
 rm.add_rel(obj1, obj2)
 rm.add_rel(obj1, obj3)
-assert rm.FindObjects(obj1) == [obj2, obj3]
+assert rm._find_objects(obj1) == [obj2, obj3]
 
 # persist
 asbytes = rm.dumps()
@@ -40,7 +40,7 @@ rm2 = RelationshipManager.loads(asbytes)
 newobj1 = rm2.objects.obj1
 newobj2 = rm2.objects.obj2
 newobj3 = rm2.objects.obj3
-assert rm2.FindObjects(newobj1) == [newobj2, newobj3]
+assert rm2._find_objects(newobj1) == [newobj2, newobj3]
 assert rm2.target_of(newobj1) is newobj2
 
 print('done, all OK')

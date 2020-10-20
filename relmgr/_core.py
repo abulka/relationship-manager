@@ -86,11 +86,11 @@ class _CoreRelationshipManager(object):
             _ZapRelationId(self.InverseOfRelations, target,   source, rel_id)
 
         if have_specified_all_params():
-            if self.FindObjects(source, target, rel_id):  # returns T/F
+            if self._find_objects(source, target, rel_id):  # returns T/F
                 ZapRelId(source, target, rel_id)
         else:
             # this list will be either 'source' or 'target' or RelIds depending on which param was set as None (meaning match anything)
-            lzt = self.FindObjects(source, target, rel_id)
+            lzt = self._find_objects(source, target, rel_id)
             if lzt:
                 for objOrRelid in lzt:
                     if source == None:
@@ -102,7 +102,7 @@ class _CoreRelationshipManager(object):
                     elif rel_id == None:
                         ZapRelId(source, target, objOrRelid)
 
-    def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
+    def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """
         Specifying None as a parameter means 'any'
         E.g. when you specify:
@@ -158,18 +158,18 @@ class _CoreRelationshipManager(object):
                 return rel_id in relationIdsList  # return T/F
         return copy.copy(resultlist)
 
-    def FindObject(self, source=None, target=None, rel_id=1) -> object:
-        lzt = self.FindObjects(source, target, rel_id)
+    def _find_object(self, source=None, target=None, rel_id=1) -> object:
+        lzt = self._find_objects(source, target, rel_id)
         if lzt:
             return lzt[0]
         else:
             return None
 
     def target_of(self, fromObj, relId=1) -> object:
-        return self.FindObject(fromObj, None, relId)
+        return self._find_object(fromObj, None, relId)
 
     def source_to(self, toObj, relId=1) -> object:  # Back pointer query
-        return self.FindObject(None, toObj, relId)
+        return self._find_object(None, toObj, relId)
 
     def clear(self):
         self.Relations.clear()

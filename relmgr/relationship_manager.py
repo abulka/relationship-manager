@@ -96,21 +96,21 @@ class RelationshipManager():
         """Remove all relationships between ... """
         self.rm.remove_rel(source, target, rel_id)
 
-    def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
+    def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """Find first object - low level"""
-        return self.rm.FindObjects(source, target, rel_id)
+        return self.rm._find_objects(source, target, rel_id)
 
-    def FindObject(self, source=None, target=None, rel_id=1) -> object:
+    def _find_object(self, source=None, target=None, rel_id=1) -> object:
         """Find first object - low level"""
-        return self.rm.FindObject(source, target, rel_id)
+        return self.rm._find_object(source, target, rel_id)
 
     def target_of(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
-        return self.rm.FindObject(source, None, relId)
+        return self.rm._find_object(source, None, relId)
 
     def source_to(self, target, relId=1) -> object:  # Back pointer query
         """Find first object pointed to me - first source"""
-        return self.rm.FindObject(None, target, relId)
+        return self.rm._find_object(None, target, relId)
 
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
@@ -153,13 +153,13 @@ class RelationshipManager():
         self.add_rel(source, target, relId)
 
     def P(self, source, relId=1):
-        return self.FindObject(source, None, relId)
+        return self._find_object(source, None, relId)
 
     def B(self, target, relId=1):
-        return self.FindObject(None, target, relId)
+        return self._find_object(None, target, relId)
 
     def PS(self, source, relId=1):
-        return self.FindObjects(source, None, relId)
+        return self._find_objects(source, None, relId)
 
     def NR(self, source, target, relId=1):
         self.remove_rel(source, target, relId)

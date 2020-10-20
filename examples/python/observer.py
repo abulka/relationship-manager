@@ -32,7 +32,7 @@ class Observer:
 class Subject:
 
     def NotifyAll(self, notificationEventType):
-        observers = rm.FindObjects(None, self)  # all things pointing at me
+        observers = rm._find_objects(None, self)  # all things pointing at me
         for o in observers:
             o.Notify(self, notificationEventType)
 

@@ -32,20 +32,20 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         self._clearCaches()
 
     @lru_cache(maxsize=None)
-    def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
-        return super().FindObjects(source, target, rel_id)
+    def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
+        return super()._find_objects(source, target, rel_id)
 
     @lru_cache(maxsize=None)
-    def FindObject(self, source=None, target=None, rel_id=1) -> object:
-        return super().FindObject(source, target, rel_id)
+    def _find_object(self, source=None, target=None, rel_id=1) -> object:
+        return super()._find_object(source, target, rel_id)
 
     @lru_cache(maxsize=None)
     def target_of(self, source, relId=1) -> object:
-        return super().FindObject(source, None, relId)
+        return super()._find_object(source, None, relId)
 
     @lru_cache(maxsize=None)
     def source_to(self, target, relId=1) -> object:  # Back pointer query
-        return super().FindObject(None, target, relId)
+        return super()._find_object(None, target, relId)
 
     def clear(self) -> None:
         super().clear()
@@ -57,8 +57,8 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         self.enforcer[relId] = (cardinality, directionality)
 
     def _clearCaches(self):
-        self.FindObjects.cache_clear()
-        self.FindObject.cache_clear()
+        self._find_objects.cache_clear()
+        self._find_object.cache_clear()
         self.GetRelations.cache_clear()
         self.source_to.cache_clear()
         self.target_of.cache_clear()
