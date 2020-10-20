@@ -1,1 +1,1 @@
-pdoc --http : relmgr
+pdoc --http : relmgr examples.python

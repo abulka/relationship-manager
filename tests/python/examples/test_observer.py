@@ -1,5 +1,5 @@
 import unittest
-from relmgr.examples.observer import Observer, Subject
+from examples.python.observer import Observer, Subject
 
 
 class TestObserver(unittest.TestCase):

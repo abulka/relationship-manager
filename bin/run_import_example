@@ -1,2 +1,2 @@
 export PYTHONPATH="$PWD"
-python relmgr/examples/import_rm_example.py
+python "research/python persistence research/import_rm_example.py"

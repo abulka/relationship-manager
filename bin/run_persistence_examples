@@ -3,9 +3,9 @@
 # ensure root of project is in path so modules are found
 export PYTHONPATH="$PWD"
 
-python relmgr/examples/persistence/persist_pickle_dict.py
-python relmgr/examples/persistence/persist_pickle_object.py
-python relmgr/examples/persistence/persist_pickle_simple.py
-python relmgr/examples/persistence/persist_pickle_simplest.py
-python relmgr/examples/persistence/persist_repr_dict.py
-python relmgr/examples/persistence/persist_repr_dict_objects.py
+python "research/python persistence research/persist_pickle_dict.py"
+python "research/python persistence research/persist_pickle_object.py"
+python "research/python persistence research/persist_pickle_simple.py"
+python "research/python persistence research/persist_pickle_simplest.py"
+python "research/python persistence research/persist_repr_dict.py"
+python "research/python persistence research/persist_repr_dict_objects.py"
