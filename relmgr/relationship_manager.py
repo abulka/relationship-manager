@@ -68,17 +68,17 @@ class RelationshipManager():
         """Find first object pointed to by me - first target"""
         return self.rm._find_object(source, None, rel_id)
 
-    def find_sources(self, target, rel_id=1) -> List:  # Back pointer query 
-        """Find all objects pointing to me.."""
+    def find_sources(self, target, rel_id=1) -> List:
+        """Find all objects pointing to me. Back pointer query."""
         return self.rm._find_objects(None, target, rel_id)
 
-    def find_source(self, target, rel_id=1) -> object:  # Back pointer query
-        """Find first object pointing to me - first source."""
+    def find_source(self, target, rel_id=1) -> object:
+        """Find first object pointing to me - first source. Back pointer query."""
         return self.rm._find_object(None, target, rel_id)
 
-    def find_rel(self, source, target, rel_id=1) -> bool:
-        """NEW - Returns T/F if relationship exists."""
-        return self.rm._find_objects(source, target, rel_id)  # TODO rename is_rel
+    def is_rel(self, source, target, rel_id=1) -> bool:
+        """Returns T/F if relationship exists."""
+        return self.rm._find_objects(source, target, rel_id)
 
     def find_rels(self, source, target) -> List:
         """Returns a list of the relationships between source and target."""

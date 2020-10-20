@@ -95,13 +95,13 @@ class TestCase02(unittest.TestCase):
 
     def test_FindRelationshipIds_NewFeatureFeb2005_01(self):
         """Test if relationships exist"""
-        assert self.rm.find_rel('a', 'b', 'r1') == True
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'b', 'zzz') == False
+        assert self.rm.is_rel('a', 'b', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'b', 'zzz') == False
 
         # No relationships with rel_id integer 1 (the default rel) have been created.
-        assert self.rm.find_rel('a', 'b', rel_id=1) == False
-        assert self.rm.find_rel('a', 'b') == False
+        assert self.rm.is_rel('a', 'b', rel_id=1) == False
+        assert self.rm.is_rel('a', 'b') == False
 
     def test_FindRelationshipIds_NewFeatureFeb2005_02(self):
         # Get a list of the relationships between source and target.
@@ -111,31 +111,31 @@ class TestCase02(unittest.TestCase):
         # print()
         # Specify wildcard RelId
         assert self.rm.find_rels('a', 'b') == ['r1', 'r2']
-        assert self.rm.find_rel('a', 'b', 'r1') == True
-        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r2') == True
         # remove all R's between a and b
         self.rm.remove_rel('a', 'b', None)
         assert self.rm.find_rels(
             'a', 'b') == [], 'Getting ' + str(self.rm.find_rels('a', 'b'))
-        assert self.rm.find_rel('a', 'b', 'r1') == False
-        assert self.rm.find_rel('a', 'b', 'r2') == False
+        assert self.rm.is_rel('a', 'b', 'r1') == False
+        assert self.rm.is_rel('a', 'b', 'r2') == False
 
     def test_Removal_02(self):
         # Specify all params
         self.rm.remove_rel('a', 'b', 'r1')
         assert self.rm.find_rels('a', 'b') == ['r2']
-        assert self.rm.find_rel('a', 'b', 'r1') == False
-        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == False
+        assert self.rm.is_rel('a', 'b', 'r2') == True
 
     def test_Removal_03(self):
         # Specify 'from' param
-        assert self.rm.find_rel('a', 'b', 'r1') == True
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == True
         self.rm.remove_rel('a', None, 'r1')
-        assert self.rm.find_rel('a', 'b', 'r1') == False  # zapped
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == False  # zapped
+        assert self.rm.is_rel('a', 'b', 'r1') == False  # zapped
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == False  # zapped
 
         assert self.rm.find_source('b', 'r1') == None
         assert self.rm.find_source('b', 'r2') == 'a'
@@ -143,21 +143,21 @@ class TestCase02(unittest.TestCase):
 
     def test_Removal_04(self):
         # Specify 'to' param
-        assert self.rm.find_rel('a', 'b', 'r1') == True
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == True
         self.rm.remove_rel(None, 'b', 'r1')
-        assert self.rm.find_rel('a', 'b', 'r1') == False  # zapped
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == False  # zapped
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == True
 
         self.rm.remove_rel(None, 'c', 'r1')
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == False  # zapped
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == False  # zapped
 
         self.rm.remove_rel(None, 'b', 'r2')
-        assert self.rm.find_rel('a', 'b', 'r2') == False  # zapped
-        assert self.rm.find_rel('a', 'c', 'r1') == False
+        assert self.rm.is_rel('a', 'b', 'r2') == False  # zapped
+        assert self.rm.is_rel('a', 'c', 'r1') == False
 
 
 class TestCase03(unittest.TestCase):
@@ -208,10 +208,10 @@ class TestCase04(unittest.TestCase):
         self.rm.add_rel('a', 'c', 'r1')
 
     def test_Duplicates01(self):
-        assert self.rm.find_rel(
+        assert self.rm.is_rel(
             'a', 'b', 'r1') == True  # [('a', 'b', 'r1')]
         assert self.rm.find_rels('a', 'b') == ['r1', 'r2']
-        assert self.rm.find_rel(
+        assert self.rm.is_rel(
             'a', 'c', 'r1') == True  # [('a', 'c', 'r1')]
         assert self.rm.find_rels('a', 'c') == ['r1']
 
@@ -254,11 +254,11 @@ class TestCase05(unittest.TestCase):
         newrm = RelationshipManager()
         newrm.relationships = r
 
-        assert self.rm.find_rel('a', 'b', 'r1') == True
-        assert self.rm.find_rel('a', 'b', 'r2') == True
-        assert self.rm.find_rel('a', 'c', 'r1') == True
-        assert self.rm.find_rel('b', 'a', 'r1') == True
-        assert self.rm.find_rel('c', 'b', 'r9') == True
+        assert self.rm.is_rel('a', 'b', 'r1') == True
+        assert self.rm.is_rel('a', 'b', 'r2') == True
+        assert self.rm.is_rel('a', 'c', 'r1') == True
+        assert self.rm.is_rel('b', 'a', 'r1') == True
+        assert self.rm.is_rel('c', 'b', 'r9') == True
 
 
 def suite():
