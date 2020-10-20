@@ -120,25 +120,25 @@ class RelationshipManager():
     Relationships = property(GetRelations, SetRelations)
     """Property to get flat list of relationships tuples"""
 
-    def add_rel(self, from_, to, rel_id=1) -> None:
+    def add_rel(self, source, to, rel_id=1) -> None:
         """Add relationships between ... """
-        self.rm.add_rel(from_, to, rel_id)
+        self.rm.add_rel(source, to, rel_id)
 
-    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+    def RemoveRelationships(self, source, to, rel_id=1) -> None:
         """Remove all relationships between ... """
-        self.rm.RemoveRelationships(from_, to, rel_id)
+        self.rm.RemoveRelationships(source, to, rel_id)
 
-    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+    def FindObjects(self, source=None, to=None, rel_id=1) -> Union[List[object], bool]:
         """Find first object - low level"""
-        return self.rm.FindObjects(from_, to, rel_id)
+        return self.rm.FindObjects(source, to, rel_id)
 
-    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
+    def FindObject(self, source=None, to=None, rel_id=1) -> object:
         """Find first object - low level"""
-        return self.rm.FindObject(from_, to, rel_id)
+        return self.rm.FindObject(source, to, rel_id)
 
-    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+    def FindObjectPointedToByMe(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
-        return self.rm.FindObject(fromObj, None, relId)
+        return self.rm.FindObject(source, None, relId)
 
     def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
         """Find first object pointed to me - first source"""
@@ -181,20 +181,20 @@ class RelationshipManager():
     def ER(self, relId, cardinality, directionality="directional"):
         self.EnforceRelationship(relId, cardinality, directionality)
 
-    def R(self, fromObj, toObj, relId=1):
-        self.add_rel(fromObj, toObj, relId)
+    def R(self, source, toObj, relId=1):
+        self.add_rel(source, toObj, relId)
 
-    def P(self, fromObj, relId=1):
-        return self.FindObject(fromObj, None, relId)
+    def P(self, source, relId=1):
+        return self.FindObject(source, None, relId)
 
     def B(self, toObj, relId=1):
         return self.FindObject(None, toObj, relId)
 
-    def PS(self, fromObj, relId=1):
-        return self.FindObjects(fromObj, None, relId)
+    def PS(self, source, relId=1):
+        return self.FindObjects(source, None, relId)
 
-    def NR(self, fromObj, toObj, relId=1):
-        self.RemoveRelationships(fromObj, toObj, relId)
+    def NR(self, source, toObj, relId=1):
+        self.RemoveRelationships(source, toObj, relId)
 
     def CL(self):
         self.Clear()
