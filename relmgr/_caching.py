@@ -23,29 +23,29 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
 
     # (not necessary to override) Relationships = property(GetRelations, SetRelations)
 
-    def add_rel(self, source, to, rel_id=1) -> None:
-        super().add_rel(source, to, rel_id)
+    def add_rel(self, source, target, rel_id=1) -> None:
+        super().add_rel(source, target, rel_id)
         self._clearCaches()
 
-    def RemoveRelationships(self, source, to, rel_id=1) -> None:
-        super().RemoveRelationships(source, to, rel_id)
+    def RemoveRelationships(self, source, target, rel_id=1) -> None:
+        super().RemoveRelationships(source, target, rel_id)
         self._clearCaches()
 
     @lru_cache(maxsize=None)
-    def FindObjects(self, source=None, to=None, rel_id=1) -> Union[List[object], bool]:
-        return super().FindObjects(source, to, rel_id)
+    def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
+        return super().FindObjects(source, target, rel_id)
 
     @lru_cache(maxsize=None)
-    def FindObject(self, source=None, to=None, rel_id=1) -> object:
-        return super().FindObject(source, to, rel_id)
+    def FindObject(self, source=None, target=None, rel_id=1) -> object:
+        return super().FindObject(source, target, rel_id)
 
     @lru_cache(maxsize=None)
     def FindObjectPointedToByMe(self, source, relId=1) -> object:
         return super().FindObject(source, None, relId)
 
     @lru_cache(maxsize=None)
-    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
-        return super().FindObject(None, toObj, relId)
+    def FindObjectPointingToMe(self, target, relId=1) -> object:  # Back pointer query
+        return super().FindObject(None, target, relId)
 
     def Clear(self) -> None:
         super().Clear()

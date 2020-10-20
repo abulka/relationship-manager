@@ -120,29 +120,29 @@ class RelationshipManager():
     Relationships = property(GetRelations, SetRelations)
     """Property to get flat list of relationships tuples"""
 
-    def add_rel(self, source, to, rel_id=1) -> None:
+    def add_rel(self, source, target, rel_id=1) -> None:
         """Add relationships between ... """
-        self.rm.add_rel(source, to, rel_id)
+        self.rm.add_rel(source, target, rel_id)
 
-    def RemoveRelationships(self, source, to, rel_id=1) -> None:
+    def RemoveRelationships(self, source, target, rel_id=1) -> None:
         """Remove all relationships between ... """
-        self.rm.RemoveRelationships(source, to, rel_id)
+        self.rm.RemoveRelationships(source, target, rel_id)
 
-    def FindObjects(self, source=None, to=None, rel_id=1) -> Union[List[object], bool]:
+    def FindObjects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """Find first object - low level"""
-        return self.rm.FindObjects(source, to, rel_id)
+        return self.rm.FindObjects(source, target, rel_id)
 
-    def FindObject(self, source=None, to=None, rel_id=1) -> object:
+    def FindObject(self, source=None, target=None, rel_id=1) -> object:
         """Find first object - low level"""
-        return self.rm.FindObject(source, to, rel_id)
+        return self.rm.FindObject(source, target, rel_id)
 
     def FindObjectPointedToByMe(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
         return self.rm.FindObject(source, None, relId)
 
-    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
+    def FindObjectPointingToMe(self, target, relId=1) -> object:  # Back pointer query
         """Find first object pointed to me - first source"""
-        return self.rm.FindObject(None, toObj, relId)
+        return self.rm.FindObject(None, target, relId)
 
     def EnforceRelationship(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
@@ -181,20 +181,20 @@ class RelationshipManager():
     def ER(self, relId, cardinality, directionality="directional"):
         self.EnforceRelationship(relId, cardinality, directionality)
 
-    def R(self, source, toObj, relId=1):
-        self.add_rel(source, toObj, relId)
+    def R(self, source, target, relId=1):
+        self.add_rel(source, target, relId)
 
     def P(self, source, relId=1):
         return self.FindObject(source, None, relId)
 
-    def B(self, toObj, relId=1):
-        return self.FindObject(None, toObj, relId)
+    def B(self, target, relId=1):
+        return self.FindObject(None, target, relId)
 
     def PS(self, source, relId=1):
         return self.FindObjects(source, None, relId)
 
-    def NR(self, source, toObj, relId=1):
-        self.RemoveRelationships(source, toObj, relId)
+    def NR(self, source, target, relId=1):
+        self.RemoveRelationships(source, target, relId)
 
     def CL(self):
         self.Clear()
