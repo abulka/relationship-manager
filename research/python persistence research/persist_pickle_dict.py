@@ -73,17 +73,17 @@ objects: Dict[str, Entity] = {
     'id-3': Entity(strength=3, wise=True, experience=100),
 }
 rm = RelationshipManager()
-rm.AddRelationship(objects['id-1'], objects['id-2'])
-rm.AddRelationship(objects['id-1'], objects['id-3'])
+rm.add_rel(objects['id-1'], objects['id-2'])
+rm.add_rel(objects['id-1'], objects['id-3'])
 
 
 def checkRelationships(rm, objects):
-    assert rm.FindObjectPointedToByMe(objects['id-1']) == objects['id-2']
-    assert rm.FindObjects(
+    assert rm.target_of(objects['id-1']) == objects['id-2']
+    assert rm._find_objects(
         objects['id-1']) == [objects['id-2'], objects['id-3']]
-    assert rm.FindObjectPointingToMe(
+    assert rm.source_to(
         objects['id-2']) == objects['id-1']  # back pointer
-    assert rm.FindObjectPointingToMe(
+    assert rm.source_to(
         objects['id-3']) == objects['id-1']  # back pointer
 
     # Extra check, ensure new objects have not been created in the rm which simply
@@ -91,12 +91,12 @@ def checkRelationships(rm, objects):
     id1 = objects['id-1']
     id2 = objects['id-2']
     id3 = objects['id-3']
-    assert rm.FindObjectPointedToByMe(id1) is id2
-    assert rm.FindObjectPointingToMe(id3) is id1  # back pointer
+    assert rm.target_of(id1) is id2
+    assert rm.source_to(id3) is id1  # back pointer
     # double check again that references not copies are being created, by changing an attribute
     oldStringth = id2.strength
     id2.strength = 1000
-    assert rm.FindObjectPointedToByMe(id1).strength == 1000
+    assert rm.target_of(id1).strength == 1000
     id2.strength = oldStringth
 
 
@@ -105,7 +105,7 @@ checkRelationships(rm, objects)
 # persist
 mydict = {
     'objects': objects,
-    'relations': rm.Relationships
+    'relations': rm.relationships
 }
 pprint.pprint(mydict, indent=4)
 asbytes = pickle.dumps(mydict)
@@ -115,7 +115,7 @@ mydict2 = pickle.loads(asbytes)
 pprint.pprint(mydict2, indent=4)
 rm2 = RelationshipManager()
 objects2 = mydict2['objects']
-rm2.Relationships = mydict2['relations']
+rm2.relationships = mydict2['relations']
 
 # check resurrected version is the same as the original
 assert isinstance(mydict2, dict)

@@ -36,19 +36,19 @@ objects: Dict[str, Entity] = {
     'id-3': Entity(strength=100, wise=True, experience=100),
 }
 rm = RelationshipManager()
-rm.AddRelationship('id-1', 'id-2')
-rm.AddRelationship('id-1', 'id-3')
+rm.add_rel('id-1', 'id-2')
+rm.add_rel('id-1', 'id-3')
 def checkRelationships(rm):
-    assert rm.FindObjectPointedToByMe('id-1') == 'id-2'
-    assert rm.FindObjects('id-1') == ['id-2', 'id-3']
-    assert rm.FindObjectPointingToMe('id-2') == 'id-1'  # back pointer
-    assert rm.FindObjectPointingToMe('id-3') == 'id-1'  # back pointer
+    assert rm.target_of('id-1') == 'id-2'
+    assert rm._find_objects('id-1') == ['id-2', 'id-3']
+    assert rm.source_to('id-2') == 'id-1'  # back pointer
+    assert rm.source_to('id-3') == 'id-1'  # back pointer
 checkRelationships(rm)
 
 # persist
 mydict = {
     'objects': objects,
-    'relations': rm.Relationships
+    'relations': rm.relationships
 }
 pprint.pprint(mydict, indent=4)
 s = repr(mydict)
@@ -61,7 +61,7 @@ mydict2 = eval(s)
 pprint.pprint(mydict2, indent=4)
 rm2 = RelationshipManager()
 objects2 = mydict2['objects']
-rm2.Relationships = mydict2['relations']
+rm2.relationships = mydict2['relations']
 
 # check resurrected version is the same as the original
 assert isinstance(mydict2, dict)

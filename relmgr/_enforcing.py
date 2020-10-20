@@ -9,7 +9,7 @@ from relmgr._core import _CoreRelationshipManager
 
 class _EnforcingRelationshipManager(_CoreRelationshipManager):
     """
-    A stricter Relationship Manager which adds the method 'EnforceRelationship'
+    A stricter Relationship Manager which adds the method 'enforce'
     where you register the cardinality and directionality of each relationship.
 
     Benefits:
@@ -25,42 +25,42 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
 
     def __init__(self):
         super().__init__()
-        self.enforcer = {}
+        self.rules: Dict[any, Tuple] = {}
 
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
-        self.enforcer[relId] = (cardinality, directionality)
+    def enforce(self, relId, cardinality, directionality="directional"):
+        self.rules[relId] = (cardinality, directionality)
 
-    def _RemoveExistingRelationships(self, fromObj, toObj, relId):
-        def ExtinguishOldFrom():
-            oldFrom = self.FindObjectPointingToMe(toObj, relId)
-            self.RemoveRelationships(oldFrom, toObj, relId)
+    def _remove_existing_relationships(self, source, target, rel_id):
+        def _extinguish_old_source():
+            old_source = self.source_to(target, rel_id)
+            self.remove_rel(old_source, target, rel_id)
 
-        def ExtinguishOldTo():
-            oldTo = self.FindObjectPointedToByMe(fromObj, relId)
-            self.RemoveRelationships(fromObj, oldTo, relId)
-        if relId in list(self.enforcer.keys()):
-            cardinality, directionality = self.enforcer[relId]
+        def _extinguish_old_target():
+            old_target = self.target_of(source, rel_id)
+            self.remove_rel(source, old_target, rel_id)
+        if rel_id in list(self.rules.keys()):
+            cardinality, directionality = self.rules[rel_id]
             if cardinality == "onetoone":
-                ExtinguishOldFrom()
-                ExtinguishOldTo()
+                _extinguish_old_source()
+                _extinguish_old_target()
             elif cardinality == "onetomany":  # and directionality == "directional":
-                ExtinguishOldFrom()
+                _extinguish_old_source()
 
-    def AddRelationship(self, fromObj, toObj, relId=1):
-        self._RemoveExistingRelationships(fromObj, toObj, relId)
-        super().AddRelationship(fromObj, toObj, relId)
-        if relId in list(self.enforcer.keys()):
-            cardinality, directionality = self.enforcer[relId]
+    def add_rel(self, fromObj, toObj, relId=1):
+        self._remove_existing_relationships(fromObj, toObj, relId)
+        super().add_rel(fromObj, toObj, relId)
+        if relId in list(self.rules.keys()):
+            cardinality, directionality = self.rules[relId]
             if directionality == "bidirectional":
-                super().AddRelationship(toObj, fromObj, relId)
+                super().add_rel(toObj, fromObj, relId)
 
-    def RemoveRelationships(self, fromObj, toObj, relId=1):
-        super().RemoveRelationships(fromObj, toObj, relId)
-        if relId in list(self.enforcer.keys()):
-            cardinality, directionality = self.enforcer[relId]
+    def remove_rel(self, fromObj, toObj, relId=1):
+        super().remove_rel(fromObj, toObj, relId)
+        if relId in list(self.rules.keys()):
+            cardinality, directionality = self.rules[relId]
             if directionality == "bidirectional":
-                super().RemoveRelationships(toObj, fromObj, relId)
+                super().remove_rel(toObj, fromObj, relId)
 
-    def Clear(self) -> None:
-        super().Clear()
-        self.enforcer = {}
+    def clear(self) -> None:
+        super().clear()
+        self.rules = {}

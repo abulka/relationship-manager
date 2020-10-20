@@ -23,23 +23,23 @@ class TestCase01(unittest.TestCase):
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
     def test_Basic00(self):
-        self.rm.AddRelationship('a', 'b')
-        self.rm.AddRelationship('a', 'c')
+        self.rm.add_rel('a', 'b')
+        self.rm.add_rel('a', 'c')
 
-        result = self.rm.FindObjects('a', None)
+        result = self.rm._find_objects('a', None)
         assert result == ['b', 'c'] or result == ['c', 'b']
-        assert self.rm.FindObjects(None, 'a') == []
-        assert self.rm.FindObjects(None, 'b') == ['a']
-        assert self.rm.FindObjects(None, 'c') == ['a']
+        assert self.rm._find_objects(None, 'a') == []
+        assert self.rm._find_objects(None, 'b') == ['a']
+        assert self.rm._find_objects(None, 'c') == ['a']
 
     def test_Basic01Singular(self):
-        self.rm.AddRelationship('a', 'b')
-        self.rm.AddRelationship('a', 'c')
-        assert self.rm.FindObject(None, 'b') == 'a'
-        assert self.rm.FindObject(None, 'c') == 'a'
+        self.rm.add_rel('a', 'b')
+        self.rm.add_rel('a', 'c')
+        assert self.rm._find_object(None, 'b') == 'a'
+        assert self.rm._find_object(None, 'c') == 'a'
 
         # could be 'b' or 'c' - arbitrary
-        result = self.rm.FindObject('a', None)
+        result = self.rm._find_object('a', None)
         assert result == 'b' or result == 'c'
 
 
@@ -53,54 +53,54 @@ class TestCase02(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
 
-        self.rm.AddRelationship('b', 'a', 'r1')
+        self.rm.add_rel('b', 'a', 'r1')
 
-        self.rm.AddRelationship('a', 'c', 'r1')
+        self.rm.add_rel('a', 'c', 'r1')
 
     def test_IfRelIdIsWorking01(self):
         # could be 'b' or 'c' - arbitrary
-        result = self.rm.FindObject('a', None, 'r1')
+        result = self.rm._find_object('a', None, 'r1')
         assert result == 'b' or result == 'c'
 
-        assert self.rm.FindObject('a', None, 'r2') == 'b'
-        assert self.rm.FindObject('a', None, 'r3') == None
+        assert self.rm._find_object('a', None, 'r2') == 'b'
+        assert self.rm._find_object('a', None, 'r3') == None
 
-        assert self.rm.FindObject(None, 'b', 'r1') == 'a'
-        assert self.rm.FindObject(None, 'b', 'r2') == 'a'
+        assert self.rm._find_object(None, 'b', 'r1') == 'a'
+        assert self.rm._find_object(None, 'b', 'r2') == 'a'
 
         # default relationshipid is integer 1 which is not the string 'r1' nor is it 'r2'
-        assert self.rm.FindObject(None, 'c') != 'a'
-        assert self.rm.FindObject(None, 'c', 'r1') == 'a'
+        assert self.rm._find_object(None, 'c') != 'a'
+        assert self.rm._find_object(None, 'c', 'r1') == 'a'
 
     def test_MultipleReturns01(self):
-        #assert self.rm.FindObjects('a',None,'r1').sort() == ['b', 'c']
-        res = self.rm.FindObjects('a', None, 'r1')
+        #assert self.rm._find_objects('a',None,'r1').sort() == ['b', 'c']
+        res = self.rm._find_objects('a', None, 'r1')
         res.sort()
         assert res == ['b', 'c']
 
-        assert self.rm.FindObjects(None, 'b', 'r1') == ['a']
+        assert self.rm._find_objects(None, 'b', 'r1') == ['a']
         # cos no relationships with id integer 1 have been created
-        assert self.rm.FindObjects(None, 'b') == []
+        assert self.rm._find_objects(None, 'b') == []
 
         ok = False
         try:
             # invalid - must specify at least either from or to
-            assert self.rm.FindObjects(None, None) == []
+            assert self.rm._find_objects(None, None) == []
         except RuntimeError:
             ok = True
         assert ok
 
     def test_NonExistent01(self):
-        assert self.rm.FindObjects('aa', None, 'r1') == []
-        assert self.rm.FindObjects('a', None, 'r1111') == []
-        assert self.rm.FindObjects('az', None, None) == []
-        assert self.rm.FindObjects(None, 'bb', 'r1') == []
-        assert self.rm.FindObjects(None, 'b', 'r1111') == []
-        assert self.rm.FindObjects('a', None, 'r1111') == []
-        assert self.rm.FindObjects(None, 'bb', None) == []
+        assert self.rm._find_objects('aa', None, 'r1') == []
+        assert self.rm._find_objects('a', None, 'r1111') == []
+        assert self.rm._find_objects('az', None, None) == []
+        assert self.rm._find_objects(None, 'bb', 'r1') == []
+        assert self.rm._find_objects(None, 'b', 'r1111') == []
+        assert self.rm._find_objects('a', None, 'r1111') == []
+        assert self.rm._find_objects(None, 'bb', None) == []
 
     def test_FindRelationshipIds_NewFeatureFeb2005_01(self):
         # ***
@@ -111,16 +111,16 @@ class TestCase02(unittest.TestCase):
         # When specify both sides of a relationship, PLUS the relationship itself,
         # then there is nothing to find, so return a boolean T/F if that relationship exists.
         #
-        assert self.rm.FindObjects('a', 'b', 'r1') == True
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'b', 'zzz') == False
+        assert self.rm._find_objects('a', 'b', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'b', 'zzz') == False
 
         """
         This next one is a bit subtle - we are in fact specifying all parameters, because the
         default relId is integer 1 (allowing you to create simple relationships easily).
         Thus the question we are asking is "is there a R of type 'integer 1' between a and b?"
         """
-        assert self.rm.FindObjects(
+        assert self.rm._find_objects(
             'a', 'b') == False  # cos no relationships with id integer 1 have been created
 
     def test_FindRelationshipIds_NewFeatureFeb2005_02(self):
@@ -131,59 +131,59 @@ class TestCase02(unittest.TestCase):
         # ***
         # When specify both sides of the relationship but leave the relationship None, you get a list of the relationships.
         #
-        assert self.rm.FindObjects('a', 'b', None) == ['r1', 'r2']
+        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
 
     def test_Removal_01(self):
         # print()
         # Specify wildcard RelId
-        assert self.rm.FindObjects('a', 'b', None) == ['r1', 'r2']
-        assert self.rm.FindObjects('a', 'b', 'r1') == True
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
+        assert self.rm._find_objects('a', 'b', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r2') == True
         # remove all R's between a and b
-        self.rm.RemoveRelationships('a', 'b', None)
-        assert self.rm.FindObjects(
-            'a', 'b', None) == [], 'Getting ' + str(self.rm.FindObjects('a', 'b', None))
-        assert self.rm.FindObjects('a', 'b', 'r1') == False
-        assert self.rm.FindObjects('a', 'b', 'r2') == False
+        self.rm.remove_rel('a', 'b', None)
+        assert self.rm._find_objects(
+            'a', 'b', None) == [], 'Getting ' + str(self.rm._find_objects('a', 'b', None))
+        assert self.rm._find_objects('a', 'b', 'r1') == False
+        assert self.rm._find_objects('a', 'b', 'r2') == False
 
     def test_Removal_02(self):
         # Specify all params
-        self.rm.RemoveRelationships('a', 'b', 'r1')
-        assert self.rm.FindObjects('a', 'b', None) == ['r2']
-        assert self.rm.FindObjects('a', 'b', 'r1') == False
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
+        self.rm.remove_rel('a', 'b', 'r1')
+        assert self.rm._find_objects('a', 'b', None) == ['r2']
+        assert self.rm._find_objects('a', 'b', 'r1') == False
+        assert self.rm._find_objects('a', 'b', 'r2') == True
 
     def test_Removal_03(self):
         # Specify 'from' param
-        assert self.rm.FindObjects('a', 'b', 'r1') == True
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == True
-        self.rm.RemoveRelationships('a', None, 'r1')
-        assert self.rm.FindObjects('a', 'b', 'r1') == False  # zapped
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == False  # zapped
+        assert self.rm._find_objects('a', 'b', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == True
+        self.rm.remove_rel('a', None, 'r1')
+        assert self.rm._find_objects('a', 'b', 'r1') == False  # zapped
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == False  # zapped
 
-        assert self.rm.FindObject(None, 'b', 'r1') == None
-        assert self.rm.FindObject(None, 'b', 'r2') == 'a'
-        assert self.rm.FindObject(None, 'c', None) == None
+        assert self.rm._find_object(None, 'b', 'r1') == None
+        assert self.rm._find_object(None, 'b', 'r2') == 'a'
+        assert self.rm._find_object(None, 'c', None) == None
 
     def test_Removal_04(self):
         # Specify 'to' param
-        assert self.rm.FindObjects('a', 'b', 'r1') == True
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == True
-        self.rm.RemoveRelationships(None, 'b', 'r1')
-        assert self.rm.FindObjects('a', 'b', 'r1') == False  # zapped
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == True
+        self.rm.remove_rel(None, 'b', 'r1')
+        assert self.rm._find_objects('a', 'b', 'r1') == False  # zapped
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == True
 
-        self.rm.RemoveRelationships(None, 'c', 'r1')
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == False  # zapped
+        self.rm.remove_rel(None, 'c', 'r1')
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == False  # zapped
 
-        self.rm.RemoveRelationships(None, 'b', 'r2')
-        assert self.rm.FindObjects('a', 'b', 'r2') == False  # zapped
-        assert self.rm.FindObjects('a', 'c', 'r1') == False
+        self.rm.remove_rel(None, 'b', 'r2')
+        assert self.rm._find_objects('a', 'b', 'r2') == False  # zapped
+        assert self.rm._find_objects('a', 'c', 'r1') == False
 
 
 class TestCase03(unittest.TestCase):
@@ -198,18 +198,18 @@ class TestCase03(unittest.TestCase):
 
         for c in self.THINGS:
             for c2 in self.THINGS:
-                self.rm.AddRelationship(c, c2, 'r1')
-                self.rm.AddRelationship(c, c2, 'r2')
-                self.rm.AddRelationship(c2, c, 'r3')
+                self.rm.add_rel(c, c2, 'r1')
+                self.rm.add_rel(c, c2, 'r2')
+                self.rm.add_rel(c2, c, 'r3')
 
     def test_Speed01(self):
         t = time.time()
 
         for c in self.THINGS:
             for c2 in self.THINGS:
-                assert c2 in self.rm.FindObjects(c, None, 'r1')
-                assert c2 in self.rm.FindObjects(c, None, 'r2')
-                assert c in self.rm.FindObjects(c2, None, 'r3')
+                assert c2 in self.rm._find_objects(c, None, 'r1')
+                assert c2 in self.rm._find_objects(c, None, 'r2')
+                assert c in self.rm._find_objects(c2, None, 'r3')
 
         timetook = time.time() - t
         # print "Relationship lookups took", timetook, 'seconds'
@@ -228,24 +228,24 @@ class TestCase04(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
-        self.rm.AddRelationship('a', 'c', 'r1')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
+        self.rm.add_rel('a', 'c', 'r1')
 
     def test_Duplicates01(self):
-        assert self.rm.FindObjects(
+        assert self.rm._find_objects(
             'a', 'b', 'r1') == True  # [('a', 'b', 'r1')]
-        assert self.rm.FindObjects('a', 'b', None) == ['r1', 'r2']
-        assert self.rm.FindObjects(
+        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
+        assert self.rm._find_objects(
             'a', 'c', 'r1') == True  # [('a', 'c', 'r1')]
-        assert self.rm.FindObjects('a', 'c', None) == ['r1']
+        assert self.rm._find_objects('a', 'c', None) == ['r1']
 
 
 class TestCase05(unittest.TestCase):
     def setUp(self):
         """
-        Check getting and setting the 'Relationships' property, which,
+        Check getting and setting the 'relationships' property, which,
         despite the implementation, should look the same.
         In the original RM the property is actually accessed directly (naughty)
         and the implementation is the same as the spec, namely a list of tuples (from,to,relid)
@@ -258,14 +258,14 @@ class TestCase05(unittest.TestCase):
         """
         self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
-        self.rm.AddRelationship('a', 'b', 'r1')
-        self.rm.AddRelationship('a', 'b', 'r2')
-        self.rm.AddRelationship('a', 'c', 'r1')
-        self.rm.AddRelationship('b', 'a', 'r1')
-        self.rm.AddRelationship('c', 'b', 'r9')
+        self.rm.add_rel('a', 'b', 'r1')
+        self.rm.add_rel('a', 'b', 'r2')
+        self.rm.add_rel('a', 'c', 'r1')
+        self.rm.add_rel('b', 'a', 'r1')
+        self.rm.add_rel('c', 'b', 'r9')
 
     def test_Get01(self):
-        r = self.rm.Relationships
+        r = self.rm.relationships
         #assert r == [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'), ('b', 'a', 'r1'), ('c', 'b', 'r9')]
         assert len(r) == 5
         assert ('a', 'b', 'r1') in r
@@ -278,13 +278,13 @@ class TestCase05(unittest.TestCase):
         r = [('a', 'b', 'r1'), ('a', 'b', 'r2'), ('a', 'c', 'r1'),
              ('b', 'a', 'r1'), ('c', 'b', 'r9')]
         newrm = RelationshipManager()
-        newrm.Relationships = r
+        newrm.relationships = r
 
-        assert self.rm.FindObjects('a', 'b', 'r1') == True
-        assert self.rm.FindObjects('a', 'b', 'r2') == True
-        assert self.rm.FindObjects('a', 'c', 'r1') == True
-        assert self.rm.FindObjects('b', 'a', 'r1') == True
-        assert self.rm.FindObjects('c', 'b', 'r9') == True
+        assert self.rm._find_objects('a', 'b', 'r1') == True
+        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm._find_objects('a', 'c', 'r1') == True
+        assert self.rm._find_objects('b', 'a', 'r1') == True
+        assert self.rm._find_objects('c', 'b', 'r9') == True
 
 
 def suite():
@@ -312,34 +312,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-"""
-SCRAPS
-
-import pprint
-
-class RelationshipManagerPersistent(RelationshipManager):
-    def __init__(self):
-        RelationshipManager.__init__(self)
-
-    def __repr__(self):
-        return pprint.pformat(self.Relationships)
-
-    def LoadFromStr(self, str):
-        self.Relationships = eval(str)
-
-    def LoadFromList(self, L):
-        self.Relationships = L
-
-P.S.  There may be more stuff like this to integrate back into the main
-      relationshipmanager.py module found in oobtree.py
-      e.g.
-        self._ConvertRelations(self.oobtreeAllies.relations.Relationships)
-        LoadFromReprStr(self, strdict):
-        __repr__(self):
-        __str__(self):
-        LoadFromDict
-        etc.
-"""
-
-# -----------------------------

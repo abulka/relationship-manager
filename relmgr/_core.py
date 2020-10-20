@@ -19,154 +19,158 @@ class _CoreRelationshipManager(object):
             same as above except meaning is reversed.
         }
 
-    Adds Relationships property for setting and getting the relationships
+    Has relationships property for setting and getting the relationships
     which helps if persisting.
 
     """
 
     def __init__(self):
-        self.Relations = {}
-        self.InverseOfRelations = {}
+        self.relations: Dict = {}
+        self.inverse_relations: Dict = {}
 
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+    def _get_relationships(self) -> List[Tuple[object, object, Union[int, str]]]:
         result = []
-        for from_ in self.Relations:
-            to_dict = self.Relations[from_]
-            for to in to_dict:
-                for relId in to_dict[to]:
-                    result.append((from_, to, relId))
+        for source in self.relations:
+            to_dict = self.relations[source]
+            for target in to_dict:
+                for rel_id in to_dict[target]:
+                    result.append((source, target, rel_id))
         return result
 
-    def SetRelations(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
+    def _set_relationships(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
         for r in list_of_relationship_tuples:
-            self.AddRelationship(from_=r[0], to=r[1], rel_id=r[2])
-    Relationships = property(GetRelations, SetRelations)
+            self.add_rel(source=r[0], target=r[1], rel_id=r[2])
+    relationships = property(_get_relationships, _set_relationships)
 
-    def AddRelationship(self, from_, to, rel_id=1) -> None:
-        def AddEntry(relationsDict, from_, to, rel_id):
-            if from_ not in relationsDict:
-                relationsDict[from_] = {}
-            if to not in relationsDict[from_]:
-                relationsDict[from_][to] = []
-            if rel_id not in relationsDict[from_][to]:
-                relationsDict[from_][to].append(rel_id)
-        AddEntry(self.Relations, from_, to, rel_id)
-        AddEntry(self.InverseOfRelations, to, from_, rel_id)
+    def add_rel(self, source, target, rel_id=1) -> None:
+        def _add_entry(relations: Dict, source, target, rel_id):
+            if source not in relations:
+                relations[source] = {}
+            if target not in relations[source]:
+                relations[source][target] = []
+            if rel_id not in relations[source][target]:
+                relations[source][target].append(rel_id)
+        _add_entry(self.relations, source, target, rel_id)
+        _add_entry(self.inverse_relations, target, source, rel_id)
 
-    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+    def remove_rel(self, source, target, rel_id=1) -> None:
         """
         Specifying None as a parameter means 'any'
         """
-        def have_specified_all_params(): return (
-                from_ is not None and to is not None and rel_id is not None)
+        def _have_specified_all_params(): return (
+                source is not None and target is not None and rel_id is not None)
 
-        def number_of_wildcard_params():
+        def _number_of_wildcard_params():
             result = 0  # number of None params, which represent a wildcard match
-            if from_ is None:
+            if source is None:
                 result += 1
-            if to is None:
+            if target is None:
                 result += 1
             if rel_id is None:
                 result += 1
             return result
 
-        if number_of_wildcard_params() > 1:
+        if _number_of_wildcard_params() > 1:
             raise RuntimeError(
                 'Only one parameter can be left as None, (indicating a match with anything).')
 
-        def ZapRelId(from_, to, rel_id):
-            def _ZapRelationId(rdict, from_, to, rel_id):
-                assert (from_ is not None and to is not None and rel_id is not None)
-                rel_list = rdict[from_][to]
+        def _zap_relationship(source, target, rel_id):
+            def _zap_rel_id(rdict, source, target, rel_id):
+                assert (source is not None and target is not None and rel_id is not None)
+                rel_list = rdict[source][target]
                 if rel_id in rel_list:
                     rel_list.remove(rel_id)
                 if not rel_list:     # no more relationships, so remove the entire mapping
-                    del rdict[from_][to]
-            _ZapRelationId(self.Relations,          from_, to,   rel_id)
-            _ZapRelationId(self.InverseOfRelations, to,   from_, rel_id)
+                    del rdict[source][target]
+            _zap_rel_id(self.relations,          source, target,   rel_id)
+            _zap_rel_id(self.inverse_relations, target,   source, rel_id)
 
-        if have_specified_all_params():
-            if self.FindObjects(from_, to, rel_id):  # returns T/F
-                ZapRelId(from_, to, rel_id)
+        if _have_specified_all_params():
+            if self._find_objects(source, target, rel_id):  # returns T/F
+                _zap_relationship(source, target, rel_id)
         else:
-            # this list will be either 'from_' or 'to' or RelIds depending on which param was set as None (meaning match anything)
-            lzt = self.FindObjects(from_, to, rel_id)
+            # this list will be either 'source' or 'target' or RelIds depending on which param was set as None (meaning match anything)
+            lzt = self._find_objects(source, target, rel_id)
             if lzt:
-                for objOrRelid in lzt:
-                    if from_ == None:
-                        # lzt contains all the things that point to 'to' with relid 'rel_id'
-                        # objOrRelid is the specific thing during this iteration that point to 'to', so delete it
-                        ZapRelId(objOrRelid, to, rel_id)
-                    elif to == None:
-                        ZapRelId(from_, objOrRelid, rel_id)
+                for it in lzt:  # strangely, 'it' is an object or rel_id
+                    if source == None:
+                        # lzt contains all the things that point to 'target' with relid 'rel_id'
+                        # 'it' is the specific thing during this iteration that point to 'target', so delete it
+                        _zap_relationship(it, target, rel_id)
+                    elif target == None:
+                        _zap_relationship(source, it, rel_id)
                     elif rel_id == None:
-                        ZapRelId(from_, to, objOrRelid)
+                        _zap_relationship(source, target, it)
 
-    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+    def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """
         Specifying None as a parameter means 'any'
-        Can specify
-          # 'from_' is None - use normal relations dictionary
-          from_=None to=blah rel_id=blah  anyone pointing to 'to' of specific rel_id
-          from_=None to=blah rel_id=None  anyone pointing to 'to'
+        E.g. when you specify:
+          # 'source' is None - use normal relations dictionary
+          source=None target=blah rel_id=blah  anyone pointing to 'target' of specific rel_id
+          source=None target=blah rel_id=None  anyone pointing to 'target'
 
-          # 'to' is None - use inverse relations dictionary
-          from_=blah to=None rel_id=blah  anyone 'from_' points to, of specific rel_id
-          from_=blah to=None rel_id=None  anyone 'from_' points to
+          # 'target' is None - use inverse relations dictionary
+          source=blah target=None rel_id=blah  anyone 'source' points to, of specific rel_id
+          source=blah target=None rel_id=None  anyone 'source' points to
 
-          # Both 'to' & 'from_' specified, use any e.g. use normal relations dictionary
-          from_=blah to=blah rel_id=None  all rel_id's between blah and blah
-          from_=blah to=blah rel_id=blah  T/F does this specific relationship exist
+          # Both 'target' & 'source' specified, use any e.g. use normal relations dictionary
+          source=blah target=blah rel_id=None  all rel_id's between blah and blah
+          source=blah target=blah rel_id=blah  T/F does this specific relationship exist
 
-          from_=None to=None rel_id=blah  error (though you could implement returning a list of from_,to pairs using the R blah e.g. [('a','b'),('a','c')]
-          from_=None to=None rel_id=None  error
+          # All none
+          source=None target=None rel_id=blah  error (though you could implement returning a list of source,target pairs using the R blah e.g. [('a','b'),('a','c')]
+          source=None target=None rel_id=None  error
+        
+        Tip: Other uses of None as a parameter value
+            remove_rel(self, From, To, RelId=1) -> None: Specifying None as a parameter means 'any'
         """
-        if from_ is None and to is None:
-            raise RuntimeError("Either 'from_' or 'to' has to be specified")
+        if source is None and target is None:
+            raise RuntimeError("Either 'source' or 'target' has to be specified")
 
         def havespecifiedallParams(): return (
-            from_ != None and to != None and rel_id != None)
+            source != None and target != None and rel_id != None)
         resultlist = []
 
-        if from_ == None:
-            subdict = self.InverseOfRelations.get(to, {})
+        if source == None:
+            subdict = self.inverse_relations.get(target, {})
             resultlist = [k for k, v in subdict.items() if (
                 rel_id in v or rel_id == None)]
 
-        elif to == None:
+        elif target == None:
             # returns a list of all the matching tos
-            subdict = self.Relations.get(from_, {})
+            subdict = self.relations.get(source, {})
             resultlist = [k for k, v in subdict.items() if (
                 rel_id in v or rel_id == None)]
 
         else:
             """
-            # Both 'to' & 'from_' specified, use any e.g. use normal relations dictionary
-            from_=blah to=blah rel_id=None  all rel_id's between blah and blah
-            from_=blah to=blah rel_id=blah  T/F does this specific relationship exist
+            # Both 'target' & 'source' specified, use any e.g. use normal relations dictionary
+            source=blah target=blah rel_id=None  all rel_id's between blah and blah
+            source=blah target=blah rel_id=blah  T/F does this specific relationship exist
             """
-            subdict = self.Relations.get(from_, {})
-            relationIdsList = subdict.get(to, [])
+            subdict: Dict = self.relations.get(source, {})
+            rel_ids: List = subdict.get(target, [])
             if rel_id == None:
                 # return the entire list of relationship ids between these two.
-                resultlist = relationIdsList
+                resultlist = rel_ids
             else:
-                return rel_id in relationIdsList  # return T/F
+                return rel_id in rel_ids  # return T/F
         return copy.copy(resultlist)
 
-    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
-        lzt = self.FindObjects(from_, to, rel_id)
+    def _find_object(self, source=None, target=None, rel_id=1) -> object:
+        lzt = self._find_objects(source, target, rel_id)
         if lzt:
             return lzt[0]
         else:
             return None
 
-    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
-        return self.FindObject(fromObj, None, relId)
+    def target_of(self, fromObj, relId=1) -> object:
+        return self._find_object(fromObj, None, relId)
 
-    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
-        return self.FindObject(None, toObj, relId)
+    def source_to(self, toObj, relId=1) -> object:  # Back pointer query
+        return self._find_object(None, toObj, relId)
 
-    def Clear(self):
-        self.Relations.clear()
-        self.InverseOfRelations.clear()
+    def clear(self):
+        self.relations.clear()
+        self.inverse_relations.clear()

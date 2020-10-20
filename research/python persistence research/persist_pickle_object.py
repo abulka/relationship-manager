@@ -56,16 +56,16 @@ objects.id1 = Entity(strength=1, wise=True, experience=80)
 objects.id2 = Entity(strength=2, wise=False, experience=20)
 objects.id3 = Entity(strength=3, wise=True, experience=100)
 rm = RelationshipManager()
-rm.AddRelationship(objects.id1, objects.id2)
-rm.AddRelationship(objects.id1, objects.id3)
+rm.add_rel(objects.id1, objects.id2)
+rm.add_rel(objects.id1, objects.id3)
 
 
 def checkRelationships(rm, objects):
-    assert rm.FindObjectPointedToByMe(objects.id1) == objects.id2
-    assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
-    assert rm.FindObjectPointingToMe(
+    assert rm.target_of(objects.id1) == objects.id2
+    assert rm._find_objects(objects.id1) == [objects.id2, objects.id3]
+    assert rm.source_to(
         objects.id2) == objects.id1  # back pointer
-    assert rm.FindObjectPointingToMe(
+    assert rm.source_to(
         objects.id3) == objects.id1  # back pointer
 
     # Extra check, ensure new objects have not been created in the rm which simply
@@ -73,12 +73,12 @@ def checkRelationships(rm, objects):
     id1 = objects.id1
     id2 = objects.id2
     id3 = objects.id3
-    assert rm.FindObjectPointedToByMe(id1) is id2
-    assert rm.FindObjectPointingToMe(id3) is id1  # back pointer
+    assert rm.target_of(id1) is id2
+    assert rm.source_to(id3) is id1  # back pointer
     # double check again that references not copies are being created, by changing an attribute
     oldStringth = id2.strength
     id2.strength = 1000
-    assert rm.FindObjectPointedToByMe(id1).strength == 1000
+    assert rm.target_of(id1).strength == 1000
     id2.strength = oldStringth
 
 
@@ -86,20 +86,20 @@ checkRelationships(rm, objects)
 
 # prepare for persistence - wrap the objects and relationships in an outer object
 # to create a namespace for persisting - could use a dict, it doesn't matter.
-data = PersistenceWrapper(objects=objects, relations=rm.Relationships)
+data = PersistenceWrapper(objects=objects, relations=rm.relationships)
 pprint.pprint(data, indent=4, width=1)  # doesn't seem to indent?
 
 # persist
 asbytes = pickle.dumps(data)
-# asbytes = pickle.dumps(rm.Relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
+# asbytes = pickle.dumps(rm.relationships)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # resurrect from a asbytes
 data2 = pickle.loads(asbytes)
 pprint.pprint(data2, indent=4, width=1)  # doesn't seem to indent?
 rm2 = RelationshipManager()
 objects2 = data2.objects
-rm2.Relationships = data2.relations
-# rm2.Relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
+rm2.relationships = data2.relations
+# rm2.relationships = pickle.loads(asbytes)  # yes this works but don't get objects id1, id2 etc easily accessible
 
 # check resurrected version is the same as the original
 assert isinstance(data2, PersistenceWrapper)

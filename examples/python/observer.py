@@ -19,11 +19,11 @@ class Observer:
    
     @property
     def subject(self):
-        return rm.FindObjectPointedToByMe(self)
+        return rm.target_of(self)
 
     @subject.setter
     def subject(self, _subject):
-        rm.AddRelationship(self, _subject)
+        rm.add_rel(self, _subject)
 
     def Notify(self, subject, notificationEventType):
         pass  # implementations override this and do something
@@ -32,12 +32,12 @@ class Observer:
 class Subject:
 
     def NotifyAll(self, notificationEventType):
-        observers = rm.FindObjects(None, self)  # all things pointing at me
+        observers = rm._find_objects(None, self)  # all things pointing at me
         for o in observers:
             o.Notify(self, notificationEventType)
 
     def AddObserver(self, observer):
-        rm.AddRelationship(observer, self)
+        rm.add_rel(observer, self)
 
     def RemoveObserver(self, observer):
-        rm.RemoveRelationships(from_=observer, to=self)
+        rm.remove_rel(source=observer, target=self)
