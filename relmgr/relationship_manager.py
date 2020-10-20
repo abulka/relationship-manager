@@ -191,12 +191,6 @@ class CoreRelationshipManager(object):
         self.InverseOfRelations.clear()
 
 
-class RMCoreImplementation(CoreRelationshipManager):
-    pass
-
-
-
-
 class EnforcingRelationshipManager(CoreRelationshipManager):
     """
     A stricter Relationship Manager which adds the method 'EnforceRelationship'
@@ -256,67 +250,11 @@ class EnforcingRelationshipManager(CoreRelationshipManager):
         self.enforcer = {}
 
 
-# Persistence
-
-
-@dataclass
-class Namespace:
-    """Just want a namespace to store vars/attrs in. Could use a dictionary."""
-
-
-@dataclass
-class PersistenceWrapper:
-    """Holds both objects and relationships. Could use a dictionary."""
-    objects: Namespace  # Put all your objects involved in relationships as attributes of this object
-    relations: List  # Relationship Manager relationship List will go here
-
-
-class RelationshipManagerPersistent(EnforcingRelationshipManager):
-    """
-    Persistent Relationship Manager.  
-
-    Provides an attribute object called `.objects` where you can keep all the
-    objects involved in relationships e.g.
-
-        rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
-
-    Then when you persist the Relationship Manager both the objects and
-    relations are pickled and later restored. This means your objects are
-    accessible by attribute name e.g. rm.objects.obj1 at all times. You can
-    assign these references to local variables for convenience e.g.
-
-        obj1 = rm.objects.obj1
-
-    Usage:
-        # persist
-        asbytes = rm.dumps()
-
-        # resurrect
-        rm2 = RelationshipManagerPersistent.loads(asbytes)
-    """
+class RelationshipManagerCaching(EnforcingRelationshipManager):
+    # no persistence in this
 
     def __init__(self):
         super().__init__()
-        self.objects = Namespace()  # assign to this namespace directly to record your objects
-
-    def Clear(self):
-        super().__init__()
-        self.objects = Namespace()
-
-    def dumps(self) -> bytes:
-        return pickle.dumps(PersistenceWrapper(
-            objects=self.objects, relations=self.Relationships))
-
-    @staticmethod
-    def loads(asbytes: bytes):  # -> RelationshipManagerPersistent:
-        data: PersistenceWrapper = pickle.loads(asbytes)
-        rm = EnforcingRelationshipManager()
-        rm.objects = data.objects
-        rm.Relationships = data.relations
-        return rm
-
-
-class RelationshipManagerCaching(RelationshipManagerPersistent):
 
     @lru_cache(maxsize=None)
     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
@@ -361,21 +299,6 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
     def EnforceRelationship(self, relId, cardinality, directionality="directional"):
         self.enforcer[relId] = (cardinality, directionality)
 
-    ## Persistence
-
-    # (not necessary to override) self.objects
-
-    # (not necessary to override) def dumps(self) -> bytes:
-
-    @staticmethod
-    def loads(asbytes: bytes):  # -> RelationshipManagerCaching:
-        data: PersistenceWrapper = pickle.loads(asbytes)
-        rm = RelationshipManagerCaching()  # could we use super() here to determine class to create?
-        rm.objects = data.objects
-        rm.Relationships = data.relations
-        # rm._clearCaches()  # not needed cos its a new instance
-        return rm    
-
     def _clearCaches(self):
         self.FindObjects.cache_clear()
         self.FindObject.cache_clear()
@@ -383,24 +306,44 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
         self.FindObjectPointingToMe.cache_clear()
         self.FindObjectPointedToByMe.cache_clear()
 
-        """
-        Alternative cache clear 
-        https://www.geeksforgeeks.org/clear-lru-cache-in-python/
 
-        But it might other caches - unless we can 
-        limit it to those used by RM
+__pdoc__ = {}
 
-            gc.collect() 
-            
-            # All objects collected 
-            objects = [i for i in gc.get_objects()  
-                    if isinstance(i, functools._lru_cache_wrapper)] 
-            
-            # All objects cleared 
-            for object in objects: 
-                object.cache_clear() 
+__pdoc__['RelationshipManager.dumps'] = """
+    Persistent Relationship Manager.  
 
-        """
+    Provides an attribute object called `.objects` where you can keep all the
+    objects involved in relationships e.g.
+
+        rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
+
+    Then when you persist the Relationship Manager both the objects and
+    relations are pickled and later restored. This means your objects are
+    accessible by attribute name e.g. rm.objects.obj1 at all times. You can
+    assign these references to local variables for convenience e.g.
+
+        obj1 = rm.objects.obj1
+
+    Usage:
+        # persist
+        asbytes = rm.dumps()
+
+        # resurrect
+        rm2 = RelationshipManagerPersistent.loads(asbytes)
+"""
+
+# Persistence
+
+@dataclass
+class Namespace:
+    """Just want a namespace to store vars/attrs in. Could use a dictionary."""
+
+
+@dataclass
+class PersistenceWrapper:
+    """Holds both objects and relationships. Could use a dictionary."""
+    objects: Namespace  # Put all your objects involved in relationships as attributes of this object
+    relations: List  # Relationship Manager relationship List will go here
 
 
 class RelationshipManager():
@@ -410,7 +353,7 @@ class RelationshipManager():
         if caching:
             self.rm = RelationshipManagerCaching()
         else:
-            self.rm = RelationshipManagerPersistent()
+            self.rm = EnforcingRelationshipManager()
         self.objects = Namespace()  # assign to this namespace directly to record your objects
 
     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
@@ -459,6 +402,7 @@ class RelationshipManager():
 
     def Clear(self) -> None:
         self.rm.Clear()
+        self.objects = Namespace()
 
     ## Short API
 

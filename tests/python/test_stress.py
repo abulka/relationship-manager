@@ -3,9 +3,9 @@ import pprint
 import random
 import timeit
 from relmgr.relationship_manager import RelationshipManager
+from tests.python.settings import USE_RM_CACHE
 
 DEBUG = False
-CACHING_ON = True
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
 RM = None
@@ -15,7 +15,7 @@ class TestCaching(unittest.TestCase):
 
     def setUp(self):
         global RM
-        RM = RelationshipManager(caching=CACHING_ON)
+        RM = RelationshipManager(caching=USE_RM_CACHE)
         self.start_time = timeit.default_timer()
 
     def tearDown(self):
@@ -49,7 +49,7 @@ class TestCaching(unittest.TestCase):
 
         # report the results
         if DEBUG:
-            if CACHING_ON:
+            if USE_RM_CACHE:
                 print(RM.PS.cache_info())
             else:
                 print("no caching")

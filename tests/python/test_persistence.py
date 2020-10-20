@@ -3,6 +3,7 @@ import pprint
 import random
 from dataclasses import dataclass  # requires 3.7
 from relmgr import RelationshipManager
+from tests.python.settings import USE_RM_CACHE
 
 
 @dataclass
@@ -20,7 +21,7 @@ class Entity:
 class TestPersistence(unittest.TestCase):
 
     def test_persistence(self):
-        rm = RelationshipManager()
+        rm = RelationshipManager(caching=USE_RM_CACHE)
         obj1 = rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
         obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
         obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)

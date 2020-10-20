@@ -4,6 +4,7 @@ import time
 import os
 import sys
 from relmgr import RelationshipManager
+from tests.python.settings import USE_RM_CACHE
 
 
 class TestCase00(unittest.TestCase):
@@ -19,7 +20,7 @@ class TestCase00(unittest.TestCase):
 
 class TestCase01(unittest.TestCase):
     def setUp(self):
-        self.rm = RelationshipManager()
+        self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
     def test_Basic00(self):
         self.rm.AddRelationship('a', 'b')
@@ -50,7 +51,7 @@ class TestCase02(unittest.TestCase):
         A --r2-> B
         A --r1-> C
         """
-        self.rm = RelationshipManager()
+        self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
         self.rm.AddRelationship('a', 'b', 'r1')
         self.rm.AddRelationship('a', 'b', 'r2')
@@ -190,7 +191,7 @@ class TestCase03(unittest.TestCase):
         """
         Lots of relationsips. Check the speed.
         """
-        self.rm = RelationshipManager()
+        self.rm = RelationshipManager(caching=USE_RM_CACHE)
         # self.THINGS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ'    # ori takes MINUTES   efficient1 takes 1.7
         # ori takes 4.6       efficient1 takes 0.38
         self.THINGS = 'abcdefghijk'
@@ -225,7 +226,7 @@ class TestCase04(unittest.TestCase):
         A --r2-> B
         A --r1-> C
         """
-        self.rm = RelationshipManager()
+        self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
         self.rm.AddRelationship('a', 'b', 'r1')
         self.rm.AddRelationship('a', 'b', 'r1')
@@ -255,7 +256,7 @@ class TestCase05(unittest.TestCase):
         B --r1-> A
         C --r9-> B
         """
-        self.rm = RelationshipManager()
+        self.rm = RelationshipManager(caching=USE_RM_CACHE)
 
         self.rm.AddRelationship('a', 'b', 'r1')
         self.rm.AddRelationship('a', 'b', 'r2')

@@ -2,6 +2,7 @@ import unittest
 import pprint
 from relmgr import RelationshipManager
 # from relmgr.relationship_manager import RelationshipManagerCaching as RelationshipManager  # test caching version
+from tests.python.settings import USE_RM_CACHE
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
 RM = None
@@ -12,7 +13,7 @@ class TestCase01_OneToOne(unittest.TestCase):
     def setUp(self):
         global RM
         # RM = RelationshipManager(caching=False)
-        RM = RelationshipManager()
+        RM = RelationshipManager(caching=USE_RM_CACHE)
 
     def test_OneToOne_XSingularApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
