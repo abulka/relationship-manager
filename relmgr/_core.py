@@ -171,6 +171,6 @@ class _CoreRelationshipManager(object):
     def source_to(self, toObj, relId=1) -> object:  # Back pointer query
         return self.FindObject(None, toObj, relId)
 
-    def Clear(self):
+    def clear(self):
         self.Relations.clear()
         self.InverseOfRelations.clear()

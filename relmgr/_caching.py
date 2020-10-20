@@ -47,8 +47,8 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
     def source_to(self, target, relId=1) -> object:  # Back pointer query
         return super().FindObject(None, target, relId)
 
-    def Clear(self) -> None:
-        super().Clear()
+    def clear(self) -> None:
+        super().clear()
         self._clearCaches()
 
     ## Enforcing

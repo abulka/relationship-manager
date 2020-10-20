@@ -137,11 +137,11 @@ class RelationshipManager():
         rm.Relationships = data.relations
         return rm  
 
-    def Clear(self) -> None:
+    def clear(self) -> None:
         """Clear all relationships, does not affect .objects - if you want to clear that too then
         assign a new empty object to it.  E.g. rm.objects = Namespace()
         """
-        self.rm.Clear()
+        self.rm.clear()
         self.objects = Namespace()
 
     ## Short API
@@ -165,7 +165,7 @@ class RelationshipManager():
         self.remove_rel(source, target, relId)
 
     def CL(self):
-        self.Clear()
+        self.clear()
 
     # Util
 

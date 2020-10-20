@@ -61,6 +61,6 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
             if directionality == "bidirectional":
                 super().remove_rel(toObj, fromObj, relId)
 
-    def Clear(self) -> None:
-        super().Clear()
+    def clear(self) -> None:
+        super().clear()
         self.enforcer = {}
