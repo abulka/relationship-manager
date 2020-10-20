@@ -76,7 +76,7 @@ class TestCase02(unittest.TestCase):
         assert self.rm._find_object(None, 'c', 'r1') == 'a'
 
     def test_MultipleReturns01(self):
-        #assert self.rm.FindObjects('a',None,'r1').sort() == ['b', 'c']
+        #assert self.rm._find_objects('a',None,'r1').sort() == ['b', 'c']
         res = self.rm._find_objects('a', None, 'r1')
         res.sort()
         assert res == ['b', 'c']

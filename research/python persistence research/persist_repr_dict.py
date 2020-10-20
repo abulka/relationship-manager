@@ -37,10 +37,10 @@ rm = RelationshipManager()
 rm.add_rel('id-1', 'id-2')
 rm.add_rel('id-1', 'id-3')
 def checkRelationships(rm):
-    assert rm.FindObjectPointedToByMe('id-1') == 'id-2'
-    assert rm.FindObjects('id-1') == ['id-2', 'id-3']
-    assert rm.FindObjectPointingToMe('id-2') == 'id-1'  # back pointer
-    assert rm.FindObjectPointingToMe('id-3') == 'id-1'  # back pointer
+    assert rm.target_of('id-1') == 'id-2'
+    assert rm._find_objects('id-1') == ['id-2', 'id-3']
+    assert rm.source_to('id-2') == 'id-1'  # back pointer
+    assert rm.source_to('id-3') == 'id-1'  # back pointer
 checkRelationships(rm)
 
 # persist

@@ -61,11 +61,11 @@ rm.add_rel(objects.id1, objects.id3)
 
 
 def checkRelationships(rm, objects):
-    assert rm.FindObjectPointedToByMe(objects.id1) == objects.id2
-    assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
-    assert rm.FindObjectPointingToMe(
+    assert rm.target_of(objects.id1) == objects.id2
+    assert rm._find_objects(objects.id1) == [objects.id2, objects.id3]
+    assert rm.source_to(
         objects.id2) == objects.id1  # back pointer
-    assert rm.FindObjectPointingToMe(
+    assert rm.source_to(
         objects.id3) == objects.id1  # back pointer
 
     # Extra check, ensure new objects have not been created in the rm which simply
@@ -73,12 +73,12 @@ def checkRelationships(rm, objects):
     id1 = objects.id1
     id2 = objects.id2
     id3 = objects.id3
-    assert rm.FindObjectPointedToByMe(id1) is id2
-    assert rm.FindObjectPointingToMe(id3) is id1  # back pointer
+    assert rm.target_of(id1) is id2
+    assert rm.source_to(id3) is id1  # back pointer
     # double check again that references not copies are being created, by changing an attribute
     oldStringth = id2.strength
     id2.strength = 1000
-    assert rm.FindObjectPointedToByMe(id1).strength == 1000
+    assert rm.target_of(id1).strength == 1000
     id2.strength = oldStringth
 
 
