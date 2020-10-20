@@ -25,16 +25,16 @@ class _CoreRelationshipManager(object):
     """
 
     def __init__(self):
-        self.Relations = {}
-        self.InverseOfRelations = {}
+        self.relations: Dict = {}
+        self.inverse_relations: Dict = {}
 
     def _get_relationships(self) -> List[Tuple[object, object, Union[int, str]]]:
         result = []
-        for source in self.Relations:
-            to_dict = self.Relations[source]
+        for source in self.relations:
+            to_dict = self.relations[source]
             for target in to_dict:
-                for relId in to_dict[target]:
-                    result.append((source, target, relId))
+                for rel_id in to_dict[target]:
+                    result.append((source, target, rel_id))
         return result
 
     def _set_relationships(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
@@ -43,24 +43,24 @@ class _CoreRelationshipManager(object):
     relationships = property(_get_relationships, _set_relationships)
 
     def add_rel(self, source, target, rel_id=1) -> None:
-        def AddEntry(relationsDict, source, target, rel_id):
-            if source not in relationsDict:
-                relationsDict[source] = {}
-            if target not in relationsDict[source]:
-                relationsDict[source][target] = []
-            if rel_id not in relationsDict[source][target]:
-                relationsDict[source][target].append(rel_id)
-        AddEntry(self.Relations, source, target, rel_id)
-        AddEntry(self.InverseOfRelations, target, source, rel_id)
+        def _add_entry(relations: Dict, source, target, rel_id):
+            if source not in relations:
+                relations[source] = {}
+            if target not in relations[source]:
+                relations[source][target] = []
+            if rel_id not in relations[source][target]:
+                relations[source][target].append(rel_id)
+        _add_entry(self.relations, source, target, rel_id)
+        _add_entry(self.inverse_relations, target, source, rel_id)
 
     def remove_rel(self, source, target, rel_id=1) -> None:
         """
         Specifying None as a parameter means 'any'
         """
-        def have_specified_all_params(): return (
+        def _have_specified_all_params(): return (
                 source is not None and target is not None and rel_id is not None)
 
-        def number_of_wildcard_params():
+        def _number_of_wildcard_params():
             result = 0  # number of None params, which represent a wildcard match
             if source is None:
                 result += 1
@@ -70,37 +70,37 @@ class _CoreRelationshipManager(object):
                 result += 1
             return result
 
-        if number_of_wildcard_params() > 1:
+        if _number_of_wildcard_params() > 1:
             raise RuntimeError(
                 'Only one parameter can be left as None, (indicating a match with anything).')
 
-        def ZapRelId(source, target, rel_id):
-            def _ZapRelationId(rdict, source, target, rel_id):
+        def _zap_relationship(source, target, rel_id):
+            def _zap_rel_id(rdict, source, target, rel_id):
                 assert (source is not None and target is not None and rel_id is not None)
                 rel_list = rdict[source][target]
                 if rel_id in rel_list:
                     rel_list.remove(rel_id)
                 if not rel_list:     # no more relationships, so remove the entire mapping
                     del rdict[source][target]
-            _ZapRelationId(self.Relations,          source, target,   rel_id)
-            _ZapRelationId(self.InverseOfRelations, target,   source, rel_id)
+            _zap_rel_id(self.relations,          source, target,   rel_id)
+            _zap_rel_id(self.inverse_relations, target,   source, rel_id)
 
-        if have_specified_all_params():
+        if _have_specified_all_params():
             if self._find_objects(source, target, rel_id):  # returns T/F
-                ZapRelId(source, target, rel_id)
+                _zap_relationship(source, target, rel_id)
         else:
             # this list will be either 'source' or 'target' or RelIds depending on which param was set as None (meaning match anything)
             lzt = self._find_objects(source, target, rel_id)
             if lzt:
-                for objOrRelid in lzt:
+                for it in lzt:  # strangely, 'it' is an object or rel_id
                     if source == None:
                         # lzt contains all the things that point to 'target' with relid 'rel_id'
-                        # objOrRelid is the specific thing during this iteration that point to 'target', so delete it
-                        ZapRelId(objOrRelid, target, rel_id)
+                        # 'it' is the specific thing during this iteration that point to 'target', so delete it
+                        _zap_relationship(it, target, rel_id)
                     elif target == None:
-                        ZapRelId(source, objOrRelid, rel_id)
+                        _zap_relationship(source, it, rel_id)
                     elif rel_id == None:
-                        ZapRelId(source, target, objOrRelid)
+                        _zap_relationship(source, target, it)
 
     def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """
@@ -133,13 +133,13 @@ class _CoreRelationshipManager(object):
         resultlist = []
 
         if source == None:
-            subdict = self.InverseOfRelations.get(target, {})
+            subdict = self.inverse_relations.get(target, {})
             resultlist = [k for k, v in subdict.items() if (
                 rel_id in v or rel_id == None)]
 
         elif target == None:
             # returns a list of all the matching tos
-            subdict = self.Relations.get(source, {})
+            subdict = self.relations.get(source, {})
             resultlist = [k for k, v in subdict.items() if (
                 rel_id in v or rel_id == None)]
 
@@ -149,13 +149,13 @@ class _CoreRelationshipManager(object):
             source=blah target=blah rel_id=None  all rel_id's between blah and blah
             source=blah target=blah rel_id=blah  T/F does this specific relationship exist
             """
-            subdict = self.Relations.get(source, {})
-            relationIdsList = subdict.get(target, [])
+            subdict: Dict = self.relations.get(source, {})
+            rel_ids: List = subdict.get(target, [])
             if rel_id == None:
                 # return the entire list of relationship ids between these two.
-                resultlist = relationIdsList
+                resultlist = rel_ids
             else:
-                return rel_id in relationIdsList  # return T/F
+                return rel_id in rel_ids  # return T/F
         return copy.copy(resultlist)
 
     def _find_object(self, source=None, target=None, rel_id=1) -> object:
@@ -172,5 +172,5 @@ class _CoreRelationshipManager(object):
         return self._find_object(None, toObj, relId)
 
     def clear(self):
-        self.Relations.clear()
-        self.InverseOfRelations.clear()
+        self.relations.clear()
+        self.inverse_relations.clear()

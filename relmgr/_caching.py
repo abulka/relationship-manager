@@ -54,7 +54,7 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
     ## Enforcing
 
     def enforce(self, relId, cardinality, directionality="directional"):
-        self.enforcer[relId] = (cardinality, directionality)
+        self.rules[relId] = (cardinality, directionality)
 
     def _clearCaches(self):
         self._find_objects.cache_clear()
