@@ -165,7 +165,7 @@ class _CoreRelationshipManager(object):
         else:
             return None
 
-    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+    def target_of(self, fromObj, relId=1) -> object:
         return self.FindObject(fromObj, None, relId)
 
     def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query

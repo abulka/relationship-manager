@@ -41,6 +41,6 @@ newobj1 = rm2.objects.obj1
 newobj2 = rm2.objects.obj2
 newobj3 = rm2.objects.obj3
 assert rm2.FindObjects(newobj1) == [newobj2, newobj3]
-assert rm2.FindObjectPointedToByMe(newobj1) is newobj2
+assert rm2.target_of(newobj1) is newobj2
 
 print('done, all OK')

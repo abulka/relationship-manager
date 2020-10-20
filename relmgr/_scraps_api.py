@@ -4,8 +4,8 @@ Possible revised API
 
 def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None: pass
 def remove_rel(self, source, target, rel_id=1) -> None: pass
-def targets_of(self, source, rel_id) -> List: pass
-def sources_to(self, target, rel_id) -> List: pass # Back pointer query
+TODO def targets_of(self, source, rel_id) -> List: pass
+TODO def sources_to(self, target, rel_id) -> List: pass # Back pointer query
 def enforce(self, rel_id, cardinality, directionality="directional"): pass
 def clear(self) -> None: pass
 

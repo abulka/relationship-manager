@@ -24,7 +24,7 @@ Put simply, create an instance of this class, then call
 any two Python objects.
 
 You can then make queries e.g. using 
-`RelationshipManager.FindObjectPointedToByMe()` as needed.
+`RelationshipManager.target_of()` as needed.
 
 ## What is a relationship RelId?
 
@@ -104,7 +104,7 @@ class RelationshipManager():
         """Find first object - low level"""
         return self.rm.FindObject(source, target, rel_id)
 
-    def FindObjectPointedToByMe(self, source, relId=1) -> object:
+    def target_of(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
         return self.rm.FindObject(source, None, relId)
 

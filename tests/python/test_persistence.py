@@ -41,4 +41,4 @@ class TestPersistence(unittest.TestCase):
         newobj2 = rm2.objects.obj2
         newobj3 = rm2.objects.obj3
         self.assertEqual(rm2.FindObjects(newobj1), [newobj2, newobj3])
-        self.assertIs(rm2.FindObjectPointedToByMe(newobj1), newobj2, "getting copies not references?")
+        self.assertIs(rm2.target_of(newobj1), newobj2, "getting copies not references?")

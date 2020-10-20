@@ -36,7 +36,7 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
             self.remove_rel(oldFrom, toObj, relId)
 
         def ExtinguishOldTo():
-            oldTo = self.FindObjectPointedToByMe(fromObj, relId)
+            oldTo = self.target_of(fromObj, relId)
             self.remove_rel(fromObj, oldTo, relId)
         if relId in list(self.enforcer.keys()):
             cardinality, directionality = self.enforcer[relId]

@@ -40,7 +40,7 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         return super().FindObject(source, target, rel_id)
 
     @lru_cache(maxsize=None)
-    def FindObjectPointedToByMe(self, source, relId=1) -> object:
+    def target_of(self, source, relId=1) -> object:
         return super().FindObject(source, None, relId)
 
     @lru_cache(maxsize=None)
@@ -61,4 +61,4 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         self.FindObject.cache_clear()
         self.GetRelations.cache_clear()
         self.FindObjectPointingToMe.cache_clear()
-        self.FindObjectPointedToByMe.cache_clear()
+        self.target_of.cache_clear()

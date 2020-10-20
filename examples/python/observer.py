@@ -19,7 +19,7 @@ class Observer:
    
     @property
     def subject(self):
-        return rm.FindObjectPointedToByMe(self)
+        return rm.target_of(self)
 
     @subject.setter
     def subject(self, _subject):
