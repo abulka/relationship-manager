@@ -11,6 +11,7 @@ class TestCase01_OneToOne(unittest.TestCase):
 
     def setUp(self):
         global RM
+        # RM = RelationshipManager(caching=False)
         RM = RelationshipManager()
 
     def test_OneToOne_XSingularApi_YNoApi(self):
@@ -27,10 +28,15 @@ class TestCase01_OneToOne(unittest.TestCase):
 
         """
         class X:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self): return RM.P(self, "xtoy")
-            def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+            def __init__(self):        RM.EnforceRelationship("xtoy", "onetoone", "directional")
+            def setY(self, y):         RM.AddRelationship(self, y, "xtoy")
+            def getY(self):     return RM.FindObjectPointedToByMe(self, "xtoy")
+            def clearY(self):          RM.RemoveRelationships(self, self.getY(), "xtoy")
+        # class X:
+        #     def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
+        #     def setY(self, y):         RM.R(self, y, "xtoy")
+        #     def getY(self):     return RM.P(self, "xtoy")
+        #     def clearY(self):          RM.NR(self, self.getY(), "xtoy")
 
         class Y:
             pass
@@ -50,6 +56,7 @@ class TestCase01_OneToOne(unittest.TestCase):
 
         # After setting one pointer, x1 -> y1
         x1.setY(y1)
+        # RM.debug_print_rels()
         assert x1.getY() == y1
         assert x2.getY() == None
 

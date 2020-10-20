@@ -21,6 +21,7 @@ import pickle
 from dataclasses import dataclass  # requires at least 3.7
 import copy
 from functools import lru_cache
+import pprint
 
 
 class EfficientRelationshipManager(object):
@@ -494,5 +495,92 @@ class RelationshipManagerCaching(RelationshipManagerPersistent):
 #     """Main Relationship Manager to use in your projects."""
 
 
-class RelationshipManager(RelationshipManagerCaching):
+# class RelationshipManager(RelationshipManagerCaching):
+#     """Main Relationship Manager to use in your projects."""
+
+
+class RelationshipManager():
     """Main Relationship Manager to use in your projects."""
+
+    def __init__(self, caching=True) -> None:
+        if caching:
+            self.rm = RelationshipManagerCaching()
+        else:
+            self.rm = RelationshipManagerPersistent()
+        self.objects = Namespace()  # assign to this namespace directly to record your objects
+
+    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+        return self.rm.GetRelations()
+
+    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
+        self.rm.SetRelations(listofrelationshiptuples)
+
+    Relationships = property(GetRelations, SetRelations)
+
+    def AddRelationship(self, from_, to, rel_id=1) -> None:
+        self.rm.AddRelationship(from_, to, rel_id)
+
+    def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+        self.rm.RemoveRelationships(from_, to, rel_id)
+
+    def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+        return self.rm.FindObjects(from_, to, rel_id)
+
+    def FindObject(self, from_=None, to=None, rel_id=1) -> object:
+        return self.rm.FindObject(from_, to, rel_id)
+
+    def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+        return self.rm.FindObject(fromObj, None, relId)
+
+    def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
+        return self.rm.FindObject(None, toObj, relId)
+
+    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+        self.rm.EnforceRelationship(relId, cardinality, directionality)
+
+    def dumps(self) -> bytes:
+        # Unfortunately have to re-implement here to ensure .objects gets persisted not the inner rm.objects
+        return pickle.dumps(PersistenceWrapper(
+            objects=self.objects, relations=self.Relationships))
+
+    @staticmethod
+    def loads(asbytes: bytes):  # -> RelationshipManager:
+        # Unfortunately have to re-implement here to ensure get a `RelationshipManager` returned
+        data: PersistenceWrapper = pickle.loads(asbytes)
+        rm = RelationshipManager()  # could we use super() here to determine class to create?
+                    # how to create a caching or not version - save some options too? getting complex
+        rm.objects = data.objects
+        rm.Relationships = data.relations
+        return rm  
+
+    def Clear(self) -> None:
+        self.rm.Clear()
+
+    ## Short API
+
+    def ER(self, relId, cardinality, directionality="directional"):
+        self.EnforceRelationship(relId, cardinality, directionality)
+
+    def R(self, fromObj, toObj, relId=1):
+        self.AddRelationship(fromObj, toObj, relId)
+
+    def P(self, fromObj, relId=1):
+        return self.FindObject(fromObj, None, relId)
+
+    def B(self, toObj, relId=1):
+        return self.FindObject(None, toObj, relId)
+
+    def PS(self, fromObj, relId=1):
+        return self.FindObjects(fromObj, None, relId)
+
+    def NR(self, fromObj, toObj, relId=1):
+        self.RemoveRelationships(fromObj, toObj, relId)
+
+    def CL(self):
+        self.Clear()
+
+    # Util
+
+    def debug_print_rels(self):
+        print()
+        pprint.pprint(self.Relationships)

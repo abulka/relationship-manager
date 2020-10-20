@@ -26,7 +26,20 @@
             "env": {"PYTHONPATH": "${workspaceRoot}"}
         },
         {
-            "name": "Single test: using -m unittest",
+            "name": "Single test: test_OneToOne_XSingularApi_YNoApi",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "-v",
+                "tests.python.test_enforcing_relationship_manager.TestCase01_OneToOne.test_OneToOne_XSingularApi_YNoApi"
+            ], 
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "env": {"PYTHONPATH": "${workspaceRoot}"}
+        },
+        {
+            "name": "Single test: TestPersistence",
             "type": "python",
             "request": "launch",
             "module": "unittest",
