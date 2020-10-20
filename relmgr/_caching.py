@@ -53,7 +53,7 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
 
     ## Enforcing
 
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+    def enforce(self, relId, cardinality, directionality="directional"):
         self.enforcer[relId] = (cardinality, directionality)
 
     def _clearCaches(self):

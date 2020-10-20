@@ -112,12 +112,12 @@ class RelationshipManager():
         """Find first object pointed to me - first source"""
         return self.rm.FindObject(None, target, relId)
 
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+    def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
         bidirectional relationships, and by overwriting existing relationships if in the case
         of one-to-one cardinality?
         """
-        self.rm.EnforceRelationship(relId, cardinality, directionality)
+        self.rm.enforce(relId, cardinality, directionality)
 
     def dumps(self) -> bytes:
         """Dump relationship tuples and objects to pickled bytes.
@@ -147,7 +147,7 @@ class RelationshipManager():
     ## Short API
 
     def ER(self, relId, cardinality, directionality="directional"):
-        self.EnforceRelationship(relId, cardinality, directionality)
+        self.enforce(relId, cardinality, directionality)
 
     def R(self, source, target, relId=1):
         self.add_rel(source, target, relId)

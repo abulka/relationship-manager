@@ -9,7 +9,7 @@ from relmgr._core import _CoreRelationshipManager
 
 class _EnforcingRelationshipManager(_CoreRelationshipManager):
     """
-    A stricter Relationship Manager which adds the method 'EnforceRelationship'
+    A stricter Relationship Manager which adds the method 'enforce'
     where you register the cardinality and directionality of each relationship.
 
     Benefits:
@@ -27,7 +27,7 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
         super().__init__()
         self.enforcer = {}
 
-    def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+    def enforce(self, relId, cardinality, directionality="directional"):
         self.enforcer[relId] = (cardinality, directionality)
 
     def _RemoveExistingRelationships(self, fromObj, toObj, relId):
