@@ -16,5 +16,5 @@ class Namespace:
 class PersistenceWrapper:
     """Holds both objects and relationships. Could use a dictionary."""
     objects: Namespace  # Put all your objects involved in relationships as attributes of this object
-    relations: List  # Relationship Manager relationship List will go here
+    relationships: List  # Relationship Manager relationship List will go here
 

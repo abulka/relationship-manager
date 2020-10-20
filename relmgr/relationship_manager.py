@@ -112,6 +112,9 @@ class RelationshipManager():
         """Find first object pointed to me - first source"""
         return self.rm._find_object(None, target, relId)
 
+    # TODO def targets_of(self, source, rel_id) -> List: pass
+    # TODO def sources_to(self, target, rel_id) -> List: pass # Back pointer query
+
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
         bidirectional relationships, and by overwriting existing relationships if in the case
@@ -124,7 +127,7 @@ class RelationshipManager():
         The `objects` attribute and all objects stored therein
         (within the instance of `RelationshipManager.objects`) also get persisted."""
         return pickle.dumps(PersistenceWrapper(
-            objects=self.objects, relations=self.relationships))
+            objects=self.objects, relationships=self.relationships))
 
     @staticmethod
     def loads(asbytes: bytes):  # -> RelationshipManager:
@@ -134,7 +137,7 @@ class RelationshipManager():
         data: PersistenceWrapper = pickle.loads(asbytes)
         rm = RelationshipManager()
         rm.objects = data.objects
-        rm.relationships = data.relations
+        rm.relationships = data.relationships
         return rm  
 
     def clear(self) -> None:
