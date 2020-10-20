@@ -16,6 +16,54 @@ from relmgr.persist_support import Namespace, PersistenceWrapper
 
 __pdoc__ = {}
 
+__pdoc__['RelationshipManager'] = """
+# Welcome to Relationship Manager
+
+Put simply, create an instance of this class, then call 
+`RelationshipManager.add_rel()` to record relationships between
+any two Python objects.
+
+You can then make queries e.g. using 
+`RelationshipManager.FindObjectPointedToByMe()` as needed.
+
+## What is a relationship RelId?
+
+Type RelId can be an integer or descriptive string e.g. `x-to-y`.
+
+## Note on the low level FindObjects() method
+
+```
+FindObjects(self, From=None, To=None, RelId=1):
+```
+
+Specifying None as a parameter means 'any'. E.g. when you specify:
+
+'From' is None - use normal relations dictionary
+```
+From=None To=blah RelId=blah  anyone pointing to 'To' of specific RelId
+From=None To=blah RelId=None  anyone pointing to 'To'
+```
+
+'To' is None - use inverse relations dictionary
+```
+From=blah To=None RelId=blah  anyone 'From' points to, of specific RelId
+From=blah To=None RelId=None  anyone 'From' points to
+```
+
+Both 'To' & 'From' specified, use any e.g. use normal relations dictionary
+```
+From=blah To=blah RelId=None  all RelId's between blah and blah
+From=blah To=blah RelId=blah  T/F does this specific relationship exist  <--- bool returned, yuk
+From=None To=None RelId=blah  error (though you could implement returning 
+                                    a list of From,To pairs using the R blah e.g. [('a','b'),('a','c')]
+From=None To=None RelId=None  error
+```
+
+## Other uses of None as a parameter value
+
+RemoveRelationships(self, From, To, RelId=1) -> None: Specifying None as a parameter means 'any'
+"""
+
 __pdoc__['RelationshipManager.dumps'] = """
     Persistent Relationship Manager.  
 
@@ -45,62 +93,86 @@ __pdoc__['RelationshipManager.dumps'] = """
 class RelationshipManager():
     """Main Relationship Manager to use in your projects."""
 
-    def __init__(self, caching=True) -> None:
+    def __init__(self, caching: bool=True) -> None:
+        """Constructor.  Set the option `caching` if you want
+        faster performance using Python `lru_cache` technology 
+        - defaults to True.
+        """
         if caching:
             self.rm = _RelationshipManagerCaching()
         else:
             self.rm = _EnforcingRelationshipManager()
 
         self.objects = Namespace()
-        """Assign to this `.objects` namespace directly to record your objects
+        """Optional place for storing objects involved in relationships, so the objects are saved.
+        Assign to this `.objects` namespace directly to record your objects
         for persistence puposes.
         """
 
     def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+        """Getter"""
         return self.rm.GetRelations()
 
     def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
         self.rm.SetRelations(listofrelationshiptuples)
+        """Setter"""
 
     Relationships = property(GetRelations, SetRelations)
+    """Property to get flat list of relationships tuples"""
 
     def AddRelationship(self, from_, to, rel_id=1) -> None:
+        """Add relationships between ... """
         self.rm.AddRelationship(from_, to, rel_id)
 
     def RemoveRelationships(self, from_, to, rel_id=1) -> None:
+        """Remove all relationships between ... """
         self.rm.RemoveRelationships(from_, to, rel_id)
 
     def FindObjects(self, from_=None, to=None, rel_id=1) -> Union[List[object], bool]:
+        """Find first object - low level"""
         return self.rm.FindObjects(from_, to, rel_id)
 
     def FindObject(self, from_=None, to=None, rel_id=1) -> object:
+        """Find first object - low level"""
         return self.rm.FindObject(from_, to, rel_id)
 
     def FindObjectPointedToByMe(self, fromObj, relId=1) -> object:
+        """Find first object pointed to by me - first target"""
         return self.rm.FindObject(fromObj, None, relId)
 
     def FindObjectPointingToMe(self, toObj, relId=1) -> object:  # Back pointer query
+        """Find first object pointed to me - first source"""
         return self.rm.FindObject(None, toObj, relId)
 
     def EnforceRelationship(self, relId, cardinality, directionality="directional"):
+        """Enforce a relationship by auto creating reciprocal relationships in the case of 
+        bidirectional relationships, and by overwriting existing relationships if in the case
+        of one-to-one cardinality?
+        """
         self.rm.EnforceRelationship(relId, cardinality, directionality)
 
     def dumps(self) -> bytes:
-        # Unfortunately have to re-implement here to ensure .objects gets persisted not the inner rm.objects
+        """Dump relationship tuples and objects to pickled bytes.
+        The `objects` attribute and all objects stored therein
+        (within the instance of `RelationshipManager.objects`) also get persisted."""
         return pickle.dumps(PersistenceWrapper(
             objects=self.objects, relations=self.Relationships))
 
     @staticmethod
     def loads(asbytes: bytes):  # -> RelationshipManager:
-        # Unfortunately have to re-implement here to ensure get a `RelationshipManager` returned
+        """Load relationship tuples and objects from pickled bytes. 
+        Returns a `RelationshipManager` instance.
+        """
         data: PersistenceWrapper = pickle.loads(asbytes)
-        rm = RelationshipManager()  # could we use super() here to determine class to create?
-                    # how to create a caching or not version - save some options too? getting complex
+        rm = RelationshipManager()
         rm.objects = data.objects
         rm.Relationships = data.relations
         return rm  
 
     def Clear(self) -> None:
+        """Clear all relationships, does not affect .objects - if you want to clear that too then
+        assign a new empty object to it.  E.g. rm.objects = Namespace()
+        """
         self.rm.Clear()
         self.objects = Namespace()
 
