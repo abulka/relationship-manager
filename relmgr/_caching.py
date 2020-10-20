@@ -14,14 +14,14 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         super().__init__()
 
     @lru_cache(maxsize=None)
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
-        return super().GetRelations()
+    def _get_relationships(self) -> List[Tuple[object, object, Union[int, str]]]:
+        return super()._get_relationships()
 
-    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
-        super().SetRelations(listofrelationshiptuples)
+    def _set_relationships(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
+        super()._set_relationships(listofrelationshiptuples)
         self._clearCaches()
 
-    # (not necessary to override) relationships = property(GetRelations, SetRelations)
+    # (not necessary to override) relationships property
 
     def add_rel(self, source, target, rel_id=1) -> None:
         super().add_rel(source, target, rel_id)
@@ -59,6 +59,6 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
     def _clearCaches(self):
         self._find_objects.cache_clear()
         self._find_object.cache_clear()
-        self.GetRelations.cache_clear()
+        self._get_relationships.cache_clear()
         self.source_to.cache_clear()
         self.target_of.cache_clear()

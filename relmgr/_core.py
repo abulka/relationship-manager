@@ -28,7 +28,7 @@ class _CoreRelationshipManager(object):
         self.Relations = {}
         self.InverseOfRelations = {}
 
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+    def _get_relationships(self) -> List[Tuple[object, object, Union[int, str]]]:
         result = []
         for source in self.Relations:
             to_dict = self.Relations[source]
@@ -37,10 +37,10 @@ class _CoreRelationshipManager(object):
                     result.append((source, target, relId))
         return result
 
-    def SetRelations(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
+    def _set_relationships(self, list_of_relationship_tuples: List[Tuple[object, object, Union[int, str]]]):
         for r in list_of_relationship_tuples:
             self.add_rel(source=r[0], target=r[1], rel_id=r[2])
-    relationships = property(GetRelations, SetRelations)
+    relationships = property(_get_relationships, _set_relationships)
 
     def add_rel(self, source, target, rel_id=1) -> None:
         def AddEntry(relationsDict, source, target, rel_id):

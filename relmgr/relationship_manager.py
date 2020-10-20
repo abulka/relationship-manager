@@ -77,15 +77,15 @@ class RelationshipManager():
         for persistence puposes.
         """
 
-    def GetRelations(self) -> List[Tuple[object, object, Union[int, str]]]:
+    def _get_relationships(self) -> List[Tuple[object, object, Union[int, str]]]:
         """Getter"""
-        return self.rm.GetRelations()
+        return self.rm._get_relationships()
 
-    def SetRelations(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
-        self.rm.SetRelations(listofrelationshiptuples)
+    def _set_relationships(self, listofrelationshiptuples: List[Tuple[object, object, Union[int, str]]]) -> None:
+        self.rm._set_relationships(listofrelationshiptuples)
         """Setter"""
 
-    relationships = property(GetRelations, SetRelations)
+    relationships = property(_get_relationships, _set_relationships)
     """Property to get flat list of relationships tuples"""
 
     def add_rel(self, source, target, rel_id=1) -> None:
