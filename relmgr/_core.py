@@ -117,6 +117,8 @@ class _CoreRelationshipManager(object):
           source=blah target=None rel_id=blah  anyone 'source' points to, of specific rel_id
           source=blah target=None rel_id=None  anyone 'source' points to
 
+          # When specify both sides of a relationship, PLUS the relationship itself,
+          # then there is nothing to find, so return a boolean T/F if that relationship exists.
           # Both 'target' & 'source' specified, use any e.g. use normal relations dictionary
           source=blah target=blah rel_id=None  all rel_id's between blah and blah
           source=blah target=blah rel_id=blah  T/F does this specific relationship exist
@@ -162,17 +164,12 @@ class _CoreRelationshipManager(object):
         return copy.copy(resultlist)
 
     def _find_object(self, source=None, target=None, rel_id=1) -> object:
+        """Find first object - low level"""
         lzt = self._find_objects(source, target, rel_id)
         if lzt:
             return lzt[0]
         else:
             return None
-
-    # def find_target(self, fromObj, relId=1) -> object:
-    #     return self._find_object(fromObj, None, relId)
-
-    # def find_source(self, toObj, relId=1) -> object:  # Back pointer query
-    #     return self._find_object(None, toObj, relId)
 
     def clear(self):
         self.relations.clear()

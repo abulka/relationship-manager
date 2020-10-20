@@ -53,18 +53,14 @@ The API is:
 ```python
 def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None: pass
 def remove_rel(self, source, target, rel_id=1) -> None: pass
-TODO def find_targets(self, source, rel_id) -> List: pass
-TODO def find_sources(self, target, rel_id) -> List: pass # Back pointer query
 def enforce(self, rel_id, cardinality, directionality="directional"): pass
 def clear(self) -> None: pass
 
-# convenience - return the first object 
+# query API
+def find_targets(self, source, rel_id) -> List: pass
 def find_target(self, source, rel_id) -> object: pass
+def find_sources(self, target, rel_id) -> List: pass # Back pointer query
 def find_source(self, target, rel_id) -> object: pass # Back pointer query
-
-# low level
-def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]: pass
-def _find_object(self, source=None, target=None, rel_id=1) -> object: pass
 
 # persistence related
 objects: Namespace

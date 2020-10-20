@@ -62,7 +62,7 @@ rm.add_rel(objects.id1, objects.id3)
 
 def checkRelationships(rm, objects):
     assert rm.find_target(objects.id1) == objects.id2
-    assert rm._find_objects(objects.id1) == [objects.id2, objects.id3]
+    assert rm.find_targets(objects.id1) == [objects.id2, objects.id3]
     assert rm.find_source(
         objects.id2) == objects.id1  # back pointer
     assert rm.find_source(

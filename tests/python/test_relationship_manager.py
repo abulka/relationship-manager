@@ -26,20 +26,20 @@ class TestCase01(unittest.TestCase):
         self.rm.add_rel('a', 'b')
         self.rm.add_rel('a', 'c')
 
-        result = self.rm._find_objects('a', None)
+        result = self.rm.find_targets('a')
         assert result == ['b', 'c'] or result == ['c', 'b']
-        assert self.rm._find_objects(None, 'a') == []
-        assert self.rm._find_objects(None, 'b') == ['a']
-        assert self.rm._find_objects(None, 'c') == ['a']
+        assert self.rm.find_sources('a') == []
+        assert self.rm.find_sources('b') == ['a']
+        assert self.rm.find_sources('c') == ['a']
 
     def test_Basic01Singular(self):
         self.rm.add_rel('a', 'b')
         self.rm.add_rel('a', 'c')
-        assert self.rm._find_object(None, 'b') == 'a'
-        assert self.rm._find_object(None, 'c') == 'a'
+        assert self.rm.find_source('b') == 'a'
+        assert self.rm.find_source('c') == 'a'
 
         # could be 'b' or 'c' - arbitrary
-        result = self.rm._find_object('a', None)
+        result = self.rm.find_target('a')
         assert result == 'b' or result == 'c'
 
 
@@ -62,128 +62,102 @@ class TestCase02(unittest.TestCase):
 
     def test_IfRelIdIsWorking01(self):
         # could be 'b' or 'c' - arbitrary
-        result = self.rm._find_object('a', None, 'r1')
+        result = self.rm.find_target('a', 'r1')
         assert result == 'b' or result == 'c'
 
-        assert self.rm._find_object('a', None, 'r2') == 'b'
-        assert self.rm._find_object('a', None, 'r3') == None
+        assert self.rm.find_target('a', 'r2') == 'b'
+        assert self.rm.find_target('a', 'r3') == None
 
-        assert self.rm._find_object(None, 'b', 'r1') == 'a'
-        assert self.rm._find_object(None, 'b', 'r2') == 'a'
+        assert self.rm.find_source(target='b', rel_id='r1') == 'a'
+        assert self.rm.find_source(target='b', rel_id='r2') == 'a'
 
         # default relationshipid is integer 1 which is not the string 'r1' nor is it 'r2'
-        assert self.rm._find_object(None, 'c') != 'a'
-        assert self.rm._find_object(None, 'c', 'r1') == 'a'
+        assert self.rm.find_source(target='c') != 'a'
+        assert self.rm.find_source(target='c', rel_id='r1') == 'a'
 
     def test_MultipleReturns01(self):
-        #assert self.rm._find_objects('a',None,'r1').sort() == ['b', 'c']
-        res = self.rm._find_objects('a', None, 'r1')
+        res = self.rm.find_targets('a', rel_id='r1')
         res.sort()
         assert res == ['b', 'c']
 
-        assert self.rm._find_objects(None, 'b', 'r1') == ['a']
+        assert self.rm.find_sources('b', rel_id='r1') == ['a']
         # cos no relationships with id integer 1 have been created
-        assert self.rm._find_objects(None, 'b') == []
-
-        ok = False
-        try:
-            # invalid - must specify at least either from or to
-            assert self.rm._find_objects(None, None) == []
-        except RuntimeError:
-            ok = True
-        assert ok
+        assert self.rm.find_sources('b') == []
 
     def test_NonExistent01(self):
-        assert self.rm._find_objects('aa', None, 'r1') == []
-        assert self.rm._find_objects('a', None, 'r1111') == []
-        assert self.rm._find_objects('az', None, None) == []
-        assert self.rm._find_objects(None, 'bb', 'r1') == []
-        assert self.rm._find_objects(None, 'b', 'r1111') == []
-        assert self.rm._find_objects('a', None, 'r1111') == []
-        assert self.rm._find_objects(None, 'bb', None) == []
+        assert self.rm.find_targets('aa', rel_id='r1') == []
+        assert self.rm.find_targets('a', rel_id='r1111') == []
+        assert self.rm.find_targets('az', rel_id=None) == []
+        assert self.rm.find_sources('bb', rel_id='r1') == []
+        assert self.rm.find_sources('b', rel_id='r1111') == []
+        assert self.rm.find_targets('a', rel_id='r1111') == []
+        assert self.rm.find_sources('bb', rel_id=None) == []
 
     def test_FindRelationshipIds_NewFeatureFeb2005_01(self):
-        # ***
-        # *** Original behaviour was to return the actual relationship tuples (bad cos implementation dependent!)
-        # ***
-        # *** New behaviour is to return a boolean.
-        # ***
-        # When specify both sides of a relationship, PLUS the relationship itself,
-        # then there is nothing to find, so return a boolean T/F if that relationship exists.
-        #
-        assert self.rm._find_objects('a', 'b', 'r1') == True
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'b', 'zzz') == False
+        """Test if relationships exist"""
+        assert self.rm.find_rel('a', 'b', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'b', 'zzz') == False
 
-        """
-        This next one is a bit subtle - we are in fact specifying all parameters, because the
-        default relId is integer 1 (allowing you to create simple relationships easily).
-        Thus the question we are asking is "is there a R of type 'integer 1' between a and b?"
-        """
-        assert self.rm._find_objects(
-            'a', 'b') == False  # cos no relationships with id integer 1 have been created
+        # No relationships with rel_id integer 1 (the default rel) have been created.
+        assert self.rm.find_rel('a', 'b', rel_id=1) == False
+        assert self.rm.find_rel('a', 'b') == False
 
     def test_FindRelationshipIds_NewFeatureFeb2005_02(self):
-        # ***
-        # *** Original behaviour was to return the actual relationship tuples (bad cos implementation dependent!)
-        # ***
-        # *** New behaviour is to return a list of the relationship ids.
-        # ***
-        # When specify both sides of the relationship but leave the relationship None, you get a list of the relationships.
-        #
-        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
+        # Get a list of the relationships between source and target.
+        assert self.rm.find_rels('a', 'b') == ['r1', 'r2']
 
     def test_Removal_01(self):
         # print()
         # Specify wildcard RelId
-        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
-        assert self.rm._find_objects('a', 'b', 'r1') == True
-        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm.find_rels('a', 'b') == ['r1', 'r2']
+        assert self.rm.find_rel('a', 'b', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r2') == True
         # remove all R's between a and b
         self.rm.remove_rel('a', 'b', None)
-        assert self.rm._find_objects(
-            'a', 'b', None) == [], 'Getting ' + str(self.rm._find_objects('a', 'b', None))
-        assert self.rm._find_objects('a', 'b', 'r1') == False
-        assert self.rm._find_objects('a', 'b', 'r2') == False
+        assert self.rm.find_rels(
+            'a', 'b') == [], 'Getting ' + str(self.rm.find_rels('a', 'b'))
+        assert self.rm.find_rel('a', 'b', 'r1') == False
+        assert self.rm.find_rel('a', 'b', 'r2') == False
 
     def test_Removal_02(self):
         # Specify all params
         self.rm.remove_rel('a', 'b', 'r1')
-        assert self.rm._find_objects('a', 'b', None) == ['r2']
-        assert self.rm._find_objects('a', 'b', 'r1') == False
-        assert self.rm._find_objects('a', 'b', 'r2') == True
+        assert self.rm.find_rels('a', 'b') == ['r2']
+        assert self.rm.find_rel('a', 'b', 'r1') == False
+        assert self.rm.find_rel('a', 'b', 'r2') == True
 
     def test_Removal_03(self):
         # Specify 'from' param
-        assert self.rm._find_objects('a', 'b', 'r1') == True
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == True
         self.rm.remove_rel('a', None, 'r1')
-        assert self.rm._find_objects('a', 'b', 'r1') == False  # zapped
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == False  # zapped
+        assert self.rm.find_rel('a', 'b', 'r1') == False  # zapped
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == False  # zapped
 
-        assert self.rm._find_object(None, 'b', 'r1') == None
-        assert self.rm._find_object(None, 'b', 'r2') == 'a'
-        assert self.rm._find_object(None, 'c', None) == None
+        assert self.rm.find_source('b', 'r1') == None
+        assert self.rm.find_source('b', 'r2') == 'a'
+        assert self.rm.find_source('c', None) == None
 
     def test_Removal_04(self):
         # Specify 'to' param
-        assert self.rm._find_objects('a', 'b', 'r1') == True
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == True
         self.rm.remove_rel(None, 'b', 'r1')
-        assert self.rm._find_objects('a', 'b', 'r1') == False  # zapped
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r1') == False  # zapped
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == True
 
         self.rm.remove_rel(None, 'c', 'r1')
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == False  # zapped
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == False  # zapped
 
         self.rm.remove_rel(None, 'b', 'r2')
-        assert self.rm._find_objects('a', 'b', 'r2') == False  # zapped
-        assert self.rm._find_objects('a', 'c', 'r1') == False
+        assert self.rm.find_rel('a', 'b', 'r2') == False  # zapped
+        assert self.rm.find_rel('a', 'c', 'r1') == False
 
 
 class TestCase03(unittest.TestCase):
@@ -207,9 +181,9 @@ class TestCase03(unittest.TestCase):
 
         for c in self.THINGS:
             for c2 in self.THINGS:
-                assert c2 in self.rm._find_objects(c, None, 'r1')
-                assert c2 in self.rm._find_objects(c, None, 'r2')
-                assert c in self.rm._find_objects(c2, None, 'r3')
+                assert c2 in self.rm.find_targets(c, 'r1')
+                assert c2 in self.rm.find_targets(c, 'r2')
+                assert c in self.rm.find_targets(c2, 'r3')
 
         timetook = time.time() - t
         # print "Relationship lookups took", timetook, 'seconds'
@@ -234,12 +208,12 @@ class TestCase04(unittest.TestCase):
         self.rm.add_rel('a', 'c', 'r1')
 
     def test_Duplicates01(self):
-        assert self.rm._find_objects(
+        assert self.rm.find_rel(
             'a', 'b', 'r1') == True  # [('a', 'b', 'r1')]
-        assert self.rm._find_objects('a', 'b', None) == ['r1', 'r2']
-        assert self.rm._find_objects(
+        assert self.rm.find_rels('a', 'b') == ['r1', 'r2']
+        assert self.rm.find_rel(
             'a', 'c', 'r1') == True  # [('a', 'c', 'r1')]
-        assert self.rm._find_objects('a', 'c', None) == ['r1']
+        assert self.rm.find_rels('a', 'c') == ['r1']
 
 
 class TestCase05(unittest.TestCase):
@@ -280,11 +254,11 @@ class TestCase05(unittest.TestCase):
         newrm = RelationshipManager()
         newrm.relationships = r
 
-        assert self.rm._find_objects('a', 'b', 'r1') == True
-        assert self.rm._find_objects('a', 'b', 'r2') == True
-        assert self.rm._find_objects('a', 'c', 'r1') == True
-        assert self.rm._find_objects('b', 'a', 'r1') == True
-        assert self.rm._find_objects('c', 'b', 'r9') == True
+        assert self.rm.find_rel('a', 'b', 'r1') == True
+        assert self.rm.find_rel('a', 'b', 'r2') == True
+        assert self.rm.find_rel('a', 'c', 'r1') == True
+        assert self.rm.find_rel('b', 'a', 'r1') == True
+        assert self.rm.find_rel('c', 'b', 'r9') == True
 
 
 def suite():

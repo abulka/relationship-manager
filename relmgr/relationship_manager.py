@@ -48,37 +48,41 @@ class RelationshipManager():
         """Add relationships between ... """
         self.rm.add_rel(source, target, rel_id)
 
-    def remove_rel(self, source, target, rel_id=1) -> None:
-        """Remove all relationships between ... """
+    def remove_rel(self, source, target, rel_id=1) -> None:  # TODO rename to _remove_rels ?
+        """Remove all relationships between ... 
+        If you specify None for either source or target a wildcard match will occur.
+        Arguably this should be replaced with remove_targets and remove_sources
+        """
         self.rm.remove_rel(source, target, rel_id)
 
-    def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
-        """Find first object - low level"""
-        return self.rm._find_objects(source, target, rel_id)  # TODO delete
+    # def remove_targets(self, source, rel_id=1) -> None:
+    #     """Remove all relationships between source and anything else with rel_id ... 
+    #     """
+    #     self.rm.remove_rel(source, None, rel_id)
 
-    def _find_object(self, source=None, target=None, rel_id=1) -> object:
-        """Find first object - low level"""
-        return self.rm._find_object(source, target, rel_id)  # TODO delete
+    def find_targets(self, source, rel_id=1) -> List:
+        """Find all objects pointed to by me - all the things 'source' is pointing at."""
+        return self.rm._find_objects(source, None, rel_id)
 
-    def find_targets(self, source, rel_id) -> List:
-        """NEW - Find all objects pointed to by me - all the things 'source' is pointing at."""
-        return self.rm._find_objects(source, None, rel_id)  # TODO test
-
-    def find_target(self, source, relId=1) -> object:
+    def find_target(self, source, rel_id=1) -> object:
         """Find first object pointed to by me - first target"""
-        return self.rm._find_object(source, None, relId)
+        return self.rm._find_object(source, None, rel_id)
 
-    def find_sources(self, target, rel_id) -> List:  # Back pointer query 
-        """NEW - Find all objects pointing to me.."""
-        return self.rm._find_objects(None, target, rel_id)  # TODO test
+    def find_sources(self, target, rel_id=1) -> List:  # Back pointer query 
+        """Find all objects pointing to me.."""
+        return self.rm._find_objects(None, target, rel_id)
 
-    def find_source(self, target, relId=1) -> object:  # Back pointer query
+    def find_source(self, target, rel_id=1) -> object:  # Back pointer query
         """Find first object pointing to me - first source."""
-        return self.rm._find_object(None, target, relId)
+        return self.rm._find_object(None, target, rel_id)
 
-    def find_rel(self, source, target, rel_id) -> bool:
+    def find_rel(self, source, target, rel_id=1) -> bool:
         """NEW - Returns T/F if relationship exists."""
-        return self.rm._find_objects(source, target, rel_id)  # TODO test
+        return self.rm._find_objects(source, target, rel_id)  # TODO rename is_rel
+
+    def find_rels(self, source, target) -> List:
+        """Returns a list of the relationships between source and target."""
+        return self.rm._find_objects(source, target, None)
 
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
@@ -121,13 +125,13 @@ class RelationshipManager():
         self.add_rel(source, target, relId)
 
     def P(self, source, relId=1):
-        return self._find_object(source, None, relId)
+        return self.rm._find_object(source, None, relId)
 
     def B(self, target, relId=1):
-        return self._find_object(None, target, relId)
+        return self.rm._find_object(None, target, relId)
 
     def PS(self, source, relId=1):
-        return self._find_objects(source, None, relId)
+        return self.rm._find_objects(source, None, relId)
 
     def NR(self, source, target, relId=1):
         self.remove_rel(source, target, relId)

@@ -43,7 +43,7 @@ objects.id3 = Entity(strength=3, wise=True, experience=100)
 rm = RelationshipManager()
 rm.add_rel(objects.id1, objects.id2)
 rm.add_rel(objects.id1, objects.id3)
-assert rm._find_objects(objects.id1) == [objects.id2, objects.id3]
+assert rm.find_targets(objects.id1) == [objects.id2, objects.id3]
 
 # persist
 asbytes = pickle.dumps(PersistenceWrapper(
@@ -56,6 +56,6 @@ objects2 = data.objects
 rm2.relationships = data.relations
 
 # check things worked
-assert rm2._find_objects(objects2.id1) == [objects2.id2, objects2.id3]
+assert rm2.find_targets(objects2.id1) == [objects2.id2, objects2.id3]
 
 print('done, all OK')
