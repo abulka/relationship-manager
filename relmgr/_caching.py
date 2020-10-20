@@ -39,13 +39,13 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
     def _find_object(self, source=None, target=None, rel_id=1) -> object:
         return super()._find_object(source, target, rel_id)
 
-    @lru_cache(maxsize=None)
-    def find_target(self, source, relId=1) -> object:
-        return super()._find_object(source, None, relId)
+    # @lru_cache(maxsize=None)
+    # def find_target(self, source, relId=1) -> object:
+    #     return super()._find_object(source, None, relId)
 
-    @lru_cache(maxsize=None)
-    def find_source(self, target, relId=1) -> object:  # Back pointer query
-        return super()._find_object(None, target, relId)
+    # @lru_cache(maxsize=None)
+    # def find_source(self, target, relId=1) -> object:  # Back pointer query
+    #     return super()._find_object(None, target, relId)
 
     def clear(self) -> None:
         super().clear()
@@ -60,5 +60,5 @@ class _RelationshipManagerCaching(_EnforcingRelationshipManager):
         self._find_objects.cache_clear()
         self._find_object.cache_clear()
         self._get_relationships.cache_clear()
-        self.find_source.cache_clear()
-        self.find_target.cache_clear()
+        # self.find_source.cache_clear()
+        # self.find_target.cache_clear()

@@ -104,7 +104,10 @@ class _CoreRelationshipManager(object):
 
     def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """
-        Specifying None as a parameter means 'any'
+        Low Level API method for querying. 
+
+        Specifying None as a parameter means 'any' viz. the thing you are looking for.
+
         E.g. when you specify:
           # 'source' is None - use normal relations dictionary
           source=None target=blah rel_id=blah  anyone pointing to 'target' of specific rel_id
@@ -165,11 +168,11 @@ class _CoreRelationshipManager(object):
         else:
             return None
 
-    def find_target(self, fromObj, relId=1) -> object:
-        return self._find_object(fromObj, None, relId)
+    # def find_target(self, fromObj, relId=1) -> object:
+    #     return self._find_object(fromObj, None, relId)
 
-    def find_source(self, toObj, relId=1) -> object:  # Back pointer query
-        return self._find_object(None, toObj, relId)
+    # def find_source(self, toObj, relId=1) -> object:  # Back pointer query
+    #     return self._find_object(None, toObj, relId)
 
     def clear(self):
         self.relations.clear()

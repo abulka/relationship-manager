@@ -32,11 +32,11 @@ class _EnforcingRelationshipManager(_CoreRelationshipManager):
 
     def _remove_existing_relationships(self, source, target, rel_id):
         def _extinguish_old_source():
-            old_source = self.find_source(target, rel_id)
+            old_source = self._find_object(None, target, rel_id)  # find_source
             self.remove_rel(old_source, target, rel_id)
 
         def _extinguish_old_target():
-            old_target = self.find_target(source, rel_id)
+            old_target = self._find_object(source, None, rel_id)  # find_target
             self.remove_rel(source, old_target, rel_id)
         if rel_id in list(self.rules.keys()):
             cardinality, directionality = self.rules[rel_id]

@@ -54,27 +54,31 @@ class RelationshipManager():
 
     def _find_objects(self, source=None, target=None, rel_id=1) -> Union[List[object], bool]:
         """Find first object - low level"""
-        return self.rm._find_objects(source, target, rel_id)
+        return self.rm._find_objects(source, target, rel_id)  # TODO delete
 
     def _find_object(self, source=None, target=None, rel_id=1) -> object:
         """Find first object - low level"""
-        return self.rm._find_object(source, target, rel_id)
+        return self.rm._find_object(source, target, rel_id)  # TODO delete
 
     def find_targets(self, source, rel_id) -> List:
         """NEW - Find all objects pointed to by me - all the things 'source' is pointing at."""
-        return self.rm.find_targets(source, source, rel_id)  # TODO test
+        return self.rm._find_objects(source, None, rel_id)  # TODO test
 
     def find_target(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
-        return self.rm._find_object(source, None, relId)  # TODO shouldn't this be calling rm.find_target?
+        return self.rm._find_object(source, None, relId)
 
     def find_sources(self, target, rel_id) -> List:  # Back pointer query 
         """NEW - Find all objects pointing to me.."""
-        return self.rm.find_sources(target, rel_id)  # TODO test
+        return self.rm._find_objects(None, target, rel_id)  # TODO test
 
     def find_source(self, target, relId=1) -> object:  # Back pointer query
         """Find first object pointing to me - first source."""
-        return self.rm._find_object(None, target, relId)  # TODO shouldn't this be calling rm.find_source?
+        return self.rm._find_object(None, target, relId)
+
+    def find_rel(self, source, target, rel_id) -> bool:
+        """NEW - Returns T/F if relationship exists."""
+        return self.rm._find_objects(source, target, rel_id)  # TODO test
 
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
