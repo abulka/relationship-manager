@@ -165,10 +165,10 @@ class _CoreRelationshipManager(object):
         else:
             return None
 
-    def target_of(self, fromObj, relId=1) -> object:
+    def find_target(self, fromObj, relId=1) -> object:
         return self._find_object(fromObj, None, relId)
 
-    def source_to(self, toObj, relId=1) -> object:  # Back pointer query
+    def find_source(self, toObj, relId=1) -> object:  # Back pointer query
         return self._find_object(None, toObj, relId)
 
     def clear(self):

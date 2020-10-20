@@ -60,21 +60,21 @@ class RelationshipManager():
         """Find first object - low level"""
         return self.rm._find_object(source, target, rel_id)
 
-    def targets_of(self, source, rel_id) -> List:
-        """Find all objects pointed to by me - all the things 'source' is pointing at."""
-        pass  # TODO 
+    def find_targets(self, source, rel_id) -> List:
+        """NEW - Find all objects pointed to by me - all the things 'source' is pointing at."""
+        return self.rm.find_targets(source, source, rel_id)  # TODO test
 
-    def target_of(self, source, relId=1) -> object:
+    def find_target(self, source, relId=1) -> object:
         """Find first object pointed to by me - first target"""
-        return self.rm._find_object(source, None, relId)
+        return self.rm._find_object(source, None, relId)  # TODO shouldn't this be calling rm.find_target?
 
-    def sources_to(self, target, rel_id) -> List:  # Back pointer query 
-        """Find all objects pointing to me. Perhaps rename 'pointers_to'."""
-        pass  # TODO 
+    def find_sources(self, target, rel_id) -> List:  # Back pointer query 
+        """NEW - Find all objects pointing to me.."""
+        return self.rm.find_sources(target, rel_id)  # TODO test
 
-    def source_to(self, target, relId=1) -> object:  # Back pointer query
-        """Find first object pointing to me - first source. Perhaps rename 'pointer_to'."""
-        return self.rm._find_object(None, target, relId)
+    def find_source(self, target, relId=1) -> object:  # Back pointer query
+        """Find first object pointing to me - first source."""
+        return self.rm._find_object(None, target, relId)  # TODO shouldn't this be calling rm.find_source?
 
     def enforce(self, relId, cardinality, directionality="directional"):
         """Enforce a relationship by auto creating reciprocal relationships in the case of 
@@ -154,7 +154,7 @@ Put simply, create an instance of this class, then call
 any two Python objects.
 
 You can then make queries e.g. using 
-`RelationshipManager.target_of()` as needed.
+`RelationshipManager.find_target()` as needed.
 
 ## What is a relationship RelId?
 
