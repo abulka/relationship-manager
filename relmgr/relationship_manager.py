@@ -1,7 +1,12 @@
 """
-Relationship Manager - Lightweight Object Database for Python.
+# Relationship Manager
+
+Lightweight Object Database Class for Python.
+
 (c) Andy Bulka 2003 - 2020.
-https://github.com/abulka/relationship-manager
+
+- Python Implementation [README](https://github.com/abulka/relationship-manager) and GitHub project.
+- Design Pattern and Discussion: https://abulka.github.io/projects/patterns/relationship-manager/
 """
 import copy
 import pickle
@@ -17,7 +22,7 @@ from relmgr._persist_support import _Namespace, _PersistenceWrapper
 class RelationshipManager():
     """Main Relationship Manager to use in your projects."""
 
-    def __init__(self, caching: bool=True) -> None:
+    def __init__(self, caching: bool = True) -> None:
         """Constructor.  Set the option `caching` if you want
         faster performance using Python `lru_cache` technology 
         - defaults to True.
@@ -45,7 +50,13 @@ class RelationshipManager():
     """Property to get flat list of relationships tuples"""
 
     def add_rel(self, source, target, rel_id=1) -> None:
-        """Add relationships between ... """
+        """Add relationships between `source` and `target` under the optional
+        relationship id `rel_id`. The `source` and `target` are typically Python
+        objects but can be strings. The `rel_id` is a string or integer and
+        defaults to 1. Note that `rel_id` need not be specified unless you want
+        to model multiple different relationships between the same objects, thus
+        keeping relationships in different 'namespaces' as it were.
+        """
         self.rm.add_rel(source, target, rel_id)
 
     def remove_rel(self, source, target, rel_id=1) -> None:
@@ -60,7 +71,6 @@ class RelationshipManager():
         `remove_rel('a', 'b', 'r1')`     | remove the 'r1' relationship between 'a' and 'b'
         `remove_rel('a', None)`     | remove all pointers (relationships) from 'a'
         `remove_rel(None, 'b')`     | remove any pointers (relationships) to 'b'
-        
         """
         self.rm.remove_rel(source, target, rel_id)
 
@@ -73,11 +83,11 @@ class RelationshipManager():
         return self.rm._find_object(source, None, rel_id)
 
     def find_sources(self, target, rel_id=1) -> List:
-        """Find all objects pointing to me. Back pointer query."""
+        """Find all objects pointing to me. A 'back pointer' query."""
         return self.rm._find_objects(None, target, rel_id)
 
     def find_source(self, target, rel_id=1) -> object:
-        """Find first object pointing to me - first source. Back pointer query."""
+        """Find first object pointing to me - first source. A 'back pointer' query."""
         return self.rm._find_object(None, target, rel_id)
 
     def is_rel(self, source, target, rel_id=1) -> bool:
@@ -85,7 +95,9 @@ class RelationshipManager():
         return self.rm._find_objects(source, target, rel_id)
 
     def find_rels(self, source, target) -> List:
-        """Returns a list of the relationships between source and target."""
+        """Returns a list of the relationships between source and target.
+        Returns a list of relationship ids.
+        """
         return self.rm._find_objects(source, target, None)
 
     def enforce(self, relId, cardinality, directionality="directional"):
@@ -98,7 +110,8 @@ class RelationshipManager():
     def dumps(self) -> bytes:
         """Dump relationship tuples and objects to pickled bytes.
         The `objects` attribute and all objects stored therein
-        (within the instance of `RelationshipManager.objects`) also get persisted."""
+        (within the instance of `RelationshipManager.objects`) also get persisted.
+        """
         return pickle.dumps(_PersistenceWrapper(
             objects=self.objects, relationships=self.relationships))
 
@@ -111,7 +124,7 @@ class RelationshipManager():
         rm = RelationshipManager()
         rm.objects = data.objects
         rm.relationships = data.relationships
-        return rm  
+        return rm
 
     def clear(self) -> None:
         """Clear all relationships, does not affect .objects - if you want to clear that too then
@@ -129,26 +142,62 @@ class RelationshipManager():
         pprint.pprint(self.relationships)
 
 
-
-# Documentation 
-
-
+# Documentation
 __pdoc__ = {}
 
+__pdoc__['relmgr.relationship_manager'] = """
+OOOO
+"""
+
 __pdoc__['RelationshipManager'] = """
-# Welcome to Relationship Manager
+    # Welcome to Relationship Manager
 
-Put simply, create an instance of this class, then call 
-`RelationshipManager.add_rel()` to record relationships between
-any two Python objects.
+    Put simply, create an instance of this class, then call 
+    `RelationshipManager.add_rel()` to record relationships between
+    any two Python objects.
 
-You can then make queries e.g. using 
-`RelationshipManager.find_target()` as needed.
+    You can then make queries e.g. using 
+    `RelationshipManager.find_targets()` as needed.
 
-## What is a relationship RelId?
+    ## Constructor
 
-Type RelId can be an integer or descriptive string e.g. `x-to-y`.
+    Set the option `caching` if you want faster performance using Python
+        `lru_cache` technology - defaults to `True.
 
+    ## What is an object?
+
+    Any Python object can be used as a `source` or `target`. 
+    A pointer goes from `source` to `target`.
+
+    You can also use strings as a `source` or `target`. This might be where you
+    are representing abstract relationships and need to have real Python objects
+    involved. E.g. `RelationshipManager.add_rel('a', 'b')`
+
+    ## What is a relationship?
+
+    A relationship is a pointer from one object to another.
+
+    ## What is a relationship id?
+
+    Allows you to have multiple, different relationships between two objects.
+    Object `a` might point to `b` and `c` under relationship id 1 and could 
+    point only to `c` under relationship id 2.
+
+    A `rel_id` can be an integer or descriptive string e.g. "x-to-y".
+    The default value of `rel_id` is 1.
+
+    ## What is a 'back pointer'?
+
+    Its an implicity pointer (or relationship). For example is `a` points to `b`
+    then you can say `b` is pointed to by `a`. Back pointers usually need
+    explicit wiring and are a pain to maintain since both sides of the
+    relationship need to synchronise - see [Martin Fowler ‘Refactorings’
+    book](https://martinfowler.com/books/refactoring.html) p. 197 “Change
+    Unidirectional Association to Bidirectional”. Relationship Manager makes
+    things easy, you can add a single relationship then simply use the query
+    `RelationshipManager.find_sources` passing in the target e.g. `b`. See
+    https://abulka.github.io/projects/patterns/relationship-manager/ for more
+    discussion.
 """
 
 __pdoc__['RelationshipManager.dumps'] = """

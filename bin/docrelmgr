@@ -1,1 +1,1 @@
-pdoc --html relmgr
+pdoc --html --output-dir docs --force relmgr examples.python

@@ -51,30 +51,22 @@ assert rm.FindObjectPointedToByMe(x, "xtoy") == y
 The API is:
 
 ```python
-def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None: pass
-def remove_rel(self, source, target, rel_id=1) -> None: pass
-def enforce(self, rel_id, cardinality, directionality="directional"): pass
-def clear(self) -> None: pass
+def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None:
+def remove_rel(self, source, target, rel_id=1) -> None:
+def enforce(self, rel_id, cardinality, directionality="directional"):
+def clear(self) -> None:
 
 # query API
-def find_targets(self, source, rel_id) -> List: pass
-def find_target(self, source, rel_id) -> object: pass
-def find_sources(self, target, rel_id) -> List: pass # Back pointer query
-def find_source(self, target, rel_id) -> object: pass # Back pointer query
+def find_targets(self, source, rel_id) -> List:
+def find_target(self, source, rel_id) -> object:
+def find_sources(self, target, rel_id) -> List: # Back pointer query
+def find_source(self, target, rel_id) -> object: # Back pointer query
 
 # persistence related
 objects: Namespace
 relationships = property(_get_relationships, _set_relationships)  # flat list of rel. tuples
 def dumps(self) -> bytes:
 def loads(asbytes: bytes) -> RelationshipManager:  # @staticmethod
-
-# potential replacement or extension to persisting objects
-objects_dict: Dict  # alternative place for storing objects
-
-# potential extension to persistence objects
-add_obj(self, obj, obj_id: str)
-get_obj(self, obj_id: str) -> object:
-remove_obj(self, obj) -> None:
 ```
 
 ## Hiding the use of Relationship Manager
