@@ -6,7 +6,7 @@ class TestObserver(unittest.TestCase):
     def test_basic_instantiation(self):
         me = Subject()
         spriteview = Observer()
-        me.AddObserver(spriteview)
+        me.add_observer(spriteview)
         # assert spriteview in me.observers
         assert spriteview.subject == me
 
@@ -14,16 +14,16 @@ class TestObserver(unittest.TestCase):
         class Watcher(Observer):
             state = 0
 
-            def Notify(self, target, notificationEventType):
+            def Notify(self, target, notification_type):
                 Watcher.state += 1
 
         class Model(Subject):
             def Add(self):
-                self.NotifyAll(notificationEventType='')
+                self.notify_all(notification_type='')
 
         me = Model()
         o = Watcher()
-        me.AddObserver(o)
+        me.add_observer(o)
         assert Watcher.state == 0
         me.Add()
         assert Watcher.state == 1
@@ -31,7 +31,7 @@ class TestObserver(unittest.TestCase):
         me.Add()
         assert Watcher.state == 2
 
-        me.RemoveObserver(o)
+        me.remove_observer(o)
 
         me.Add()  # should be no notification, thus no change in Watcher state.
         assert Watcher.state == 2
@@ -41,28 +41,28 @@ class TestObserver(unittest.TestCase):
             state = 0
 
         class Watcher1(Observer):
-            def Notify(self, target, notificationEventType):
+            def Notify(self, target, notification_type):
                 StateKeeper.state += 1
 
         class Watcher2(Observer):
-            def Notify(self, target, notificationEventType):
+            def Notify(self, target, notification_type):
                 StateKeeper.state += 10
 
         class Model(Subject):
             def Add(self):
-                self.NotifyAll(notificationEventType='')
+                self.notify_all(notification_type='')
 
         me = Model()
         o1 = Watcher1()
         o2 = Watcher2()
-        me.AddObserver(o1)
-        me.AddObserver(o2)
+        me.add_observer(o1)
+        me.add_observer(o2)
         assert StateKeeper.state == 0
 
         me.Add()
         assert StateKeeper.state == 11  # two notifications in a row did this.
 
-        me.RemoveObserver(o1)
+        me.remove_observer(o1)
         me.Add()
         assert StateKeeper.state == 21  # one notification did this.
 

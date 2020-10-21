@@ -25,19 +25,19 @@ class Observer:
     def subject(self, _subject):
         rm.add_rel(self, _subject)
 
-    def Notify(self, subject, notificationEventType):
+    def notify(self, subject, notification_type):
         pass  # implementations override this and do something
 
 
 class Subject:
 
-    def NotifyAll(self, notificationEventType):
+    def notify_all(self, notification_type: str):
         observers = rm.find_sources(self)  # all things pointing at me
         for o in observers:
-            o.Notify(self, notificationEventType)
+            o.Notify(self, notification_type)
 
-    def AddObserver(self, observer):
+    def add_observer(self, observer):
         rm.add_rel(observer, self)
 
-    def RemoveObserver(self, observer):
+    def remove_observer(self, observer):
         rm.remove_rel(source=observer, target=self)

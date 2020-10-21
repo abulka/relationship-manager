@@ -1,8 +1,10 @@
-# Relationship Manager - Lightweight Object Database
+# Relationship Manager - Lightweight Object Database Class
 
 A central mediating class which records all the one-to-one, one-to-many and many-to-many relationships between a group of selected classes. 
 
 Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
+
+API doco https://abulka.github.io/relationship-manager/relmgr/index.html
 
 ## What is it?
 
@@ -34,21 +36,21 @@ pip install relationship-manager
 from relmgr import RelationshipManager
   
 rm = RelationshipManager()
-rm.EnforceRelationship("xtoy", "onetoone", "directional")
+rm.enforce("xtoy", "onetoone", "directional")
 x = object()
 y = object()
-rm.AddRelationship(x, y, "xtoy")
-assert rm.FindObjectPointedToByMe(x, "xtoy") == y
+rm.add_rel(x, y, "xtoy")
+assert rm.find_target(x, "xtoy") == y
 ```
 
 - Read the unit tests to see all functionality being exercised, incl. backpointer queries. 
 - See the examples below and in the `relmgr/examples/` directory of this repository.
-- See API below. 
+- See full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html).
 - See the Relationship Manager pattern referred to above for lots more documentation.
 
 ## Python API
 
-The API is:
+Quick summary:
 
 ```python
 def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None:
@@ -68,6 +70,8 @@ relationships = property(_get_relationships, _set_relationships)  # flat list of
 def dumps(self) -> bytes:
 def loads(asbytes: bytes) -> RelationshipManager:  # @staticmethod
 ```
+
+See full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html).
 
 ## Hiding the use of Relationship Manager
 
@@ -122,28 +126,29 @@ class Observer:
    
     @property
     def subject(self):
-        return rm.FindObjectPointedToByMe(self)
+        return rm.find_target(self)
 
     @subject.setter
     def subject(self, _subject):
-        rm.AddRelationship(self, _subject)
+        rm.add_rel(self, _subject)
 
-    def Notify(self, subject, notificationEventType):
+    def notify(self, subject, notification_type):
         pass  # implementations override this and do something
 
 
 class Subject:
 
-    def NotifyAll(self, notificationEventType):
-        observers = rm.FindObjects(None, self)  # all things pointing at me
+    def notify_all(self, notification_type: str):
+        observers = rm.find_sources(self)  # all things pointing at me
         for o in observers:
-            o.Notify(self, notificationEventType)
+            o.Notify(self, notification_type)
 
-    def AddObserver(self, observer):
-        rm.AddRelationship(observer, self)
+    def add_observer(self, observer):
+        rm.add_rel(observer, self)
 
-    def RemoveObserver(self, observer):
-        rm.RemoveRelationships(From=observer, To=self)
+    def remove_observer(self, observer):
+        rm.remove_rel(source=observer, target=self)
+
 ```
 
 ## Persistence
@@ -168,8 +173,8 @@ persisting them then restoring them:
 ```python
 import pprint
 import random
-from relmgr import RelationshipManager
 from dataclasses import dataclass
+from relmgr import RelationshipManager
 
 @dataclass
 class Entity:
@@ -188,9 +193,9 @@ obj1 = rm.objects.obj1 = Entity(strength=1, wise=True, experience=80)
 obj2 = rm.objects.obj2 = Entity(strength=2, wise=False, experience=20)
 obj3 = rm.objects.obj3 = Entity(strength=3, wise=True, experience=100)
 
-rm.AddRelationship(obj1, obj2)
-rm.AddRelationship(obj1, obj3)
-assert rm.FindObjects(obj1) == [obj2, obj3]
+rm.add_rel(obj1, obj2)
+rm.add_rel(obj1, obj3)
+assert rm.find_targets(obj1) == [obj2, obj3]
 
 # persist
 asbytes = rm.dumps()
@@ -202,8 +207,8 @@ rm2 = RelationshipManager.loads(asbytes)
 newobj1 = rm2.objects.obj1
 newobj2 = rm2.objects.obj2
 newobj3 = rm2.objects.obj3
-assert rm2.FindObjects(newobj1) == [newobj2, newobj3]
-assert rm2.FindObjectPointedToByMe(newobj1) is newobj2
+assert rm2.find_targets(newobj1) == [newobj2, newobj3]
+assert rm2.find_target(newobj1) is newobj2
 
 print('done, all OK')
 ```
@@ -218,7 +223,7 @@ objects: Namespace
 def dumps(self) -> bytes:
 
 @staticmethod
-def loads(asbytes: bytes) -> RelationshipManagerPersistent:
+def loads(asbytes: bytes) -> RelationshipManager:
 ```
 
 Please create attributes on the `objects` property of the relationship manager, pointing to those objects involved in relationships. It is however optional, and only provides a guaranteed way of pickling and persisting the objects involved in the relationships along with the relationships themselves, when persisting the relationship manager.  
@@ -248,52 +253,8 @@ object instances to the Relationship Manager API? Thus its better to prepare
 your persitence properly and store all your objects in a dictionary or object
 and pickle that together with the Relationship Manager.  E.g.
 
-```python
-@dataclass
-class Entity:
-    strength: int = 0
-    wise: bool = False
-    experience: int = 0
-
-    def __hash__(self):
-        hash_value = hash(self.strength) ^ hash(
-            self.wise) ^ hash(self.experience)
-        return hash_value
-
-@dataclass
-class Namespace:
-    """Just want a namespace to store vars/attrs in. Could use a dictionary."""
-
-@dataclass
-class PersistenceWrapper:
-    """Holds both objects and relationships. Could use a dictionary."""
-    objects: Namespace  # Put all your objects involved in relationships as attributes of this object
-    relations: List  # Relationship Manager relationship List will go here
-
-objects = Namespace()  # create a namespace for the variables
-objects.id1 = Entity(strength=1, wise=True, experience=80)
-objects.id2 = Entity(strength=2, wise=False, experience=20)
-objects.id3 = Entity(strength=3, wise=True, experience=100)
-rm = RelationshipManager()
-rm.AddRelationship(objects.id1, objects.id2)
-rm.AddRelationship(objects.id1, objects.id3)
-assert rm.FindObjects(objects.id1) == [objects.id2, objects.id3]
-
-# persist
-asbytes = pickle.dumps(PersistenceWrapper(objects=objects, relations=rm.Relationships))
-
-# resurrect
-data: PersistenceWrapper = pickle.loads(asbytes)
-rm2 = RelationshipManager()
-objects2 = data.objects
-rm2.Relationships = data.relations
-
-# check things worked
-assert rm2.FindObjects(objects2.id1) == [objects2.id2, objects2.id3]
-```
-
-For a more detailed example, see 
-`relmgr/examples/persistence/persist_pickle.py`
+For code examples of custom persistence, see 
+`research/python persistence research/persist_pickle_simple.py`
 as well as other persistence approaches in that directory, including an approach which 
 stores objects in dictionaries with ids and uses the Relationship Manager to store relationships between those ids, rather than relationships between object references.
 
