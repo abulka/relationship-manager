@@ -120,29 +120,6 @@ class RelationshipManager():
         self.rm.clear()
         self.objects = _Namespace()
 
-    ## Short API
-
-    def ER(self, relId, cardinality, directionality="directional"):
-        self.enforce(relId, cardinality, directionality)
-
-    def R(self, source, target, relId=1):
-        self.add_rel(source, target, relId)
-
-    def P(self, source, relId=1):
-        return self.rm._find_object(source, None, relId)
-
-    def B(self, target, relId=1):
-        return self.rm._find_object(None, target, relId)
-
-    def PS(self, source, relId=1):
-        return self.rm._find_objects(source, None, relId)
-
-    def NR(self, source, target, relId=1):
-        self.remove_rel(source, target, relId)
-
-    def CL(self):
-        self.clear()
-
     # Util
 
     def debug_print_rels(self):

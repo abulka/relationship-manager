@@ -38,18 +38,18 @@ class TestCaching(unittest.TestCase):
 
         # build the relationships
         for i in range(NUM_RELS):
-            RM.R(random.choice(fromIds), random.choice(toIds), relId="stress")
+            RM.add_rel(random.choice(fromIds), random.choice(toIds), rel_id="stress")
 
         # now access them repeatedly
         for i in range(STRESS_AMOUNT):
             for fromId in range(len(fromIds)):
-                rels = RM.PS(fromId, "stress")
+                rels = RM.find_targets(fromId, "stress")
                 if i == 0 and DEBUG:
                     print(rels)
 
         # report the results
         if DEBUG:
             if USE_RM_CACHE:
-                print(RM.PS.cache_info())
+                print(RM.rm._find_objects.cache_info())
             else:
                 print("no caching")

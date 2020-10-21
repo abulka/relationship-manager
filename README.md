@@ -77,36 +77,6 @@ get_obj(self, obj_id: str) -> object:
 remove_obj(self, obj) -> None:
 ```
 
-The abbreviated Relationship Manager API is typically only used in unit tests and some documentation:
-
-```python
-def ER(self, relId, cardinality, directionality="directional"): # EnforceRelationship
-def R(self, fromObj, toObj, relId=1):  # AddRelationship
-def P(self, fromObj, relId=1):  # findObjectPointedToByMe
-def PS(self, fromObj, relId=1):  # findObjectsPointedToByMe
-def B(self, toObj, relId=1):  # findObjectPointingToMe
-def NR(self, fromObj, toObj, relId=1):  # RemoveRelationships
-def CL(self):  # Clear
-
-# No abbreviated API for the following:
-def FindObjects(self, From=None, To=None, RelId=1) -> Union[List[object], bool]: pass
-def FindObject(self, From=None, To=None, RelId=1) -> object: pass
-Relationships = property(GetRelations, SetRelations)
-# No abbreviated API for the persistence API:
-objects: Namespace
-def dumps(self) -> bytes:  # pickle persistence related
-def loads(asbytes: bytes) -> RelationshipManagerPersistent:
-```
-
-All possible permutations of using this abbreviate API approach can be found in 
-`tests/python/test_enforcing_relationship_manager.py`. Using these shorter names in unit tests was helpful in testing Relationship Manager itself, however you should probably use the proper long method names in your own code.
-
-Finally, you can import the shorter relationship manager class `RM` - which is equivalent to the usual `RelationshipManager` class.
-
-```python
-from relmgr import RelMgr
-```
-
 ## Hiding the use of Relationship Manager
 
 Its probably best practice to hide the use of Relationship Manager and simply use it as
@@ -132,10 +102,10 @@ from relmgr import RelMgr
 RM = RelMgr()
 
 class X:
-    def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-    def setY(self, y):         RM.R(self, y, "xtoy")
-    def getY(self):     return RM.P(self, "xtoy")
-    def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+    def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+    def setY(self, y):         rm.add_rel(self, y, "xtoy")
+    def getY(self):     return rm.find_target(source=self, rel_id="xtoy")
+    def clearY(self):          rm.remove_rel(self, self.getY(), "xtoy")
 
 class Y:
     pass

@@ -5,15 +5,14 @@ from relmgr import RelationshipManager
 from tests.python.settings import USE_RM_CACHE
 
 # creating a global variable makes referring to the RM instance more succinct than e.g. self.RM
-RM = None
+rm = None
 
 
 class TestCase01_OneToOne(unittest.TestCase):
 
     def setUp(self):
-        global RM
-        # RM = RelationshipManager(caching=False)
-        RM = RelationshipManager(caching=USE_RM_CACHE)
+        global rm
+        rm = RelationshipManager(caching=USE_RM_CACHE)
 
     def test_OneToOne_XSingularApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
@@ -29,15 +28,10 @@ class TestCase01_OneToOne(unittest.TestCase):
 
         """
         class X:
-            def __init__(self):        RM.enforce("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.add_rel(self, y, "xtoy")
-            def getY(self):     return RM.find_target(self, "xtoy")
-            def clearY(self):          RM.remove_rel(self, self.getY(), "xtoy")
-        # class X:
-        #     def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-        #     def setY(self, y):         RM.R(self, y, "xtoy")
-        #     def getY(self):     return RM.P(self, "xtoy")
-        #     def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+            def setY(self, y):         rm.add_rel(self, y, "xtoy")
+            def getY(self):     return rm.find_target(source=self, rel_id="xtoy")
+            def clearY(self):          rm.remove_rel(self, self.getY(), "xtoy")
 
         class Y:
             pass
@@ -132,10 +126,10 @@ class TestCase01_OneToOne(unittest.TestCase):
             pass
 
         class Y:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self): return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
+            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+            def setX(self, x):         rm.add_rel(x, self, "xtoy")
+            def getX(self):     return rm.find_source(target=self, rel_id="xtoy")
+            def clearX(self):          rm.remove_rel(self.getX(), self, "xtoy")
 
         x1 = X()
         x2 = X()
@@ -336,16 +330,16 @@ class TestCase01_OneToOne(unittest.TestCase):
         |______________|      |______________|        
         """
         class X:
-            def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
-            def setY(self, y):         RM.R(self, y, "xy")
-            def getY(self): return RM.P(self, "xy")
-            def clearY(self):          RM.NR(self, self.getY(), "xy")
+            def __init__(self):        rm.enforce("xy", "onetoone", "bidirectional")
+            def setY(self, y):         rm.add_rel(self, y, "xy")
+            def getY(self):     return rm.find_target(self, "xy")
+            def clearY(self):          rm.remove_rel(self, self.getY(), "xy")
 
         class Y:
-            def __init__(self):        RM.ER("xy", "onetoone", "bidirectional")
-            def setX(self, x):         RM.R(self, x, "xy")
-            def getX(self): return RM.P(self, "xy")
-            def clearX(self):          RM.NR(self, self.getX(), "xy")
+            def __init__(self):        rm.enforce("xy", "onetoone", "bidirectional")
+            def setX(self, x):         rm.add_rel(self, x, "xy")
+            def getX(self):     return rm.find_target(self, "xy")
+            def clearX(self):          rm.remove_rel(self, self.getX(), "xy")
 
         x1 = X()
         x2 = X()
@@ -381,16 +375,16 @@ class TestCase01_OneToOne(unittest.TestCase):
         using the directional relationship "xtoy".
         """
         class X:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setY(self, y):         RM.R(self, y, "xtoy")
-            def getY(self): return RM.P(self, "xtoy")
-            def clearY(self):          RM.NR(self, self.getY(), "xtoy")
+            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+            def setY(self, y):         rm.add_rel(self, y, "xtoy")
+            def getY(self):     return rm.find_target(self, "xtoy")
+            def clearY(self):          rm.remove_rel(self, self.getY(), "xtoy")
 
         class Y:
-            def __init__(self):        RM.ER("xtoy", "onetoone", "directional")
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self): return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
+            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+            def setX(self, x):         rm.add_rel(x, self, "xtoy")
+            def getX(self):     return rm.find_source(self, "xtoy")
+            def clearX(self):          rm.remove_rel(self.getX(), self, "xtoy")
 
         x1 = X()
         x2 = X()
@@ -402,8 +396,8 @@ class TestCase01_OneToOne(unittest.TestCase):
 class TestCase02_OneToMany(unittest.TestCase):
 
     def setUp(self):
-        global RM
-        RM = RelationshipManager()
+        global rm
+        rm = RelationshipManager()
 
     def tearDown(self):
         RM = None
@@ -427,12 +421,12 @@ class TestCase02_OneToMany(unittest.TestCase):
         Y has no API.
         """
         class X:
-            def __init__(self):        RM.ER(
+            def __init__(self):        rm.enforce(
                 "xtoy", "onetomany", "directional")
 
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self): return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
+            def addY(self, y):         rm.add_rel(self, y, "xtoy")
+            def getAllY(self):  return rm.find_targets(self, "xtoy")
+            def removeY(self, y):      rm.remove_rel(self, y, "xtoy")
 
         class Y:
             pass
@@ -508,19 +502,18 @@ class TestCase02_OneToMany(unittest.TestCase):
         one relationship, a bi
         """
         class X:
-            def __init__(self):        RM.ER(
+            def __init__(self):        rm.enforce(
                 "xtoy", "onetomany", "bidirectional")
 
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self): return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
+            def addY(self, y):         rm.add_rel(self, y, "xtoy")
+            def getAllY(self):  return rm.find_targets(self, "xtoy")
+            def removeY(self, y):      rm.remove_rel(self, y, "xtoy")
 
         class Y:
-            ## def setX(self, x):         RM.R(self, x, "xy")
             # though bi, there is still a direction!
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self): return RM.P(self, "xtoy")
-            def clearX(self):          RM.NR(self, self.getX(), "xtoy")
+            def setX(self, x):         rm.add_rel(x, self, "xtoy")
+            def getX(self):     return rm.find_target(self, "xtoy")
+            def clearX(self):          rm.remove_rel(self, self.getX(), "xtoy")
 
         x1 = X()
         x2 = X()
@@ -542,17 +535,17 @@ class TestCase02_OneToMany(unittest.TestCase):
         |_________________|      |______________|       
         """
         class X:
-            def __init__(self):        RM.ER(
+            def __init__(self):        rm.enforce(
                 "xtoy", "onetomany", "directional")
 
-            def addY(self, y):         RM.R(self, y, "xtoy")
-            def getAllY(self): return RM.PS(self, "xtoy")
-            def removeY(self, y):      RM.NR(self, y, "xtoy")
+            def addY(self, y):         rm.add_rel(self, y, "xtoy")
+            def getAllY(self):  return rm.find_targets(source=self, rel_id="xtoy")
+            def removeY(self, y):      rm.remove_rel(self, y, "xtoy")
 
         class Y:
-            def setX(self, x):         RM.R(x, self, "xtoy")
-            def getX(self): return RM.B(self, "xtoy")
-            def clearX(self):          RM.NR(self.getX(), self, "xtoy")
+            def setX(self, x):         rm.add_rel(x, self, "xtoy")
+            def getX(self):     return rm.find_source(target=self, rel_id="xtoy")
+            def clearX(self):          rm.remove_rel(self.getX(), self, "xtoy")
 
         x1 = X()
         x2 = X()
@@ -560,16 +553,6 @@ class TestCase02_OneToMany(unittest.TestCase):
         y2 = Y()
         self.onetomanyasserts(x1, x2, y1, y2, yapi=1)
 
-        """
-        Note re running this test
-
-        ** Interesting, this passes when run with suite and script but fails when run via any of
-        python -m unittest -v tests.test_rm
-        python -m unittest -v tests.test_rm.TestCase02_OneToMany
-        python -m unittest -v tests.test_rm.TestCase02_OneToMany.test_OneToMany_XPluralApi_YSingularApi_Alt
-        
-
-        """
 
     def onetomanyasserts(self, x1, x2, y1, y2, yapi=0):
 
