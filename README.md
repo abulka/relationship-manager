@@ -1,20 +1,18 @@
-# Relationship Manager - Lightweight Object Database Class
+# Relationship Manager - a lightweight Object Database class
 
-A central mediating class which records all the one-to-one, one-to-many and many-to-many relationships between a group of selected classes. 
-
-Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
-
-API doco https://abulka.github.io/relationship-manager/relmgr/index.html
+A central mediating class which records all the one-to-one, one-to-many and many-to-many relationships between a group of classes. 
 
 ## What is it?
 
-In a sense, an [Object Database](https://en.wikipedia.org/wiki/Object_database) is an elaborate implementation of the RM pattern. 
-The *intent* of the RM pattern is lighter weight, to replace the wirings between objects
-rather than acting as a huge central database.
+Classes that use a Relationship Manager to implement their relationship properties and methods have a consistent metaphor and trivial implementation code (one line calls). In contrast - traditional "pointer" and "arraylist" techniques of implementing relationships are fully flexible but often require a reasonable amount of non-trivial code which can be tricky to get working correctly and are almost always a pain to maintain due to the detailed coding and coupling between classes involved, especially when back-pointers are involved.
 
-Classes that use a Relationship Manager to implement their relationship properties and methods have a consistent metaphor and trivial implementation code (one line calls). In contrast - traditional "pointer" and "arraylist" techniques of implementing relationships are fully flexible but often require a reasonable amount of non-trivial code which can be tricky to get working correctly and are almost always a pain to maintain due to the detailed coding and coupling between classes involved.
+Using a `Relationship Manager` object to manage the relationships can mitigate these problems and make managing relationships straightforward. It also opens up the possibility of powerful querying of relationships, a very simple version of something like [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/).
 
-Using a `Relationship Manager` object to manage the relationships can mitigate these problems and make managing relationships straightforward.
+In a sense, an [Object Database](https://en.wikipedia.org/wiki/Object_database)
+is an elaborate implementation of the Relationship Manager pattern. However the
+*intent* of the Relationship Manager pattern is lighter weight, to replace the
+wirings between objects rather than acting as a huge central database on disk -
+though persistence is built into Relationship Manager too.
 
 Here are various implementations of the Relationship Manager Pattern in this GitHub repository:
 
@@ -63,6 +61,8 @@ def find_targets(self, source, rel_id) -> List:
 def find_target(self, source, rel_id) -> object:
 def find_sources(self, target, rel_id) -> List: # Back pointer query
 def find_source(self, target, rel_id) -> object: # Back pointer query
+def find_rels(self, source, target) -> List:
+def is_rel(self, source, target, rel_id=1) -> bool:
 
 # persistence related
 objects: Namespace

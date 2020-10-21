@@ -1,7 +1,7 @@
 """
 # Relationship Manager
 
-Lightweight Object Database Class for Python.
+Lightweight Object Database class for Python.
 
 (c) Andy Bulka 2003 - 2020.
 
@@ -23,7 +23,7 @@ from relmgr._persist_support import _Namespace, _PersistenceWrapper
 
 
 class RelationshipManager():
-    """Main Relationship Manager to use in your projects."""
+    """This is the Relationship Manager class to instantiate and use in your projects."""
 
     def __init__(self, caching: bool = True) -> None:
         """Constructor.  Set the option `caching` if you want
@@ -155,12 +155,19 @@ OOOO
 __pdoc__['RelationshipManager'] = """
     # Welcome to Relationship Manager
 
-    Put simply, create an instance of this class, then call 
-    `RelationshipManager.add_rel()` to record relationships between
-    any two Python objects.
+    A lightweight Object Database class - a central mediating class which
+    records all the one-to-one, one-to-many and many-to-many relationships
+    between a group of selected classes. 
 
-    You can then make queries e.g. using 
-    `RelationshipManager.find_targets()` as needed.
+    Create an instance of this class 
+
+    ```
+    rm = RelationshipManager()
+    ```
+
+    then add relationships/pointers between any two Python objects by calling
+    `rm.add_rel()`. You can then make queries using e.g. `rm.find_targets()`
+    etc. as needed to interrogate what object points to what.
 
     ## Installation
 
@@ -172,7 +179,7 @@ __pdoc__['RelationshipManager'] = """
 
     ```python
     from relmgr import RelationshipManager
-    
+
     rm = RelationshipManager()
     rm.enforce("xtoy", "onetoone", "directional")
     x = object()
@@ -188,8 +195,8 @@ __pdoc__['RelationshipManager'] = """
 
     ## What is an object?
 
-    Any Python object can be used as a `source` or `target`. 
-    A pointer goes from `source` to `target`.
+    Any Python object can be used as a `source` or `target`. A pointer goes from
+    `source` to `target`.
 
     You can also use strings as a `source` or `target`. This might be where you
     are representing abstract relationships and need to have real Python objects
@@ -202,11 +209,11 @@ __pdoc__['RelationshipManager'] = """
     ## What is a relationship id?
 
     Allows you to have multiple, different relationships between two objects.
-    Object `a` might point to both `b` and `c` under relationship id 1 - 
-    and at the same time `a` could point only to `c` under relationship id 2.
+    Object `a` might point to both `b` and `c` under relationship id 1 - and at
+    the same time `a` could point only to `c` under relationship id 2.
 
-    A `rel_id` can be an integer or descriptive string e.g. "x-to-y".
-    The default value of `rel_id` is 1.
+    A `rel_id` can be an integer or descriptive string e.g. "x-to-y". The
+    default value of `rel_id` is 1.
 
     ## What is a 'back pointer'?
 
@@ -215,11 +222,15 @@ __pdoc__['RelationshipManager'] = """
     explicit wiring and are a pain to maintain since both sides of the
     relationship need to synchronise - see [Martin Fowler ‘Refactorings’
     book](https://martinfowler.com/books/refactoring.html) p. 197 “Change
-    Unidirectional Association to Bidirectional”. Relationship Manager makes
-    things easy, you can add a single relationship then simply use the query
-    `RelationshipManager.find_sources` passing in the target e.g. `b`. See
-    https://abulka.github.io/projects/patterns/relationship-manager/ for more
-    discussion.
+    Unidirectional Association to Bidirectional”. 
+
+    Relationship Manager makes such look-ups easy, you can add a single
+    relationship then simply use the query `RelationshipManager.find_sources`
+    passing in the target e.g. `b`.
+
+    See the official [Relationship Manager
+    Pattern](https://abulka.github.io/projects/patterns/relationship-manager/)
+    page for more discussion on this topic.
 """
 
 __pdoc__['RelationshipManager.dumps'] = """
