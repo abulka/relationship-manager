@@ -60,21 +60,21 @@ class Observer:
     def subject(self, _subject):
         rm.add_rel(self, _subject)
 
-    def Notify(self, subject, notificationEventType):
+    def notify(self, subject, notification_type):
         pass  # implementations override this and do something
 
 
 class Subject:
 
-    def NotifyAll(self, notificationEventType):
+    def notify_all(self, notification_type: str):
         observers = rm.find_sources(self)  # all things pointing at me
         for o in observers:
-            o.Notify(self, notificationEventType)
+            o.Notify(self, notification_type)
 
-    def AddObserver(self, observer):
+    def add_observer(self, observer):
         rm.add_rel(observer, self)
 
-    def RemoveObserver(self, observer):
+    def remove_observer(self, observer):
         rm.remove_rel(source=observer, target=self)</code></pre>
 </details>
 </section>
@@ -106,7 +106,7 @@ class Subject:
     def subject(self, _subject):
         rm.add_rel(self, _subject)
 
-    def Notify(self, subject, notificationEventType):
+    def notify(self, subject, notification_type):
         pass  # implementations override this and do something</code></pre>
 </details>
 <h3>Instance variables</h3>
@@ -126,8 +126,8 @@ def subject(self):
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="examples.python.observer.Observer.Notify"><code class="name flex">
-<span>def <span class="ident">Notify</span></span>(<span>self, subject, notificationEventType)</span>
+<dt id="examples.python.observer.Observer.notify"><code class="name flex">
+<span>def <span class="ident">notify</span></span>(<span>self, subject, notification_type)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -135,7 +135,7 @@ def subject(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def Notify(self, subject, notificationEventType):
+<pre><code class="python">def notify(self, subject, notification_type):
     pass  # implementations override this and do something</code></pre>
 </details>
 </dd>
@@ -152,21 +152,21 @@ def subject(self):
 </summary>
 <pre><code class="python">class Subject:
 
-    def NotifyAll(self, notificationEventType):
+    def notify_all(self, notification_type: str):
         observers = rm.find_sources(self)  # all things pointing at me
         for o in observers:
-            o.Notify(self, notificationEventType)
+            o.Notify(self, notification_type)
 
-    def AddObserver(self, observer):
+    def add_observer(self, observer):
         rm.add_rel(observer, self)
 
-    def RemoveObserver(self, observer):
+    def remove_observer(self, observer):
         rm.remove_rel(source=observer, target=self)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="examples.python.observer.Subject.AddObserver"><code class="name flex">
-<span>def <span class="ident">AddObserver</span></span>(<span>self, observer)</span>
+<dt id="examples.python.observer.Subject.add_observer"><code class="name flex">
+<span>def <span class="ident">add_observer</span></span>(<span>self, observer)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -174,12 +174,12 @@ def subject(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def AddObserver(self, observer):
+<pre><code class="python">def add_observer(self, observer):
     rm.add_rel(observer, self)</code></pre>
 </details>
 </dd>
-<dt id="examples.python.observer.Subject.NotifyAll"><code class="name flex">
-<span>def <span class="ident">NotifyAll</span></span>(<span>self, notificationEventType)</span>
+<dt id="examples.python.observer.Subject.notify_all"><code class="name flex">
+<span>def <span class="ident">notify_all</span></span>(<span>self, notification_type: str)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -187,14 +187,14 @@ def subject(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def NotifyAll(self, notificationEventType):
+<pre><code class="python">def notify_all(self, notification_type: str):
     observers = rm.find_sources(self)  # all things pointing at me
     for o in observers:
-        o.Notify(self, notificationEventType)</code></pre>
+        o.Notify(self, notification_type)</code></pre>
 </details>
 </dd>
-<dt id="examples.python.observer.Subject.RemoveObserver"><code class="name flex">
-<span>def <span class="ident">RemoveObserver</span></span>(<span>self, observer)</span>
+<dt id="examples.python.observer.Subject.remove_observer"><code class="name flex">
+<span>def <span class="ident">remove_observer</span></span>(<span>self, observer)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -202,7 +202,7 @@ def subject(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def RemoveObserver(self, observer):
+<pre><code class="python">def remove_observer(self, observer):
     rm.remove_rel(source=observer, target=self)</code></pre>
 </details>
 </dd>
@@ -227,16 +227,16 @@ def subject(self):
 <li>
 <h4><code><a title="examples.python.observer.Observer" href="#examples.python.observer.Observer">Observer</a></code></h4>
 <ul class="">
-<li><code><a title="examples.python.observer.Observer.Notify" href="#examples.python.observer.Observer.Notify">Notify</a></code></li>
+<li><code><a title="examples.python.observer.Observer.notify" href="#examples.python.observer.Observer.notify">notify</a></code></li>
 <li><code><a title="examples.python.observer.Observer.subject" href="#examples.python.observer.Observer.subject">subject</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="examples.python.observer.Subject" href="#examples.python.observer.Subject">Subject</a></code></h4>
 <ul class="">
-<li><code><a title="examples.python.observer.Subject.AddObserver" href="#examples.python.observer.Subject.AddObserver">AddObserver</a></code></li>
-<li><code><a title="examples.python.observer.Subject.NotifyAll" href="#examples.python.observer.Subject.NotifyAll">NotifyAll</a></code></li>
-<li><code><a title="examples.python.observer.Subject.RemoveObserver" href="#examples.python.observer.Subject.RemoveObserver">RemoveObserver</a></code></li>
+<li><code><a title="examples.python.observer.Subject.add_observer" href="#examples.python.observer.Subject.add_observer">add_observer</a></code></li>
+<li><code><a title="examples.python.observer.Subject.notify_all" href="#examples.python.observer.Subject.notify_all">notify_all</a></code></li>
+<li><code><a title="examples.python.observer.Subject.remove_observer" href="#examples.python.observer.Subject.remove_observer">remove_observer</a></code></li>
 </ul>
 </li>
 </ul>

@@ -5,8 +5,11 @@ Lightweight Object Database Class for Python.
 
 (c) Andy Bulka 2003 - 2020.
 
-- Python Implementation [README](https://github.com/abulka/relationship-manager) and GitHub project.
-- Design Pattern and Discussion: https://abulka.github.io/projects/patterns/relationship-manager/
+- Full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html) (this page).
+
+- Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
+
+- Python Implementation [README](https://github.com/abulka/relationship-manager) and [GitHub project](https://github.com/abulka/relationship-manager).
 """
 import copy
 import pickle
@@ -159,10 +162,29 @@ __pdoc__['RelationshipManager'] = """
     You can then make queries e.g. using 
     `RelationshipManager.find_targets()` as needed.
 
+    ## Installation
+
+    ```shell
+    pip install relationship-manager
+    ```
+
+    ## Usage
+
+    ```python
+    from relmgr import RelationshipManager
+    
+    rm = RelationshipManager()
+    rm.enforce("xtoy", "onetoone", "directional")
+    x = object()
+    y = object()
+    rm.add_rel(x, y, "xtoy")
+    assert rm.find_target(x, "xtoy") == y
+    ```
+
     ## Constructor
 
     Set the option `caching` if you want faster performance using Python
-        `lru_cache` technology - defaults to `True.
+        `lru_cache` technology - defaults to `True`.
 
     ## What is an object?
 
@@ -180,8 +202,8 @@ __pdoc__['RelationshipManager'] = """
     ## What is a relationship id?
 
     Allows you to have multiple, different relationships between two objects.
-    Object `a` might point to `b` and `c` under relationship id 1 and could 
-    point only to `c` under relationship id 2.
+    Object `a` might point to both `b` and `c` under relationship id 1 - 
+    and at the same time `a` could point only to `c` under relationship id 2.
 
     A `rel_id` can be an integer or descriptive string e.g. "x-to-y".
     The default value of `rel_id` is 1.

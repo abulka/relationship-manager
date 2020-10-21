@@ -320,7 +320,7 @@ However most of these need a backing SQL database - Relationship Manager does no
 
 # Other implementations of Relationship Manager 
 
-In this Github repository there are several other implementations of Relationship Manager 
+In this Github repository there are several other implementations of Relationship Manager. Their APIs are not the latest however - the methods names have evolved - the Python implementation is the gold standard API and implementation.
 
 ## C#
 
@@ -332,9 +332,12 @@ The [boo language](http://boo-language.github.io/) for .NET is now dead, however
 
 ## Java
 
-A java implementation.
+A Java implementation.  Needs a bit of dusting off, but should run.
 
-## Javascript
+# Resources
 
-To be completed.
+- Full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html).
 
+- Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
+
+- Python Implementation [README](https://github.com/abulka/relationship-manager) (this page) and [GitHub project](https://github.com/abulka/relationship-manager).

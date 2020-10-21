@@ -26,8 +26,15 @@
 <p>Lightweight Object Database Class for Python.</p>
 <p>(c) Andy Bulka 2003 - 2020.</p>
 <ul>
-<li>Python Implementation <a href="https://github.com/abulka/relationship-manager">README</a> and GitHub project.</li>
-<li>Design Pattern and Discussion: <a href="https://abulka.github.io/projects/patterns/relationship-manager/">https://abulka.github.io/projects/patterns/relationship-manager/</a></li>
+<li>
+<p>Full <a href="https://abulka.github.io/relationship-manager/relmgr/index.html">API documentation</a> (this page).</p>
+</li>
+<li>
+<p>Official <a href="https://abulka.github.io/projects/patterns/relationship-manager/">Relationship Manager Pattern</a> page incl. academic paper by Andy Bulka.</p>
+</li>
+<li>
+<p>Python Implementation <a href="https://github.com/abulka/relationship-manager">README</a> and <a href="https://github.com/abulka/relationship-manager">GitHub project</a>.</p>
+</li>
 </ul>
 <details class="source">
 <summary>
@@ -40,8 +47,11 @@ Lightweight Object Database Class for Python.
 
 (c) Andy Bulka 2003 - 2020.
 
-- Python Implementation [README](https://github.com/abulka/relationship-manager) and GitHub project.
-- Design Pattern and Discussion: https://abulka.github.io/projects/patterns/relationship-manager/
+- Full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html) (this page).
+
+- Official [Relationship Manager Pattern](https://abulka.github.io/projects/patterns/relationship-manager/) page incl. academic paper by Andy Bulka.
+
+- Python Implementation [README](https://github.com/abulka/relationship-manager) and [GitHub project](https://github.com/abulka/relationship-manager).
 &#34;&#34;&#34;
 import copy
 import pickle
@@ -194,10 +204,29 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
     You can then make queries e.g. using 
     `RelationshipManager.find_targets()` as needed.
 
+    ## Installation
+
+    ```shell
+    pip install relationship-manager
+    ```
+
+    ## Usage
+
+    ```python
+    from relmgr import RelationshipManager
+    
+    rm = RelationshipManager()
+    rm.enforce(&#34;xtoy&#34;, &#34;onetoone&#34;, &#34;directional&#34;)
+    x = object()
+    y = object()
+    rm.add_rel(x, y, &#34;xtoy&#34;)
+    assert rm.find_target(x, &#34;xtoy&#34;) == y
+    ```
+
     ## Constructor
 
     Set the option `caching` if you want faster performance using Python
-        `lru_cache` technology - defaults to `True.
+        `lru_cache` technology - defaults to `True`.
 
     ## What is an object?
 
@@ -215,8 +244,8 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
     ## What is a relationship id?
 
     Allows you to have multiple, different relationships between two objects.
-    Object `a` might point to `b` and `c` under relationship id 1 and could 
-    point only to `c` under relationship id 2.
+    Object `a` might point to both `b` and `c` under relationship id 1 - 
+    and at the same time `a` could point only to `c` under relationship id 2.
 
     A `rel_id` can be an integer or descriptive string e.g. &#34;x-to-y&#34;.
     The default value of `rel_id` is 1.
@@ -281,9 +310,22 @@ __pdoc__[&#39;RelationshipManager.dumps&#39;] = &#34;&#34;&#34;
 any two Python objects.</p>
 <p>You can then make queries e.g. using
 <code><a title="relmgr.relationship_manager.RelationshipManager.find_targets" href="#relmgr.relationship_manager.RelationshipManager.find_targets">RelationshipManager.find_targets()</a></code> as needed.</p>
+<h2 id="installation">Installation</h2>
+<pre><code class="language-shell">pip install relationship-manager
+</code></pre>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-python">from relmgr import RelationshipManager
+
+rm = RelationshipManager()
+rm.enforce(&quot;xtoy&quot;, &quot;onetoone&quot;, &quot;directional&quot;)
+x = object()
+y = object()
+rm.add_rel(x, y, &quot;xtoy&quot;)
+assert rm.find_target(x, &quot;xtoy&quot;) == y
+</code></pre>
 <h2 id="constructor">Constructor</h2>
 <p>Set the option <code>caching</code> if you want faster performance using Python
-<code>lru_cache</code> technology - defaults to `True.</p>
+<code>lru_cache</code> technology - defaults to <code>True</code>.</p>
 <h2 id="what-is-an-object">What is an object?</h2>
 <p>Any Python object can be used as a <code>source</code> or <code>target</code>.
 A pointer goes from <code>source</code> to <code>target</code>.</p>
@@ -294,8 +336,8 @@ involved. E.g. <code>RelationshipManager.add_rel('a', 'b')</code></p>
 <p>A relationship is a pointer from one object to another.</p>
 <h2 id="what-is-a-relationship-id">What is a relationship id?</h2>
 <p>Allows you to have multiple, different relationships between two objects.
-Object <code>a</code> might point to <code>b</code> and <code>c</code> under relationship id 1 and could
-point only to <code>c</code> under relationship id 2.</p>
+Object <code>a</code> might point to both <code>b</code> and <code>c</code> under relationship id 1 -
+and at the same time <code>a</code> could point only to <code>c</code> under relationship id 2.</p>
 <p>A <code>rel_id</code> can be an integer or descriptive string e.g. "x-to-y".
 The default value of <code>rel_id</code> is 1.</p>
 <h2 id="what-is-a-back-pointer">What is a 'back pointer'?</h2>
