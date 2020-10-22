@@ -402,11 +402,11 @@ class TestCase02_OneToMany(unittest.TestCase):
     def tearDown(self):
         RM = None
 
-    def test_OneToMany_XPluralApi_YNoApi(self):
+    def test_scenario_4_OneToMany_XPluralApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
 
         """
-        One to Many
+        One to Many, directional, all methods on lhs X side.
         
          _________________        ______________
         |        X        |      |       Y      |
@@ -437,10 +437,10 @@ class TestCase02_OneToMany(unittest.TestCase):
         y2 = Y()
         self.onetomanyasserts(x1, x2, y1, y2)
 
-    def test_OneToMany_XPluralApi_YSingularApi(self):
+    def test_scenario_5_OneToMany_XPluralApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
-        One to Many, BI
+        One to Many, bidirectional, methods on both X and Y
         
          _________________        ______________
         |        X        |      |       Y      |
@@ -521,10 +521,10 @@ class TestCase02_OneToMany(unittest.TestCase):
         y2 = Y()
         self.onetomanyasserts(x1, x2, y1, y2, yapi=1)
 
-    def test_OneToMany_XPluralApi_YSingularApi_Alt(self):
+    def test_scenario_5A_OneToMany_XPluralApi_YSingularApi_Alt(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
-        Alternative implementation, using "directional" and B()
+        Alternative implementation of scenario 5, using "directional" and B() backpointer method
          _________________        ______________
         |        X        |      |       Y      |
         |_________________|      |______________|
