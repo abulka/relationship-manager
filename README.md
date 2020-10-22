@@ -48,7 +48,7 @@ assert rm.find_target(x, "xtoy") == y
 
 ## Python API
 
-Quick summary:
+Quick summary of the v2 API:
 
 ```python
 def add_rel(self, source, target, rel_id: Union[int,str]=1) -> None:
@@ -260,6 +260,8 @@ stores objects in dictionaries with ids and uses the Relationship Manager to sto
 
 ## Running the tests
 
+### Python tests
+
 Check our this project from GitHub, open the project directory in vscode and there is a local `settings.json` and `launch.json` already populated which means you can choose the launch profile `Run all tests: using -m unittest` or use the vscode built in GUI test runner (hit the `Discover Tests` button then the `Run all tests` button).
 
 Or simply:
@@ -267,6 +269,10 @@ Or simply:
 ```shell
 python -m unittest discover -p 'test*' -v tests
 ```
+
+### C# and Java tests
+
+Open the projects and run the tests from your IDE.
 
 ## Appendix: Installing into a new virtual environment
 
@@ -333,6 +339,85 @@ The [boo language](http://boo-language.github.io/) for .NET is now dead, however
 ## Java
 
 A Java implementation.  Needs a bit of dusting off, but should run.
+
+Note that the C# and Java implementations have a slightly cleaner set of methods and a few extra methods - and also use a nice interface to talk to.  The method names are substantially the same though.
+
+### C# and Java API
+
+> Note: C# and Java implementations use the original older v1 API, not the new v2 API implemented in Python, above.
+
+```java
+public enum Cardinality  
+{  
+    OneToOne,  
+    OneToMany,  
+    ManyToOne,  
+    ManyToMany  
+}
+
+public enum Directionality  
+{  
+    UniDirectional,  
+    DirectionalWithBackPointer,  
+    DoubleDirectional  
+}
+
+interface IRelationshipManager {
+  void AddRelationship(object fromObj, object toObj, string relId);  
+  void AddRelationship(object fromObj, object toObj);  
+  void EnforceRelationship(string relId, Cardinality cardinality);  
+  void EnforceRelationship(string relId, Cardinality cardinality, Directionality directionality);  
+  IList FindObjectsPointedToByMe(object fromObj, string relId);  
+  object FindObjectPointedToByMe(object fromObj, string relId);  
+   IList FindObjectsPointingToMe(object toObj, string relId);  
+  object FindObjectPointingToMe(object toObj, string relId);  
+  void RemoveRelationship(object fromObj, object toObj, string relId);  
+  void RemoveAllRelationshipsInvolving(object obj, string relId);  
+  int Count();  
+  int CountRelationships(string relId);  
+  void Clear();  
+  bool DoesRelIdExistBetween(object fromObj, object toObj, string relId);  
+  IList FindRelIdsBetween(object fromObj, object toObj);
+}
+```
+
+### C# and Java abbreviated API
+
+The abbreviated API is more succinct, but is only recommended for unit tests.
+
+| Return Type            | Function Name           | Short-hand |
+|-------------------|-----------------|------|
+| void | addRelationship(from, to, id) | R(f,t) |
+| void | removeRelationship(from, to, id) | NR(f,t) |
+| List | findObjectsPointedToByMe(from, id) | PS(f) |
+| List | findObjectsPointingToMe(to, id) | BS(t) |
+| void  | EnforceRelationship(id, cardinality, bidirectionality) | ER(id, c, bi) |
+| Object | findObjectPointedToByMe(fromMe, id, cast) | P(f) |
+| Object | findObjectPointingToMe(toMe, id, cast) | B(t) |
+| void | removeAllRelationshipsInvolving(object, id) | NRS(o) |
+
+For example `Object` is just one of *your* objects which you added with `addRelationship()`.
+
+Re `cast` that's just in case you need to cast to a type. This might have been possible in the [boo language](http://boo-language.github.io/) for .NET (which is now dead). Please adapt to your language as needed. Dynamic languages don't need casting.
+
+### C# and Java - Finding just one object
+
+The pair of find methods `FindObjectPointedToByMe()` and `FindObjectPointedToByMe()` only find _one_ object (even though there may be more), and cast it to the appropriate type.  This is a commonly used convenience method - the more painful way would be to use `FindObjectsPointingToMe()` and just grab the first object from the returned list.
+Exactly which object is found is undefined, but would typically be the first one added.
+
+### C# and Java - Relationship Id
+
+What to use as the Relationship Id?
+
+This is traditionally either an integer or a string in the Python implementation.  I have chosen to use a string in the C# and Java implementations, since you can describe relationships easily in this way rather than having to map from an integer back to some meaningful description.
+
+```java
+rm.addRelationship(fromObject, toObject, relationshipId)
+```
+
+will raise an exception if relationshipId is an empty string.  
+
+All other functions (except for `addRelationship`) can pass either an empty string or "\*" as the `relationshipId`, which means you are searching for any relationship at all.  You would usually only want to do this if there is only _one_ relationship between class X and class Y, then your P and NR calls can specify "\*" as the `relationshipId` in order to match any relationship between these two objects.  Alternatively, you can use relationship manager's overloaded versions of all its routines (except for `addRelationship`) which don't take a `relationshipId` where `relationshipId` defaults to "\*".
 
 # Resources
 
