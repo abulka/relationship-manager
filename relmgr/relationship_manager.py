@@ -104,9 +104,21 @@ class RelationshipManager():
         return self.rm._find_objects(source, target, None)
 
     def enforce(self, relId, cardinality, directionality="directional"):
-        """Enforce a relationship by auto creating reciprocal relationships in the case of 
-        bidirectional relationships, and by overwriting existing relationships if in the case
-        of one-to-one cardinality?
+        """Enforce a relationship by auto creating reciprocal relationships (in the case of 
+        'bidirectional' relationships), and by overwriting existing relationships in the case
+        of 'onetoone' cardinality.
+
+        cardinality:
+            - "onetoone" - extinguish both old 'source' and 'target' before adding a new relationship
+            - "onetomany" - extinguish old 'source' before adding a new relationship
+            - "manytomany" (not implemented)
+
+        directionality:
+            - "directional" - the default, no special enforcement
+            - "bidirectional" - when calling `RelationshipManager.add_rel(source, target)`
+            causes not only the primary relationship to be created between 'source' and 'target',
+            but also auto creates an additional relationship in the reverse direction between 'target' and 'source'.
+            Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
         """
         self.rm.enforce(relId, cardinality, directionality)
 

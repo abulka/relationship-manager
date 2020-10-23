@@ -14,7 +14,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         global rm
         rm = RelationshipManager(caching=USE_RM_CACHE)
 
-    def test_OneToOne_XSingularApi_YNoApi(self):
+    def test_scenario_1_OneToOne_XSingularApi_YNoApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
          ______________        ______________
@@ -109,7 +109,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert x1.getY() == y2
         assert x2.getY() == y1
 
-    def test_OneToOne_XNoApi_YSingularApi(self):
+    def test_scenario_2_OneToOne_XNoApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
          ______________        ______________
@@ -216,6 +216,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert x2.getY() == None
         assert y1.getX() == x1
         assert y2.getX() == None
+        # rm.debug_print_rels()
 
         # After clearing that one pointer, x1 <-> y1
         x1.clearY()
@@ -316,7 +317,7 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.clearX()
         assertallclear()
 
-    def test_OneToOne_XSingularApi_YSingularApi(self):
+    def test_scenario_3_OneToOne_XSingularApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
         Since both sides have an API, then this is bidirectional
@@ -336,7 +337,7 @@ class TestCase01_OneToOne(unittest.TestCase):
             def clearY(self):          rm.remove_rel(self, self.getY(), "xy")
 
         class Y:
-            def __init__(self):        rm.enforce("xy", "onetoone", "bidirectional")
+            def __init__(self):        rm.enforce("xy", "onetoone", "bidirectional")  # redundant call since already called in X's constructor
             def setX(self, x):         rm.add_rel(self, x, "xy")
             def getX(self):     return rm.find_target(self, "xy")
             def clearX(self):          rm.remove_rel(self, self.getX(), "xy")
@@ -347,10 +348,10 @@ class TestCase01_OneToOne(unittest.TestCase):
         y2 = Y()
         self.onetooneasserts(x1, x2, y1, y2)
 
-    def test_OneToOne_XSingularApi_YSingularApi_Alt(self):
+    def test_scenario_3A_OneToOne_XSingularApi_YSingularApi_Alt_Backpointer(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here
         """
-        Alternative implementation of same API.
+        Alternative implementation of same API, One to one, with back pointer
 
          ______________        ______________
         |       X      |      |       Y      |
@@ -381,7 +382,7 @@ class TestCase01_OneToOne(unittest.TestCase):
             def clearY(self):          rm.remove_rel(self, self.getY(), "xtoy")
 
         class Y:
-            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")
+            def __init__(self):        rm.enforce("xtoy", "onetoone", "directional")  # redundant call since already called in X's constructor
             def setX(self, x):         rm.add_rel(x, self, "xtoy")
             def getX(self):     return rm.find_source(self, "xtoy")
             def clearX(self):          rm.remove_rel(self.getX(), self, "xtoy")
