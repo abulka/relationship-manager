@@ -23,7 +23,7 @@
 </header>
 <section id="section-intro">
 <h1 id="relationship-manager">Relationship Manager</h1>
-<p>Lightweight Object Database Class for Python.</p>
+<p>Lightweight Object Database class for Python.</p>
 <p>(c) Andy Bulka 2003 - 2020.</p>
 <ul>
 <li>
@@ -43,7 +43,7 @@
 <pre><code class="python">&#34;&#34;&#34;
 # Relationship Manager
 
-Lightweight Object Database Class for Python.
+Lightweight Object Database class for Python.
 
 (c) Andy Bulka 2003 - 2020.
 
@@ -65,7 +65,7 @@ from relmgr._persist_support import _Namespace, _PersistenceWrapper
 
 
 class RelationshipManager():
-    &#34;&#34;&#34;Main Relationship Manager to use in your projects.&#34;&#34;&#34;
+    &#34;&#34;&#34;This is the Relationship Manager class to instantiate and use in your projects.&#34;&#34;&#34;
 
     def __init__(self, caching: bool = True) -&gt; None:
         &#34;&#34;&#34;Constructor.  Set the option `caching` if you want
@@ -146,9 +146,21 @@ class RelationshipManager():
         return self.rm._find_objects(source, target, None)
 
     def enforce(self, relId, cardinality, directionality=&#34;directional&#34;):
-        &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships in the case of 
-        bidirectional relationships, and by overwriting existing relationships if in the case
-        of one-to-one cardinality?
+        &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships (in the case of 
+        &#39;bidirectional&#39; relationships), and by overwriting existing relationships in the case
+        of &#39;onetoone&#39; cardinality.
+
+        cardinality:
+            - &#34;onetoone&#34; - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
+            - &#34;onetomany&#34; - extinguish old &#39;source&#39; before adding a new relationship
+            - &#34;manytomany&#34; (not implemented)
+
+        directionality:
+            - &#34;directional&#34; - the default, no special enforcement
+            - &#34;bidirectional&#34; - when calling `RelationshipManager.add_rel(source, target)`
+            causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
+            but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
+            Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
         &#34;&#34;&#34;
         self.rm.enforce(relId, cardinality, directionality)
 
@@ -197,12 +209,19 @@ OOOO
 __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
     # Welcome to Relationship Manager
 
-    Put simply, create an instance of this class, then call 
-    `RelationshipManager.add_rel()` to record relationships between
-    any two Python objects.
+    A lightweight Object Database class - a central mediating class which
+    records all the one-to-one, one-to-many and many-to-many relationships
+    between a group of selected classes. 
 
-    You can then make queries e.g. using 
-    `RelationshipManager.find_targets()` as needed.
+    Create an instance of this class 
+
+    ```
+    rm = RelationshipManager()
+    ```
+
+    then add relationships/pointers between any two Python objects by calling
+    `rm.add_rel()`. You can then make queries using e.g. `rm.find_targets()`
+    etc. as needed to interrogate what object points to what.
 
     ## Installation
 
@@ -214,7 +233,7 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
 
     ```python
     from relmgr import RelationshipManager
-    
+
     rm = RelationshipManager()
     rm.enforce(&#34;xtoy&#34;, &#34;onetoone&#34;, &#34;directional&#34;)
     x = object()
@@ -230,8 +249,8 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
 
     ## What is an object?
 
-    Any Python object can be used as a `source` or `target`. 
-    A pointer goes from `source` to `target`.
+    Any Python object can be used as a `source` or `target`. A pointer goes from
+    `source` to `target`.
 
     You can also use strings as a `source` or `target`. This might be where you
     are representing abstract relationships and need to have real Python objects
@@ -244,11 +263,11 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
     ## What is a relationship id?
 
     Allows you to have multiple, different relationships between two objects.
-    Object `a` might point to both `b` and `c` under relationship id 1 - 
-    and at the same time `a` could point only to `c` under relationship id 2.
+    Object `a` might point to both `b` and `c` under relationship id 1 - and at
+    the same time `a` could point only to `c` under relationship id 2.
 
-    A `rel_id` can be an integer or descriptive string e.g. &#34;x-to-y&#34;.
-    The default value of `rel_id` is 1.
+    A `rel_id` can be an integer or descriptive string e.g. &#34;x-to-y&#34;. The
+    default value of `rel_id` is 1.
 
     ## What is a &#39;back pointer&#39;?
 
@@ -257,11 +276,15 @@ __pdoc__[&#39;RelationshipManager&#39;] = &#34;&#34;&#34;
     explicit wiring and are a pain to maintain since both sides of the
     relationship need to synchronise - see [Martin Fowler ‘Refactorings’
     book](https://martinfowler.com/books/refactoring.html) p. 197 “Change
-    Unidirectional Association to Bidirectional”. Relationship Manager makes
-    things easy, you can add a single relationship then simply use the query
-    `RelationshipManager.find_sources` passing in the target e.g. `b`. See
-    https://abulka.github.io/projects/patterns/relationship-manager/ for more
-    discussion.
+    Unidirectional Association to Bidirectional”. 
+
+    Relationship Manager makes such look-ups easy, you can add a single
+    relationship then simply use the query `RelationshipManager.find_sources`
+    passing in the target e.g. `b`.
+
+    See the official [Relationship Manager
+    Pattern](https://abulka.github.io/projects/patterns/relationship-manager/)
+    page for more discussion on this topic.
 &#34;&#34;&#34;
 
 __pdoc__[&#39;RelationshipManager.dumps&#39;] = &#34;&#34;&#34;
@@ -305,11 +328,15 @@ __pdoc__[&#39;RelationshipManager.dumps&#39;] = &#34;&#34;&#34;
 </code></dt>
 <dd>
 <div class="desc"><h1 id="welcome-to-relationship-manager">Welcome to Relationship Manager</h1>
-<p>Put simply, create an instance of this class, then call
-<code><a title="relmgr.relationship_manager.RelationshipManager.add_rel" href="#relmgr.relationship_manager.RelationshipManager.add_rel">RelationshipManager.add_rel()</a></code> to record relationships between
-any two Python objects.</p>
-<p>You can then make queries e.g. using
-<code><a title="relmgr.relationship_manager.RelationshipManager.find_targets" href="#relmgr.relationship_manager.RelationshipManager.find_targets">RelationshipManager.find_targets()</a></code> as needed.</p>
+<p>A lightweight Object Database class - a central mediating class which
+records all the one-to-one, one-to-many and many-to-many relationships
+between a group of selected classes. </p>
+<p>Create an instance of this class </p>
+<pre><code>rm = RelationshipManager()
+</code></pre>
+<p>then add relationships/pointers between any two Python objects by calling
+<code>rm.add_rel()</code>. You can then make queries using e.g. <code>rm.find_targets()</code>
+etc. as needed to interrogate what object points to what.</p>
 <h2 id="installation">Installation</h2>
 <pre><code class="language-shell">pip install relationship-manager
 </code></pre>
@@ -327,8 +354,8 @@ assert rm.find_target(x, &quot;xtoy&quot;) == y
 <p>Set the option <code>caching</code> if you want faster performance using Python
 <code>lru_cache</code> technology - defaults to <code>True</code>.</p>
 <h2 id="what-is-an-object">What is an object?</h2>
-<p>Any Python object can be used as a <code>source</code> or <code>target</code>.
-A pointer goes from <code>source</code> to <code>target</code>.</p>
+<p>Any Python object can be used as a <code>source</code> or <code>target</code>. A pointer goes from
+<code>source</code> to <code>target</code>.</p>
 <p>You can also use strings as a <code>source</code> or <code>target</code>. This might be where you
 are representing abstract relationships and need to have real Python objects
 involved. E.g. <code>RelationshipManager.add_rel('a', 'b')</code></p>
@@ -336,27 +363,29 @@ involved. E.g. <code>RelationshipManager.add_rel('a', 'b')</code></p>
 <p>A relationship is a pointer from one object to another.</p>
 <h2 id="what-is-a-relationship-id">What is a relationship id?</h2>
 <p>Allows you to have multiple, different relationships between two objects.
-Object <code>a</code> might point to both <code>b</code> and <code>c</code> under relationship id 1 -
-and at the same time <code>a</code> could point only to <code>c</code> under relationship id 2.</p>
-<p>A <code>rel_id</code> can be an integer or descriptive string e.g. "x-to-y".
-The default value of <code>rel_id</code> is 1.</p>
+Object <code>a</code> might point to both <code>b</code> and <code>c</code> under relationship id 1 - and at
+the same time <code>a</code> could point only to <code>c</code> under relationship id 2.</p>
+<p>A <code>rel_id</code> can be an integer or descriptive string e.g. "x-to-y". The
+default value of <code>rel_id</code> is 1.</p>
 <h2 id="what-is-a-back-pointer">What is a 'back pointer'?</h2>
 <p>Its an implicity pointer (or relationship). For example is <code>a</code> points to <code>b</code>
 then you can say <code>b</code> is pointed to by <code>a</code>. Back pointers usually need
 explicit wiring and are a pain to maintain since both sides of the
 relationship need to synchronise - see <a href="https://martinfowler.com/books/refactoring.html">Martin Fowler ‘Refactorings’
 book</a> p. 197 “Change
-Unidirectional Association to Bidirectional”. Relationship Manager makes
-things easy, you can add a single relationship then simply use the query
-<code><a title="relmgr.relationship_manager.RelationshipManager.find_sources" href="#relmgr.relationship_manager.RelationshipManager.find_sources">RelationshipManager.find_sources()</a></code> passing in the target e.g. <code>b</code>. See
-<a href="https://abulka.github.io/projects/patterns/relationship-manager/">https://abulka.github.io/projects/patterns/relationship-manager/</a> for more
-discussion.</p></div>
+Unidirectional Association to Bidirectional”. </p>
+<p>Relationship Manager makes such look-ups easy, you can add a single
+relationship then simply use the query <code><a title="relmgr.relationship_manager.RelationshipManager.find_sources" href="#relmgr.relationship_manager.RelationshipManager.find_sources">RelationshipManager.find_sources()</a></code>
+passing in the target e.g. <code>b</code>.</p>
+<p>See the official <a href="https://abulka.github.io/projects/patterns/relationship-manager/">Relationship Manager
+Pattern</a>
+page for more discussion on this topic.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RelationshipManager():
-    &#34;&#34;&#34;Main Relationship Manager to use in your projects.&#34;&#34;&#34;
+    &#34;&#34;&#34;This is the Relationship Manager class to instantiate and use in your projects.&#34;&#34;&#34;
 
     def __init__(self, caching: bool = True) -&gt; None:
         &#34;&#34;&#34;Constructor.  Set the option `caching` if you want
@@ -437,9 +466,21 @@ discussion.</p></div>
         return self.rm._find_objects(source, target, None)
 
     def enforce(self, relId, cardinality, directionality=&#34;directional&#34;):
-        &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships in the case of 
-        bidirectional relationships, and by overwriting existing relationships if in the case
-        of one-to-one cardinality?
+        &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships (in the case of 
+        &#39;bidirectional&#39; relationships), and by overwriting existing relationships in the case
+        of &#39;onetoone&#39; cardinality.
+
+        cardinality:
+            - &#34;onetoone&#34; - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
+            - &#34;onetomany&#34; - extinguish old &#39;source&#39; before adding a new relationship
+            - &#34;manytomany&#34; (not implemented)
+
+        directionality:
+            - &#34;directional&#34; - the default, no special enforcement
+            - &#34;bidirectional&#34; - when calling `RelationshipManager.add_rel(source, target)`
+            causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
+            but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
+            Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
         &#34;&#34;&#34;
         self.rm.enforce(relId, cardinality, directionality)
 
@@ -626,17 +667,39 @@ rm2 = RelationshipManagerPersistent.loads(asbytes)
 <span>def <span class="ident">enforce</span></span>(<span>self, relId, cardinality, directionality='directional')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Enforce a relationship by auto creating reciprocal relationships in the case of
-bidirectional relationships, and by overwriting existing relationships if in the case
-of one-to-one cardinality?</p></div>
+<div class="desc"><p>Enforce a relationship by auto creating reciprocal relationships (in the case of
+'bidirectional' relationships), and by overwriting existing relationships in the case
+of 'onetoone' cardinality.</p>
+<p>cardinality:
+- "onetoone" - extinguish both old 'source' and 'target' before adding a new relationship
+- "onetomany" - extinguish old 'source' before adding a new relationship
+- "manytomany" (not implemented)</p>
+<p>directionality:
+- "directional" - the default, no special enforcement
+- "bidirectional" - when calling <code><a title="relmgr.relationship_manager.RelationshipManager.add_rel" href="#relmgr.relationship_manager.RelationshipManager.add_rel">RelationshipManager.add_rel()</a>(source, target)</code>
+causes not only the primary relationship to be created between 'source' and 'target',
+but also auto creates an additional relationship in the reverse direction between 'target' and 'source'.
+Also ensures both relationships are removed when calling <code><a title="relmgr.relationship_manager.RelationshipManager.remove_rel" href="#relmgr.relationship_manager.RelationshipManager.remove_rel">RelationshipManager.remove_rel()</a></code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def enforce(self, relId, cardinality, directionality=&#34;directional&#34;):
-    &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships in the case of 
-    bidirectional relationships, and by overwriting existing relationships if in the case
-    of one-to-one cardinality?
+    &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships (in the case of 
+    &#39;bidirectional&#39; relationships), and by overwriting existing relationships in the case
+    of &#39;onetoone&#39; cardinality.
+
+    cardinality:
+        - &#34;onetoone&#34; - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
+        - &#34;onetomany&#34; - extinguish old &#39;source&#39; before adding a new relationship
+        - &#34;manytomany&#34; (not implemented)
+
+    directionality:
+        - &#34;directional&#34; - the default, no special enforcement
+        - &#34;bidirectional&#34; - when calling `RelationshipManager.add_rel(source, target)`
+        causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
+        but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
+        Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
     &#34;&#34;&#34;
     self.rm.enforce(relId, cardinality, directionality)</code></pre>
 </details>
