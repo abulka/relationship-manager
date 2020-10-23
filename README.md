@@ -151,6 +151,8 @@ class Subject:
 
 ```
 
+When using the Subject and Observer, you use their methods without realising their functionality has been implemented using rm.  See `tests/python/examples/test_observer.py` in the GitHub project for the unit tests for this code.
+
 ## Persistence
 
 The easiest approach to persistence is to use the built in `dumps` and `loads`
