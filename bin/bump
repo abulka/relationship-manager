@@ -3,7 +3,7 @@
 #bumpversion --current-version 1.0.0 patch setup.py relmgr/__init__.py
 
 # Update this version number to what you bumped to, after you bump
-bumpversion --allow-dirty --current-version 2.0.1 patch setup.py relmgr/__init__.py
+bumpversion --allow-dirty --current-version 2.0.2 patch setup.py relmgr/__init__.py
 
 cat relmgr/__init__.py | grep __version__
 echo

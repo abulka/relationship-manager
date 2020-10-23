@@ -1,4 +1,8 @@
-echo Remember to bump the version number, probably the patch, using the bump script
+# Bump the version number, probably the patch, using the bump script
+bump
+
+# rebuild docs
+pdoc --html --output-dir docs --force relmgr examples.python
 
 #pip install twine
 #pip install wheel
@@ -13,3 +17,5 @@ echo To release do one of:
 
 echo "twine upload --repository-url https://test.pypi.org/legacy/ dist/*"
 echo "twine upload dist/*"
+echo
+echo remember to edit bin/bump and change the number to above, to be ready for next time

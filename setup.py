@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="relationship-manager",
-    version="2.0.1",
+    version="2.0.2",
     description="Lightweight Object Database, manages relationships between classes",
     long_description=README,
     long_description_content_type="text/markdown",

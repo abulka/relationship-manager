@@ -36,7 +36,7 @@ Lightweight Object Database Class - API.
 from relmgr.relationship_manager import RelationshipManager
 
 # Version of relationship-manager package
-__version__ = &#34;2.0.1&#34;
+__version__ = &#34;2.0.2&#34;
 
 __all__ = [&#34;RelationshipManager&#34;]  # support &#34;from relmgr import *&#34;&#34; syntax</code></pre>
 </details>
@@ -152,24 +152,28 @@ faster performance using Python <code>lru_cache</code> technology
         &#34;&#34;&#34;
         return self.rm._find_objects(source, target, None)
 
-    def enforce(self, relId, cardinality, directionality=&#34;directional&#34;):
+    def enforce(self, rel_id, cardinality, directionality=&#34;directional&#34;):
         &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships (in the case of 
         &#39;bidirectional&#39; relationships), and by overwriting existing relationships in the case
         of &#39;onetoone&#39; cardinality.
 
-        cardinality:
-            - &#34;onetoone&#34; - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
-            - &#34;onetomany&#34; - extinguish old &#39;source&#39; before adding a new relationship
-            - &#34;manytomany&#34; (not implemented)
+        `rel_id`: the name of the relationship - either an integer or string.
 
-        directionality:
-            - &#34;directional&#34; - the default, no special enforcement
-            - &#34;bidirectional&#34; - when calling `RelationshipManager.add_rel(source, target)`
-            causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
-            but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
-            Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
+        `cardinality`:
+
+        - `&#34;onetoone&#34;` - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
+        - `&#34;onetomany&#34;` - extinguish old &#39;source&#39; before adding a new relationship
+        - `&#34;manytomany&#34;` (not implemented)
+
+        `directionality`:
+        
+        - `&#34;directional&#34;` - the default, no special enforcement
+        - `&#34;bidirectional&#34;` - when calling `RelationshipManager.add_rel(source, target)`
+        causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
+        but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
+        Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
         &#34;&#34;&#34;
-        self.rm.enforce(relId, cardinality, directionality)
+        self.rm.enforce(rel_id, cardinality, directionality)
 
     def dumps(self) -&gt; bytes:
         &#34;&#34;&#34;Dump relationship tuples and objects to pickled bytes.
@@ -335,44 +339,53 @@ The <code>objects</code> attribute and all objects stored therein
 </details>
 </dd>
 <dt id="relmgr.RelationshipManager.enforce"><code class="name flex">
-<span>def <span class="ident">enforce</span></span>(<span>self, relId, cardinality, directionality='directional')</span>
+<span>def <span class="ident">enforce</span></span>(<span>self, rel_id, cardinality, directionality='directional')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Enforce a relationship by auto creating reciprocal relationships (in the case of
 'bidirectional' relationships), and by overwriting existing relationships in the case
 of 'onetoone' cardinality.</p>
-<p>cardinality:
-- "onetoone" - extinguish both old 'source' and 'target' before adding a new relationship
-- "onetomany" - extinguish old 'source' before adding a new relationship
-- "manytomany" (not implemented)</p>
-<p>directionality:
-- "directional" - the default, no special enforcement
-- "bidirectional" - when calling <code><a title="relmgr.RelationshipManager.add_rel" href="#relmgr.RelationshipManager.add_rel">RelationshipManager.add_rel()</a>(source, target)</code>
+<p><code>rel_id</code>: the name of the relationship - either an integer or string.</p>
+<p><code>cardinality</code>:</p>
+<ul>
+<li><code>"onetoone"</code> - extinguish both old 'source' and 'target' before adding a new relationship</li>
+<li><code>"onetomany"</code> - extinguish old 'source' before adding a new relationship</li>
+<li><code>"manytomany"</code> (not implemented)</li>
+</ul>
+<p><code>directionality</code>:</p>
+<ul>
+<li><code>"directional"</code> - the default, no special enforcement</li>
+<li><code>"bidirectional"</code> - when calling <code><a title="relmgr.RelationshipManager.add_rel" href="#relmgr.RelationshipManager.add_rel">RelationshipManager.add_rel()</a>(source, target)</code>
 causes not only the primary relationship to be created between 'source' and 'target',
 but also auto creates an additional relationship in the reverse direction between 'target' and 'source'.
-Also ensures both relationships are removed when calling <code><a title="relmgr.RelationshipManager.remove_rel" href="#relmgr.RelationshipManager.remove_rel">RelationshipManager.remove_rel()</a></code>.</p></div>
+Also ensures both relationships are removed when calling <code><a title="relmgr.RelationshipManager.remove_rel" href="#relmgr.RelationshipManager.remove_rel">RelationshipManager.remove_rel()</a></code>.</li>
+</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def enforce(self, relId, cardinality, directionality=&#34;directional&#34;):
+<pre><code class="python">def enforce(self, rel_id, cardinality, directionality=&#34;directional&#34;):
     &#34;&#34;&#34;Enforce a relationship by auto creating reciprocal relationships (in the case of 
     &#39;bidirectional&#39; relationships), and by overwriting existing relationships in the case
     of &#39;onetoone&#39; cardinality.
 
-    cardinality:
-        - &#34;onetoone&#34; - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
-        - &#34;onetomany&#34; - extinguish old &#39;source&#39; before adding a new relationship
-        - &#34;manytomany&#34; (not implemented)
+    `rel_id`: the name of the relationship - either an integer or string.
 
-    directionality:
-        - &#34;directional&#34; - the default, no special enforcement
-        - &#34;bidirectional&#34; - when calling `RelationshipManager.add_rel(source, target)`
-        causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
-        but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
-        Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
+    `cardinality`:
+
+    - `&#34;onetoone&#34;` - extinguish both old &#39;source&#39; and &#39;target&#39; before adding a new relationship
+    - `&#34;onetomany&#34;` - extinguish old &#39;source&#39; before adding a new relationship
+    - `&#34;manytomany&#34;` (not implemented)
+
+    `directionality`:
+    
+    - `&#34;directional&#34;` - the default, no special enforcement
+    - `&#34;bidirectional&#34;` - when calling `RelationshipManager.add_rel(source, target)`
+    causes not only the primary relationship to be created between &#39;source&#39; and &#39;target&#39;,
+    but also auto creates an additional relationship in the reverse direction between &#39;target&#39; and &#39;source&#39;.
+    Also ensures both relationships are removed when calling `RelationshipManager.remove_rel`.
     &#34;&#34;&#34;
-    self.rm.enforce(relId, cardinality, directionality)</code></pre>
+    self.rm.enforce(rel_id, cardinality, directionality)</code></pre>
 </details>
 </dd>
 <dt id="relmgr.RelationshipManager.find_rels"><code class="name flex">
