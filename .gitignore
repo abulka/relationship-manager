@@ -51,3 +51,6 @@ docs/_build/
 
 # pdocs documentation
 html/
+
+# due to windows and mac differences, need to keep this out of git
+.vscode/settings.json
