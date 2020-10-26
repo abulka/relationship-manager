@@ -7,3 +7,15 @@ C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\obj\Debug\Tests.dll
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Tests\obj\Debug\Tests.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\obj\Debug\Tests.csprojAssemblyReference.cache
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\obj\Debug\Tests.csproj.CoreCompileInputs.cache
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\obj\Debug\Tests.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\obj\Debug\Tests.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Tests.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Tests.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Relationship Manager Interfaces.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Relationship Manager Turbo.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Relationship Manager Interfaces.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\bin\Debug\Relationship Manager Turbo.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Tests\obj\Debug\Tests.csproj.CopyComplete

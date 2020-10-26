@@ -7,3 +7,14 @@ C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\Speed Trials 01.exe
 C:\Documents and Settings\Andy\Desktop\RelationshipManager56\Turbo RM Source and Tests - VS2005\Speed Trials 01\obj\Debug\Speed Trials 01.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Speed Trials 01.exe
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Speed Trials 01.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Relationship Manager Interfaces.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Relationship Manager Turbo.dll
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Relationship Manager Interfaces.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\bin\Debug\Relationship Manager Turbo.pdb
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\obj\Debug\Speed Trials 01.csprojAssemblyReference.cache
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\obj\Debug\Speed Trials 01.csproj.CoreCompileInputs.cache
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\obj\Debug\Speed Trials 01.csproj.CopyComplete
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\obj\Debug\Speed Trials 01.exe
+C:\Users\Andy\Devel\relationship-manager\relmgr_dotnet\csharp\Speed Trials 01\obj\Debug\Speed Trials 01.pdb

@@ -332,11 +332,11 @@ In this Github repository there are several other implementations of Relationshi
 
 ## C#
 
-Very fast implementation for .NET - has been used in a commercial project. Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio.
+Very fast implementation for .NET - has been used in a commercial project. ~~Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio~~. **done! updated to latest Visual Studio Communitry edition 2019 and .NET framework 4**
 
 ## Boo
 
-The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and perfectly usable, however the C# implementation is much faster.
+The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and presumably perfectly usable?, however the C# implementation is much faster because of a caching system.
 
 ## Java
 
