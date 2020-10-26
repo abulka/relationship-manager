@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Turbo"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{1D2D6383-C4FB-4CA9-BE3F-9027384BAD2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Interfaces", "..\Relationship Manager Interfaces\Relationship Manager Interfaces.csproj", "{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed Trials 01", "Speed Trials 01\Speed Trials 01.csproj", "{274A1D53-780A-4620-AF4F-072D8B0FF08F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Interfaces", "Relationship Manager Interfaces\Relationship Manager Interfaces.csproj", "{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{1D2D6383-C4FB-4CA9-BE3F-9027384BAD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D2D6383-C4FB-4CA9-BE3F-9027384BAD2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D2D6383-C4FB-4CA9-BE3F-9027384BAD2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{274A1D53-780A-4620-AF4F-072D8B0FF08F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{274A1D53-780A-4620-AF4F-072D8B0FF08F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{274A1D53-780A-4620-AF4F-072D8B0FF08F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{274A1D53-780A-4620-AF4F-072D8B0FF08F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

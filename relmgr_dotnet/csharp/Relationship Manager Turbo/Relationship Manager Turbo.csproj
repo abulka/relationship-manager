@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Relationship Manager Interfaces">
+      <HintPath>..\Relationship Manager Interfaces\bin\Debug\Relationship Manager Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -48,12 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScrapsCode.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Relationship Manager Interfaces\Relationship Manager Interfaces.csproj">
-      <Project>{4940FF4A-B1BE-408B-9ABD-A7623E77EEBC}</Project>
-      <Name>Relationship Manager Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
