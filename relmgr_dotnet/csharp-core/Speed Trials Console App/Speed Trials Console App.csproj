@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Speed_Trials_Console_App</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Relationship Manager Interfaces\Relationship Manager Interfaces.csproj" />
+    <ProjectReference Include="..\Relationship Manager\Relationship Manager Turbo.csproj" />
+  </ItemGroup>
+
+</Project>
