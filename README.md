@@ -332,7 +332,11 @@ In this Github repository there are several other implementations of Relationshi
 
 ## C#
 
-Very fast implementation for .NET - has been used in a commercial project. ~~Note that the Visual Studio 2005 projects/solutions need updating to a more recent version of Visual Studio~~. **done! updated to latest Visual Studio Communitry edition 2019 and .NET framework 4**
+Very fast implementation for .NET - has been used in a commercial project.
+- `csharp-net4` is uses the .NET 4 framework.
+- `csharp-netcore` is the same code, using the new .NET Core 3.1 framework.
+ 
+Note that the legacy solution file is in `csharp-net4\Turbo RM Solution.sln` whereas the .NET Core solution file is in `csharp-netcore\Relationship Manager\Relationship Manager.sln`.
 
 ## Boo
 
