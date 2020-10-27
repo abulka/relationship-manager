@@ -457,6 +457,63 @@ will raise an exception if relationshipId is an empty string.  TODO: Presumabl
 
 TODO: The use of "\*" as relationship id which matches any relationship needs to be verified in the C# and Java implementations, (not sure its implemented or needed) so please disregard the following comment for now: ~~All other functions (except for `AddRelationship`) can pass either an empty string or "\*" as the `relationshipId`, which means you are searching for any relationship at all.  You would usually only want to do this if there is only _one_ relationship between class X and class Y, then your `P` and `NR` calls can specify "\*" as the `relationshipId` in order to match any relationship between these two objects.  Alternatively, you can use relationship manager's overloaded versions of all its routines (except for `AddRelationship`) which don't take a `relationshipId` where `relationshipId` defaults to "\*".~~
 
+### C# Usage
+
+In your project, add references to
+
+![Adding refs](http://www.andypatterns.com/files/85941233059578rmdotnetRefs1.png)
+
+and in your code add the using clauses:
+
+```csharp
+using RelationshipManager.Interfaces;
+using RelationshipManager.Turbo;
+```
+
+There are a number of directories in the project, but you really only need to reference the two dll's 
+
+```
+Relationship Manager Interfaces.dll
+Relationship Manager Turbo.dll
+```
+
+to use Relationship Manager.
+
+#### Example 1
+
+```csharp
+private IRelationshipManager rm;
+rm = new RelationshipMgrTurbo();
+rm.AddRelationship('a', 'b', "rel1");
+IList list = rm.FindObjectsPointedToByMe('a', "rel1");
+Assert.AreEqual(list[0], 'b');
+```
+
+#### Example 2
+
+```csharp
+private IRelationshipManager rm;
+rm = new RelationshipMgrTurbo();
+rm.AddRelationship('a', 'b', "rel1");
+rm.AddRelationship('a', 'c', "rel1");
+rm.AddRelationship('a', 'z', "rel2");
+IList list;
+list = rm.FindObjectsPointedToByMe('a', "rel1");
+char[] expected = {'b', 'c'};
+Assert.AreEqual(list.ToString(), new ArrayList(expected).ToString());
+list = rm.FindObjectsPointedToByMe('a', "rel2");
+Assert.AreEqual(list[0], 'z');
+```
+
+#### Other C# examples
+
+Study the unit tests to see how to drive this library even further.
+
+### UML for C#
+
+![UML class diagram](http://www.andypatterns.com/files/60481233059254rmdotnetuml1.png)
+UML for the C# version of Relationship Manager.
+
 # Resources
 
 - Full [API documentation](https://abulka.github.io/relationship-manager/relmgr/index.html).
