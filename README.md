@@ -326,29 +326,29 @@ You may want to google for other more professional [Object Databases](https://en
 
 However most of these need a backing SQL database - Relationship Manager does not, which may be a benefit - no databases to set up - just get on with coding.
 
-# Other implementations of Relationship Manager 
+# Other language implementations of Relationship Manager 
 
-In this Github repository there are several other implementations of Relationship Manager. Their APIs are not the latest however - the methods names have evolved - the Python implementation is the gold standard API and implementation.
+In this Github repository there are several other implementations of Relationship Manager. Currently only the Python implementation uses the newer v2 API and implementation. The C# and Java implementations use the v1 API.
+
+The C# and Java implementations have a strict, typed API interface to talk to `IRelationshipManager`.
 
 ## C#
 
 Very fast implementation for .NET - has been used in a commercial project.
 - `csharp-net4` is uses the .NET 4 framework.
-- `csharp-netcore` is the same code, using the new .NET Core 3.1 framework.
+- `csharp-netcore` is the same code, using the new .NET Core 3.1 framework. This solution also loads and runs OK in [Visual Code for Mac](https://visualstudio.microsoft.com/vs/mac/).
  
 Note that the legacy solution file is in `csharp-net4\Turbo RM Solution.sln` whereas the .NET Core solution file is in `csharp-netcore\Relationship Manager\Relationship Manager.sln`.
 
 ## Boo
 
-The [boo language](http://boo-language.github.io/) for .NET is now dead, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and presumably perfectly usable?, however the C# implementation is much faster because of a caching system.
+The [boo language](http://boo-language.github.io/) for .NET is now deprecated, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and presumably perfectly usable?, however the C# implementation is much faster because of a caching system.
 
 ## Java
 
 A Java implementation.  Needs a bit of dusting off, but should run.
 
-Note that the C# and Java implementations have a slightly cleaner set of methods and a few extra methods - and also use a nice interface to talk to.  The method names are substantially the same though.
-
-### C# and Java API
+## C# and Java API
 
 > Note: C# and Java implementations use the original older v1 API, not the new v2 API implemented in Python, above.
 
@@ -370,8 +370,8 @@ public enum Directionality
 
 interface IRelationshipManager {
   void AddRelationship(object fromObj, object toObj, string relId);  
-  void AddRelationship(object fromObj, object toObj);  
-  void EnforceRelationship(string relId, Cardinality cardinality);  
+  void AddRelationship(object fromObj, object toObj);  // overloaded, uses a default relId
+  void EnforceRelationship(string relId, Cardinality cardinality);    // overloaded, uses a default directionality
   void EnforceRelationship(string relId, Cardinality cardinality, Directionality directionality);  
   IList FindObjectsPointedToByMe(object fromObj, string relId);  
   object FindObjectPointedToByMe(object fromObj, string relId);  
@@ -387,43 +387,75 @@ interface IRelationshipManager {
 }
 ```
 
+Both `from` and `to` (aka. `source` and `target`) are *your* object instances that you want to record a relationship between.
+After a Find... call you may need to `cast` to a type, as I think every object is stored as a `object` type. Relationship Manager really needs to use generics to avoid this. The Python implementation doesn't need to deal with this issue because it is dynamically typed.
+
 ### C# and Java abbreviated API
 
-The abbreviated API is more succinct, but is only recommended for unit tests.
+The abbreviated API is more succinct, but is only recommended for unit tests. In the abbreviated API:
+- `f` means `from` (or the more modern v2. API name of `source`).
+- `t` means `to` (or the more modern v2. API name of `target`). It is one of *your* object instances.
 
-| Return Type            | Function Name           | Short-hand |
-|-------------------|-----------------|------|
-| void | addRelationship(from, to, id) | R(f,t) |
-| void | removeRelationship(from, to, id) | NR(f,t) |
-| List | findObjectsPointedToByMe(from, id) | PS(f) |
-| List | findObjectsPointingToMe(to, id) | BS(t) |
-| void  | EnforceRelationship(id, cardinality, bidirectionality) | ER(id, c, bi) |
-| Object | findObjectPointedToByMe(fromMe, id, cast) | P(f) |
-| Object | findObjectPointingToMe(toMe, id, cast) | B(t) |
-| void | removeAllRelationshipsInvolving(object, id) | NRS(o) |
+```csharp
+public interface IRM
+{
+    object B(object toObj, string relId);
+    System.Collections.IList BS(object toObj, string relId);
+    void ER(string relId, Cardinality cardinality);
+    void ER(string relId, Cardinality cardinality, Directionality directionality);
+    void NR(object fromObj, object toObj, string relId);
+    void NRS(object obj, string relId);
+    object P(object fromObj, string relId);
+    System.Collections.IList PS(object fromObj, string relId);
+    void R(object fromObj, object toObj, string relId);
+    bool QR(object fromObj, object toObj, string relId);
+    int Count();
+    int CountRelationships(string relId);
+    void Clear();
+}
+```
 
-For example `Object` is just one of *your* objects which you added with `addRelationship()`.
+### API v1 and v2 equivalence table
 
-Re `cast` that's just in case you need to cast to a type. This might have been possible in the [boo language](http://boo-language.github.io/) for .NET (which is now dead). Please adapt to your language as needed. Dynamic languages don't need casting.
+This table also shows the equivalent modern Python v2 API call for each method in the C#/Java v1 API.
+
+| Return Type            | C#/Java Method (v1 API) | Abbreviated (v1) | Python (v2 API)            |
+|------------------------|-------------------------|------------------|----------------------------|
+| void   | `AddRelationship`(from, to, id)       | `R`(f, t, id)        | `add_rel`(source, target, rel_id=1) -> None |
+| void   | `RemoveRelationship`(from, to, id)    | `NR`(f, t, id)       | `remove_rel`(source, target, rel_id=1) -> None |
+| void   | `RemoveAllRelationshipsInvolving`(object, id) | `NRS`(o, id) | `remove_rel`(source, target, rel_id=1) -> None |
+| List   | `FindObjectsPointedToByMe`(from, id)  | `PS`(f, id)          | `find_targets`(source, rel_id=1) -> List |
+| object | `FindObjectPointedToByMe`(from, id)   | `P`(f, id)           | `find_target`(source, rel_id=1) -> object |
+| List   | `FindObjectsPointingToMe`(to, id)     | `BS`(t, id)          | `find_sources`(target, rel_id=1) -> List |
+| object | `FindObjectPointingToMe`(to, id)      | `B`(t, id)           | `find_source`(target, rel_id=1) -> object |
+| void   | `EnforceRelationship`(id, cardinality, bidirectionality) | `ER`(id, c, bi) | `enforce`(rel_id, cardinality, directionality="directional") |
+| bool   | `DoesRelIdExistBetween`(from, to, id) | `QR`(f, t, id)       | `is_rel`(source, target, rel_id=1) -> bool |
+| IList  | `FindRelIdsBetween`(from, to)         | -                    | `find_rels`(self, source, target) -> List |
+| void   | `Clear`()                             | `Clear`()            | `clear`(self) -> None |
+| void   | `Count`()                             | `Count`()            | - |
+| void   | `CountRelationships`(id)              | `CountRelationships`(id) | - |
+|        | -                                     | -                    | `relationships` *property* |
+|        | -                                     | -                    | `dumps`() -> bytes |
+|        | -                                     | -                    | `loads`(asbytes: bytes): -> RelationshipManager |
 
 ### C# and Java - Finding just one object
 
-The pair of find methods `FindObjectPointedToByMe()` and `FindObjectPointedToByMe()` only find _one_ object (even though there may be more), and cast it to the appropriate type.  This is a commonly used convenience method - the more painful way would be to use `FindObjectsPointingToMe()` and just grab the first object from the returned list.
+The pair of find methods `FindObjectPointedToByMe()` and `FindObjectPointedToByMe()` only find _one_ object (even though there may be more).  This is a commonly used convenience method - the more painful way would be to use `FindObjectsPointingToMe()` and just grab the first object from the returned list.
 Exactly which object is found is undefined, but would typically be the first one added.
 
 ### C# and Java - Relationship Id
 
 What to use as the Relationship Id?
 
-This is traditionally either an integer or a string in the Python implementation.  I have chosen to use a string in the C# and Java implementations, since you can describe relationships easily in this way rather than having to map from an integer back to some meaningful description.
+This is traditionally either an `integer` or a `string` in the Python implementation.  I have chosen to only use a `string` type in the C# and Java implementations, since you can describe relationships easily in this way rather than having to map from an integer back to some meaningful description.
 
-```java
-rm.addRelationship(fromObject, toObject, relationshipId)
+```csharp
+rm.AddRelationship(fromObject, toObject, relationshipId)
 ```
 
-will raise an exception if relationshipId is an empty string.  
+will raise an exception if relationshipId is an empty string.  TODO: Presumably an empty relationship id should be treated like in Python, as the default relationship.
 
-All other functions (except for `addRelationship`) can pass either an empty string or "\*" as the `relationshipId`, which means you are searching for any relationship at all.  You would usually only want to do this if there is only _one_ relationship between class X and class Y, then your P and NR calls can specify "\*" as the `relationshipId` in order to match any relationship between these two objects.  Alternatively, you can use relationship manager's overloaded versions of all its routines (except for `addRelationship`) which don't take a `relationshipId` where `relationshipId` defaults to "\*".
+TODO: The use of "\*" as relationship id which matches any relationship needs to be verified in the C# and Java implementations, (not sure its implemented or needed) so please disregard the following comment for now: ~~All other functions (except for `AddRelationship`) can pass either an empty string or "\*" as the `relationshipId`, which means you are searching for any relationship at all.  You would usually only want to do this if there is only _one_ relationship between class X and class Y, then your `P` and `NR` calls can specify "\*" as the `relationshipId` in order to match any relationship between these two objects.  Alternatively, you can use relationship manager's overloaded versions of all its routines (except for `AddRelationship`) which don't take a `relationshipId` where `relationshipId` defaults to "\*".~~
 
 # Resources
 
