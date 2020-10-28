@@ -1,0 +1,352 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Untitled</title>
+    <meta name="author" content="Andy Bulka">
+
+    <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+</head>
+
+<body>
+    <!-- <script src="js/scripts.js"></script> -->
+
+    <h2>Relationship Manager - Discussion</h2>
+    <p>Before you read this discussion...</p>
+    <p>Remember that the <em>essential intent</em> of the Relationship Manager design pattern is that relationships are managed by something smart and central rather than distributed across millions of individual classes, with their individual implementations.
+        The classes using RM still contain the business logic - they just call out to the RM to do all the mundane dirty work of adding and removing pointers etc.  I think in the end there are similarities between RM and a database of relationships. The
+        API of RM is just a sort of SQL.</p>
+    <p>RM is not about caching - though this is becomes an important issue, as repeated calls to look up a relationship can be slower than looking up a pointer.  The latest C# implementation has some built in caching that helps improve performance.</p>
+    <p><strong>Andy Bulka writes:</strong></p>
+    <p>Hi again Peter and Nat (and now Don and James),</p>
+    <p>I've had some further thoughts about <a title="Relationship Manager Pattern" href="http://www.andypatterns.com/index.php?cID=44">Relationship Manager Pattern</a> ( RM ) which - in my mind - has escalated into a broader debate about the impedance mismatch
+        between databases and objects in memory, and to the fascinating similarity between an in-memory RM and a disk based relational database.</p>
+    <p>If you are not interested in this post, then please safely ignore - and aplogies for clogging the airwaves. I'm taking this as an opportunity to document my recent thoughts here - I would, however be most interested in any thoughts and feedback on
+        this stuff. I'll try to be as succinct as I can:</p>
+    <p><strong>PRELUDE</strong>:  RM (Relationship Manager) pattern describes an in-memory, mediator like object which stores the relationships between objects. So rather than implementing pointers and TLists and backpointers inside each class, we have the
+        classes call the API of a central, in-memory RM.</p>
+    <p> </p>
+    <table style="width: 100%;" border="0" cellpadding="3" bgcolor="#c0c0c0">
+        <tbody>
+            <tr>
+                <td width="100%">
+                    <a id="onelineVanillaRM" name="onelineVanillaRM"></a><strong>The big benefit of this solution</strong>
+                    <p>Your classes should now implement relationships with simple one line calls e.g.</p>
+                    <blockquote>
+                        <pre><strong>class Customer</strong>:<br />    <strong>def AddOrder</strong>(self, order):<br />        RelMgr.AddRelationship( From=self, To=order,<br />                                       RelId=CUSTORD )
+    </pre>
+                    </blockquote>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p> </p>
+    <p>rather than owning and later freeing a TList and more horribly, maintaining backpointers from Order objects back to their Customer, and keeping all this stuff in sync, with deletion notification, persistence issues etc. Yuk. Fast and we do it every
+        day, but lots of stuff to keep track of vs. the alternative approach of simple *one line calls* and no local data/Tlists/pointers to manage.</p>
+    <p>1. <strong>OBSERVATION</strong>:  RM stores/mediates the *relationships* between objects, but does not mediate the *behaviour* between those objects (behaviour == methods of the classes). Behaviour remains localised in the methods of the business
+        object classes / classes of your model. Thus RM is more like a database of relationships rather than a strict mediator (which apparently according to GOF, mediates *behaviour*). Thanks to Nat for this point.</p>
+    <p>2. <strong>BENEFIT</strong>: By keeping the behaviour *out* of the RM (and thus preventing the RM from being a strict Mediator Pattern - mediating behaviour), the benefit is that classes still look like those in traditional OO designs - classes still
+        have methods which gives each class its behaviour. The RM is thus simply a convenient way to *implement* relationship wiring, and is not a whole new way of designing classes.</p>
+    <p>** speculation begins .... **</p>
+    <p>3. <strong>A BRAIN WAVE &amp; SOME HISTORY</strong>: The difference between Relational Databases and OO designs is the addition of behaviour to the classes. DB tables don't have behaviour (most people say this is a deliberate and good thing) - classes
+        in memory DO have behaviour/methods.</p>
+    <p>NOTE: Hence is born the impedance mismatch, since 'dead behaviourless data' in RDMS's needs to be mapped to equivalent classes/objects in memory which *do* have behaviour.</p>
+    <p>Because I have so far repeatedly pointed out that RM takes great pains NOT to take on the responsibility of mediating behaviour, then RM is conceptually like a relational database, which too, by design, refuses to take on the responsibility of modelling
+        behaviour.
+    </p>
+    <p>Thus both RM and relational DB's refuse to model behaviour - for different reasons (and lets forget about stored procedures and triggers for the moment...). RM refuses to house behaviour because it exists for a different intent - to help manage wiring
+        relationships between objects in memory. DB's refuse to house behaviour so that many varied pieces of software can behave differently yet operate with the same cold hard standard database entities.</p>
+    <p>4. <strong>SPECULATION</strong>: If we look at the [ variation/version of ] RM which also stores the objects/entities as well as the relationships - then the RM simply becomes an in-memory relational database!! But because it is in memory, it can
+        refer to and store *real objects* (with their behaviour) and the relationships between real objects.</p>
+    <p>5. <strong>BENEFIT</strong>: An in-memory relational database (RM) lets us use relational language e.g. SQL-like statements or an equivalent function call API to do the hard work of looking after the wiring and querying of the relationship between
+        objects. ARGUABLY the traditional use of pointers, back-pointers and TLists etc. is really trying to do similar work to that of a relational database, and this is reinventing the wheel. Sure, pointers and TLists are efficient but they are also
+        painstaking since pointers and TLists have to be manually written and debugged for every class. Why reinvent the relational database wheel with buggy pointers - use an efficiently implemented, in-memory relational database / Relationship Manager
+        instead.
+    </p>
+    <p>NOTE: I'm not suggesting throwing away pointers and TLists etc. for everything you program - just throw them away for the formal relationships between your business objects in your OO model. Though you could have another/[the same?] RM that looked
+        after other more mundane wirings in your software...e.g. observer relationships, etc. ;-)</p>
+    <p>6. <strong>PERSISTENCE IS EASY</strong>: An in memory database like RM still needs to be persisted, which is usually easy if you stream it all out. If RM is implemented as a TComponent, then streaming is trivial, and Delphi's pointer referencing reconstruction
+        will magically recreate the RM with all the objects and relationships in memory (each relationship is a TComponent owned by RM, each business object is a descendant of TComponent and also owned by RM). Python is similarly easy to stream.</p>
+    <p>7. <strong>PERSISTENCE FOR SMALL DATABASES IS A LITTLE HARDER</strong> - If we want to store the RM as a traditional disk based DB, then we have the mapping problem / impedance mismatch problem all over again. We would have to read the entire DB into
+        memory (into our RM) and later back out again. <strong>SOLUTION</strong>: Invent an algorithm which uses a combination of a schema of some sort (plus perhaps runtime type information) to do the mapping automagically. Or code it by hand. Furthermore,
+        if you want the resiliency of writing to DB often (not just when the user consciously saves everything) then you get even further into the traditional complexities of 'dirty' flags and a complex persistence layer.</p>
+    <p>8. <strong>PERISTANCE FOR LARGE DATABASES IS HARD</strong>: - When you can't or don't want to read all the DB into a RM in memory, then a simple RM fails. When you have multiple users and client server architectures, then simple RM fails.</p>
+    <h3>Summary</h3>
+    <p>Congratulations if you have gotten this far!</p>
+    <p>RM is a useful class. I guess RM is ideal when no external traditional DB representation is required. RM can also be used with DB's that can be read entirely into memory, though traditional persistence layers are still then required.</p>
+    <p>If you like it, RM is a useful thing to have in memory - but it doesn't solve the persistence layer to DB problem, though it greatly simplifies the persistence to stream problem.</p>
+    <p>The fact that an in-memory RM is so similar to a disk based DB is fascinating to me - implementing wiring between objects in memory is done by a RM just like the wiring between objects [ relationships ] is maintained in a disk based DB.</p>
+    <p>-Andy</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <p>At the last <a href="http://www.melbournepatterns.org/" target="_blank">melb patterns meeting</a>, Nat was presenting Mediator pattern. I gave an impromptu sketch of the Relationship Manager as an example of a Mediator.  Later that evening, over a
+        beer, Nat suggested that RM wasn't strictly a mediator since the collegue objects still 'know about' each other. A mediator like a Delphi form on the other hand ties components together *without* the colleague components (e.g. a TButton and a
+        TEdit) knowing about each other. </p>
+    <p>I guess I would respond that in Relationship Manager (RM), even though the colleague objects admittedly DO know about each other (e.g. a customer knows about its orders etc.) they DO NOT know the nitty details of how to get at each other (they instead
+        as the RM). Thus even though there is not 'total and ultimate' mediation going on - there is nevertheless mediation of the details of how to refer to each other. Its still an important level of mediation, even if it aint total.</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <p><br /> &gt; Quoting Peter Hinrichsen :<br /> &gt;<br /> &gt; &gt; Hello Andy,<br /> &gt; &gt;<br /> &gt; &gt; Your Relationship Manager has been gaining some popularity among the<br /> &gt; &gt; tiOPF users. <a href="http://www.techinsite.com.au/tiOPF/MailingList.htm">http://www.techinsite.com.au/tiOPF/MailingList.htm</a><br
+        /> &gt; &gt; Here is some of the chat.<br /> &gt; &gt;<br /> &gt; &gt; Rgs,<br /> &gt; &gt;<br /> &gt; &gt; Peter.<br /> &gt; &gt;<br /> &gt; &gt; &gt;Hi Martin<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;The Relationship Manager is intriguing. An
+        immediate benefit from<br /> &gt; using it would be simplication of a querying language - I've been struggling<br /> &gt; for some time over the issue of how you'd implement something like OCL<br /> &gt; over tiOPF without writing a heap of visitors.
+        This might be the way to<br /> &gt; support it.<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;Cheers<br /> &gt; &gt; &gt;Tom<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;----- Original Message -----<br /> &gt; &gt; &gt;From:<br />        &gt; &gt; &gt;To:<br /> &gt; &gt; &gt;Sent: Thursday, March 14, 2002 11:59 PM</p>
+    <p>&gt; &gt; &gt;Subject: tiOPF-tiOPF question<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;<br /> &gt; &gt; &gt;&gt; Hello,<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt; here are some questions:<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt; Are
+        there any ideas to use a Relationship Manager as discussed at<br /> &gt; &gt; &gt;&gt; http://www.atug.com/andypatterns/rm.htm to decouple the<br /> &gt; &gt; &gt;&gt; dependences betweenpersistent objects?<br /> &gt; &gt; &gt;&gt;<br /> &gt;
+        &gt; &gt;&gt; Where is an entry point to separate the presentation-layer from<br /> &gt; &gt; &gt;&gt; the BOM anddo some interfacing like COM?<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt; The previous EMail with a decorator araound tPerObjList
+        is a very<br /> &gt; &gt; &gt;&gt; good idea, because there are some other points to optimize: Loading the list<br /> &gt; &gt; &gt;&gt; only as an integerlist of OIDs internally and do so, as when the objects<br /> &gt; &gt; &gt;&gt; completlyloaded,
+        and really load objects completely later on demand.<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt; Regards,<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt;<br /> &gt; &gt; &gt;&gt; Martin</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h2>Further Musings on Relationship Manager and Persistence</h2>
+    <p>by Andy Bulka (not emailed to anyone)</p>
+    <h3>On using a real relational database as a Relationship Manager</h3>
+    <p>I would love to somehow substitute something like Interbase/Firebird/MySQL for my RM, but the problem is DB's don't store real pointers/memory objects. And even if they did, memory pointers always change wheras object ID's in a DB don't.</p>
+    <blockquote>
+        <p>LATER THAT NIGHT, I GOT WHAT I WISHED FOR!!  Later that evening I discovered <a href="http://skunkweb.sourceforge.net/PyDO/"><strong>PyDO</strong></a> which seems to be just this sort of thing!! See ensuing discussion, <a href="http://www.atug.com/andypatterns/rm1.htm#PyDO">below</a>            &gt;&gt;</p>
+    </blockquote>
+    <p>Perhaps this is the problem *Object Oriented* Databases solve - allowing you to have an 'in-memory' DB (a relationship manager :-) where you can have real objects and pointers. The downside is that OO Databases are not traditional relational DB's
+        and their file formats are unique.</p>
+    <h3>On table ID's vs. Object pointers</h3>
+    <p>What about holding a separate mapping/dictionary, for each user, of memory objects to table/ID row. </p>
+    <p>Actually in traditional OO to DB persistence layers, memory objects have an attribute 'ID' which points to table/ID.  Keeping all this in a separate mappingdictionary might be inefficient, but it might give us some benefits I can't quite think of
+        right now.</p>
+    <p>An ID is an object address, and a foreign key is a pointer. So when we insert a new field into a database that has an auto-increment integer primary key, we often ask: what was the ID just allocated? This is the same as saying, what was the pointer
+        to the newly created object, as we do when we create a new instance of a class.</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h2>Discussion with James #1</h2>
+    <p>Quoting James Hutton <a href="mailto:Jhutton@au.mediacommand.com">Jhutton@au.mediacommand.com</a>:</p>
+    <p><strong>James:</strong> Elimination of backpointers strikes me as the most convincing benefit.</p>
+    <p><strong>Andy:</strong> Yes, in fact the chore and bugginess of maintaining backpointers triggered my investigations into this area in the first place :-)</p>
+    <p><strong>James:</strong> Why bother persisting to an RDB? As you say, it's not suitable for large amounts of data or multi-user situations, which are surely two of the main reasons you'd use an RDB in the first place. If you just persisted to a vanilla
+        disk file, wouldn't life be easier?</p>
+    <p><strong>Andy:</strong> Yep - I regularly stream RM to disk in both Delphi and Python. I haven't yet mapped a RM to a DB yet.</p>
+    <p><strong>James:</strong> Suppose you have (A, B) and (B, C). Then by implication you have (A, &gt; C). An RDB can show you that relationship. What about the RM?</p>
+    <p><strong>Andy:</strong> A slightly smarter RM could deduce these implied relationships - though I guess you would have to decide whether you wanted your RM to be making these deductions, or only storing the wirings that you explicitly add.</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h2>
+        <a id="PyDO" name="PyDO"></a>Discovery of PyDO - another example of RM?</h2>
+    <p>Late Last night I (Andy) was investigating object to relational database mappers. In one of the cleaner, simpler implementations <a href="http://skunkweb.sourceforge.net/PyDO">http://skunkweb.sourceforge.net/PyDO</a> you simply define a class and
+        supply a bit of extra info to the constructor about what connection/table/fields it represents. Then you can read/write the object attributes and <em>the in-memory object in turn queries the DB</em>.  Proxy Pattern?</p>
+    <p>When the object is initially created in memory, an SQL statement grabs the row info and populates the object. Subsequently accessing object attributes DOESN'T invoke an SQL statement - thus reads are cached, writes go straight out to the DB. Cool.
+        You get to use real objects, and the updating of the disk based DB goes on behind the scenes (SQL statements are created &amp; executed for you).</p>
+    <p>More interestingly....</p>
+    <p>The way the above OO-DB mapper handles relationships is RM :-)   The documentation for PyDO says:</p>
+    <blockquote>
+        <pre><a id="onelinePyDO" name="onelinePyDO"></a>Relations and PyDO<br />------------------<br />The way you do relations with PyDO is with methods. <br />For example, if we had a Files class which had an <br />field OWNER_ID which was a foreign key to the USERS <br />table, we could write a method for the Users object <br />like this (a one to many relation): 
+    </pre>
+        <pre>def getFiles(self): <br />    return Files.getSome(OWNER_ID = self['OID']) 
+    </pre>
+    </blockquote>
+    <p>Thus this is exactly the same 'one-line' call to a RM that the <a href="http://www.atug.com/andypatterns/RM.htm">RM pattern</a> talks about!! Remember that the big benefit of RM is that you code all your relationship accessing and setting methods
+        (e.g. getOrders, addOrder(order), getParent etc. etc.) as simple one line calls to a RM. Except in this case, each RM request gets converted into a SQL call to a DB on disk, rather than being handled solely by an in-memory RM.</p>
+    <h3>CONCLUSIONS:</h3>
+    <p>I believe therefore that this object to relational mapper PyDO (and possibly others like it) are implementations of the RM pattern, though they also implement the 'object-to-relational mapper' pattern.</p>
+    <p>These implementations replace a central, in-memory RM with other machinery (some smart base classes etc.) that talks to a real DB on disk/on a server. Thus the work of RM is done by a real, proper relational database :-) and the persistence / mapping
+        problem mostly disappears. :-o</p>
+    <p>The big benefit of RM is that you must code all your relationship accessing and setting methods as simple one line calls to a RM, which saves you work. An additional benefit (in light of these discoveries) is that by coding all your relationship accessing
+        and setting methods as simple one line calls to a RM, you potentially get automagical and immediate peristence to an external DB.</p>
+    <p>Thus I'm excited to conclude that in fact it looks like RM *can* scale up to big DB's.</p>
+    <p>As to whether this architecture can handle client server situations - I'm not so sure. I'm now looking at is how to notify the in-memory objects that their cached info is out of date or that they have been deleted by another user... And I've yet to
+        investigate locking issues...</p>
+    <p>cheers, Andy</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h2>Discussion with James #2</h2>
+    <p>Quoting James Hutton :</p>
+    <p><strong>James:</strong>  I'm not convinced that PyDO is an example of RM, because (in that  brief example at least) there is no central table of relationships.</p>
+    <p><strong>Andy:</strong>  The DB on disk is the central table of relationships.</p>
+    <p>The PyDO implementation of RM constantly refers (proxy pattern) to the 'relational' DB rather than trying to keep a copy of the relationships in memory.</p>
+    <p><strong>James:</strong>  Hmmmmmm, still not convinced. Consider these differences:   With PyDo, If I call user.getFiles() twice, I'll get two different sets of file objects, even though they represent the same files. With RM, I would get the same
+        file objects both times.</p>
+    <p><strong>Andy:</strong>  Yeah - pyDO creates new objects every time rather than returning existing objects. This needs to be fixed with a slightly smarter implementation of PyDO.</p>
+    <p>Adding a 'data manager' as described in <a href="http://www.python.org/workshops/1997-10/proceedings/shprentz.html">http://www.python.org/workshops/1997-10/proceedings/shprentz.html</a>   would: "After converting a row to an object, a data manager
+        will check its cache for an existing object with the same object ID. If the cache contains a matching object, the cached object is returned instead of the newly retrieved object. If the cache has no matching object, the newly retrieved object
+        is stored in the cache."</p>
+    <p>I have also written to PyDO's author and asked:</p>
+    <blockquote>
+        <p>What springs to mind [as an improvement needed by PyDO] is perhaps a caching system, so that the same objects get returned when appropriate. At the moment two calls to Employees.getSome() will return two lists containing totally different instances.
+            Maybe I could learn to work with this 'feature' and not worry too much about it - but then again, stray objects might get out of date and you never know when you should be doing a .refresh() on them. If only the database could notify each
+            PyDO object when it needs to be refreshed - that would be nice, and might allow multi user use, too. Thoughts?</p>
+        <p><a href="http://www.atug.com/andypatterns/rmpydo.htm">Read the response</a> from <a href="mailto:drew_csillag@yahoo.com">Drew Csillag</a>, the author of PyDO<strong>, who argues that a caching system is not necessarily the answer.</strong></p>
+    </blockquote>
+    <p><strong>James:</strong>  The (A,B) (B,C) =&gt; (A,C) thing is easy with PyDo, but hard with RM.</p>
+    <p><strong>Andy:</strong>  Right, a smarter RM could theoretically manage it, but I have to admit that I really wouldn't want to go down that pathway - i.e. re-implementing relational technology. But hey - these more complex sorts of relationships are
+        not what you represent on a UML diagram anyway, not directly anyway. UML diagrams just represent one to one, one to many, and many to many - anything smarter is derived/constructed out of from these basic relationship types. RM pattern only seeks
+        to model the minimum, basic relationship types - those that we have to painstakingly wire up every day. So the fact that PyDO (by using a traditional relationship database as it's RM) can do even more sophisticated things is merely a bonus.</p>
+    <p>*DON, THIS NEXT POINT SHOULD INTEREST YOU SINCE YOU HAVE COMPLAINED THAT YOU CANT READILY TAKE ADVANTAGE OF SQL SMARTS IN YOUR PURE OBJECT MODELLING*:</p>
+    <h3>
+        <a id="funkySQL" name="funkySQL"></a>Funky SQL</h3>
+    <p>Now when we need to do more complex relational stuff in our OO software e.g. (A,B) (B,C) =&gt; (A,C) or getQuarterlySalesFigures(region) or whatever, we usually have to write special methods/classes, data structures, lists and loops that painstakingly
+        pull together this info. Wheras a suitably groovy SQL statement could do the same job quickly and easily.</p>
+    <p><strong>SOLUTION</strong>: With PyDO, which uses a DB as a RM, you can write one line methods that use funky SQL to bring you the info you need, rather than hand coding algorithms etc. all the time. Its the best of both worlds, OO plus the power of
+        proven and mature relational DB technology.</p>
+    <p>
+        <a id="funkySQLComplication" name="funkySQLComplication"></a>Possible complication to this SOLUTION of using funky SQL as a substitute for lots of OO coding...:</p>
+    <blockquote>
+        <p>Even if you do get to leverage SQL from your OO program, what sort of objects are returned by the sql call? You have arbitrary number of 'columns' coming back, and there is no object that necessarily maps to the return result tuples/recordsets.</p>
+        <p>You could invent a new object for each type of returned result, and map manually. Automapping of the PyDO style might be a bit hard, but I need to study PyDO a bit more. This question is really interesting...</p>
+    </blockquote>
+    <table style="width: 100%;" border="1">
+        <tbody>
+            <tr>
+                <td align="center" width="33%"><strong>Type of Relationship Manager</strong></td>
+                <td align="center" width="33%"><strong>Benefit</strong></td>
+                <td align="center" width="34%"><strong>Notes</strong></td>
+            </tr>
+            <tr>
+                <td width="33%">'Vanilla' RM holding just basic relationship types</td>
+                <td width="33%">Simple one-line relationship methods calling a RM for info.
+                    <p>No wiring hassles.</p>
+                </td>
+                <td width="34%">A 'relationship method' is a method on a class that implements or services basic relationship types like one to one, one to many, and many to many e.g. getOrders, addOrder(order), getParent etc.</td>
+            </tr>
+            <tr>
+                <td width="33%">RM implemented as a proper relational DB (using pyDO style technology)</td>
+                <td width="33%">'funky SQL'
+                    <p>Simple one line sql calls to implement our more complex relationship methods. No complex algorithmic hassles in your object's methods. Let SQL do the dirty work.</p>
+                </td>
+                <td width="34%">[ A 'complex relationship method' is a method on a class like getQuarterlySalesFigures(region) ]
+                    <p>Note: see <a href="http://www.atug.com/andypatterns/rm1.htm#funkySQLComplication">issues to consider</a> to this funky sql idea.</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p> </p>
+    <p><strong>James:</strong>  RM needs code to transmogrify the relationships list into RDB tables (i.e. there's no DB table called "relationships" so you somehow need to translate the data). That's not an issue with PyDo.</p>
+    <p><strong>Andy:</strong>  Right, a traditional in-memory RM needs transmogrification/mapping layer to shovel its info into a DB. But its not an essential feature of RM's that they be divorced from DB's in this way. What is essential to the intent of
+        RM, is that relationships are managed by something smart and central rather than distributed across millions of individual classes, with their individual implementations.</p>
+    <p>Both an in-memory RM and a PyDO using an external DB as a RM satisfy this intent.</p>
+    <h3>
+        <a id="peristCache01" name="peristCache01"></a><strong>Persisting entities and relationships living in caches</strong></h3>
+    <p><strong>James:</strong>  Perhaps this will clarify my position:</p>
+    <p>Consider that example code which has a one-to-many between user and file.  If you needed frequent access to a user's files, you'd probably want to cache them, rather than reading them from the DB every time, as the getFiles() function does.</p>
+    <p>If you were to modify PyDo so that it caches the results of the read, then you end up with the original problem: either you spread the relationships over several objects and deal with backpointers, or you centralize them deal with relationship transmogrification.</p>
+    <p>So I see RM as something that deals with caches of persistent data, whereas PyDo is something that deals directly with the persistent data and so doesn't need RM.</p>
+    <p><strong>Andy:</strong>  (this response not emailed to James, as the conversation had hit a natural stopping point) 22-march-2002 - This last response by James is quite challenging and requires some clear thinking to respond to.  Here are some initial
+        responses, which I need to consolidate at some later stage:</p>
+    <p>Does the introduction of caching really re-introduce the problem of distributing relationships over several objects or in a central place, like a RM?  Yes, I think that is right.</p>
+    <p>Does the centralization of relationships in cache/memory necessarily introduce the problem of transmogrification (having to persist the relationship info to disk) ?  I don't think so.</p>
+    <h3>Does the centralization of relationships in cache/memory necessarily introduce the problem of transmogrification?</h3>
+    <p>The centralization of relationships in cache/memory, the way a plain, vanilla RM does, does not introduce the problem of transmogrification.  The problem of persistence is there ALWAYS - whether the relationships are spread over the objects, or whether
+        they are centralised in a RM - we still have the job of object to database mapping / persistence /transmogrification.  And in fact, RM makes it <em>easier</em> to do your persistence (see original paper, <a href="http://www.atug.com/andypatterns/RM.htm#persistence1">section on persistence</a>).
+        Yes, a PyDO which did caching would also have to transmogrify.  Interestingly, a PyDO which doesn't cache talks directly to the DB, and doesn't need to transmogrify. </p>
+    <p>So I think that transmogrification / persistence / OO-DB impedance mismatch mapping is a different issue to RM.  RM is not about caching, it is about centralising relationships. Whether you deal with auto caches, in-memory explicitly maintained caches/objects
+        or directly with a DB on disk, its still RM.  PyDO is simply a version of RM that also solves the problem of persistence, since it doesn't cache and thus talks directly to the DB.</p>
+    <h3>Does the introduction of caching really re-introduce the problem of distributing relationships over several objects or in a central place?</h3>
+    <p>I guess that as soon as you make the distinction between an OO object and its persistent state in a DB, then the OO object can be seen as a type of 'cache'.  Look at J2EE entity beans - these are in memory copies of the table data entities.  In fact
+        the whole idea of programming with objects in memory could be viewed as programming inside a memory cache!! </p>
+    <p>'Caching X' just means having another representation of X (see  <a href="http://www.atug.com/andypatterns/TI.htm">Transformation Interface Pattern</a>) and transmogrification will need to occur to translate/map the info from one state to the other.
+        Talking about the "transmogrification of relationship information" and of object information from and to the cache is just another way of saying we have to persist and map objects &amp; their relationships into another format - the database format
+        (in this case). </p>
+    <p>And if you want to know how each 'cached' OO object  relates to each other, then you need to keep this information somewhere too - either in each object, as appropriate, or in a central RM that also is native to that cache / memory.</p>
+    <h3>Is RM merely something that deals with caches of persistent data?</h3>
+    <p>Regarding the statement: "I see RM as something that deals with caches of persistent data" - I would say that RM's principle of centralised relationship management is not <em>just</em> an issue that occurs with caches.  For example, traditional relational
+        databases are relationship managers.  The relationships are spread over a number of tables, but the database as a whole is the RM.  Our SQL talks to the central RM, the relational database.</p>
+    <p>PyDO by talking to a <strong>RM implemented as a DB</strong> doesn't involve a cache, thus RM doesn't just deal with caches.</p>
+    <p>Ok you can dispute that a RM <strong>implemented as a DB</strong> is a true RM.   But it is, because the definition of RM is that relationships are managed by something smart and central rather than distributed across millions of individual classes,
+        with their individual implementations.  A DB is smart and central, and manages relationships.</p>
+    <p>The other signature  of a true RM is the fact that your methods that deal with relationships cease to have private and custom implementations of relationship code (e.g. lists of pointers to other objects etc.) but insead have one line calls to a central
+        RM.   Both a vanilla RM and a PyDO solution (with the RM as a database on disk) have their relationship methods coded in terms of a central RM.  Compare vanilla <a href="http://www.atug.com/andypatterns/rm1.htm#onelineVanillaRM">RM's implementation</a>        of a relationship method with <a href="http://www.atug.com/andypatterns/rm1.htm#onelinePyDO">PyDO's implementation</a> of a relationship method. E.g.</p>
+    <table style="width: 100%;" border="1">
+        <tbody>
+            <tr>
+                <td align="center" width="50%"><strong>RM</strong></td>
+                <td align="center" width="50%"><strong>PyDO version of RM</strong></td>
+            </tr>
+            <tr>
+                <td width="50%">def AddOrder(self, order):<br />  RelMgr.AddRelationship( From=self, To=order )
+                    <p><strong>RelMgr</strong> is the central Relationship Manager we are querying.</p>
+                </td>
+                <td width="50%">def getFiles(self):<br />    return Files.getSome(OWNER_ID = self['OID'])
+                    <p><strong>Files.getSome</strong>   is a proxy for the database on disk. The appropriate SQL is manufactured.   This whole mechanism, including the relational database on disk, is the Relationship Manager.</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p> </p>
+    <h3>Regarding the claim that "PyDo is something that deals directly with the persistent data and so doesn't need RM"</h3>
+    <p>Is PyDO is really dealing <em>directly</em> with the persistent data?  Isn't there actually a DB in the way, mediating all the calls to the peristent data?  Of course - that is the relational database, which is acting as a relationship manager.  It
+        knows the relationships in the tables - you just ask via SQL and it gives you the answer.   You don't care how the tables are stored or implemented - you just stick to the API of SQL.</p>
+    <p>PyDO is doing what an RM does - using a central  relationship manager to store all the relationships and interrogating it whenever it needs to know who is related to who.</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h3>Postscript</h3>
+    <p><strong>James:</strong>   I think <a href="http://www.atug.com/andypatterns/rmpydo.htm">Drew's reply</a> makes a lot of sense, but it's a side-issue to my <a href="http://www.atug.com/andypatterns/rm1.htm#peristCache01">previous email</a>.   If you
+        access the user's files a lot, then you can't go calling <strong>getFiles()</strong> every time you want to list them.  So you have to cache them.  And then you have the issue of backpointers to worry about. So then you need to decide whether
+        you're going to use RM.</p>
+    <p><strong>Andy:</strong>  Agreed, as soon as you have cached objects you also need to represent the cached relationships between those objects in some way, be it in a distributed or a central fashion.</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <h2>Musings on caches, three-tier and persistence layers</h2>
+    <p>25/03/2002</p>
+    <p>You only need a persistence mapping layer if the way you use your objects is different to the way they are stored.</p>
+    <p>On the other hand, Object databases (OODB's) present no major conceptual barrier for persistence.</p>
+    <p>Aren't  J2EE's java bean entity beans just objects extracted from the database, given life (by adding behaviour) and surrounded by OO business rules.  Changes to the entity beans needs to be persisted back to the DB.</p>
+    <p>Aren't regular stand-alone apps that have a a well layered design of GUI - object model incl. business logic - and peristence three-tier in spirit?  When you take the additional step of locating each layer on different machines/server then you have
+        three tier.</p>
+    <p>Aren't Web cgi apps that use a SQL server three tier?  The Html GUI is one tier, the cgi app of in-memory objects and business logic is the second tier, and the database server (e.g. MySQL) is the third tier.</p>
+    <p>Running a web server and a sql server on your development machine is three tier.</p>
+    <p>-Andy</p>
+
+
+
+    <h1>PyDO (Python Data Objects) discussion</h1>
+    <p>This discussion was triggerred by various discussions about Relationship Manager (see above).  Some interesting ideas on "persistence layers" and "object to relational mapping" problems were discussed.  Interestingly, there seems to be an implementation
+        of an  "object to relational database mapper" called <a href="http://www.atug.com/andypatterns/rm1.htm#PyDO">PyDO</a> which seems to me to be an implementation of RM pattern, since it implements relationships between objects as simple one line
+        calls to a central RM.  In the case of PyDO,  the RM happens to be a real relational database, so you get automatic persistence, too.</p>
+    <p>Here is a reponse from the author of <strong>PyDO</strong>, <a href="mailto:drew_csillag@yahoo.com">Drew Csillag</a> when I asked him why PyDO has no caching.</p>
+    <p>&gt; On a final note, your PyDO has sparked a long conversation between a<br /> &gt; few of my collegues, regarding persistence layers and so forth. I'm<br /> &gt; not sure where PyDO stands in the grand scheme of things - obviously<br /> &gt; there
+        are more sophisticated object to relational mapping<br /> &gt; technologies out there. In this context, what would you say is the<br /> &gt; most needed enhancement to PyDO? What springs to mind is perhaps a<br /> &gt; caching system, so that
+        the same objects get returned when<br /> &gt; appropriate.</p>
+    <p>IIRC, I believe that there may still be references to something called SDS in the documentation for PyDO. SDS did such caching (actually it cached relations and all sorts of things, it was quite a piece of work, query language, data modelling language
+        and everything -- over top of Oracle).</p>
+    <p>PyDO was designed to be a realatively thin layer over the database (SDS was quite opaque). The main reason is this: with thick layers, if you need more than the layer will give you, you're basically hosed because going around it (and going straight
+        to the database) may break it in odd ways. Also, if you have DBAs that want to know what you're going to do to their database, thick layers are very difficult to describe and your DBAs will hate you. PyDO was designed with the goal that it makes
+        the common stuff easy (to do and explain), but advanced queries and things like that (e.g. stored procs), you can go direct to the db (perhaps as a PyDO object method tho..) without fear that something weird will happen -- and still be able to
+        make the users of your data classes be ignorant of what is happening behind the scenes.</p>
+    <p>In short, I basically found out that while thick ones are pretty and do all cool theoretical stuff:</p>
+    <ol type="a">
+        <li>they tend to be opaque and it's really hard to see what they're going to do and explain to your DBAs. BTW: I come from a *LARGE* web shop, and the DBAs, rightfully, want to know if you are going to bodyslam their database.</li>
+        <li>when they don't work, they're very difficult to debug</li>
+        <li>with most of them, you can't just drop them on top of just any schema. They usually have to fit some kind of pattern (e.g. all tables must have an ID column or something) for them to really work.</li>
+    </ol>
+    <p>The thin ones may not do everything under the sun and may have a few ugly bits, but they do most of boring stuff that you'd have to do by hand otherwise and make the hard stuff still doable, while having most of the usability benefits of the thicker
+        ones.</p>
+    <p>As for features that I wish PyDO had: support for more databases! Given Oracle, PostgreSQL and MySQL (we've got sapdb too) catch most people, but I'd still like to be able to support sybase, Interbase, DB2 and any other databases I can't think of
+        right now and be able to provide a genscript (a script that grovels over the system catalogs/data dictionary/whatever and produces PyDO classes for them -- see pgenscript and ogenscript) for them.</p>
+    <p>&gt; At the moment two calls to Employees.getSome() will return two lists<br /> &gt; containing totally different instances. Maybe I could learn to work<br /> &gt; with this 'feature' and not worry too much about it - but then<br /> &gt; again, stray
+        objects might get out of date and you never know when<br /> &gt; you should be doing a .refresh() on them. If only the database<br /> &gt; could notify each PyDO object when it needs to be refreshed - that<br /> &gt; would be nice, and might allow
+        multi user use, too. Thoughts?</p>
+    <p>With caching, this problem only gets worse (as it turns out, it's *much* worse). There's obviously the problem of when to invalidate cache entries, how much object manipulation you're allowed to do before it pushes it to the database. If you want
+        a cheesy, simple relationship cache, you could do something like the following:</p>
+    <pre>#in some Groups object<br />       def getUsers(self):<br />               if not hasattr(self,'users'):<br />                     self.users = Users.getSome(GROUP_ID=self['ID'])<br />           return self.users   
+    </pre>
+    <p>The other problem that I found out the hard way, is that there is no "generic form of caching" that suits all applications properly. If your caching scheme doesn't fit your application, weird shit happens. My specific case was that SDS's cache was
+        designed with web applications in mind. When used in a newsfeed script (the Reuters feed, IIRC) it got *really* confused (and tended to gobble up memory), mainly because SDS's cache was meant to be flushed fairly often (at the end of a web request)
+        and the feed script was a long running program (well it was supposed to be, but it's confusion didn't allow it to be, we wound up having to flush it's cache every N articles).</p>
+    <p>Until databases have some mechanism for invalidating entries in some external cache, this problem will continue.</p>
+    <p>Anyway, this is why PyDO has no built in caching.</p>
+    <p>Drew.</p>
+    <p> </p>
+    <p><a onclick="open_compose_win('actionID=33&amp;to=Drew+Csillag+%3Cdrew_csillag%40yahoo.com%3E'); return false;" onmouseover="status='Compose Message'; return true;" onmouseout="status='';" href="http://www.atug.com/andypatterns/rmpydo.htm">Drew Csillag</a></p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <dl><dt><strong>Date:</strong></dt>
+        <dd>3/25/02</dd>
+    </dl>
+    <p>&gt; Until databases have some mechanism &gt; for invalidating entries in some &gt; external cache, this problem will continue.</p>
+    <p>I wonder if triggers could be used for this. I've never programmed a trigger, but if you could set one up to call your code every time a change was made (this would be like Observer Pattern), then we could cache to our hearts content, have multi-users
+        and be happy!</p>
+    <p>Not knowing how triggers work, I'm guessing you can't have a global trigger for any change to a database (too inefficient anyway?) vs. a trigger per table etc. - I'm not sure what is possible along these lines...</p>
+    <p>-Andy Bulka</p>
+    <p align="center"><img src="http://www.atug.com/andypatterns/_themes/canvas/acnvrule.gif" alt="" width="600" height="10" /></p>
+    <dl><dt><strong>Date:</strong></dt>
+        <dd>3/25/02</dd>
+    </dl>
+    <p>&gt; I wonder if triggers could be used for this. I've &gt; never programmed a trigger, but if you could set one &gt; up to call your code every time a change was made &gt; (this would be like Observer Pattern), then we could &gt; cache to our hearts
+        content, have multi-users and be &gt; happy!</p>
+    <p>Perhaps triggers could be used for this, where they presumably notify some notification daemon and then the notification daemon notifies individual processes that have references to the appropriate objects (presumably, one would have to do some sort
+        of registration with the notification daemon) to have them (in PyDO parlance .refresh()) refesh their state or commit suicide (if they were deleted).</p>
+    <p>The main problem here is the infrastructure that's involved. If you have long running transactions and processes (for some definition of long), it makes sense, for short lived processes or transactions, it may make more sense just to get rid of any
+        objects it got than try to do any form of caching.</p>
+    <p>-Drew</p>
+</body>
+
+</html>
