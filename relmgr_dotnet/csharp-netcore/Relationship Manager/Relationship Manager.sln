@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed Trials Console App", "..\Speed Trials Console App\Speed Trials Console App.csproj", "{256E648E-CBD7-42D9-B9AA-1418CF9ED929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example-Person-Order-Console-App", "Example-Person-Order-Console-App\Example-Person-Order-Console-App.csproj", "{B0AC9D52-50E2-4086-A4B3-792E337AB154}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example-Person-Order-Console-App", "..\Example-Person-Order-Console-App\Example-Person-Order-Console-App.csproj", "{B0AC9D52-50E2-4086-A4B3-792E337AB154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,4 +6,7 @@
     <RootNamespace>Example_Person_Order_Console_App</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Relationship Manager\Relationship Manager Turbo.csproj" />
+  </ItemGroup>
 </Project>
