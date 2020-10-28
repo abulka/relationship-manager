@@ -17,8 +17,8 @@ though persistence is built into Relationship Manager too.
 Here are various implementations of the Relationship Manager Pattern in this GitHub repository:
 
 - Python: Uses Python 3, there are no dependencies.
+- C#: Used in at least one major commercial product. Implementations for .NET4 and .NET Core 3.1 (the latter project is cross platform and has been verified to run on Mac using [Visual Code for Mac](https://visualstudio.microsoft.com/vs/mac/)).
 - Java
-- C#: Visual Studio 2005 project with unit test. Very fast implementation used in at least one commercial product.
 
 # Python
 
@@ -317,32 +317,26 @@ You can have multiple relationship manager instances to manage different areas o
 
 You may want to google for other more professional [Object Databases](https://en.wikipedia.org/wiki/Object_database). For example, in the Python space we have:
 
-- https://github.com/grundic/awesome-python-models - A curated list of awesome Python libraries, which implement models, schemas, serializers/deserializers, ODM's/ORM's, Active Records or similar patterns.
-- https://www.opensourceforu.com/2017/05/three-python-databases-pickledb-tinydb-zodb/ - A peek at three Python databases: PickleDB, TinyDB and ZODB
-- https://tinydb.readthedocs.io/en/stable/usage.html#queries - Welcome to TinyDB, your tiny, document oriented database optimized for your happiness
-- https://divmod.readthedocs.io/en/latest/products/axiom/index.html - Axiom is an object database whose primary goal is to provide an object-oriented layer to an SQL database
-- http://www.newtdb.org/en/latest/getting-started.html - Newt DB - You’ll need a Postgres Database server.
-- http://www.zodb.org/en/latest/tutorial.html#tutorial-label - This tutorial is intended to guide developers with a step-by-step introduction of how to develop an application which stores its data in the ZODB.
+- A [curated list](https://github.com/grundic/awesome-python-models) of awesome Python libraries, which implement models, schemas, serializers/deserializers, ODM's/ORM's, Active Records or similar patterns.
+- A peek at [three Python databases](https://www.opensourceforu.com/2017/05/three-python-databases-pickledb-tinydb-zodb/): PickleDB, TinyDB and ZODB. Also see the [welcome to TinyDB](https://tinydb.readthedocs.io/en/stable/usage.html#queries), your tiny, document oriented database optimized for your happiness, and a [tutorial on ZODB](http://www.zodb.org/en/latest/tutorial.html#tutorial-label).
+- [Axiom](https://divmod.readthedocs.io/en/latest/products/axiom/index.html) is an object database whose primary goal is to provide an object-oriented layer to an SQL database.
+- [Newt DB](http://www.newtdb.org/en/latest/getting-started.html) - You’ll need a Postgres Database server.
 
-However most of these need a backing SQL database - Relationship Manager does not, which may be a benefit - no databases to set up - just get on with coding.
+However most of these need a backing SQL database - Relationship Manager does not, which may be a benefit - no databases to set up - just get on with coding!
 
-# Other language implementations of Relationship Manager 
+# C# and Java implementations of Relationship Manager 
 
 In this Github repository there are several other implementations of Relationship Manager. Currently only the Python implementation uses the newer v2 API and implementation. The C# and Java implementations use the v1 API.
 
-The C# and Java implementations have a strict, typed API interface to talk to `IRelationshipManager`.
+The C# and Java implementations have a strict, typed API interface `IRelationshipManager` to talk to.
 
 ## C#
 
-Very fast implementation for .NET - has been used in a commercial project.
-- `csharp-net4` is uses the .NET 4 framework.
+A fast implementation for .NET - has been used in a major commercial project.
+- `csharp-net4` uses the .NET 4 framework.
 - `csharp-netcore` is the same code, using the new .NET Core 3.1 framework. This solution also loads and runs OK in [Visual Code for Mac](https://visualstudio.microsoft.com/vs/mac/).
  
-Note that the legacy solution file is in `csharp-net4\Turbo RM Solution.sln` whereas the .NET Core solution file is in `csharp-netcore\Relationship Manager\Relationship Manager.sln`.
-
-## Boo
-
-The [boo language](http://boo-language.github.io/) for .NET is now deprecated, however this implementation created a .net `.dll` that was usable by other .NET languages.  This dll is still in the project and presumably perfectly usable?, however the C# implementation is much faster because of a caching system.
+> Note the location of Visual Studio solution file differs between projects. The .NET4 solution file is in `csharp-net4\Turbo RM Solution.sln` whereas the .NET Core solution file is in `csharp-netcore\Relationship Manager\Relationship Manager.sln`.
 
 ## Java
 
@@ -509,7 +503,7 @@ Assert.AreEqual(list[0], 'z');
 
 Study the unit tests to see how to drive this library even further.
 
-### UML for C#
+### UML for the C# implementation of Relationship Manager
 
 ![UML class diagram](http://www.andypatterns.com/files/60481233059254rmdotnetuml1.png)
 UML for the C# version of Relationship Manager.

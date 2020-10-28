@@ -1,0 +1,118 @@
+<html>
+
+<head>
+<title>Boo</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta name="Microsoft Theme" content="canvas 111, default">
+<meta name="Microsoft Border" content="t, default">
+</head>
+
+<body background="_themes/canvas/cnvbkgnd.jpg" bgcolor="#FFFFCC" text="#000066" link="#663399" vlink="#006699" alink="#339999"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Arial, Arial, Helvetica">
+
+<p align="center"><font size="6"><strong><img src="_derived/boo.htm_cmp_canvas110_bnr.gif" width="600" height="60" border="0" alt="Boo"></strong></font><br>
+<script language="JavaScript"><!--
+MSFPhover = 
+  (((navigator.appName == "Netscape") && 
+  (parseInt(navigator.appVersion) >= 3 )) || 
+  ((navigator.appName == "Microsoft Internet Explorer") && 
+  (parseInt(navigator.appVersion) >= 4 ))); 
+function MSFPpreload(img) 
+{
+  var a=new Image(); a.src=img; return a; 
+}
+// --></script><script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav1n=MSFPpreload("_derived/home_cmp_canvas110_hbtn.gif"); MSFPnav1h=MSFPpreload("_derived/home_cmp_canvas110_hbtn_a.gif"); }
+// --></script><a href="./" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1h.src" onmouseout="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1n.src"><img src="_derived/home_cmp_canvas110_hbtn.gif" width="140" height="60" border="0" alt="Home" align="middle" name="MSFPnav1"></a> <script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav2n=MSFPpreload("_derived/up_cmp_canvas110_hbtn.gif"); MSFPnav2h=MSFPpreload("_derived/up_cmp_canvas110_hbtn_a.gif"); }
+// --></script><a href="python.htm" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2h.src" onmouseout="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2n.src"><img src="_derived/up_cmp_canvas110_hbtn.gif" width="140" height="60" border="0" alt="Up" align="middle" name="MSFPnav2"></a> <script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav3n=MSFPpreload("_derived/boo_unit_testing.htm_cmp_canvas110_hbtn.gif"); MSFPnav3h=MSFPpreload("_derived/boo_unit_testing.htm_cmp_canvas110_hbtn_a.gif"); }
+// --></script><a href="boo_unit_testing.htm" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav3'].src=MSFPnav3h.src" onmouseout="if(MSFPhover) document['MSFPnav3'].src=MSFPnav3n.src"><img src="_derived/boo_unit_testing.htm_cmp_canvas110_hbtn.gif" width="140" height="60" border="0" alt="Boo Unit Testing" align="middle" name="MSFPnav3"></a> <script language="JavaScript"><!--
+if(MSFPhover) { MSFPnav4n=MSFPpreload("_derived/booDevelTips.htm_cmp_canvas110_hbtn.gif"); MSFPnav4h=MSFPpreload("_derived/booDevelTips.htm_cmp_canvas110_hbtn_a.gif"); }
+// --></script><a href="booDevelTips.htm" language="JavaScript" onmouseover="if(MSFPhover) document['MSFPnav4'].src=MSFPnav4h.src" onmouseout="if(MSFPhover) document['MSFPnav4'].src=MSFPnav4n.src"><img src="_derived/booDevelTips.htm_cmp_canvas110_hbtn.gif" width="140" height="60" border="0" alt="Boo Tips" align="middle" name="MSFPnav4"></a></p>
+<p align="center">&nbsp;</p>
+
+<!--mstheme--></font></td></tr><!--msnavigation--></table><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><!--msnavigation--><td valign="top"><!--mstheme--><font face="Arial, Arial, Helvetica">
+<h1><!--mstheme--><font color="#663399">Introduction to Boo<!--mstheme--></font></h1>
+<p><a href="http://boo.codehaus.org/">Boo</a> is a great alternative to Python -
+almost the same syntax, with static typing and runs full speed in .NET</p>
+<p>It is a combination of Python and C# and runs in .NET. Its fast and looks like an interesting and
+<b> potentially important synthesis</b> - you can have static typing plus the benefits of a concise syntax etc.&nbsp;
+It has type inferencing which means you still get static typing without having
+to explicitly declare every single thing&nbsp; (though its not <i>always </i>possible
+for the compiler to infer these things, so in those cases you do need to
+explicitly state the type.).
+</p>
+<p>P.S.&nbsp; It even "fixes" the requirement to use 'self' in the declaration of methods
+on classes.&nbsp; ;-)
+</p>
+<h3><!--mstheme--><font color="#663399">The synthesis of static and dynamic?<!--mstheme--></font></h3>
+<p>When I wrote the phrase &quot;potentially important synthesis<b>&quot; </b>about
+a year ago I suspected but I didn't really fully know how I could blend static
+and dynamic in the same language.&nbsp; Recently when I <a href="rm_boodotnet.htm">ported
+a reasonably sized python project</a> to Boo I discovered what I think is an
+important insight.
+</p>
+<p>During my port from Python to the static typing of Boo, when I first started statically
+typing things, things went well till 95% of my code was complete and then I
+found myself fighting with the static typing system (instead of it helping
+me).&nbsp; This reminded me of every project I have ever used that had static
+typing - at first its great until at some point you start wrestling with the
+type system and forget about the actual application you are trying to build. How
+many times have you been there too?&nbsp; Here we go again, I thought...&nbsp;
+</p>
+<p>Then I solved the static type fascism by declaring a few key things as duck
+type (a variant type available in Boo).&nbsp; This allowed me to move through
+the problem area instantly.&nbsp; It was like opening a release valve - allowing
+the pressure out of the static typed pressure cooker.
+</p>
+<p><img border="0" src="images/pressurecookerBoo.jpg" width="130" height="103"><br>
+<i>A sprinkling of dynamic duck typing in Boo lets the pressure out of a static
+typed system</i>
+</p>
+<p>So perhaps <i>this is the way</i> we are going to resolve the great debate of static
+vs. dynamic.&nbsp; The solution is to have a static typed system by default,
+with lots of type inferencing (yes, Boo does this) so that you don't need to waste your time declare
+the type of every single little thing.&nbsp; Then when you get a touch of &quot;Godel
+incompleteness&quot; in the static type system of your application... just introduce a
+little duck typing to <b> release the pressure</b>.&nbsp; You may pay a slight performance
+penalty at these &quot;duck moments&quot;, but since most of your app is blazing along at statically
+compiled speeds, it doesn't matter (furthermore, the places where you used duck
+typing may not be the time critical ones, anyway).&nbsp;&nbsp;
+</p>
+<p>Boo has perhaps solved the static vs. dynamic debate by allowing both
+paradigms, allowing the developer to use the strengths and avoiding the
+weaknesses of each paradigm.
+</p>
+<h3><!--mstheme--><font color="#663399">Advanced Ideas<!--mstheme--></font></h3>
+<p>
+Boo uses an Extensible compilation pipeline: you can actually extend the language by implementing a
+visitor (you have to be comfortable with AST - abstract syntax trees
+though).&nbsp; You can even create your own keywords using 'syntatic macros' - I
+believe someone has added a 'with' keyword and someone else has implemented
+'design by contract' this way.&nbsp; A small blog overview of Boo by Daniel Turini's
+can be found <a href="http://dturini.blogspot.com/2004_07_01_dturini_archive.html">here</a>.&nbsp;
+Lot of interesting stuff also at the <a href="http://docs.codehaus.org/pages/listpages-dirview.action?key=BOO">Boo
+wiki pages</a>.<br>
+</p>
+
+<h2><!--mstheme--><font color="#663399">Latest download - Relationship Manager for .NET <img border="0" src="images/new2t.gif" width="58" height="58"><!--mstheme--></font></h2>
+
+<p>I have implemented <a href="RM.htm">RM Relationship Manager</a> for .NET using the
+<a href="http://boo.codehaus.org">Boo</a> language
+(porting it from Python).&nbsp;See it at&nbsp; <a href="rm_boodotnet.htm">RM for .NET<br>
+</a>View the <a href="http://boo.codehaus.org">Boo</a> source code of
+Relationship Manager for .NET <a href="http://docs.codehaus.org/display/BOO/Relationship+Manager+in+Boo">online</a>
+(color coded) on my Boo wiki page.&nbsp;</p>
+<p>&nbsp;
+</p>
+<!--msthemeseparator--><p align="center"><img src="_themes/canvas/acnvrule.gif" width="600" height="10"></p>
+<h1><!--mstheme--><font color="#663399">Pending research<!--mstheme--></font></h1>
+<p>Issues to to with <a href="boo_unit_testing.htm">unit testing using Boo</a>.</p>
+<p>Here are my tips for <a href="booDevelTips.htm">Developing &amp; Debugging visually in Boo</a>&nbsp;
+<p>&nbsp;<!--msthemeseparator--><p align="center"><img src="_themes/canvas/acnvrule.gif" width="600" height="10"></p>
+<p>Andy Bulka<br>
+<a href="http://www.atug.com/andypatterns">http://www.atug.com/andypatterns</a>
+<p>&nbsp;<p>&nbsp;<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table></body>
+
+</html>

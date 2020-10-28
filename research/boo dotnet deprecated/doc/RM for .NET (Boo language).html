@@ -1,0 +1,406 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Untitled</title>
+    <meta name="author" content="Andy Bulka">
+
+    <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+</head>
+
+<body>
+    <!-- <script src="js/scripts.js"></script> -->
+
+    <h2>Relationship Manager for Boo</h2>
+    <p>Here is an implementation of RM Relationship Manager for .NET using the <a href="http://boo.codehaus.org/">Boo</a> language (porting it from Python).  The resulting assembly is usable from C# and other .NET languages.  See C# example below.
+        <span lang="en-us">If you are interested in the pure .Net 2.0 C# port of relationship manager, click <a title="RM for .NET (C#)" href="http://www.andypatterns.com/index.php?cID=81">here</a>.</span>
+    </p>
+    <p>P.S. Boo is a .NET language - a sort of Python blended with C# creating an interesting hybrid -  to ready my thoughts about on Boo (and the potential synthesis of static and dynamic typing) click <a href="http://www.atug.com/andypatterns/boo.htm">here</a>.
+        Here are my <a href="http://www.atug.com/andypatterns/booDevelTips.htm" target="_blank">tips</a> for debugging in Boo, which are likely completely out of date now.
+        <a href="http://www.atug.com/andypatterns/booDevelTips.htm"><br /></a>
+    </p>
+    <!--mstheme-->
+    <p> </p>
+    <!--mstheme-->
+    <h2>
+        <!--mstheme--><span style="color: #663399;">Installation<!--mstheme--></span></h2>
+    <p><a href="http://www.atug.com/downloads/RmBooNet/PersonInCsharpUsingRelationshipManager01.zip">Download</a> the ready to use compiled <strong>assembly</strong> (includes a sample exe)</p>
+    <p>To relationship manager in your own projects just add the reference to the assembly <strong>RelationshipManager55.dll </strong>and create a RM1 instance and then make calls on it using the API below. e.g. R(), NR() etc.  A full example is shown below.</p>
+    <h3>
+        <!--mstheme--><span style="color: #663399;"><strong>Source code</strong><!--mstheme--></span></h3>
+    <p>View the <a href="http://boo.codehaus.org/">Boo</a> source code of Relationship Manager for .NET <a href="http://docs.codehaus.org/display/BOO/Relationship+Manager+in+Boo">online</a> (color coded) on the Boo wiki page.  If you want to compile it yourself
+        then download the entire  <a href="http://www.icsharpcode.net/opensource/sd/">SharpDevelop</a> project <a href="http://www.atug.com/downloads/RmBooNet/RelationshipManager55.rar">here</a>.</p>
+    <h2>
+        <!--mstheme--><span style="color: #663399;">Documentation<!--mstheme--></span></h2>
+    <p>The API of the relationship manager for .NET is described in <a title="RM Theory" href="http://www.andypatterns.com/index.php?cID=52">RM Usage and Theory</a>.  Note the Boo .NET assembly only uses the shorthand names e.g. ER() instead of EnforceRelationship().
+        I'll fix this one day.  Also note that BS(t) is not implemented in the boo port.  This is a temporary omission.  If you need this method urgently, edit RM.boo and add the following to the class RM1:</p>
+    <!--mstheme-->
+    <p> </p>
+    <table style="height: 82px; width: 476px;" border="1">
+        <tbody>
+            <tr>
+                <td style="width: 100%;">
+                    <p><span style=" font-size: small; font-family: Arial,Arial,Helvetica; ">def BS(toObj, relId):<br />     # findObjectsPointingToMe(toMe, id, cast)<br />     return self.rm.FindObjects(null, toObj, relId)<!--mstheme--></span></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--mstheme-->
+    <p> </p>
+    <h3>
+        <!--mstheme--><span style="color: #663399; ">Basic API<!--mstheme--></span></h3>
+    <!--mstheme-->
+    <p> </p>
+    <table style="width: 762px; " border="1 " cellspacing="0 " cellpadding="2 ">
+        <tbody>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Returns</strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Function Name</strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Short-hand </strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>void</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>addRelationship(f, t, id)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>R(f,t)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>void</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>removeRelationship(f, t, id)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>NR(f,t)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>Vector</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>findObjectsPointedToByMe(f, id)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>PS(f)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>Vector</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>findObjectsPointingToMe(t, id)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="17 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>BS(t)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--mstheme-->
+    <p> </p>
+    <h3>
+        <!--mstheme--><span style="color: #663399; ">Extra API<!--mstheme--></span></h3>
+    <!--mstheme-->
+    <p> </p>
+    <table style="width: 762px; " border="1 " cellspacing="0 " cellpadding="2 ">
+        <tbody>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Returns</strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Function Name</strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre><strong>Short-hand </strong></pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>void </pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>EnforceRelationship(id, cardinality, bidirectionality)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>ER(id, c, bi)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>Object</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>findObjectPointedToByMe(fromMe, id, cast)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>P(f)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>Object</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>findObjectPointingToMe(toMe, id cast)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>B(t)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td width="52 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>void</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="410 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>removeAllRelationshipsInvolving(o, id)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td width="72 " height="16 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>NRS(o)</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--mstheme-->
+    <p> </p>
+    <p>The extra API allows you to enforce relationships e.g.</p>
+    <!--mstheme-->
+    <p> </p>
+    <pre>   ER("xtoy ", "onetoone ", "directional ")</pre>
+    <!--mstheme-->
+    <p> </p>
+    <p>registers the relationship  as being one to many and directional, so that e.g. when you add a second relationship between the same two objects the first relationship is automatically removed - ensuring the relationship is always one to one. Alternatively,
+        you could raise and exception.</p>
+    <p>The extra API also adds a pair of find methods that only find <em> one</em> object, and cast it to the appropriate type.  This is a commonly used convenience method.</p>
+    <p><img src="http://www.atug.com/andypatterns/images/RM_NET_UML01.png " alt=" " border="0 " /></p>
+    <p><em>UML class diagram for the Boo .NET relationship manager implementation.</em></p>
+    <h2>
+        <!--mstheme--><span style="color: #663399; ">What methods do I put where when modelling relationships?<!--mstheme--></span></h2>
+    <p>I recommend that you use the <a title="RM Theory " href="http://www.andypatterns.com/index.php?cID=52 ">templates</a> when figuring out what methods to put where for each type of classic relationship you want to model.  For example, to implement a
+        <strong>one to many </strong>relationship between two classes X and Y, you might use the following set of methods:</p>
+    <!--mstheme-->
+    <p> </p>
+    <table border="2 " cellspacing="1 " cellpadding="9 ">
+        <tbody>
+            <tr>
+                <td bgcolor="#ffff00 ">
+                    <!--mstheme--><strong>one to many</strong>
+                    <!--mstheme-->
+                </td>
+                <td bgcolor="#ffff00 ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#ccffff ">
+                    <!--mstheme-->1  --&gt;  *                       <em>directional  </em>
+                    <!--mstheme-->
+                </td>
+                <td bgcolor="#ccffff ">
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!--mstheme-->     Plural  API                             No API
+                    <!--mstheme-->
+                    <pre>  _____________        ______________<br /> |      X      |      |       Y      |<br /> |_____________|      |______________|<br /> |             |      |              |<br /> |addY(y)      |1    *|              |<br /> |getAllY()    |-----&gt;|              |<br /> |removeY(y)   |      |              |<br /> |_____________|      |______________|</pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                </td>
+                <td>
+                    <!--mstheme-->picture
+                    <!--mstheme-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>class X:<br />    def __init__(self):        RM.ER("xtoy ", "onetomany ", "directional ")<br />    def addY(self, y):         RM.R(self, y, "xtoy ")<br />    def getAllY(self):  return RM.PS(self, "xtoy
+                    ")<br />    def removeY(self, y):      RM.NR(self, y, "xtoy ")<br />    </pre>
+                    <!--mstheme-->
+                    <!--mstheme-->
+                    <pre>class Y:<br />    pass</pre>
+                    <!--mstheme-->
+                    <p>
+                        <!--mstheme-->
+                    </p>
+                </td>
+                <td>
+                    <!--mstheme-->template
+                    <!--mstheme-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--mstheme-->
+    <p>Thus if you have a class called <strong>Customer</strong> and a class called <strong>Order</strong>, then the Customer class would correspond to class X and the Order class to class Y.  Your methods might be AddOrder(o) which corresponds in the above
+        example to addY(y).</p>
+    <p><em>Its up to you to rename both the class and method names of the template to match your own classes.</em></p>
+    <h2>
+        <!--mstheme--><span style="color: #663399; ">A concrete example<!--mstheme--></span></h2>
+    <p>Say you want to model a Person class which has one or more Orders.  The Orders class has a backpointer back to the Person owning it.</p>
+    <p><img src="http://www.atug.com/andypatterns/images/PersonToOrderUsingRM001.gif " alt=" " width="503 " height="280 " border="0 " /></p>
+    <p>Instead of hand coding and reinventing techniques for doing all the AddOrder() methods and GetOrders() methods etc. using ArrayLists and whatever, we can do it using the relationship manager object instead, which turns out to be simpler and faster
+        and less error prone. </p>
+    <p>The RM (relationship manager) is implemented in this particular example as a static member of the base BO (business object) class.  Thus in this situation all business objects will be using the same relationship manager.</p>
+    <p>Here is the c# code to implement the above UML:</p>
+    <div style="font-family: Courier New; font-size: 12px; color: #000000; background-color: #ffffff; width: 821px; height: 1610px; "><strong> <!--mstheme--></strong>
+        <pre><strong><span style="font-size: small; ">using</span></strong><span style="font-size: small;
+                    "> System;<br /><strong>using</strong> System.Collections;<br /><strong>using</strong> RelationshipManager55;<br /><br /><strong>namespace</strong> WindowsApplicationUsing_RelationshipManagerDllTest001<br />{<br /> /// <br /> /// BO is the base Business Object class which holds a single static reference<br /> /// to a relationship manager. This one relationship manager is<br /> /// used for managing all the relationships between Business Objects.<br /> /// <br /> <strong>public</strong> <strong>class</strong> BO // Base business object<br /> {<br /> <strong>static</strong> <strong>protected</strong> RM1 RM = <strong>new</strong> RM1();<br /> }<br /><br /> /// <br /> /// Person class points to one or more orders.<br /> /// Implemented using a relationship manager rather <br /> /// than via pointers and arraylists etc.<br /> /// <br /> <strong>public</strong> <strong>class</strong> Person : BO<br /> {<br /> <strong>public</strong> <strong>string</strong> name;<br /><br /> <strong>static</strong> Person()<br /> {<br /> RM.ER("p-&gt;o ", "onetomany ", "bidirectional
+                    ");<br /> }<br /><br /> <strong>public</strong> Person(<strong>string</strong> name)<br /> {<br /> <strong>this</strong>.name = name;<br /> }<br /> <strong>public</strong> <strong>override</strong> <strong>string</strong> ToString()<br /> {<br /> <strong>return</strong> "Person: " + <strong>this</strong>.name;<br /> }<br /><br /> <strong>public</strong> <strong>void</strong> AddOrder(Order o)<br /> {<br /> RM.R(<strong>this</strong>, o, "p-&gt;o
+                    ");<br /> }<br /> <strong>public</strong> <strong>void</strong> RemoveOrder(Order o)<br /> {<br /> RM.NR(<strong>this</strong>, o, "p-&gt;o ");<br /> }<br /> <strong>public</strong> IList GetOrders()<br /> {<br /> <strong>return</strong> RM.PS(<strong>this</strong>, "p-&gt;o
+                    ");<br /> }<br /> }<br /><br /> /// <br /> /// Order class points back to the person holding the order.<br /> /// Implemented using a relationship manager rather <br /></span>             <span style="font-size: small;
+                    ">/// than via pointers and arraylists etc.<br /> /// <br /> <strong>public</strong> <strong>class</strong> Order : BO<br /> {<br /> <strong>public</strong> <strong>string</strong> description;<br /><br /> <strong>public</strong> Order(<strong>string</strong> description)<br /> {<br /> <strong>this</strong>.description = description;<br /> }<br /> <strong>public</strong> <strong>override</strong> <strong>string</strong> ToString()<br /> {<br /> <strong>return</strong> "Order Description: " + <strong>this</strong>.description;<br /> }<br /><br /> <strong>public</strong> <strong>void</strong> SetPerson(Person p)<br /> {<br /> RM.R(p, <strong>this</strong>, "p-&gt;o "); // though mapping is bidirectional,<br /> there is still a primary relationship direction!<br /> </span></pre>
+        <!--mstheme-->
+        <!--mstheme-->
+        <pre><span style="font-size: small; "> }<br /> <strong>public</strong> Person GetPerson()<br /> {<br /> <strong>return</strong> (Person) RM.P(<strong>this</strong>, "p-&gt;o
+                    ");<br /> }<br /> <strong>public</strong> <strong>void</strong> ClearPerson()<br /> {<br /> RM.NR(<strong>this</strong>, <strong>this</strong>.GetPerson(), "p-&gt;o ");<br /> }<br /> }<br /><br />}</span></pre>
+        <!--mstheme-->
+    </div>
+    <p>Here is the project source code <a href="http://www.atug.com/downloads/RmBooNet/WindowsApplicationUsing%20RelationshipManagerDllTest001.rar ">WindowsApplicationUsing RelationshipManagerDllTest001.rar</a> </p>
+    <p> </p>
+</body>
+
+</html>
