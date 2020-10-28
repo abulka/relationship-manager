@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Turbo", "Relationship Manager Turbo.csproj", "{7BB5793A-E3F2-4A65-9E0E-B6DD3D321D1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Turbo", "Relationship Manager\Relationship Manager Turbo.csproj", "{7BB5793A-E3F2-4A65-9E0E-B6DD3D321D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Interfaces", "..\Relationship Manager Interfaces\Relationship Manager Interfaces.csproj", "{2F83E14D-6DA6-495C-A038-62D30ADD819F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relationship Manager Interfaces", "Relationship Manager Interfaces\Relationship Manager Interfaces.csproj", "{2F83E14D-6DA6-495C-A038-62D30ADD819F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{20FA8E67-8D7B-47C6-905E-AE58FF5287D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{20FA8E67-8D7B-47C6-905E-AE58FF5287D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed Trials Console App", "..\Speed Trials Console App\Speed Trials Console App.csproj", "{256E648E-CBD7-42D9-B9AA-1418CF9ED929}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed Trials Console App", "Speed Trials Console App\Speed Trials Console App.csproj", "{256E648E-CBD7-42D9-B9AA-1418CF9ED929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example-Person-Order-Console-App", "..\Example-Person-Order-Console-App\Example-Person-Order-Console-App.csproj", "{B0AC9D52-50E2-4086-A4B3-792E337AB154}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example-Person-Order-Console-App", "Example-Person-Order-Console-App\Example-Person-Order-Console-App.csproj", "{B0AC9D52-50E2-4086-A4B3-792E337AB154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

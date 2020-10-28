@@ -336,8 +336,6 @@ A fast implementation for .NET - has been used in a major commercial project.
 - `csharp-net4` uses the .NET 4 framework.
 - `csharp-netcore` is the same code, using the new .NET Core 3.1 framework. This solution also loads and runs OK in [Visual Code for Mac](https://visualstudio.microsoft.com/vs/mac/).
  
-> Note the location of Visual Studio solution file differs between projects. The .NET4 solution file is in `csharp-net4\Turbo RM Solution.sln` whereas the .NET Core solution file is in `csharp-netcore\Relationship Manager\Relationship Manager.sln`.
-
 ## Java
 
 A Java implementation.  Needs a bit of dusting off, but should run.
