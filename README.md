@@ -272,11 +272,9 @@ Or simply:
 python -m unittest discover -p 'test*' -v tests
 ```
 
-### C# and Java tests
-
-Open the projects and run the tests from your IDE.
-
-## Appendix: Installing into a new virtual environment
+See below on information on running the C# and Java tests.
+ 
+## Appendix: Installing Python into a new virtual environment
 
 Either use `pipenv` to manage a new virtual environment or use Python's built in `venv`:
 
@@ -338,7 +336,25 @@ A fast implementation for .NET - has been used in a major commercial project.
  
 ## Java
 
-A Java implementation.  Needs a bit of dusting off, but should run.
+A Java implementation (thanks to *Tarik* for porting from C# to Java).
+- Full set of unit tests using Junit4. 
+
+IDE:
+- [IntelliJ](https://www.jetbrains.com/idea/) `.idea/` project config.
+    - The `test all` run configuration is for running the tests. 
+    - The `Customer Orders Main console app` run configuration is a console app for the Customer - Order Example.
+- [Netbeans](https://netbeans.org/) `nbproject/` project config.  
+
+## C# and Java tests
+
+Open either the C# or Java projects and run the tests from your IDE. 
+
+> Using the free, Community Edition of either Visual Studio or IntelliJ is fine.
+
+- C# - use [Visual Studio for Windows](https://visualstudio.microsoft.com/vs/) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/) and run the tests using the UI test runner.
+    - If on Mac, ensure you open the `relmgr_dotnet\csharp-netcore` cross-platform project.
+    - Using the free, lighter weight [Visual Studio Code](https://code.visualstudio.com/) and `dotnet` CLI is also probably possible. 
+- Java - use [IntelliJ](https://www.jetbrains.com/idea/) and run the `test all` test configuration.
 
 ## C# and Java API
 
@@ -648,7 +664,9 @@ The person who ordered Order Description: Boots is Person: Jane
 Done!
 ```
 
-A generics version of relationship manager would be cool - that way no casting would be required. Presently all calls to relationship manager return objects or lists of objects - which you have to cast to the specific type you actually have stored. You can see this casting in the above example.
+> A similar example for Java is available in `relmgr_java/ExampleCustomerOrders-Java/`.
+
+A generics version of relationship manager would be cool - that way no casting would be required. Presently all calls to relationship manager return objects or lists of objects - which you have to cast to the specific type you actually have stored. You can see this casting in the above example code.
 
 #### Other C# examples
 
@@ -657,7 +675,8 @@ Study the unit tests to see how to drive this library even further.
 ### UML for the C# implementation of Relationship Manager
 
 ![UML class diagram](http://www.andypatterns.com/files/60481233059254rmdotnetuml1.png)
-UML for the C# version of Relationship Manager.
+
+*UML for the C# version of Relationship Manager.*
 
 # Resources
 
