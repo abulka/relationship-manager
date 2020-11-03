@@ -1,1 +1,7 @@
-see relmgr directory
+This directory is a placeholder.
+
+See relmgr/ directory for the actual Python 3 implementation.
+
+See also the
+    tests/ directory for the Python unit tests.
+    examples/  directory for a Python example.
