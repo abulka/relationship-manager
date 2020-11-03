@@ -8,7 +8,7 @@ class TestObserver(unittest.TestCase):
         spriteview = Observer()
         me.add_observer(spriteview)
         # assert spriteview in me.observers
-        assert spriteview.subject == me
+        self.assertEqual(spriteview.subject, me)
 
     def test_notifications_work(self):
         class Watcher(Observer):
@@ -57,14 +57,14 @@ class TestObserver(unittest.TestCase):
         o2 = Watcher2()
         me.add_observer(o1)
         me.add_observer(o2)
-        assert StateKeeper.state == 0
+        self.assertEqual(StateKeeper.state, 0)
 
         me.Add()
-        assert StateKeeper.state == 11  # two notifications in a row did this.
+        self.assertEqual(StateKeeper.state, 11)  # two notifications in a row did this.
 
         me.remove_observer(o1)
         me.Add()
-        assert StateKeeper.state == 21  # one notification did this.
+        self.assertEqual(StateKeeper.state, 21)  # one notification did this.
 
 
 def suite():
