@@ -41,73 +41,73 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1 = Y()
         y2 = Y()
         # Initial situation
-        assert x1.getY() == None
-        assert x2.getY() == None
+        self.assertIsNone(x1.getY())
+        self.assertIsNone(x2.getY())
 
         # After clearing pointers
         x1.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == None
+        self.assertIsNone(x1.getY())
+        self.assertIsNone(x2.getY())
 
         # After setting one pointer, x1 -> y1
         x1.setY(y1)
         # RM.debug_print_rels()
         assert x1.getY() == y1
-        assert x2.getY() == None
+        self.assertIsNone(x2.getY())
 
         # After setting x2 -> y1, we cannot allow a situation where
         # both x's to point to the same y, since this would be "many to one".
         # The existing x1 -> y1 must be auto deleted by the relationship manager
         # relationship enforcer.
-        assert x1.getY() == y1
+        self.assertEqual(x1.getY(), y1)
         x2.setY(y1)
-        assert x1.getY() == None  # relationship should have been auto removed
-        assert x2.getY() == y1
+        self.assertIsNone(x1.getY())  # relationship should have been auto removed
+        self.assertEqual(x2.getY(), y1)
 
         # Clear one pointer
         x1.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == y1
+        self.assertIsNone(x1.getY())
+        self.assertEqual(x2.getY(), y1)
 
         # Clear other pointer
         x2.clearY()
-        assert x1.getY() == None
-        assert x2.getY() == None
+        self.assertIsNone(x1.getY())
+        self.assertIsNone(x2.getY())
 
         # Change from pointing to one thing then point to another
         x1.setY(y1)
         x1.setY(y2)
-        assert x1.getY() == y2
+        self.assertEqual(x1.getY(), y2)
 
         # Ensure repeat settings do not disturb things
         x1.clearY()
         x2.clearY()
         # x1 -> y1, x2 -> None
         x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
+        self.assertEqual(x1.getY(), y1)
+        self.assertIsNone(x2.getY())
         # repeat
         x1.setY(y1)
-        assert x1.getY() == y1
-        assert x2.getY() == None
+        self.assertEqual(x1.getY(), y1)
+        self.assertIsNone(x2.getY())
 
         # x1 -> None, x2 -> y1
         x2.setY(y1)
-        assert x1.getY() == None
-        assert x2.getY() == y1
+        self.assertIsNone(x1.getY())
+        self.assertEqual(x2.getY(), y1)
         # repeat
         x2.setY(y1)
-        assert x1.getY() == None
-        assert x2.getY() == y1
+        self.assertIsNone(x1.getY())
+        self.assertEqual(x2.getY(), y1)
 
         # x1 -> y2, x2 -> y1
         x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
+        self.assertEqual(x1.getY(), y2)
+        self.assertEqual(x2.getY(), y1)
         # repeat
         x1.setY(y2)
-        assert x1.getY() == y2
-        assert x2.getY() == y1
+        self.assertEqual(x1.getY(), y2)
+        self.assertEqual(x2.getY(), y1)
 
     def test_scenario_2_OneToOne_XNoApi_YSingularApi(self):
         """"""  # trick unit tests not to print first line of multiline comment by adding empty multiline comment here

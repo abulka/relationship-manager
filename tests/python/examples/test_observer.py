@@ -24,17 +24,17 @@ class TestObserver(unittest.TestCase):
         me = Model()
         o = Watcher()
         me.add_observer(o)
-        self.assertEquals(Watcher.state, 0)
+        self.assertEqual(Watcher.state, 0)
         me.Add()
-        self.assertEquals(Watcher.state, 1)
+        self.assertEqual(Watcher.state, 1)
 
         me.Add()
-        self.assertEquals(Watcher.state, 2)
+        self.assertEqual(Watcher.state, 2)
 
         me.remove_observer(o)
 
         me.Add()  # should be no notification, thus no change in Watcher state.
-        self.assertEquals(Watcher.state, 2)
+        self.assertEqual(Watcher.state, 2)
 
     def test_multiple_observers(self):
         class StateKeeper:
