@@ -7,8 +7,13 @@ class TestObserver(unittest.TestCase):
         me = Subject()
         spriteview = Observer()
         me.add_observer(spriteview)
-        # assert spriteview in me.observers
         self.assertEqual(spriteview.subject, me)
+
+        # Cannot ask whether 'spriteview in me.observers' because .observers is not exposed by
+        # Subject class as a property, but it could be. Could cheat and ask rm directly,
+        # where observers is just 'rm.find_sources(me)'
+        from examples.python.observer import rm
+        self.assertIn(spriteview, rm.find_sources(me))
 
     def test_notifications_work(self):
         class Watcher(Observer):
