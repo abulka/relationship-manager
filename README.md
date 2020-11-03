@@ -336,25 +336,30 @@ A fast implementation for .NET - has been used in a major commercial project.
  
 ## Java
 
-A Java implementation (thanks to *Tarik* for porting from C# to Java).
-- Full set of unit tests using Junit4. 
+A Java implementation.
 
-IDE:
-- [IntelliJ](https://www.jetbrains.com/idea/) `.idea/` project config.
+- Use [IntelliJ](https://www.jetbrains.com/idea/) to open the relmgr_java project (`.idea/` contains the project config, as well as a couple of `.iml` files).
     - The `test all` run configuration is for running the tests. 
     - The `Customer Orders Main console app` run configuration is a console app for the Customer - Order Example.
-- [Netbeans](https://netbeans.org/) `nbproject/` project config.  
+- Or use [Netbeans](https://netbeans.org/) (`nbproject/` contains each project config).  There are two separate projects from Netbeans' point of view, so open them both. You can open multiple projects at the same time in Netbeans:
+    - `relmgr_java\RelationshipManager-Java`
+    - `relmgr_java\ExampleCustomerOrders-Java`
+
+Many thanks to *Tarik* for porting from C# to Java.
 
 ## C# and Java tests
 
-Open either the C# or Java projects and run the tests from your IDE. 
+Open either the C# or Java projects and run the unit tests from your IDE. 
 
 > Using the free, Community Edition of either Visual Studio or IntelliJ is fine.
 
 - C# - use [Visual Studio for Windows](https://visualstudio.microsoft.com/vs/) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/) and run the tests using the UI test runner.
     - If on Mac, ensure you open the `relmgr_dotnet\csharp-netcore` cross-platform project.
     - Using the free, lighter weight [Visual Studio Code](https://code.visualstudio.com/) and `dotnet` CLI is also probably possible. 
-- Java - use [IntelliJ](https://www.jetbrains.com/idea/) and run the `test all` test configuration.
+- Java
+    - The unit tests use Junit4 (not the later Junit5).
+    - Use [IntelliJ](https://www.jetbrains.com/idea/) to open the `relmgr_java` project and run the `test all` test configuration.
+    - Or use [Netbeans](https://netbeans.org/) to open the `relmgr_java\RelationshipManager-Java` project - right click on the file `relmgr_java\RelationshipManager-Java\test\RunAllTests.java` and select `Test File` from the popup menu.
 
 ## C# and Java API
 
