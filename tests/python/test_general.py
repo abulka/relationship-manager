@@ -66,7 +66,7 @@ class TestCase02(unittest.TestCase):
         assert result == 'b' or result == 'c'
 
         assert self.rm.find_target('a', 'r2') == 'b'
-        assert self.rm.find_target('a', 'r3') == None
+        self.assertIsNone(self.rm.find_target('a', 'r3'))
 
         assert self.rm.find_source(target='b', rel_id='r1') == 'a'
         assert self.rm.find_source(target='b', rel_id='r2') == 'a'
@@ -137,9 +137,9 @@ class TestCase02(unittest.TestCase):
         assert self.rm.is_rel('a', 'b', 'r2') == True
         assert self.rm.is_rel('a', 'c', 'r1') == False  # zapped
 
-        assert self.rm.find_source('b', 'r1') == None
+        self.assertIsNone(self.rm.find_source('b', 'r1'))
         assert self.rm.find_source('b', 'r2') == 'a'
-        assert self.rm.find_source('c', None) == None
+        self.assertIsNone(self.rm.find_source('c', None))
 
     def test_Removal_04(self):
         # Specify 'to' param

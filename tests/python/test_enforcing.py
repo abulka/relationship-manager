@@ -137,18 +137,18 @@ class TestCase01_OneToOne(unittest.TestCase):
         y2 = Y()
 
         # Initial situation
-        assert y1.getX() == None
-        assert y2.getX() == None
+        self.assertIsNone(y1.getX())
+        self.assertIsNone(y2.getX())
 
         # After clearing pointers
         y1.clearX()
-        assert y1.getX() == None
-        assert y2.getX() == None
+        self.assertIsNone(y1.getX())
+        self.assertIsNone(y2.getX())
 
         # After setting one pointer, thus x1 -> y1
         y1.setX(x1)
         assert y1.getX() == x1
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
 
         # Want to show two x's pointing to same y
         # Cannot do this since need access to an x api to do the 2nd link
@@ -160,18 +160,18 @@ class TestCase01_OneToOne(unittest.TestCase):
         # So if x1 -> y1 and then x1 -> y2 then y1 is being pointed to by no-one.
         # After setting other pointer, both x's pointing to same y, thus x1 & x2 -> y1
         y2.setX(x1)
-        assert y1.getX() == None  # should be auto cleared
+        self.assertIsNone(y1.getX())  # should be auto cleared
         assert y2.getX() == x1
 
         # Clear one pointer
         y1.clearX()
-        assert y1.getX() == None
+        self.assertIsNone(y1.getX())
         assert y2.getX() == x1
 
         # Clear other pointer
         y2.clearX()
-        assert y1.getX() == None
-        assert y2.getX() == None
+        self.assertIsNone(y1.getX())
+        self.assertIsNone(y2.getX())
 
         # Change from x1 -> y1 to x2 -> y1 (pointing to one thing then point to another)
         y1.clearX()
@@ -179,26 +179,26 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.setX(x1)
         y1.setX(x2)
         assert y1.getX() == x2
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
 
         # Ensure repeat settings do not disturb things
         y1.clearX()
         y2.clearX()
         y1.setX(x1)
         assert y1.getX() == x1
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         # repeat
         y1.setX(x1)
         assert y1.getX() == x1
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
 
     def onetooneasserts(self, x1, x2, y1, y2):
 
         def assertallclear():
-            assert x1.getY() == None
-            assert x2.getY() == None
-            assert y1.getX() == None
-            assert y2.getX() == None
+            self.assertIsNone(x1.getY())
+            self.assertIsNone(x2.getY())
+            self.assertIsNone(y1.getX())
+            self.assertIsNone(y2.getX())
 
         # Initial situation
         assertallclear()
@@ -213,9 +213,9 @@ class TestCase01_OneToOne(unittest.TestCase):
         # After setting one pointer, x1 <-> y1
         x1.setY(y1)
         assert x1.getY() == y1
-        assert x2.getY() == None
+        self.assertIsNone(x2.getY())
         assert y1.getX() == x1
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         # rm.debug_print_rels()
 
         # After clearing that one pointer, x1 <-> y1
@@ -225,9 +225,9 @@ class TestCase01_OneToOne(unittest.TestCase):
         # After setting one pointer, via y API, x1 <-> y1
         y1.setX(x1)
         assert x1.getY() == y1
-        assert x2.getY() == None
+        self.assertIsNone(x2.getY())
         assert y1.getX() == x1
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         y1.clearX()
         assertallclear()
 
@@ -237,15 +237,15 @@ class TestCase01_OneToOne(unittest.TestCase):
         y1.setX(x1)
         x1.setY(y2)
         assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
+        self.assertIsNone(x2.getY())
+        self.assertIsNone(y1.getX())
         assert y2.getX() == x1
         # repeat
         y1.setX(x1)
         x1.setY(y2)
         assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
+        self.assertIsNone(x2.getY())
+        self.assertIsNone(y1.getX())
         assert y2.getX() == x1
         # clear
         x1.clearY()
@@ -256,15 +256,15 @@ class TestCase01_OneToOne(unittest.TestCase):
         y2.setX(x1)                             # instead of x1.setY(y2)
         # exactly the same assertions
         assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
+        self.assertIsNone(x2.getY())
+        self.assertIsNone(y1.getX())
         assert y2.getX() == x1
         # repeat
         x1.setY(y1)
         y2.setX(x1)
         assert x1.getY() == y2
-        assert x2.getY() == None
-        assert y1.getX() == None
+        self.assertIsNone(x2.getY())
+        self.assertIsNone(y1.getX())
         assert y2.getX() == x1
 
         y2.clearX()
@@ -286,16 +286,16 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert y2.getX() == x2
         # Now set x2-y1 using x API, should yield x1-None, x2-y1
         x2.setY(y1)
-        assert x1.getY() == None
+        self.assertIsNone(x1.getY())
         assert x2.getY() == y1
         assert y1.getX() == x2
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         # Repeat above set x2-y1 using y API, same asserts
         y1.setX(x2)
-        assert x1.getY() == None
+        self.assertIsNone(x1.getY())
         assert x2.getY() == y1
         assert y1.getX() == x2
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         # Now set x1-y2, using y API, should yield x1-y2, x2-y1
         y2.setX(x1)
         assert x1.getY() == y2
@@ -310,10 +310,10 @@ class TestCase01_OneToOne(unittest.TestCase):
         assert y2.getX() == x1
 
         x1.clearY()
-        assert x1.getY() == None
+        self.assertIsNone(x1.getY())
         assert x2.getY() == y1
         assert y1.getX() == x2
-        assert y2.getX() == None
+        self.assertIsNone(y2.getX())
         y1.clearX()
         assertallclear()
 
@@ -561,8 +561,8 @@ class TestCase02_OneToMany(unittest.TestCase):
             assert x1.getAllY() == []
             assert x2.getAllY() == []
             if yapi:
-                assert y1.getX() == None
-                assert y2.getX() == None
+                self.assertIsNone(y1.getX())
+                self.assertIsNone(y2.getX())
 
         def assertSituation00():
             assert x1.getAllY() == [y1]
@@ -647,7 +647,7 @@ class TestCase02_OneToMany(unittest.TestCase):
             """
             assert x1.getAllY() == [y2]
             if yapi:
-                assert y1.getX() == None
+                self.assertIsNone(y1.getX())
                 assert y2.getX() == x1
         # Add two relationships, from x API
         x1.addY(y1)
@@ -693,7 +693,7 @@ class TestCase02_OneToMany(unittest.TestCase):
 
         def assertSituation05():
             if yapi:
-                assert y1.getX() == None
+                self.assertIsNone(y1.getX())
             assert x1.getAllY() == [y2]
         x1.addY(y1)
         x1.addY(y1)
